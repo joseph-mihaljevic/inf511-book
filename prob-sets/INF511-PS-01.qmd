@@ -1,0 +1,44 @@
+---
+title: "Problem Set 1"
+subtitle: "INF 511"
+author: "blank"
+fig-align: center
+fig-cap-location: bottom
+number-sections: true
+format: 
+    pdf: 
+        documentclass: article
+        geometry: 
+          - top=1in
+          - left=0.75in
+          - bottom=1in
+          - right=0.75in
+editor: source
+---
+
+**For this and all future assignments**: On BBLearn, you must turn in your `.QMD` and rendered `.PDF` documents. Without both files, you will not receive any points for the assignment. You can remove this statement from the file when you begin your work. Also, change the YAML to include your name as `author`. 
+
+# $\chi^2$ disribution
+
+Look online for information on the $\chi^2$ distribution. 
+
+## Write the probability distribution function.
+
+Use LaTeX-style mathematical notation to write the PDF of the $\chi^2$ distribution.
+
+## Plot the PDF.
+
+Generate a code chunk that produces a plot of the $P(x | k)$ versus $x$, for the $\chi^2$ distributed random variable, $x$ with $k$ degrees of freedom. Assume that $k = 6$. Plot the PDF as a line. 
+
+# Discrete distribution of our choice
+
+Choose a *discrete* probability distribution (any of your choice), and complete the following for that distribution.
+
+## Write the probability mass function.
+
+Use LaTeX-style mathematical notation to write the PMF of the discrete distribution of your choosing. 
+
+## Plot the PMF
+
+Generate a code chunk that produces a plot of the $P(x | \boldsymbol\theta)$ versus discrete random variable $x$, where $\boldsymbol\theta$ is a vector of the parameters that describe the probability distribution of your choosing. Assign parameter values of your choosing. Plot the PMF as points and segments to emphasize the discrete nature of the distribution.
+

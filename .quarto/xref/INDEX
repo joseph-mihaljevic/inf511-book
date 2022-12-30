@@ -1,0 +1,35 @@
+{
+  "index.qmd": {
+    "index.html": "a7784c99"
+  },
+  "intro.qmd": {
+    "intro.html": "a5a952c2"
+  },
+  "summary.qmd": {
+    "summary.html": "b67c5426"
+  },
+  "references.qmd": {
+    "references.html": "a3fa8fe1"
+  },
+  "app-Rintro.qmd": {
+    "app-Rintro.html": "369d735f"
+  },
+  "Rintro.qmd": {
+    "Rintro.html": "5246780b"
+  },
+  "prob.qmd": {
+    "prob.html": "251aca7b"
+  },
+  "ols.qmd": {
+    "ols.html": "d92a5d92"
+  },
+  "max-lik.qmd": {
+    "max-lik.html": "299f7bde"
+  },
+  "syllabus.qmd": {
+    "syllabus.html": "ed2f0aaf"
+  },
+  "bayesian.qmd": {
+    "bayesian.html": "09b5c64c"
+  }
+}

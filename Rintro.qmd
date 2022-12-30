@@ -1,0 +1,136 @@
+# Introduction to R {#sec-Rintro}
+
+This Appendix serves two purposes. First, it introduces you to R.  Second, it introduces functions for conducting an ordinary least squares (OLS) regression on a data set supplied within R.
+
+The nice thing about Quarto (similar to .RMD) files, is that you can integrate code within text files. The text files can be rendered into HTML, PDF, or Word documents (among others). These documents are therefore like a 'laboratory' notebook that allow you to show your coding work, visual outputs, and contextualizing your work with text using a visually aesthetic framework.
+
+R is a free and open-source programming language, with many functions supplied by the "base" code. However, many other functions require loading 3rd party packages. Be aware that none of the functions in these other packages are guaranteed to work in a certain way (although many are very well maintained and validated by large user bases). You'll need to do your own research to make sure which functions can be trusted, and sometimes you'll need to devise your own strategies to test the functions to make sure they work as they claim to.
+
+## Load a package
+
+```{r}
+#| warning: false
+#| message: false
+
+# The library() function loads R packages that are not supplied in the "base" software
+# You need to install a package once before loading
+# install.packages('dplyr')
+# Load the 'dplyr' package which has many convenient data manipulation functions
+library(dplyr) 
+```
+
+## Load a data set
+
+```{r}
+#| eval: false
+
+# R has many built-in data sets for educational purposes.
+# The data() function will show all of these, with descriptions
+data() # Do this on your own.
+```
+
+## Manipulate and visualize the data
+
+```{r}
+# Load the 'iris' data set, which contains lengths and widths of flower petals
+# We choose this, because these lengths and widths are often linearly associated
+data(iris)
+
+is.data.frame(iris) # Validate as data frame object
+is.vector(iris) # Not a vector object
+
+str(iris) # Show general object characteristics
+
+glimpse(iris) # Similar to str() but more detailed/relevant
+
+# glimpse() is a function within the dplyr package. 
+# We can call the function like this, because dplyr was loaded already
+# Alternatively we can use the following syntax to call non-base functions
+dplyr::glimpse(iris)
+# This way, you are less prone to errors, especially if 
+# functions in different packages are named the same or similarly (masking)
+```
+
+From the `glimpse()` function we see that there are five columns within the `iris` data frame, and there are 150 total data points (rows). We also see that four columns are numeric doubles, while one (Species) is a factor.
+
+```{r}
+# Subset column vectors from the data frame using the '$' symbol
+mean(iris$Petal.Length)
+
+# R can do 'vectorized' functions 
+iris$Petal.Width * 2
+
+# Check if factor
+is.factor(iris$Species)
+is.character(iris$Species)
+
+```
+
+Let's make some exploratory visualizations.
+
+```{r}
+#| layout-ncol: 2
+
+# Histogram
+hist(iris$Petal.Length)
+hist(iris$Petal.Width)
+```
+
+```{r}
+# Explore association between random variables
+# formula method: y ~ x 
+# Read the above like: 
+# y-variable 'modeled by' x-variable, or
+# y-variable 'as a function of' x-variable
+plot(iris$Petal.Width ~ iris$Petal.Length,
+     xlab = "Length",
+     ylab = "Width",
+     pch = 19) #pch = plot character
+```
+
+
+## Is there a linear association?
+
+The goal of regression is to determine the functional association between random variables. With linear regression the specific goal is to test whether there is a linear relationship between a response variable (*y*) and one or more covariates (*x*). The form of the functional relationship is: 
+$$y_i = \beta_0 + \beta_1 x_i + \epsilon_i ,$$
+where $y_i$ is the $i$-th data point, $\beta_0$ is the intercept, $\beta_1$ is the slope, and $x$ is the single covariate in the model. In matrix form we have: 
+$$\bf{y} = \bf{X} \bf{B} + \boldsymbol\epsilon$$ 
+For hypothesis testing, we are testing the null hypothesis that the slope of the relationship between $x$ and $y$ is zero (i.e., no detectable linear relationship, $\beta_1 = 0$).
+
+We can conduct linear regression in R using the `lm()` function, where 'lm' stands for 'linear model'. This function specifically estimates the model parameter (slope, intercept, and residual variance), using the ordinary least squares approach, which we will soon learn in lecture.
+
+```{r}
+my_model = lm(formula = Petal.Width ~ Petal.Length,
+              data = iris)
+```
+
+The line above stores the output of the linear model in the `my_model` object. We can then manipulate the `my_model` object and apply various functions to help us understand the outcome of the linear regression analysis.
+
+```{r}
+str(my_model)
+```
+
+Obviously, the output of the analysis is a complicated data structure with many elements. There are, however, some convenient functions to summarize these outputs for us.
+
+```{r}
+summary(my_model)
+```
+
+Above is the main outcome that we care about. The `summary()` function tells us the parameter estimates (with estimates of parameter uncertainty). It also conducts null-hypothesis testing, providing p-values, and shows the goodness of model fit, using R-squared.
+
+::: {.callout-tip}
+
+The goal of the first part of this course is to understand in sufficient detail how this analysis is conducted, so that we can interpret the results from a well-informed standpoint.
+:::
+
+
+```{r}
+#| fig-cap: 'Data with fitted linear relationship.'
+
+plot(iris$Petal.Width ~ iris$Petal.Length,
+     xlab = "Length",
+     ylab = "Width",
+     pch = 19)
+# Add the estimated linear relationship
+abline(reg = my_model)
+```

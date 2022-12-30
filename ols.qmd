@@ -1,0 +1,215 @@
+# Ordinary Least Squares {#sec-ols}
+
+## Lecture material
+
+Please download and print the lecture material from here. After lecture, the recording will also appear in this section.
+
+## In-class Code {.unnumbered}
+
+Remember that our goal is to estimate the linear relationship between data observations of response variable, $y$, and its measured covariate, $x$, following: $Y = XB + \epsilon$, where $\epsilon \sim N(0, \sigma^2 I).$ Our coefficients to estimate are therefore $\hat{B}$, which is a column vector of the intercept and slope, as well as the standard deviation of the residuals (i.e., residual error), $\hat{\sigma}$. To estimate the coefficients, we are attempting to minimize the residual sum of squares, $|| \epsilon || ^ 2$. See [Footnotes @sec-crossprod] for more information regarding this notation.
+
+## Generate the data
+
+We'll start with a very small data set to emphasize the basics, and then the in-class activity will go into more depth. Here, we'll implement the OLS estimation with a single covariate that we demonstrated in lecture.
+
+```{r}
+n = 4 # number observations
+p = 2 # number of parameters
+
+# Covariate:
+x0 = c(1,1,1,1) # placeholder for intercept
+x1 = c(2,3,5,1) # value of x
+xmat = matrix(data = c(x0,x1), 
+               nrow = n, 
+               ncol = p)
+xmat
+
+# Coefficients:
+## betas[1]: intercept
+## betas[2]: slope
+betas = c(4, 2)
+
+xmat %*% betas
+
+# residuals
+epsilon = c(0, -1, 1, 3)
+
+# Data observations:
+y = xmat %*% betas + epsilon
+```
+
+## Plot the relationship
+
+```{r}
+
+# Plot in layers
+## Create a blank plotting canvas, specifying axis limits
+plot(x=NA,y=NA, xlab = "x", ylab = "y",
+     ylim = c(0,max(y)), xlim = c(0,max(x1)))
+## Add data points
+points(y ~ x1, pch = 19, cex = 2)
+## Add known linear relationship
+abline(coef = betas, col = "black", lwd = 2)
+
+# Show the residuals:
+segments(x0 = x1, x1 = x1,
+         y0 = y, y1 = y - epsilon)
+
+# Show the model predictions, \hat{y}:
+y_hat = xmat %*% betas
+points(y_hat ~ x1, cex = 1.25)
+```
+
+## Estimate the coefficients using R's `lm()` function
+
+```{r}
+# Run the model:
+lm_out = lm(y ~ 1 + x1)
+# Show the summary output
+summary(lm_out)
+# Extract the estimated coefficients
+lm_coef = coef(lm_out)
+lm_coef
+```
+
+## Estimate the coefficients manually
+
+Now we will use the matrix algebra and derivation of normal equations to estimate the intercept and slope from the observations, $Y$. Remember that we estimate the coefficient matrix, $\hat{B}$ from: $$X^TX \hat{B} = X^T Y$$ $$\hat{B} = (X^TX)^{-1} X^T Y$$ These equations include the multiplicative inverse matrix, $(X^TX)^{-1}$. See the [Footnotes @sec-solve] for more information about inverse matrices and the `solve()` function.
+
+```{r}
+
+# Let's break up the normal equations into intermediates:
+xtx = t(xmat) %*% xmat
+
+## Use solve() to find inverse of xtx
+## why solve()? See Appendix, linked above.
+inv_xtx = solve(xtx)
+xty = t(xmat) %*% y
+
+bhat = inv_xtx %*% xty
+
+# More efficient:
+# Remember, xtx * bhat = xty
+# So we can use solve() again
+bhat_solve = solve(xtx, xty)
+
+# Are they the same?
+
+# How does this manual solution compare to lm()'s solution?
+```
+
+## Plot the *estimated* relationships
+
+```{r}
+
+# Plot in layers
+## Create a blank plotting canvas, specifying axis limits
+plot(NA,NA,
+     xlab = "x", ylab = "y",
+     ylim = c(0,max(y)),
+     xlim = c(0,max(x1)))
+## Add data points
+points(y ~ x1, pch = 19, cex = 2)
+## Add known linear relationship
+abline(coef = betas,
+       col = "black", lwd = 2)
+
+# Show the residuals:
+segments(
+  x0 = x1,
+  x1 = x1,
+  y0 = y,
+  y1 = y - epsilon,
+)
+
+# Show the model predictions, \hat{y}:
+y_hat = xmat %*% betas
+points(y_hat ~ x1,
+       cex = 1.25)
+
+# Add the lm() estimate:
+abline(coef = lm_coef,
+       col = "orange", lty = 2, lwd = 2)
+
+# Add the manual OLS estimate:
+abline(coef = bhat_solve,
+       col = "purple", lty = 3, lwd = 2)
+```
+
+## Why are the $\hat{B}$ different from true $B$?
+
+Remember, we are estimating the coefficients by minimizing the sum of squared errors (SSE), $|| \epsilon ||^2$.
+
+```{r}
+# True sum of squares:
+sum(epsilon)^2
+
+# Estimated (i.e., minimized sum of squares):
+## From lm()
+sum(lm_out$residuals)^2
+
+## From manual OLS
+sum( (y - xmat %*% bhat_solve) )^2
+
+```
+
+You can see that the OLS strategy effectively minimized the SSE to zero.
+
+## Footnotes
+
+### Euclidean norm & cross product {#sec-crossprod}
+
+We often see the syntax, $|| a ||$, which is the Euclidean norm of the $n$-sized vector $a$: $$|| a || = \left( \sum_{i=1}^{n} a_i^2 \right) ^ {1/2} ,$$ so that when we see $|| a ||^2$, this results in the sum of squares of vector $a$, $\sum_{i=1}^{n} a_i^2$.
+
+In the context of least squares regression, we are trying to minimize the residual sum of squares, where the residuals, $\epsilon_i$, are in vector, $\epsilon$. The sum of squares of vector $\epsilon$ is therefore $|| \epsilon ||^2$. Algebraically, we can find this value as the cross product of $\epsilon$, which is $\epsilon^{T}\epsilon$. Let's do a coded example with vector $x$.
+
+```{r}
+
+# Vector of real numbers
+x = c(1, 2, 3, 4)
+
+# sum of squares
+sum(x^2)
+
+# Evaluated as cross-product
+t(x) %*% x
+## Or with crossprod()
+crossprod(x,x)
+
+# Euclidean norm also known as the 2-norm
+# so sum of squares is 2-norm, squared
+norm(x, type = "2") ^ 2
+
+```
+
+### `solve()` and Inverse of matrix {#sec-solve}
+
+Suppose we have matrices $A$, $X$, and $B$, and the following expression is true: $$AX=B.$$
+
+Then, suppose $X$ is unknown, such that we want to find the solution for $X$, when we rearrange: $$X = A^{-1} B,$$ where $A^{-1}$ is the multiplicative inverse of matrix $A$. To figure this out computationally, we can use the `solve()` function in R, as long as $A$ is a square matrix and has an inverse.
+
+```{r}
+# Create A and known X
+A = matrix(c(1,1,
+             5,2), ncol = 2)
+X = matrix(c(2,3), ncol = 1)
+
+# Dot product to calculate B
+B = A %*% X
+
+# Suppose you have A and B, but want to find X
+X_solve = solve(A, B)
+
+# Did it work?
+X; X_solve
+```
+
+We can see, then, that `solve()` is internally evaluating $A^{-1}$. Remember that $A^{-1}$ is not trivial to calculate, as it is the matrix that must satisfy: $AA^{-1} = I$, where $I$ is an identity matrix. In fact, `solve(A)` returns the inverse of $A$, if it exists.
+
+```{r}
+inv_A = solve(A)
+
+#Did it work?
+(inv_A %*% B)
+X
+```
