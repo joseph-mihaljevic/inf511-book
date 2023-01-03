@@ -31,5 +31,8 @@
   },
   "bayesian.qmd": {
     "bayesian.html": "09b5c64c"
+  },
+  "software.qmd": {
+    "software.html": "8856e0cc"
   }
 }

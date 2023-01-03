@@ -11,9 +11,9 @@ book:
         - name: Northern Arizona University
   chapters:
     - index.qmd
-    - summary.qmd
     - part: "Pre-requisites"
       chapters:
+        - software.qmd
         - Rintro.qmd
         - prob.qmd
     - ols.qmd

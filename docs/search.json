@@ -144,7 +144,7 @@
     "href": "ols.html#in-class-code",
     "title": "4  Ordinary Least Squares",
     "section": "In-class Code",
-    "text": "In-class Code\nRemember that our goal is to estimate the linear relationship between data observations of response variable, \\(y\\), and its measured covariate, \\(x\\), following: \\(Y = XB + \\epsilon\\), where \\(\\epsilon \\sim N(0, \\sigma^2 I).\\) Our coefficients to estimate are therefore \\(\\hat{B}\\), which is a column vector of the intercept and slope, as well as the standard deviation of the residuals (i.e., residual error), \\(\\hat{\\sigma}\\). To estimate the coefficients, we are attempting to minimize the residual sum of squares, \\(|| \\epsilon || ^ 2\\). See Footnotes 4.8.1 for more information regarding this notation."
+    "text": "In-class Code\nRemember that our goal is to estimate the linear relationship between data observations of response variable, \\(y\\), and its measured covariate, \\(x\\), following: \\(Y = XB + \\epsilon\\), where \\(\\epsilon \\sim N(0, \\sigma^2 I).\\) Our coefficients to estimate are therefore \\(\\hat{B}\\), which is a column vector of the intercept and slope. We also estimate the standard deviation of the residuals (i.e., residual error), \\(\\hat{\\sigma}\\). To estimate the coefficients, we are attempting to minimize the residual sum of squares, \\(|| \\epsilon || ^ 2\\). See Footnotes 4.8.1 for more information regarding this notation."
   },
   {
     "objectID": "ols.html#footnotes",
@@ -228,7 +228,7 @@
     "href": "ols.html#estimate-the-coefficients-manually",
     "title": "4  Ordinary Least Squares",
     "section": "4.5 Estimate the coefficients manually",
-    "text": "4.5 Estimate the coefficients manually\nNow we will use the matrix algebra and derivation of normal equations to estimate the intercept and slope from the observations, \\(Y\\). Remember that we estimate the coefficient matrix, \\(\\hat{B}\\) from: \\[X^TX \\hat{B} = X^T Y\\] \\[\\hat{B} = (X^TX)^{-1} X^T Y\\] These equations include the multiplicative inverse matrix, \\((X^TX)^{-1}\\). See the Footnotes 4.8.2 for more information about inverse matrices and the solve() function.\n\n# Let's break up the normal equations into intermediates:\nxtx = t(xmat) %*% xmat\n\n## Use solve() to find inverse of xtx\n## why solve()? See Appendix, linked above.\ninv_xtx = solve(xtx)\nxty = t(xmat) %*% y\n\nbhat = inv_xtx %*% xty\n\n# More efficient:\n# Remember, xtx * bhat = xty\n# So we can use solve() again\nbhat_solve = solve(xtx, xty)\n\n# Are they the same?\n\n# How does this manual solution compare to lm()'s solution?"
+    "text": "4.5 Estimate the coefficients manually\nNow we will use the matrix algebra and derivation of normal equations to estimate the intercept and slope from the observations, \\(Y\\). Remember that we estimate the coefficient vector, \\(\\hat{B}\\) from: \\[X^TX \\hat{B} = X^T Y\\] \\[\\hat{B} = (X^TX)^{-1} X^T Y\\] These equations include the multiplicative inverse matrix, \\((X^TX)^{-1}\\). See the Footnotes 4.8.2 for more information about inverse matrices and the solve() function.\n\n# Let's break up the normal equations into intermediates:\nxtx = t(xmat) %*% xmat\n\n## Use solve() to find inverse of xtx\n## why solve()? See Appendix, linked above.\ninv_xtx = solve(xtx)\nxty = t(xmat) %*% y\n\nbhat = inv_xtx %*% xty\n\n# More efficient:\n# Remember, xtx * bhat = xty\n# So we can use solve() again\nbhat_solve = solve(xtx, xty)\n\n# Are they the same?\n\n# How does this manual solution compare to lm()'s solution?"
   },
   {
     "objectID": "ols.html#plot-the-estimated-relationships",
@@ -257,5 +257,19 @@
     "title": "5  Maximum Likelihood",
     "section": "",
     "text": "TBA"
+  },
+  {
+    "objectID": "syllabus.html#tentative-course-schedule",
+    "href": "syllabus.html#tentative-course-schedule",
+    "title": "Appendix A: Syllabus",
+    "section": "A.1 Tentative course schedule",
+    "text": "A.1 Tentative course schedule"
+  },
+  {
+    "objectID": "software.html",
+    "href": "software.html",
+    "title": "1  Software",
+    "section": "",
+    "text": "You will need to have all of the following free software downloaded and in working order on your laptop.\n\n\n\n\n\n\nPrior to first lecture\n\n\n\nYou must have the following on your laptops prior to the first lecture.\n\n\n\nLatest version of RStudio Desktop IDE\nCompatible version of R software environment\nQuarto publishing system (for documents with integrated code).\nYou must have a functional PDF Engine to render Quarto (.qmd) documents into PDF. See this section on PDF Engines, and be sure to test whether you can render an example .qmd file into a PDF.\n\n\n\n\n\n\n\nPrior to Bayesian inference\n\n\n\nYou must have the following on your laptops prior to the sections on Bayesian inference.\n\n\n\nStan programming language, via the rstan package for R.\nWe will potentially use the R package rstanarm, but this is a straightforward package to download using the install.packages() function."
   }
 ]
