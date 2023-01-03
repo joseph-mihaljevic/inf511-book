@@ -1,7 +1,7 @@
 
 # Syllabus {#sec-syllabus}
 
-![](_images/nau_siccs_logo.png){fig-align='center'}
+![](images/nau_siccs_logo.png){fig-align='center'}
 
 - INF 511 Modern Regression I Spring 2023
 - 3 units
