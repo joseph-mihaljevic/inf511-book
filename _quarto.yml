@@ -17,7 +17,9 @@ book:
         - Rintro.qmd
         - prob.qmd
     - ols.qmd
+    - hypothesis.qmd
     - max-lik.qmd
+    - anova.qmd
     - bayesian.qmd
     - references.qmd
   appendices: 
