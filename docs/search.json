@@ -4,7 +4,7 @@
     "href": "index.html",
     "title": "INF511: Modern Regression I",
     "section": "",
-    "text": "Preface\nWelcome to INF511: Modern Regression I. In this course, we will do a deep dive into three fundamental methods for estimating the linear relationships between random variables (i.e., linear regression analysis): ordinary least squares (Chapter 4), maximum likelihood (Chapter 6), and Bayesian inference (Chapter 6). This online book serves as a living document of resources for our class. The chapters provide links to lecture materials, which should be downloaded and printed prior to class, as well as links to recorded lectures. Each chapter also has material that is supplemental to lecture, with coded examples. We will often refer to these examples during class time, and they will be helpful for solving problem set and homework assignments. Problem sets will have dedicated in-class time, whereas homework assignments will be conducted entirely outside of class time.\nPlease refer to the Syllabus (Appendix A) for the course schedule, learning objectives, grading structure, course policies, etc."
+    "text": "Preface\nWelcome to INF511: Modern Regression I. In this course, we will do a deep dive into three fundamental methods for estimating the linear relationships between random variables (i.e., linear regression analysis): ordinary least squares (Chapter 4), maximum likelihood (Chapter 6), and Bayesian inference (Chapter 8). We will also explore null hypothesis testing (Chapter 5), and linear models with categorical covariates (i.e., ANOVA, Chapter 7). This online book serves as a living document of resources for our class. The chapters provide links to lecture materials, which should be downloaded and printed prior to class, as well as links to recorded lectures. Each chapter also has material that is supplemental to lecture, with coded examples. We will often refer to these examples during class time, and they will be helpful for solving problem set and homework assignments. Problem sets will have dedicated in-class time, whereas homework assignments will be conducted entirely outside of class time.\nPlease refer to the Syllabus (Appendix A) for the course schedule, learning objectives, grading structure, course policies, etc."
   },
   {
     "objectID": "intro.html#load-a-package",
@@ -247,7 +247,7 @@
   {
     "objectID": "bayesian.html",
     "href": "bayesian.html",
-    "title": "6  Bayesian inference",
+    "title": "8  Bayesian inference",
     "section": "",
     "text": "TBA"
   },
