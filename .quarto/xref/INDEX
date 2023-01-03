@@ -34,5 +34,11 @@
   },
   "software.qmd": {
     "software.html": "8856e0cc"
+  },
+  "anova.qmd": {
+    "anova.html": "6b74df65"
+  },
+  "hypothesis.qmd": {
+    "hypothesis.html": "95e8892f"
   }
 }
