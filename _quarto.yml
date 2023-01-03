@@ -9,6 +9,9 @@ book:
     - name: Joseph Mihaljevic
       affiliations:
         - name: Northern Arizona University
+  site-url: https://jrmihalj.github.io/
+  repo-url: https://github.com/joseph-mihaljevic/inf511-book
+  repo-actions: [source, issue]
   chapters:
     - index.qmd
     - part: "Pre-requisites"

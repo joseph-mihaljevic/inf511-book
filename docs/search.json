@@ -4,7 +4,7 @@
     "href": "index.html",
     "title": "INF511: Modern Regression I",
     "section": "",
-    "text": "Preface\nWelcome to INF511: Modern Regression I. In this course, we will do a deep dive into three fundamental methods for estimating the linear relationships between random variables (i.e., linear regression analysis): ordinary least squares (Chapter 4), maximum likelihood (Chapter 5), and Bayesian inference (Chapter 6). This online book serves as a living document of resources for our class. The chapters provide links to lecture materials, which should be downloaded and printed prior to class, as well as links to recorded lectures. Each chapter also has material that is supplemental to lecture, with coded examples. We will often refer to these examples during class time, and they will be helpful for solving problem set and homework assignments. Problem sets will have dedicated in-class time, whereas homework assignments will be conducted entirely outside of class time.\nPlease refer to the Syllabus (Appendix A) for the course schedule, learning objectives, grading structure, course policies, etc."
+    "text": "Preface\nWelcome to INF511: Modern Regression I. In this course, we will do a deep dive into three fundamental methods for estimating the linear relationships between random variables (i.e., linear regression analysis): ordinary least squares (Chapter 4), maximum likelihood (Chapter 6), and Bayesian inference (Chapter 6). This online book serves as a living document of resources for our class. The chapters provide links to lecture materials, which should be downloaded and printed prior to class, as well as links to recorded lectures. Each chapter also has material that is supplemental to lecture, with coded examples. We will often refer to these examples during class time, and they will be helpful for solving problem set and homework assignments. Problem sets will have dedicated in-class time, whereas homework assignments will be conducted entirely outside of class time.\nPlease refer to the Syllabus (Appendix A) for the course schedule, learning objectives, grading structure, course policies, etc."
   },
   {
     "objectID": "intro.html#load-a-package",
@@ -136,7 +136,7 @@
     "objectID": "ols.html#lecture-material",
     "href": "ols.html#lecture-material",
     "title": "4  Ordinary Least Squares",
-    "section": "4.1 Lecture material",
+    "section": "\n4.1 Lecture material",
     "text": "4.1 Lecture material\nPlease download and print the lecture material from here. After lecture, the recording will also appear in this section."
   },
   {
@@ -150,8 +150,8 @@
     "objectID": "ols.html#footnotes",
     "href": "ols.html#footnotes",
     "title": "4  Ordinary Least Squares",
-    "section": "4.8 Footnotes",
-    "text": "4.8 Footnotes\n\n4.8.1 Euclidean norm & cross product\nWe often see the syntax, \\(|| a ||\\), which is the Euclidean norm of the \\(n\\)-sized vector \\(a\\): \\[|| a || = \\left( \\sum_{i=1}^{n} a_i^2 \\right) ^ {1/2} ,\\] so that when we see \\(|| a ||^2\\), this results in the sum of squares of vector \\(a\\), \\(\\sum_{i=1}^{n} a_i^2\\).\nIn the context of least squares regression, we are trying to minimize the residual sum of squares, where the residuals, \\(\\epsilon_i\\), are in vector, \\(\\epsilon\\). The sum of squares of vector \\(\\epsilon\\) is therefore \\(|| \\epsilon ||^2\\). Algebraically, we can find this value as the cross product of \\(\\epsilon\\), which is \\(\\epsilon^{T}\\epsilon\\). Let’s do a coded example with vector \\(x\\).\n\n# Vector of real numbers\nx = c(1, 2, 3, 4)\n\n# sum of squares\nsum(x^2)\n\n[1] 30\n\n# Evaluated as cross-product\nt(x) %*% x\n\n     [,1]\n[1,]   30\n\n## Or with crossprod()\ncrossprod(x,x)\n\n     [,1]\n[1,]   30\n\n# Euclidean norm also known as the 2-norm\n# so sum of squares is 2-norm, squared\nnorm(x, type = \"2\") ^ 2\n\n[1] 30\n\n\n\n\n4.8.2 solve() and Inverse of matrix\nSuppose we have matrices \\(A\\), \\(X\\), and \\(B\\), and the following expression is true: \\[AX=B.\\]\nThen, suppose \\(X\\) is unknown, such that we want to find the solution for \\(X\\), when we rearrange: \\[X = A^{-1} B,\\] where \\(A^{-1}\\) is the multiplicative inverse of matrix \\(A\\). To figure this out computationally, we can use the solve() function in R, as long as \\(A\\) is a square matrix and has an inverse.\n\n# Create A and known X\nA = matrix(c(1,1,\n             5,2), ncol = 2)\nX = matrix(c(2,3), ncol = 1)\n\n# Dot product to calculate B\nB = A %*% X\n\n# Suppose you have A and B, but want to find X\nX_solve = solve(A, B)\n\n# Did it work?\nX; X_solve\n\n     [,1]\n[1,]    2\n[2,]    3\n\n\n     [,1]\n[1,]    2\n[2,]    3\n\n\nWe can see, then, that solve() is internally evaluating \\(A^{-1}\\). Remember that \\(A^{-1}\\) is not trivial to calculate, as it is the matrix that must satisfy: \\(AA^{-1} = I\\), where \\(I\\) is an identity matrix. In fact, solve(A) returns the inverse of \\(A\\), if it exists.\n\ninv_A = solve(A)\n\n#Did it work?\n(inv_A %*% B)\n\n     [,1]\n[1,]    2\n[2,]    3\n\nX\n\n     [,1]\n[1,]    2\n[2,]    3"
+    "section": "\n4.8 Footnotes",
+    "text": "4.8 Footnotes\n\n4.8.1 Euclidean norm & cross product\nWe often see the syntax, \\(|| a ||\\), which is the Euclidean norm of the \\(n\\)-sized vector \\(a\\): \\[|| a || = \\left( \\sum_{i=1}^{n} a_i^2 \\right) ^ {1/2} ,\\] so that when we see \\(|| a ||^2\\), this results in the sum of squares of vector \\(a\\), \\(\\sum_{i=1}^{n} a_i^2\\).\nIn the context of least squares regression, we are trying to minimize the residual sum of squares, where the residuals, \\(\\epsilon_i\\), are in vector, \\(\\epsilon\\). The sum of squares of vector \\(\\epsilon\\) is therefore \\(|| \\epsilon ||^2\\). Algebraically, we can find this value as the cross product of \\(\\epsilon\\), which is \\(\\epsilon^{T}\\epsilon\\). Let’s do a coded example with vector \\(x\\).\n\n# Vector of real numbers\nx = c(1, 2, 3, 4)\n\n# sum of squares\nsum(x^2)\n\n[1] 30\n\n# Evaluated as cross-product\nt(x) %*% x\n\n     [,1]\n[1,]   30\n\n## Or with crossprod()\ncrossprod(x,x)\n\n     [,1]\n[1,]   30\n\n# Euclidean norm also known as the 2-norm\n# so sum of squares is 2-norm, squared\nnorm(x, type = \"2\") ^ 2\n\n[1] 30\n\n\n\n4.8.2 solve() and Inverse of matrix\nSuppose we have matrices \\(A\\), \\(X\\), and \\(B\\), and the following expression is true: \\[AX=B.\\]\nThen, suppose \\(X\\) is unknown, such that we want to find the solution for \\(X\\), when we rearrange: \\[X = A^{-1} B,\\] where \\(A^{-1}\\) is the multiplicative inverse of matrix \\(A\\). To figure this out computationally, we can use the solve() function in R, as long as \\(A\\) is a square matrix and has an inverse.\n\n# Create A and known X\nA = matrix(c(1,1,\n             5,2), ncol = 2)\nX = matrix(c(2,3), ncol = 1)\n\n# Dot product to calculate B\nB = A %*% X\n\n# Suppose you have A and B, but want to find X\nX_solve = solve(A, B)\n\n# Did it work?\nX; X_solve\n\n     [,1]\n[1,]    2\n[2,]    3\n\n\n     [,1]\n[1,]    2\n[2,]    3\n\n\nWe can see, then, that solve() is internally evaluating \\(A^{-1}\\). Remember that \\(A^{-1}\\) is not trivial to calculate, as it is the matrix that must satisfy: \\(AA^{-1} = I\\), where \\(I\\) is an identity matrix. In fact, solve(A) returns the inverse of \\(A\\), if it exists.\n\ninv_A = solve(A)\n\n#Did it work?\n(inv_A %*% B)\n\n     [,1]\n[1,]    2\n[2,]    3\n\nX\n\n     [,1]\n[1,]    2\n[2,]    3"
   },
   {
     "objectID": "prob.html#lecture-material",
@@ -206,42 +206,42 @@
     "objectID": "ols.html#generate-the-data",
     "href": "ols.html#generate-the-data",
     "title": "4  Ordinary Least Squares",
-    "section": "4.2 Generate the data",
+    "section": "\n4.2 Generate the data",
     "text": "4.2 Generate the data\nWe’ll start with a very small data set to emphasize the basics, and then the in-class activity will go into more depth. Here, we’ll implement the OLS estimation with a single covariate that we demonstrated in lecture.\n\nn = 4 # number observations\np = 2 # number of parameters\n\n# Covariate:\nx0 = c(1,1,1,1) # placeholder for intercept\nx1 = c(2,3,5,1) # value of x\nxmat = matrix(data = c(x0,x1), \n               nrow = n, \n               ncol = p)\nxmat\n\n     [,1] [,2]\n[1,]    1    2\n[2,]    1    3\n[3,]    1    5\n[4,]    1    1\n\n# Coefficients:\n## betas[1]: intercept\n## betas[2]: slope\nbetas = c(4, 2)\n\nxmat %*% betas\n\n     [,1]\n[1,]    8\n[2,]   10\n[3,]   14\n[4,]    6\n\n# residuals\nepsilon = c(0, -1, 1, 3)\n\n# Data observations:\ny = xmat %*% betas + epsilon"
   },
   {
     "objectID": "ols.html#plot-the-relationship",
     "href": "ols.html#plot-the-relationship",
     "title": "4  Ordinary Least Squares",
-    "section": "4.3 Plot the relationship",
+    "section": "\n4.3 Plot the relationship",
     "text": "4.3 Plot the relationship\n\n# Plot in layers\n## Create a blank plotting canvas, specifying axis limits\nplot(x=NA,y=NA, xlab = \"x\", ylab = \"y\",\n     ylim = c(0,max(y)), xlim = c(0,max(x1)))\n## Add data points\npoints(y ~ x1, pch = 19, cex = 2)\n## Add known linear relationship\nabline(coef = betas, col = \"black\", lwd = 2)\n\n# Show the residuals:\nsegments(x0 = x1, x1 = x1,\n         y0 = y, y1 = y - epsilon)\n\n# Show the model predictions, \\hat{y}:\ny_hat = xmat %*% betas\npoints(y_hat ~ x1, cex = 1.25)"
   },
   {
     "objectID": "ols.html#estimate-the-coefficients-using-rs-lm-function",
     "href": "ols.html#estimate-the-coefficients-using-rs-lm-function",
     "title": "4  Ordinary Least Squares",
-    "section": "4.4 Estimate the coefficients using R’s lm() function",
+    "section": "\n4.4 Estimate the coefficients using R’s lm() function",
     "text": "4.4 Estimate the coefficients using R’s lm() function\n\n# Run the model:\nlm_out = lm(y ~ 1 + x1)\n# Show the summary output\nsummary(lm_out)\n\n\nCall:\nlm(formula = y ~ 1 + x1)\n\nResiduals:\n     1      2      3      4 \n-1.029 -1.657  1.086  1.600 \n\nCoefficients:\n            Estimate Std. Error t value Pr(>|t|)\n(Intercept)   5.7714     2.0500   2.815    0.106\nx1            1.6286     0.6565   2.481    0.131\n\nResidual standard error: 1.942 on 2 degrees of freedom\nMultiple R-squared:  0.7547,    Adjusted R-squared:  0.6321 \nF-statistic: 6.153 on 1 and 2 DF,  p-value: 0.1313\n\n# Extract the estimated coefficients\nlm_coef = coef(lm_out)\nlm_coef\n\n(Intercept)          x1 \n   5.771429    1.628571"
   },
   {
     "objectID": "ols.html#estimate-the-coefficients-manually",
     "href": "ols.html#estimate-the-coefficients-manually",
     "title": "4  Ordinary Least Squares",
-    "section": "4.5 Estimate the coefficients manually",
+    "section": "\n4.5 Estimate the coefficients manually",
     "text": "4.5 Estimate the coefficients manually\nNow we will use the matrix algebra and derivation of normal equations to estimate the intercept and slope from the observations, \\(Y\\). Remember that we estimate the coefficient vector, \\(\\hat{B}\\) from: \\[X^TX \\hat{B} = X^T Y\\] \\[\\hat{B} = (X^TX)^{-1} X^T Y\\] These equations include the multiplicative inverse matrix, \\((X^TX)^{-1}\\). See the Footnotes 4.8.2 for more information about inverse matrices and the solve() function.\n\n# Let's break up the normal equations into intermediates:\nxtx = t(xmat) %*% xmat\n\n## Use solve() to find inverse of xtx\n## why solve()? See Appendix, linked above.\ninv_xtx = solve(xtx)\nxty = t(xmat) %*% y\n\nbhat = inv_xtx %*% xty\n\n# More efficient:\n# Remember, xtx * bhat = xty\n# So we can use solve() again\nbhat_solve = solve(xtx, xty)\n\n# Are they the same?\n\n# How does this manual solution compare to lm()'s solution?"
   },
   {
     "objectID": "ols.html#plot-the-estimated-relationships",
     "href": "ols.html#plot-the-estimated-relationships",
     "title": "4  Ordinary Least Squares",
-    "section": "4.6 Plot the estimated relationships",
+    "section": "\n4.6 Plot the estimated relationships",
     "text": "4.6 Plot the estimated relationships\n\n# Plot in layers\n## Create a blank plotting canvas, specifying axis limits\nplot(NA,NA,\n     xlab = \"x\", ylab = \"y\",\n     ylim = c(0,max(y)),\n     xlim = c(0,max(x1)))\n## Add data points\npoints(y ~ x1, pch = 19, cex = 2)\n## Add known linear relationship\nabline(coef = betas,\n       col = \"black\", lwd = 2)\n\n# Show the residuals:\nsegments(\n  x0 = x1,\n  x1 = x1,\n  y0 = y,\n  y1 = y - epsilon,\n)\n\n# Show the model predictions, \\hat{y}:\ny_hat = xmat %*% betas\npoints(y_hat ~ x1,\n       cex = 1.25)\n\n# Add the lm() estimate:\nabline(coef = lm_coef,\n       col = \"orange\", lty = 2, lwd = 2)\n\n# Add the manual OLS estimate:\nabline(coef = bhat_solve,\n       col = \"purple\", lty = 3, lwd = 2)"
   },
   {
     "objectID": "ols.html#why-are-the-hatb-different-from-true-b",
     "href": "ols.html#why-are-the-hatb-different-from-true-b",
     "title": "4  Ordinary Least Squares",
-    "section": "4.7 Why are the \\(\\hat{B}\\) different from true \\(B\\)?",
+    "section": "\n4.7 Why are the \\(\\hat{B}\\) different from true \\(B\\)?",
     "text": "4.7 Why are the \\(\\hat{B}\\) different from true \\(B\\)?\nRemember, we are estimating the coefficients by minimizing the sum of squared errors (SSE), \\(|| \\epsilon ||^2\\).\n\n# True sum of squares:\nsum(epsilon)^2\n\n[1] 9\n\n# Estimated (i.e., minimized sum of squares):\n## From lm()\nsum(lm_out$residuals)^2\n\n[1] 0\n\n## From manual OLS\nsum( (y - xmat %*% bhat_solve) )^2\n\n[1] 7.099748e-30\n\n\nYou can see that the OLS strategy effectively minimized the SSE to zero."
   },
   {
