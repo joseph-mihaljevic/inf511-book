@@ -20,7 +20,7 @@
 We will use the learning management system, BbLearn, to conduct some course business, including assignment disbursement and submitting. I will use BbLearn’s Collaborate Ultra to record lectures for future viewing, but you may also use Collaborate Ultra to attend virtually, if you cannot attend physically. 
 
 ## INF511 Book Website
-Dr. Mihaljevic has compiled a [course website](https://joseph-mihaljevic.github.io/inf511-book/) that is based on a GitHub repository. This website will have required readings, coded examples which we will walk through in class and problem set materials. The website will link to Bblearn for recorded lecture materials and for posted homework. There will be other required readings (see ).
+Dr. Mihaljevic has compiled a [course website](https://joseph-mihaljevic.github.io/inf511-book/) that is based on a GitHub repository. This website will have required readings, coded examples which we will walk through in class and problem set materials. The website will link to Bblearn for recorded lecture materials and for posted homework. There will be other required readings (see @sec-readings).
 
 ## Monitoring Attendance
 I will allow in-person and virtual attendance, although technically NAU policy is for in person attendance unless an absence is formally excused. We will monitor attendance in class and through Collaborate Ultra. See below for specific guidance on how attendance can affect your grade. 
@@ -67,7 +67,7 @@ Overall course grades will follow a typical scale:
 
 While you should be able to compute an estimate of your current grade using the information above, I (or your TA) will attempt to use the Grade feature in BbLearn so that you are able to check your grades. Grading mistakes may occur, and students are encouraged to discuss such concerns with the instructor or TA during office hours or by appointment.
 
-## Readings and Materials
+## Readings and Materials {#sec-readings}
 
 - **Lecture Materials**: Lecture topics, course notes, readings, and assignments will be made available as the semester progresses. For each lecture, a document will be linked on the [course website](https://joseph-mihaljevic.github.io/inf511-book/). During lecture, we will work together to fill out this document with written notes presented on the (virtual) whiteboard. **Therefore, it is essential to downlaod and print these materials prior to attending class.** 
 
