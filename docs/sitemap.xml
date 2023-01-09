@@ -2,19 +2,19 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://jrmihalj.github.io/index.html</loc>
-    <lastmod>2023-01-03T23:32:07.336Z</lastmod>
+    <lastmod>2023-01-09T17:52:26.216Z</lastmod>
   </url>
   <url>
     <loc>https://jrmihalj.github.io/ols.html</loc>
-    <lastmod>2023-01-03T23:25:19.711Z</lastmod>
+    <lastmod>2023-01-09T17:52:26.224Z</lastmod>
   </url>
   <url>
     <loc>https://jrmihalj.github.io/max-lik.html</loc>
-    <lastmod>2023-01-03T23:30:11.769Z</lastmod>
+    <lastmod>2023-01-09T17:52:26.225Z</lastmod>
   </url>
   <url>
     <loc>https://jrmihalj.github.io/hypothesis.html</loc>
-    <lastmod>2023-01-03T23:30:26.319Z</lastmod>
+    <lastmod>2023-01-09T17:52:26.225Z</lastmod>
   </url>
   <url>
     <loc>https://jrmihalj.github.io/anova.html</loc>
@@ -26,6 +26,18 @@
   </url>
   <url>
     <loc>https://jrmihalj.github.io/syllabus.html</loc>
-    <lastmod>2023-01-04T18:22:04.563Z</lastmod>
+    <lastmod>2023-01-09T17:52:28.715Z</lastmod>
+  </url>
+  <url>
+    <loc>https://jrmihalj.github.io/software.html</loc>
+    <lastmod>2023-01-09T17:52:26.217Z</lastmod>
+  </url>
+  <url>
+    <loc>https://jrmihalj.github.io/prob.html</loc>
+    <lastmod>2023-01-09T17:52:26.220Z</lastmod>
+  </url>
+  <url>
+    <loc>https://jrmihalj.github.io/references.html</loc>
+    <lastmod>2023-01-09T17:52:26.226Z</lastmod>
   </url>
 </urlset>
