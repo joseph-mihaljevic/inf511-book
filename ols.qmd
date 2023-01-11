@@ -2,7 +2,7 @@
 
 ## Lecture material
 
-Please download and print the lecture material from here. After lecture, the recording will also appear in this section.
+Please download and print the lecture materials from [Bblearn](https://bblearn.nau.edu/){target="_blank"} or the [GitHub repo](https://github.com/joseph-mihaljevic/inf511-book/tree/main/lecture-material). After lectures, the recordings will appear in the Bblearn Collaborate Ultra section.
 
 ## In-class Code {.unnumbered}
 
