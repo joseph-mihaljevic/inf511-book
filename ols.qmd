@@ -60,7 +60,7 @@ y_hat = xmat %*% betas
 points(y_hat ~ x1, cex = 1.25)
 ```
 
-## Estimate the coefficients using R's `lm()` function
+## Estimate the coefficients using R's `lm()` function {#sec-lm-output}
 
 ```{r}
 # Run the model:
@@ -98,7 +98,7 @@ bhat_solve = solve(xtx, xty)
 # How does this manual solution compare to lm()'s solution?
 ```
 
-## Plot the *estimated* relationships
+## Plot the *estimated* relationships {#sec-est-plot}
 
 ```{r}
 
@@ -152,8 +152,208 @@ sum(lm_out$residuals)^2
 sum( (y - xmat %*% bhat_solve) )^2
 
 ```
-
 You can see that the OLS strategy effectively minimized the SSE to zero.
+
+
+## Understanding Uncertainty in $\hat{B}$
+
+While the OLS analysis estimates the regression coefficients, $\hat{B}$, from the observed data $Y$, our estimates of these coefficients have error (i.e., uncertainty), such that the estimates are only as good as the data. Specifically, if we have fewer data points (i.e., $n$ is low), we have less certainty in $\hat{B}$. In lecture, we showed, that:
+$$\hat{B} \sim N \left( B, (X^TX)^{-1} \hat{\sigma}^2 \right), $$
+and we know that $\hat{\sigma}^2$ depends on sample size $n$, following:
+$$\hat{\sigma}^2 \quad = \quad \frac{1}{n-p} (Y_{obs} - Y_{pred})^T (Y_{obs} - Y_{pred}) \quad = \quad \frac{1}{n-p} \hat{\epsilon}^T \hat{\epsilon}$$
+
+Using these equations, we showed then that $SE(\beta_i) = \sqrt{diag\left( (X^TX)^{-1} \right)_i \hat{\sigma}^2}$. Let's calculate this manually and compare to the output of the `lm()` function.
+
+```{r}
+# Extract the model summary, which has useful components
+lm_out_summary = summary(lm_out)
+# Extract the estimated residual standard deviation, sigma
+est_sigma = lm_out_summary$sigma
+est_sigma
+
+# We already calculated (X^T X)^{-1} as inv_xtx
+beta_cov_mat = inv_xtx * est_sigma^2
+beta_cov_mat
+se_beta = sqrt(diag(beta_cov_mat))
+se_beta
+```
+Compare these values to the output of the `summary()` of @sec-lm-output in the column labelled `Std. Error`.  
+
+## Confidence Intervals for $\hat{B}$ {#sec-conf-beta}
+
+To calculate confidence intervals for $\hat{B}$, we first must understand the $t$ (a.k.a. Student's $t$) probability distribution. This distribution represents the case when we are estimating the mean of a normally distributed variable and either the sample size is small or the variable's standard deviation is unknown. Essentially, the $t$ distribution increases the uncertainty (i.e., variance) in cases of low sample size (i.e., small $n$). With low sample size (and/or high number of parameters), the degrees of freedom of the $t$-distribution, $\nu$ is low, whereas with high sample size, $\nu$ is large. As $\nu$ approaches infinity, the $t$-distribution approximates the standard normal distribution (i.e., $N(\mu, \sigma)|\mu=0,\sigma=1$). 
+```{r}
+#| echo: false
+
+# Generate x sequence
+n_seq = 1000
+x_seq = seq(-10, 10, length.out = n_seq)
+
+t_pdf_nu2 = dt(x_seq, df = 2)
+t_pdf_nu100 = dt(x_seq, df = 100)
+norm_pdf = dnorm(x_seq, mean = 0, sd = 1)
+
+# compare to t-100
+plot(NA,NA, xlab = "x", ylab = "P(x)", 
+     xlim = range(x_seq), ylim = c(0, 0.5))
+lines(norm_pdf~x_seq, col = "red", lwd = 2)
+lines(t_pdf_nu2~x_seq, col = "blue", lwd = 2)
+lines(t_pdf_nu100~x_seq, col = "blue", lwd = 1.2, lty = 2)
+legend(x = 2.5, y = 0.4,
+       legend = c("Standard Normal", expression(italic(t)[2]), expression(italic(t)[100])),
+       lty = c(1,1,2), col = c("red", "blue", "blue"), bty = "n")
+```
+It is the case for $\hat{B} \sim N \left( B, (X^TX)^{-1} \hat{\sigma}^2 \right)$ that we do not know the mean ($B$), and we are estimating the variance, $\hat{\sigma}^2$. Specifically, we are estimating the true mean vector, $B$, as $\hat{B}$, and we are estimating the variance of the residuals as $\hat{\sigma}^2$. We can therefore re-write the uncertainty in $\hat{B}$ as a multivariate $t$ distribution: 
+$$(\hat{B} - B) \sim t_{\nu} \left( 0, \Sigma \right),$$
+where the means are zero, $\nu$ is the degrees of freedom (i.e., $n-p$), and $\Sigma = (X^TX)^{-1} \hat{\sigma}^2$. $(\hat{B} - B)$ represents the deviation of the estimated coefficients from the true coefficients, which is why the distribution is centered around zero. It is perhaps easier to separate the individual estimated coefficients, $\beta_i$, into their separate $t$-distributions, estimated as the off-diagonals of $(X^TX)^{-1} \hat{\sigma}^2$:
+$$(\hat{\beta}_i - \beta_i) \sim t_{\nu} \hat{\sigma},$$
+which shows that the $t$-distribution is scaled by the estimated $SE(\hat{\beta}_i)$. As shown in Dr. Barber's materials, using this information, we can derive the confidence interval (at the $\alpha$ confidence level) calculation for $\hat{\beta}_i$ as: 
+$$ \hat{\beta}_i \pm t \left(\frac{1-\alpha}{2}, \nu \right) SE(\hat{\beta}_i),$$
+where the $t()$ notation represents the *critical value* of the $t$-distribution with $\nu$ degrees of freedom, $t_{crit}$, for which $P(z \le t_{crit}) = \frac{1-\alpha}{2}$, and $z$ is a continuous, random variable.
+
+::: {.callout-note}
+## Covariance of $\hat{\beta}_i$
+
+Although it is convenient and easier to digest the confidence interval of individual $\hat{\beta}_i$, we must realize that the estimates of the $\beta_i$ can covary (i.e., have non-zero covariance), which is quantified in the variance-covariance matrix of $\hat{B}$, $(X^TX)^{-1} \hat{\sigma}^2$. We will show how this is important below.
+:::
+
+Let's manually calculate the 95% confidence intervals in $\hat{B}$ and compare to R's internal function `confint()`.
+```{r}
+# Extract the degrees of freedom from the model (\nu)
+# which can also be calculated as n - p
+t_df = lm_out$df.residual
+
+# Calculate t critical for alpha = 0.05
+# This will give us the 95% conf interval (CI)
+t_crit = qt(1-(0.05/2), df = t_df)
+
+# Calculate the upper and lower CI for both betas
+ci_int = lm_coef[1] + c(-1,1)*t_crit*se_beta[1]
+ci_slope = lm_coef[2] + c(-1,1)*t_crit*se_beta[2]
+
+# Construct a table of values
+ci_mat = 
+    rbind(c(lm_coef[1], ci_int),
+          c(lm_coef[2], ci_slope))
+colnames(ci_mat) = c("coef", "lowCI", "highCI")
+rownames(ci_mat) = c("intercept", "slope")
+ci_mat
+
+# Compare these manual calculations to built-in
+# function confint(), which by default extracts the 
+# 95% CI for a lm() model's coefficients
+confint(lm_out)
+```
+## Propagate uncertainty in $\hat{B}$ for predictions of $Y$
+
+There are several ways to calculate and visualize our uncertainty in model predictions of observed data $Y$ and unobserved data of the dependent variable (i.e., interpolation). The colored lines drawn on the figure in @sec-est-plot represent the expected values of $Y$ based on the OLS analysis' estimate of $\hat{B}$, but this line does not include uncertainty in these coefficient values. 
+
+### Multivariate $t$-distribution method
+First, we will calculate uncertainty by sampling from the multivariate $t$ distribution that represents error in regression coefficients, $\hat{B}$. 
+
+```{r}
+# We will "bootstrap" 1000 samples of intercept and slope
+set.seed(3)
+n_samp = 500
+
+# Draw from the multivariate t 
+# which represents (\hat{B} - B)
+test_mat_deviates = 
+  mnormt::rmt(n_samp, mean = c(0,0), S = beta_cov_mat, df = t_df)
+
+# Now calculate the realized intercept and slope
+# using the t-distributed deviates
+test_mat_t = cbind(
+  lm_coef[1] + c(test_mat_deviates[,1]),
+  lm_coef[2] + c(test_mat_deviates[,2])
+)
+
+# Calculate the 95% quantiles and compare to the 
+# calculated 95% confidence intervals from above
+apply(test_mat_t, 
+      MARGIN = 2, # applies function (FUN) to columns (dim 2)
+      FUN = quantile, probs = c(0.025, 0.5, 0.975))
+
+# Compare
+ci_mat
+
+# Plot the relationship between intercept and slope
+# Notice the covariance
+plot(test_mat_t, xlab = "Intercept", ylab = "Slope")
+```
+
+Next, for each pair of intercept and slope randomly drawn above, we will calculate the expected values of $Y$ across the range of covariate $x$. We will then summarize the 95% quantile of expected $Y$ at each value of $x$ in this interpolation. To do this, we need a function to calculate the expected value of $Y$. This function will have the intercept and slope as inputs and will output the expected values of $Y$ across a range of $x$. Then, we will `apply()` this function using all of the values of intercept and slope, in a vectorized and therefore very efficient manner, rather than using any `for` loops. 
+
+```{r}
+# Create a matrix that holds the values of x
+# over which we want to interpolate the expected
+# values of Y
+x_fake_mat = 
+  cbind(
+    rep(1, times = 100),
+    seq(0,max(x1),length.out = 100)
+  )
+
+# Create a function that will calculate the expected values
+y_hat_fun = function(x, x_mat){
+  x_mat %*% x
+}
+
+# Apply this function to all intercepts and slopes that
+# we drew from the multivariate t
+y_pred_mt = apply(test_mat_t, 1, y_hat_fun, x_mat=x_fake_mat)
+
+# Summarize the 95% quantile of the expected value of Y
+# at each value of x 
+y_pred_mt_summary = apply(y_pred_mt, 1, quantile, probs = c(0.025, 0.975))
+str(y_pred_mt_summary)
+```
+
+### `predict()` function method
+
+R has a built-in function `predict()` (see specific variant `predict.lm()`) which calculates expected values of the dependent variable from a linear regression model estimated using the function `lm()`.
+
+```{r}
+# Note that 'newdata' must be a data frame that includes the ranges
+# of each covariate in the regression model for which you want 
+# to generate interpolated or predicted values of the dependent variable
+
+# Here we are calculated the expected values as well as the 
+# 95% confidence intervals for those expected values
+y_predict = predict(lm_out,
+                 newdata = data.frame(x1 = c(x_fake_mat[,2])),
+                 interval = "confidence", level = 0.95)
+str(y_predict)
+```
+
+### Compare the two methods 
+
+Let's visualize the output of the two methods to compare. 
+
+```{r}
+# plot
+plot(x=NA,y=NA,xlab = "x", ylab = "y",
+     xlim = c(0,max(x1)), ylim = c(-5, 25), pch = 19)
+# Plot the expected values of Y for each pair of int/slope 
+for(i in 1:n_samp){
+  lines(y_pred_mt[,i] ~ x_fake_mat[,2],
+        # Reduce the opacity of each line
+        col = scales::alpha("black", alpha = 0.1), lwd = 2)
+}
+# Add the data points
+points(y ~ x1, col = 'orange', pch = 19, cex = 2)
+# Add the expected values of Y from \hat{B}
+abline(coef = lm_coef, col = "orange", lwd = 3)
+# Add the conf int of expected Y using multivariate t
+lines(y_pred_mt_summary[1,] ~ x_fake_mat[,2], lty = 2, lwd = 3, col = "orange")
+lines(y_pred_mt_summary[2,] ~ x_fake_mat[,2], lty = 2, lwd = 3, col = "orange")
+# Add the conf int of expected Y using predict() function
+lines(y_predict[,"lwr"]~ x_fake_mat[,2], lty = 3, lwd = 3, col = "purple")
+lines(y_predict[,"upr"]~ x_fake_mat[,2], lty = 3, lwd = 3, col = "purple")
+```
+There is yet a third option to calculate the uncertainty in predicted (i.e., interpolated or extrapolated) values of 
+$Y$, which is to derive an exact calculation of the confidence interval using the $t$ distribution, similar to that shown in @sec-conf-beta. See Ch4.1 of Dr. Barber's book for this derivation. 
+
 
 ## Footnotes
 
