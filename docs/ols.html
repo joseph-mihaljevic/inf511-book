@@ -492,7 +492,7 @@ F-statistic: 6.153 on 1 and 2 DF,  p-value: 0.1313</code></pre>
 <p><img src="ols_files/figure-html/unnamed-chunk-16-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
-<p>It is the case for <span class="math inline">\(\hat{B} \sim N \left( B, (X^TX)^{-1} \hat{\sigma}^2 \right)\)</span> that we do not know the mean (<span class="math inline">\(B\)</span>), and we are estimating the variance, <span class="math inline">\(\hat{\sigma}^2\)</span>. Specifically, we are estimating the true mean vector, <span class="math inline">\(B\)</span>, as <span class="math inline">\(\hat{B}\)</span>, and we are estimating the variance of the residuals as <span class="math inline">\(\hat{\sigma}^2\)</span>. We can therefore re-write the uncertainty in <span class="math inline">\(\hat{B}\)</span> as a multivariate <span class="math inline">\(t\)</span> distribution: <span class="math display">\[(\hat{B} - B) \sim t_{\nu} \left( 0, \Sigma \right),\]</span> where the means are zero, <span class="math inline">\(\nu\)</span> is the degrees of freedom (i.e., <span class="math inline">\(n-p\)</span>), and <span class="math inline">\(\Sigma = (X^TX)^{-1} \hat{\sigma}^2\)</span>. <span class="math inline">\((\hat{B} - B)\)</span> represents the deviation of the estimated coefficients from the true coefficients, which is why the distribution is centered around zero. It is perhaps easier to separate the individual estimated coefficients, <span class="math inline">\(\beta_i\)</span>, into their separate <span class="math inline">\(t\)</span>-distributions, estimated as the off-diagonals of <span class="math inline">\((X^TX)^{-1} \hat{\sigma}^2\)</span>: <span class="math display">\[(\hat{\beta}_i - \beta_i) \sim t_{\nu} \hat{\sigma},\]</span> which shows that the <span class="math inline">\(t\)</span>-distribution is scaled by the estimated <span class="math inline">\(SE(\hat{\beta}_i)\)</span>. As shown in Dr.&nbsp;Barber’s materials, using this information, we can derive the confidence interval (at the <span class="math inline">\(\alpha\)</span> confidence level) calculation for <span class="math inline">\(\hat{\beta}_i\)</span> as: <span class="math display">\[ \hat{\beta}_i \pm t \left(\frac{1-\alpha}{2}, \nu \right) SE(\hat{\beta}_i),\]</span> where the <span class="math inline">\(t()\)</span> notation represents the <em>critical value</em> of the <span class="math inline">\(t\)</span>-distribution with <span class="math inline">\(\nu\)</span> degrees of freedom, <span class="math inline">\(t_{crit}\)</span>, for which <span class="math inline">\(P(z \le t_{crit}) = \frac{1-\alpha}{2}\)</span>, and <span class="math inline">\(z\)</span> is a continuous, random variable.</p>
+<p>It is the case for <span class="math inline">\(\hat{B} \sim N \left( B, (X^TX)^{-1} \hat{\sigma}^2 \right)\)</span> that we do not know the mean (<span class="math inline">\(B\)</span>), and we are estimating the variance, <span class="math inline">\(\hat{\sigma}^2\)</span>. Specifically, we are estimating the true mean vector, <span class="math inline">\(B\)</span>, as <span class="math inline">\(\hat{B}\)</span>, and we are estimating the variance of the residuals as <span class="math inline">\(\hat{\sigma}^2\)</span>. We can therefore re-write the uncertainty in <span class="math inline">\(\hat{B}\)</span> as a multivariate <span class="math inline">\(t\)</span> distribution: <span class="math display">\[(\hat{B} - B) \sim t_{\nu} \left( 0, \Sigma \right),\]</span> where the means are zero, <span class="math inline">\(\nu\)</span> is the degrees of freedom (i.e., <span class="math inline">\(n-p\)</span>), and <span class="math inline">\(\Sigma = (X^TX)^{-1} \hat{\sigma}^2\)</span>. <span class="math inline">\((\hat{B} - B)\)</span> represents the deviation of the estimated coefficients from the true coefficients, which is why the distribution is centered around zero. It is perhaps easier to separate the individual estimated coefficients, <span class="math inline">\(\beta_i\)</span>, into their separate <span class="math inline">\(t\)</span>-distributions: <span class="math display">\[\frac{(\hat{\beta}_i - \beta_i)}{SE(\hat{\beta}_i)} \sim t_{\nu}\]</span> <span class="math display">\[(\hat{\beta}_i - \beta_i) \sim t_{\nu} SE(\hat{\beta}_i),\]</span> which shows that the <span class="math inline">\(t\)</span>-distribution that describes the deviation of regression coefficients from the true value of those coefficients is scaled by the uncertainty in the estimated coefficients <span class="math inline">\(SE(\hat{\beta}_i)\)</span>. As shown in Dr.&nbsp;Barber’s materials, using this information, we can derive the confidence interval (at the <span class="math inline">\(\alpha\)</span> confidence level) calculation for <span class="math inline">\(\hat{\beta}_i\)</span> as: <span class="math display">\[ \hat{\beta}_i \pm t \left(\frac{1-\alpha}{2}, \nu \right) SE(\hat{\beta}_i),\]</span> where the <span class="math inline">\(t()\)</span> notation represents the <em>critical value</em> of the <span class="math inline">\(t\)</span>-distribution, <span class="math inline">\(t_{crit}\)</span>, with <span class="math inline">\(\nu\)</span> degrees of freedom, for which <span class="math inline">\(P(z \le t_{crit}) = \frac{1-\alpha}{2}\)</span>, and <span class="math inline">\(z\)</span> is a continuous, random variable. This critical value can be calculated in R using the <code><a href="https://rdrr.io/r/stats/TDist.html">qt()</a></code> function, which we show below.</p>
 <div class="callout-note callout callout-style-default callout-captioned">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -503,7 +503,7 @@ Covariance of <span class="math inline">\(\hat{\beta}_i\)</span>
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Although it is convenient and easier to digest the confidence interval of individual <span class="math inline">\(\hat{\beta}_i\)</span>, we must realize that the estimates of the <span class="math inline">\(\beta_i\)</span> can covary (i.e., have non-zero covariance), which is quantified in the variance-covariance matrix of <span class="math inline">\(\hat{B}\)</span>, <span class="math inline">\((X^TX)^{-1} \hat{\sigma}^2\)</span>. We will show how this is important below.</p>
+<p>Although it is convenient and easier to digest the confidence interval of individual <span class="math inline">\(\hat{\beta}_i\)</span>, we must realize that the estimates of the <span class="math inline">\(\beta_i\)</span> can covary (i.e., have non-zero covariance), which is quantified in the variance-covariance matrix of <span class="math inline">\(\hat{B}\)</span>, <span class="math inline">\((X^TX)^{-1} \hat{\sigma}^2\)</span>. We will show why this is important below.</p>
 </div>
 </div>
 <p>Let’s manually calculate the 95% confidence intervals in <span class="math inline">\(\hat{B}\)</span> and compare to R’s internal function <code><a href="https://rdrr.io/r/stats/confint.html">confint()</a></code>.</p>
@@ -1145,222 +1145,223 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb54-209"><a href="#cb54-209" aria-hidden="true" tabindex="-1"></a><span class="co"># compare to t-100</span></span>
 <span id="cb54-210"><a href="#cb54-210" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="cn">NA</span>,<span class="cn">NA</span>, <span class="at">xlab =</span> <span class="st">"x"</span>, <span class="at">ylab =</span> <span class="st">"P(x)"</span>, </span>
 <span id="cb54-211"><a href="#cb54-211" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlim =</span> <span class="fu">range</span>(x_seq), <span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="fl">0.5</span>))</span>
-<span id="cb54-212"><a href="#cb54-212" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(norm_pdf<span class="sc">~</span>x_seq, <span class="at">col =</span> <span class="st">"red"</span>, <span class="at">lwd =</span> <span class="dv">2</span>)</span>
-<span id="cb54-213"><a href="#cb54-213" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(t_pdf_nu2<span class="sc">~</span>x_seq, <span class="at">col =</span> <span class="st">"blue"</span>, <span class="at">lwd =</span> <span class="dv">2</span>)</span>
-<span id="cb54-214"><a href="#cb54-214" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(t_pdf_nu100<span class="sc">~</span>x_seq, <span class="at">col =</span> <span class="st">"blue"</span>, <span class="at">lwd =</span> <span class="fl">1.2</span>, <span class="at">lty =</span> <span class="dv">2</span>)</span>
+<span id="cb54-212"><a href="#cb54-212" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(norm_pdf<span class="sc">~</span>x_seq, <span class="at">col =</span> <span class="st">"red"</span>, <span class="at">lwd =</span> <span class="dv">3</span>)</span>
+<span id="cb54-213"><a href="#cb54-213" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(t_pdf_nu2<span class="sc">~</span>x_seq, <span class="at">col =</span> <span class="st">"blue"</span>, <span class="at">lwd =</span> <span class="dv">3</span>)</span>
+<span id="cb54-214"><a href="#cb54-214" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(t_pdf_nu100<span class="sc">~</span>x_seq, <span class="at">col =</span> <span class="st">"blue"</span>, <span class="at">lwd =</span> <span class="fl">2.5</span>, <span class="at">lty =</span> <span class="dv">2</span>)</span>
 <span id="cb54-215"><a href="#cb54-215" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>(<span class="at">x =</span> <span class="fl">2.5</span>, <span class="at">y =</span> <span class="fl">0.4</span>,</span>
 <span id="cb54-216"><a href="#cb54-216" aria-hidden="true" tabindex="-1"></a>       <span class="at">legend =</span> <span class="fu">c</span>(<span class="st">"Standard Normal"</span>, <span class="fu">expression</span>(<span class="fu">italic</span>(t)[<span class="dv">2</span>]), <span class="fu">expression</span>(<span class="fu">italic</span>(t)[<span class="dv">100</span>])),</span>
-<span id="cb54-217"><a href="#cb54-217" aria-hidden="true" tabindex="-1"></a>       <span class="at">lty =</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">2</span>), <span class="at">col =</span> <span class="fu">c</span>(<span class="st">"red"</span>, <span class="st">"blue"</span>, <span class="st">"blue"</span>), <span class="at">bty =</span> <span class="st">"n"</span>)</span>
+<span id="cb54-217"><a href="#cb54-217" aria-hidden="true" tabindex="-1"></a>       <span class="at">lty =</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">2</span>), <span class="at">lwd=</span> <span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">2</span>,<span class="dv">2</span>), <span class="at">col =</span> <span class="fu">c</span>(<span class="st">"red"</span>, <span class="st">"blue"</span>, <span class="st">"blue"</span>), <span class="at">bty =</span> <span class="st">"n"</span>)</span>
 <span id="cb54-218"><a href="#cb54-218" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb54-219"><a href="#cb54-219" aria-hidden="true" tabindex="-1"></a>It is the case for $\hat{B} \sim N \left( B, (X^TX)^{-1} \hat{\sigma}^2 \right)$ that we do not know the mean ($B$), and we are estimating the variance, $\hat{\sigma}^2$. Specifically, we are estimating the true mean vector, $B$, as $\hat{B}$, and we are estimating the variance of the residuals as $\hat{\sigma}^2$. We can therefore re-write the uncertainty in $\hat{B}$ as a multivariate $t$ distribution: </span>
 <span id="cb54-220"><a href="#cb54-220" aria-hidden="true" tabindex="-1"></a>$$(\hat{B} - B) \sim t_{\nu} \left( 0, \Sigma \right),$$</span>
-<span id="cb54-221"><a href="#cb54-221" aria-hidden="true" tabindex="-1"></a>where the means are zero, $\nu$ is the degrees of freedom (i.e., $n-p$), and $\Sigma = (X^TX)^{-1} \hat{\sigma}^2$. $(\hat{B} - B)$ represents the deviation of the estimated coefficients from the true coefficients, which is why the distribution is centered around zero. It is perhaps easier to separate the individual estimated coefficients, $\beta_i$, into their separate $t$-distributions, estimated as the off-diagonals of $(X^TX)^{-1} \hat{\sigma}^2$:</span>
-<span id="cb54-222"><a href="#cb54-222" aria-hidden="true" tabindex="-1"></a>$$(\hat{\beta}_i - \beta_i) \sim t_{\nu} \hat{\sigma},$$</span>
-<span id="cb54-223"><a href="#cb54-223" aria-hidden="true" tabindex="-1"></a>which shows that the $t$-distribution is scaled by the estimated $SE(\hat{\beta}_i)$. As shown in Dr. Barber's materials, using this information, we can derive the confidence interval (at the $\alpha$ confidence level) calculation for $\hat{\beta}_i$ as: </span>
-<span id="cb54-224"><a href="#cb54-224" aria-hidden="true" tabindex="-1"></a>$$ \hat{\beta}_i \pm t \left(\frac{1-\alpha}{2}, \nu \right) SE(\hat{\beta}_i),$$</span>
-<span id="cb54-225"><a href="#cb54-225" aria-hidden="true" tabindex="-1"></a>where the $t()$ notation represents the *critical value* of the $t$-distribution with $\nu$ degrees of freedom, $t_{crit}$, for which $P(z \le t_{crit}) = \frac{1-\alpha}{2}$, and $z$ is a continuous, random variable.</span>
-<span id="cb54-226"><a href="#cb54-226" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb54-227"><a href="#cb54-227" aria-hidden="true" tabindex="-1"></a>::: {.callout-note}</span>
-<span id="cb54-228"><a href="#cb54-228" aria-hidden="true" tabindex="-1"></a><span class="fu">## Covariance of $\hat{\beta}_i$</span></span>
-<span id="cb54-229"><a href="#cb54-229" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb54-230"><a href="#cb54-230" aria-hidden="true" tabindex="-1"></a>Although it is convenient and easier to digest the confidence interval of individual $\hat{\beta}_i$, we must realize that the estimates of the $\beta_i$ can covary (i.e., have non-zero covariance), which is quantified in the variance-covariance matrix of $\hat{B}$, $(X^TX)^{-1} \hat{\sigma}^2$. We will show how this is important below.</span>
-<span id="cb54-231"><a href="#cb54-231" aria-hidden="true" tabindex="-1"></a>:::</span>
-<span id="cb54-232"><a href="#cb54-232" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb54-233"><a href="#cb54-233" aria-hidden="true" tabindex="-1"></a>Let's manually calculate the 95% confidence intervals in $\hat{B}$ and compare to R's internal function <span class="in">`confint()`</span>.</span>
-<span id="cb54-236"><a href="#cb54-236" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb54-237"><a href="#cb54-237" aria-hidden="true" tabindex="-1"></a><span class="co"># Extract the degrees of freedom from the model (\nu)</span></span>
-<span id="cb54-238"><a href="#cb54-238" aria-hidden="true" tabindex="-1"></a><span class="co"># which can also be calculated as n - p</span></span>
-<span id="cb54-239"><a href="#cb54-239" aria-hidden="true" tabindex="-1"></a>t_df <span class="ot">=</span> lm_out<span class="sc">$</span>df.residual</span>
-<span id="cb54-240"><a href="#cb54-240" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb54-241"><a href="#cb54-241" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate t critical for alpha = 0.05</span></span>
-<span id="cb54-242"><a href="#cb54-242" aria-hidden="true" tabindex="-1"></a><span class="co"># This will give us the 95% conf interval (CI)</span></span>
-<span id="cb54-243"><a href="#cb54-243" aria-hidden="true" tabindex="-1"></a>t_crit <span class="ot">=</span> <span class="fu">qt</span>(<span class="dv">1</span><span class="sc">-</span>(<span class="fl">0.05</span><span class="sc">/</span><span class="dv">2</span>), <span class="at">df =</span> t_df)</span>
-<span id="cb54-244"><a href="#cb54-244" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb54-245"><a href="#cb54-245" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate the upper and lower CI for both betas</span></span>
-<span id="cb54-246"><a href="#cb54-246" aria-hidden="true" tabindex="-1"></a>ci_int <span class="ot">=</span> lm_coef[<span class="dv">1</span>] <span class="sc">+</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">1</span>,<span class="dv">1</span>)<span class="sc">*</span>t_crit<span class="sc">*</span>se_beta[<span class="dv">1</span>]</span>
-<span id="cb54-247"><a href="#cb54-247" aria-hidden="true" tabindex="-1"></a>ci_slope <span class="ot">=</span> lm_coef[<span class="dv">2</span>] <span class="sc">+</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">1</span>,<span class="dv">1</span>)<span class="sc">*</span>t_crit<span class="sc">*</span>se_beta[<span class="dv">2</span>]</span>
-<span id="cb54-248"><a href="#cb54-248" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb54-249"><a href="#cb54-249" aria-hidden="true" tabindex="-1"></a><span class="co"># Construct a table of values</span></span>
-<span id="cb54-250"><a href="#cb54-250" aria-hidden="true" tabindex="-1"></a>ci_mat <span class="ot">=</span> </span>
-<span id="cb54-251"><a href="#cb54-251" aria-hidden="true" tabindex="-1"></a>    <span class="fu">rbind</span>(<span class="fu">c</span>(lm_coef[<span class="dv">1</span>], ci_int),</span>
-<span id="cb54-252"><a href="#cb54-252" aria-hidden="true" tabindex="-1"></a>          <span class="fu">c</span>(lm_coef[<span class="dv">2</span>], ci_slope))</span>
-<span id="cb54-253"><a href="#cb54-253" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(ci_mat) <span class="ot">=</span> <span class="fu">c</span>(<span class="st">"coef"</span>, <span class="st">"lowCI"</span>, <span class="st">"highCI"</span>)</span>
-<span id="cb54-254"><a href="#cb54-254" aria-hidden="true" tabindex="-1"></a><span class="fu">rownames</span>(ci_mat) <span class="ot">=</span> <span class="fu">c</span>(<span class="st">"intercept"</span>, <span class="st">"slope"</span>)</span>
-<span id="cb54-255"><a href="#cb54-255" aria-hidden="true" tabindex="-1"></a>ci_mat</span>
-<span id="cb54-256"><a href="#cb54-256" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb54-257"><a href="#cb54-257" aria-hidden="true" tabindex="-1"></a><span class="co"># Compare these manual calculations to built-in</span></span>
-<span id="cb54-258"><a href="#cb54-258" aria-hidden="true" tabindex="-1"></a><span class="co"># function confint(), which by default extracts the </span></span>
-<span id="cb54-259"><a href="#cb54-259" aria-hidden="true" tabindex="-1"></a><span class="co"># 95% CI for a lm() model's coefficients</span></span>
-<span id="cb54-260"><a href="#cb54-260" aria-hidden="true" tabindex="-1"></a><span class="fu">confint</span>(lm_out)</span>
-<span id="cb54-261"><a href="#cb54-261" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb54-262"><a href="#cb54-262" aria-hidden="true" tabindex="-1"></a><span class="fu">## Propagate uncertainty in $\hat{B}$ for predictions of $Y$</span></span>
-<span id="cb54-263"><a href="#cb54-263" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb54-264"><a href="#cb54-264" aria-hidden="true" tabindex="-1"></a>There are several ways to calculate and visualize our uncertainty in model predictions of observed data $Y$ and unobserved data of the dependent variable (i.e., interpolation). The colored lines drawn on the figure in @sec-est-plot represent the expected values of $Y$ based on the OLS analysis' estimate of $\hat{B}$, but this line does not include uncertainty in these coefficient values. </span>
-<span id="cb54-265"><a href="#cb54-265" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb54-266"><a href="#cb54-266" aria-hidden="true" tabindex="-1"></a><span class="fu">### Multivariate $t$-distribution method</span></span>
-<span id="cb54-267"><a href="#cb54-267" aria-hidden="true" tabindex="-1"></a>First, we will calculate uncertainty by sampling from the multivariate $t$ distribution that represents error in regression coefficients, $\hat{B}$. </span>
-<span id="cb54-268"><a href="#cb54-268" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb54-271"><a href="#cb54-271" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb54-272"><a href="#cb54-272" aria-hidden="true" tabindex="-1"></a><span class="co"># We will "bootstrap" 1000 samples of intercept and slope</span></span>
-<span id="cb54-273"><a href="#cb54-273" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">3</span>)</span>
-<span id="cb54-274"><a href="#cb54-274" aria-hidden="true" tabindex="-1"></a>n_samp <span class="ot">=</span> <span class="dv">500</span></span>
-<span id="cb54-275"><a href="#cb54-275" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb54-276"><a href="#cb54-276" aria-hidden="true" tabindex="-1"></a><span class="co"># Draw from the multivariate t </span></span>
-<span id="cb54-277"><a href="#cb54-277" aria-hidden="true" tabindex="-1"></a><span class="co"># which represents (\hat{B} - B)</span></span>
-<span id="cb54-278"><a href="#cb54-278" aria-hidden="true" tabindex="-1"></a>test_mat_deviates <span class="ot">=</span> </span>
-<span id="cb54-279"><a href="#cb54-279" aria-hidden="true" tabindex="-1"></a>  mnormt<span class="sc">::</span><span class="fu">rmt</span>(n_samp, <span class="at">mean =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">0</span>), <span class="at">S =</span> beta_cov_mat, <span class="at">df =</span> t_df)</span>
-<span id="cb54-280"><a href="#cb54-280" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb54-281"><a href="#cb54-281" aria-hidden="true" tabindex="-1"></a><span class="co"># Now calculate the realized intercept and slope</span></span>
-<span id="cb54-282"><a href="#cb54-282" aria-hidden="true" tabindex="-1"></a><span class="co"># using the t-distributed deviates</span></span>
-<span id="cb54-283"><a href="#cb54-283" aria-hidden="true" tabindex="-1"></a>test_mat_t <span class="ot">=</span> <span class="fu">cbind</span>(</span>
-<span id="cb54-284"><a href="#cb54-284" aria-hidden="true" tabindex="-1"></a>  lm_coef[<span class="dv">1</span>] <span class="sc">+</span> <span class="fu">c</span>(test_mat_deviates[,<span class="dv">1</span>]),</span>
-<span id="cb54-285"><a href="#cb54-285" aria-hidden="true" tabindex="-1"></a>  lm_coef[<span class="dv">2</span>] <span class="sc">+</span> <span class="fu">c</span>(test_mat_deviates[,<span class="dv">2</span>])</span>
-<span id="cb54-286"><a href="#cb54-286" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb54-287"><a href="#cb54-287" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb54-288"><a href="#cb54-288" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate the 95% quantiles and compare to the </span></span>
-<span id="cb54-289"><a href="#cb54-289" aria-hidden="true" tabindex="-1"></a><span class="co"># calculated 95% confidence intervals from above</span></span>
-<span id="cb54-290"><a href="#cb54-290" aria-hidden="true" tabindex="-1"></a><span class="fu">apply</span>(test_mat_t, </span>
-<span id="cb54-291"><a href="#cb54-291" aria-hidden="true" tabindex="-1"></a>      <span class="at">MARGIN =</span> <span class="dv">2</span>, <span class="co"># applies function (FUN) to columns (dim 2)</span></span>
-<span id="cb54-292"><a href="#cb54-292" aria-hidden="true" tabindex="-1"></a>      <span class="at">FUN =</span> quantile, <span class="at">probs =</span> <span class="fu">c</span>(<span class="fl">0.025</span>, <span class="fl">0.5</span>, <span class="fl">0.975</span>))</span>
-<span id="cb54-293"><a href="#cb54-293" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb54-294"><a href="#cb54-294" aria-hidden="true" tabindex="-1"></a><span class="co"># Compare</span></span>
-<span id="cb54-295"><a href="#cb54-295" aria-hidden="true" tabindex="-1"></a>ci_mat</span>
-<span id="cb54-296"><a href="#cb54-296" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb54-297"><a href="#cb54-297" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot the relationship between intercept and slope</span></span>
-<span id="cb54-298"><a href="#cb54-298" aria-hidden="true" tabindex="-1"></a><span class="co"># Notice the covariance</span></span>
-<span id="cb54-299"><a href="#cb54-299" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(test_mat_t, <span class="at">xlab =</span> <span class="st">"Intercept"</span>, <span class="at">ylab =</span> <span class="st">"Slope"</span>)</span>
-<span id="cb54-300"><a href="#cb54-300" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb54-301"><a href="#cb54-301" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb54-302"><a href="#cb54-302" aria-hidden="true" tabindex="-1"></a>Next, for each pair of intercept and slope randomly drawn above, we will calculate the expected values of $Y$ across the range of covariate $x$. We will then summarize the 95% quantile of expected $Y$ at each value of $x$ in this interpolation. To do this, we need a function to calculate the expected value of $Y$. This function will have the intercept and slope as inputs and will output the expected values of $Y$ across a range of $x$. Then, we will <span class="in">`apply()`</span> this function using all of the values of intercept and slope, in a vectorized and therefore very efficient manner, rather than using any <span class="in">`for`</span> loops. </span>
-<span id="cb54-303"><a href="#cb54-303" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb54-306"><a href="#cb54-306" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb54-307"><a href="#cb54-307" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a matrix that holds the values of x</span></span>
-<span id="cb54-308"><a href="#cb54-308" aria-hidden="true" tabindex="-1"></a><span class="co"># over which we want to interpolate the expected</span></span>
-<span id="cb54-309"><a href="#cb54-309" aria-hidden="true" tabindex="-1"></a><span class="co"># values of Y</span></span>
-<span id="cb54-310"><a href="#cb54-310" aria-hidden="true" tabindex="-1"></a>x_fake_mat <span class="ot">=</span> </span>
-<span id="cb54-311"><a href="#cb54-311" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cbind</span>(</span>
-<span id="cb54-312"><a href="#cb54-312" aria-hidden="true" tabindex="-1"></a>    <span class="fu">rep</span>(<span class="dv">1</span>, <span class="at">times =</span> <span class="dv">100</span>),</span>
-<span id="cb54-313"><a href="#cb54-313" aria-hidden="true" tabindex="-1"></a>    <span class="fu">seq</span>(<span class="dv">0</span>,<span class="fu">max</span>(x1),<span class="at">length.out =</span> <span class="dv">100</span>)</span>
-<span id="cb54-314"><a href="#cb54-314" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb54-315"><a href="#cb54-315" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb54-316"><a href="#cb54-316" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a function that will calculate the expected values</span></span>
-<span id="cb54-317"><a href="#cb54-317" aria-hidden="true" tabindex="-1"></a>y_hat_fun <span class="ot">=</span> <span class="cf">function</span>(x, x_mat){</span>
-<span id="cb54-318"><a href="#cb54-318" aria-hidden="true" tabindex="-1"></a>  x_mat <span class="sc">%*%</span> x</span>
-<span id="cb54-319"><a href="#cb54-319" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb54-320"><a href="#cb54-320" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb54-321"><a href="#cb54-321" aria-hidden="true" tabindex="-1"></a><span class="co"># Apply this function to all intercepts and slopes that</span></span>
-<span id="cb54-322"><a href="#cb54-322" aria-hidden="true" tabindex="-1"></a><span class="co"># we drew from the multivariate t</span></span>
-<span id="cb54-323"><a href="#cb54-323" aria-hidden="true" tabindex="-1"></a>y_pred_mt <span class="ot">=</span> <span class="fu">apply</span>(test_mat_t, <span class="dv">1</span>, y_hat_fun, <span class="at">x_mat=</span>x_fake_mat)</span>
-<span id="cb54-324"><a href="#cb54-324" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb54-325"><a href="#cb54-325" aria-hidden="true" tabindex="-1"></a><span class="co"># Summarize the 95% quantile of the expected value of Y</span></span>
-<span id="cb54-326"><a href="#cb54-326" aria-hidden="true" tabindex="-1"></a><span class="co"># at each value of x </span></span>
-<span id="cb54-327"><a href="#cb54-327" aria-hidden="true" tabindex="-1"></a>y_pred_mt_summary <span class="ot">=</span> <span class="fu">apply</span>(y_pred_mt, <span class="dv">1</span>, quantile, <span class="at">probs =</span> <span class="fu">c</span>(<span class="fl">0.025</span>, <span class="fl">0.975</span>))</span>
-<span id="cb54-328"><a href="#cb54-328" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(y_pred_mt_summary)</span>
-<span id="cb54-329"><a href="#cb54-329" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb54-330"><a href="#cb54-330" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb54-331"><a href="#cb54-331" aria-hidden="true" tabindex="-1"></a><span class="fu">### `predict()` function method</span></span>
-<span id="cb54-332"><a href="#cb54-332" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb54-333"><a href="#cb54-333" aria-hidden="true" tabindex="-1"></a>R has a built-in function <span class="in">`predict()`</span> (see specific variant <span class="in">`predict.lm()`</span>) which calculates expected values of the dependent variable from a linear regression model estimated using the function <span class="in">`lm()`</span>.</span>
-<span id="cb54-334"><a href="#cb54-334" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb54-337"><a href="#cb54-337" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb54-338"><a href="#cb54-338" aria-hidden="true" tabindex="-1"></a><span class="co"># Note that 'newdata' must be a data frame that includes the ranges</span></span>
-<span id="cb54-339"><a href="#cb54-339" aria-hidden="true" tabindex="-1"></a><span class="co"># of each covariate in the regression model for which you want </span></span>
-<span id="cb54-340"><a href="#cb54-340" aria-hidden="true" tabindex="-1"></a><span class="co"># to generate interpolated or predicted values of the dependent variable</span></span>
-<span id="cb54-341"><a href="#cb54-341" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb54-342"><a href="#cb54-342" aria-hidden="true" tabindex="-1"></a><span class="co"># Here we are calculated the expected values as well as the </span></span>
-<span id="cb54-343"><a href="#cb54-343" aria-hidden="true" tabindex="-1"></a><span class="co"># 95% confidence intervals for those expected values</span></span>
-<span id="cb54-344"><a href="#cb54-344" aria-hidden="true" tabindex="-1"></a>y_predict <span class="ot">=</span> <span class="fu">predict</span>(lm_out,</span>
-<span id="cb54-345"><a href="#cb54-345" aria-hidden="true" tabindex="-1"></a>                 <span class="at">newdata =</span> <span class="fu">data.frame</span>(<span class="at">x1 =</span> <span class="fu">c</span>(x_fake_mat[,<span class="dv">2</span>])),</span>
-<span id="cb54-346"><a href="#cb54-346" aria-hidden="true" tabindex="-1"></a>                 <span class="at">interval =</span> <span class="st">"confidence"</span>, <span class="at">level =</span> <span class="fl">0.95</span>)</span>
-<span id="cb54-347"><a href="#cb54-347" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(y_predict)</span>
-<span id="cb54-348"><a href="#cb54-348" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb54-349"><a href="#cb54-349" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb54-350"><a href="#cb54-350" aria-hidden="true" tabindex="-1"></a><span class="fu">### Compare the two methods </span></span>
-<span id="cb54-351"><a href="#cb54-351" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb54-352"><a href="#cb54-352" aria-hidden="true" tabindex="-1"></a>Let's visualize the output of the two methods to compare. </span>
-<span id="cb54-353"><a href="#cb54-353" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb54-356"><a href="#cb54-356" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb54-357"><a href="#cb54-357" aria-hidden="true" tabindex="-1"></a><span class="co"># plot</span></span>
-<span id="cb54-358"><a href="#cb54-358" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="at">x=</span><span class="cn">NA</span>,<span class="at">y=</span><span class="cn">NA</span>,<span class="at">xlab =</span> <span class="st">"x"</span>, <span class="at">ylab =</span> <span class="st">"y"</span>,</span>
-<span id="cb54-359"><a href="#cb54-359" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlim =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="fu">max</span>(x1)), <span class="at">ylim =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">5</span>, <span class="dv">25</span>), <span class="at">pch =</span> <span class="dv">19</span>)</span>
-<span id="cb54-360"><a href="#cb54-360" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot the expected values of Y for each pair of int/slope </span></span>
-<span id="cb54-361"><a href="#cb54-361" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>n_samp){</span>
-<span id="cb54-362"><a href="#cb54-362" aria-hidden="true" tabindex="-1"></a>  <span class="fu">lines</span>(y_pred_mt[,i] <span class="sc">~</span> x_fake_mat[,<span class="dv">2</span>],</span>
-<span id="cb54-363"><a href="#cb54-363" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Reduce the opacity of each line</span></span>
-<span id="cb54-364"><a href="#cb54-364" aria-hidden="true" tabindex="-1"></a>        <span class="at">col =</span> scales<span class="sc">::</span><span class="fu">alpha</span>(<span class="st">"black"</span>, <span class="at">alpha =</span> <span class="fl">0.1</span>), <span class="at">lwd =</span> <span class="dv">2</span>)</span>
-<span id="cb54-365"><a href="#cb54-365" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb54-366"><a href="#cb54-366" aria-hidden="true" tabindex="-1"></a><span class="co"># Add the data points</span></span>
-<span id="cb54-367"><a href="#cb54-367" aria-hidden="true" tabindex="-1"></a><span class="fu">points</span>(y <span class="sc">~</span> x1, <span class="at">col =</span> <span class="st">'orange'</span>, <span class="at">pch =</span> <span class="dv">19</span>, <span class="at">cex =</span> <span class="dv">2</span>)</span>
-<span id="cb54-368"><a href="#cb54-368" aria-hidden="true" tabindex="-1"></a><span class="co"># Add the expected values of Y from \hat{B}</span></span>
-<span id="cb54-369"><a href="#cb54-369" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">coef =</span> lm_coef, <span class="at">col =</span> <span class="st">"orange"</span>, <span class="at">lwd =</span> <span class="dv">3</span>)</span>
-<span id="cb54-370"><a href="#cb54-370" aria-hidden="true" tabindex="-1"></a><span class="co"># Add the conf int of expected Y using multivariate t</span></span>
-<span id="cb54-371"><a href="#cb54-371" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(y_pred_mt_summary[<span class="dv">1</span>,] <span class="sc">~</span> x_fake_mat[,<span class="dv">2</span>], <span class="at">lty =</span> <span class="dv">2</span>, <span class="at">lwd =</span> <span class="dv">3</span>, <span class="at">col =</span> <span class="st">"orange"</span>)</span>
-<span id="cb54-372"><a href="#cb54-372" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(y_pred_mt_summary[<span class="dv">2</span>,] <span class="sc">~</span> x_fake_mat[,<span class="dv">2</span>], <span class="at">lty =</span> <span class="dv">2</span>, <span class="at">lwd =</span> <span class="dv">3</span>, <span class="at">col =</span> <span class="st">"orange"</span>)</span>
-<span id="cb54-373"><a href="#cb54-373" aria-hidden="true" tabindex="-1"></a><span class="co"># Add the conf int of expected Y using predict() function</span></span>
-<span id="cb54-374"><a href="#cb54-374" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(y_predict[,<span class="st">"lwr"</span>]<span class="sc">~</span> x_fake_mat[,<span class="dv">2</span>], <span class="at">lty =</span> <span class="dv">3</span>, <span class="at">lwd =</span> <span class="dv">3</span>, <span class="at">col =</span> <span class="st">"purple"</span>)</span>
-<span id="cb54-375"><a href="#cb54-375" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(y_predict[,<span class="st">"upr"</span>]<span class="sc">~</span> x_fake_mat[,<span class="dv">2</span>], <span class="at">lty =</span> <span class="dv">3</span>, <span class="at">lwd =</span> <span class="dv">3</span>, <span class="at">col =</span> <span class="st">"purple"</span>)</span>
-<span id="cb54-376"><a href="#cb54-376" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb54-377"><a href="#cb54-377" aria-hidden="true" tabindex="-1"></a>There is yet a third option to calculate the uncertainty in predicted (i.e., interpolated or extrapolated) values of </span>
-<span id="cb54-378"><a href="#cb54-378" aria-hidden="true" tabindex="-1"></a>$Y$, which is to derive an exact calculation of the confidence interval using the $t$ distribution, similar to that shown in @sec-conf-beta. See Ch4.1 of Dr. Barber's book for this derivation. </span>
-<span id="cb54-379"><a href="#cb54-379" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb54-221"><a href="#cb54-221" aria-hidden="true" tabindex="-1"></a>where the means are zero, $\nu$ is the degrees of freedom (i.e., $n-p$), and $\Sigma = (X^TX)^{-1} \hat{\sigma}^2$. $(\hat{B} - B)$ represents the deviation of the estimated coefficients from the true coefficients, which is why the distribution is centered around zero. It is perhaps easier to separate the individual estimated coefficients, $\beta_i$, into their separate $t$-distributions:</span>
+<span id="cb54-222"><a href="#cb54-222" aria-hidden="true" tabindex="-1"></a>$$\frac{(\hat{\beta}_i - \beta_i)}{SE(\hat{\beta}_i)} \sim t_{\nu}$$</span>
+<span id="cb54-223"><a href="#cb54-223" aria-hidden="true" tabindex="-1"></a>$$(\hat{\beta}_i - \beta_i) \sim t_{\nu} SE(\hat{\beta}_i),$$</span>
+<span id="cb54-224"><a href="#cb54-224" aria-hidden="true" tabindex="-1"></a>which shows that the $t$-distribution that describes the deviation of regression coefficients from the true value of those coefficients is scaled by the uncertainty in the estimated coefficients $SE(\hat{\beta}_i)$. As shown in Dr. Barber's materials, using this information, we can derive the confidence interval (at the $\alpha$ confidence level) calculation for $\hat{\beta}_i$ as: </span>
+<span id="cb54-225"><a href="#cb54-225" aria-hidden="true" tabindex="-1"></a>$$ \hat{\beta}_i \pm t \left(\frac{1-\alpha}{2}, \nu \right) SE(\hat{\beta}_i),$$</span>
+<span id="cb54-226"><a href="#cb54-226" aria-hidden="true" tabindex="-1"></a>where the $t()$ notation represents the *critical value* of the $t$-distribution, $t_{crit}$, with $\nu$ degrees of freedom, for which $P(z \le t_{crit}) = \frac{1-\alpha}{2}$, and $z$ is a continuous, random variable. This critical value can be calculated in R using the <span class="in">`qt()`</span> function, which we show below. </span>
+<span id="cb54-227"><a href="#cb54-227" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb54-228"><a href="#cb54-228" aria-hidden="true" tabindex="-1"></a>::: {.callout-note}</span>
+<span id="cb54-229"><a href="#cb54-229" aria-hidden="true" tabindex="-1"></a><span class="fu">## Covariance of $\hat{\beta}_i$</span></span>
+<span id="cb54-230"><a href="#cb54-230" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb54-231"><a href="#cb54-231" aria-hidden="true" tabindex="-1"></a>Although it is convenient and easier to digest the confidence interval of individual $\hat{\beta}_i$, we must realize that the estimates of the $\beta_i$ can covary (i.e., have non-zero covariance), which is quantified in the variance-covariance matrix of $\hat{B}$, $(X^TX)^{-1} \hat{\sigma}^2$. We will show why this is important below.</span>
+<span id="cb54-232"><a href="#cb54-232" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb54-233"><a href="#cb54-233" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb54-234"><a href="#cb54-234" aria-hidden="true" tabindex="-1"></a>Let's manually calculate the 95% confidence intervals in $\hat{B}$ and compare to R's internal function <span class="in">`confint()`</span>.</span>
+<span id="cb54-237"><a href="#cb54-237" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb54-238"><a href="#cb54-238" aria-hidden="true" tabindex="-1"></a><span class="co"># Extract the degrees of freedom from the model (\nu)</span></span>
+<span id="cb54-239"><a href="#cb54-239" aria-hidden="true" tabindex="-1"></a><span class="co"># which can also be calculated as n - p</span></span>
+<span id="cb54-240"><a href="#cb54-240" aria-hidden="true" tabindex="-1"></a>t_df <span class="ot">=</span> lm_out<span class="sc">$</span>df.residual</span>
+<span id="cb54-241"><a href="#cb54-241" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb54-242"><a href="#cb54-242" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate t critical for alpha = 0.05</span></span>
+<span id="cb54-243"><a href="#cb54-243" aria-hidden="true" tabindex="-1"></a><span class="co"># This will give us the 95% conf interval (CI)</span></span>
+<span id="cb54-244"><a href="#cb54-244" aria-hidden="true" tabindex="-1"></a>t_crit <span class="ot">=</span> <span class="fu">qt</span>(<span class="dv">1</span><span class="sc">-</span>(<span class="fl">0.05</span><span class="sc">/</span><span class="dv">2</span>), <span class="at">df =</span> t_df)</span>
+<span id="cb54-245"><a href="#cb54-245" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb54-246"><a href="#cb54-246" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate the upper and lower CI for both betas</span></span>
+<span id="cb54-247"><a href="#cb54-247" aria-hidden="true" tabindex="-1"></a>ci_int <span class="ot">=</span> lm_coef[<span class="dv">1</span>] <span class="sc">+</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">1</span>,<span class="dv">1</span>)<span class="sc">*</span>t_crit<span class="sc">*</span>se_beta[<span class="dv">1</span>]</span>
+<span id="cb54-248"><a href="#cb54-248" aria-hidden="true" tabindex="-1"></a>ci_slope <span class="ot">=</span> lm_coef[<span class="dv">2</span>] <span class="sc">+</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">1</span>,<span class="dv">1</span>)<span class="sc">*</span>t_crit<span class="sc">*</span>se_beta[<span class="dv">2</span>]</span>
+<span id="cb54-249"><a href="#cb54-249" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb54-250"><a href="#cb54-250" aria-hidden="true" tabindex="-1"></a><span class="co"># Construct a table of values</span></span>
+<span id="cb54-251"><a href="#cb54-251" aria-hidden="true" tabindex="-1"></a>ci_mat <span class="ot">=</span> </span>
+<span id="cb54-252"><a href="#cb54-252" aria-hidden="true" tabindex="-1"></a>    <span class="fu">rbind</span>(<span class="fu">c</span>(lm_coef[<span class="dv">1</span>], ci_int),</span>
+<span id="cb54-253"><a href="#cb54-253" aria-hidden="true" tabindex="-1"></a>          <span class="fu">c</span>(lm_coef[<span class="dv">2</span>], ci_slope))</span>
+<span id="cb54-254"><a href="#cb54-254" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(ci_mat) <span class="ot">=</span> <span class="fu">c</span>(<span class="st">"coef"</span>, <span class="st">"lowCI"</span>, <span class="st">"highCI"</span>)</span>
+<span id="cb54-255"><a href="#cb54-255" aria-hidden="true" tabindex="-1"></a><span class="fu">rownames</span>(ci_mat) <span class="ot">=</span> <span class="fu">c</span>(<span class="st">"intercept"</span>, <span class="st">"slope"</span>)</span>
+<span id="cb54-256"><a href="#cb54-256" aria-hidden="true" tabindex="-1"></a>ci_mat</span>
+<span id="cb54-257"><a href="#cb54-257" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb54-258"><a href="#cb54-258" aria-hidden="true" tabindex="-1"></a><span class="co"># Compare these manual calculations to built-in</span></span>
+<span id="cb54-259"><a href="#cb54-259" aria-hidden="true" tabindex="-1"></a><span class="co"># function confint(), which by default extracts the </span></span>
+<span id="cb54-260"><a href="#cb54-260" aria-hidden="true" tabindex="-1"></a><span class="co"># 95% CI for a lm() model's coefficients</span></span>
+<span id="cb54-261"><a href="#cb54-261" aria-hidden="true" tabindex="-1"></a><span class="fu">confint</span>(lm_out)</span>
+<span id="cb54-262"><a href="#cb54-262" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb54-263"><a href="#cb54-263" aria-hidden="true" tabindex="-1"></a><span class="fu">## Propagate uncertainty in $\hat{B}$ for predictions of $Y$</span></span>
+<span id="cb54-264"><a href="#cb54-264" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb54-265"><a href="#cb54-265" aria-hidden="true" tabindex="-1"></a>There are several ways to calculate and visualize our uncertainty in model predictions of observed data $Y$ and unobserved data of the dependent variable (i.e., interpolation). The colored lines drawn on the figure in @sec-est-plot represent the expected values of $Y$ based on the OLS analysis' estimate of $\hat{B}$, but this line does not include uncertainty in these coefficient values. </span>
+<span id="cb54-266"><a href="#cb54-266" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb54-267"><a href="#cb54-267" aria-hidden="true" tabindex="-1"></a><span class="fu">### Multivariate $t$-distribution method</span></span>
+<span id="cb54-268"><a href="#cb54-268" aria-hidden="true" tabindex="-1"></a>First, we will calculate uncertainty by sampling from the multivariate $t$ distribution that represents error in regression coefficients, $\hat{B}$. </span>
+<span id="cb54-269"><a href="#cb54-269" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb54-272"><a href="#cb54-272" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb54-273"><a href="#cb54-273" aria-hidden="true" tabindex="-1"></a><span class="co"># We will "bootstrap" 1000 samples of intercept and slope</span></span>
+<span id="cb54-274"><a href="#cb54-274" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">3</span>)</span>
+<span id="cb54-275"><a href="#cb54-275" aria-hidden="true" tabindex="-1"></a>n_samp <span class="ot">=</span> <span class="dv">500</span></span>
+<span id="cb54-276"><a href="#cb54-276" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb54-277"><a href="#cb54-277" aria-hidden="true" tabindex="-1"></a><span class="co"># Draw from the multivariate t </span></span>
+<span id="cb54-278"><a href="#cb54-278" aria-hidden="true" tabindex="-1"></a><span class="co"># which represents (\hat{B} - B)</span></span>
+<span id="cb54-279"><a href="#cb54-279" aria-hidden="true" tabindex="-1"></a>test_mat_deviates <span class="ot">=</span> </span>
+<span id="cb54-280"><a href="#cb54-280" aria-hidden="true" tabindex="-1"></a>  mnormt<span class="sc">::</span><span class="fu">rmt</span>(n_samp, <span class="at">mean =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">0</span>), <span class="at">S =</span> beta_cov_mat, <span class="at">df =</span> t_df)</span>
+<span id="cb54-281"><a href="#cb54-281" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb54-282"><a href="#cb54-282" aria-hidden="true" tabindex="-1"></a><span class="co"># Now calculate the realized intercept and slope</span></span>
+<span id="cb54-283"><a href="#cb54-283" aria-hidden="true" tabindex="-1"></a><span class="co"># using the t-distributed deviates</span></span>
+<span id="cb54-284"><a href="#cb54-284" aria-hidden="true" tabindex="-1"></a>test_mat_t <span class="ot">=</span> <span class="fu">cbind</span>(</span>
+<span id="cb54-285"><a href="#cb54-285" aria-hidden="true" tabindex="-1"></a>  lm_coef[<span class="dv">1</span>] <span class="sc">+</span> <span class="fu">c</span>(test_mat_deviates[,<span class="dv">1</span>]),</span>
+<span id="cb54-286"><a href="#cb54-286" aria-hidden="true" tabindex="-1"></a>  lm_coef[<span class="dv">2</span>] <span class="sc">+</span> <span class="fu">c</span>(test_mat_deviates[,<span class="dv">2</span>])</span>
+<span id="cb54-287"><a href="#cb54-287" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb54-288"><a href="#cb54-288" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb54-289"><a href="#cb54-289" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate the 95% quantiles and compare to the </span></span>
+<span id="cb54-290"><a href="#cb54-290" aria-hidden="true" tabindex="-1"></a><span class="co"># calculated 95% confidence intervals from above</span></span>
+<span id="cb54-291"><a href="#cb54-291" aria-hidden="true" tabindex="-1"></a><span class="fu">apply</span>(test_mat_t, </span>
+<span id="cb54-292"><a href="#cb54-292" aria-hidden="true" tabindex="-1"></a>      <span class="at">MARGIN =</span> <span class="dv">2</span>, <span class="co"># applies function (FUN) to columns (dim 2)</span></span>
+<span id="cb54-293"><a href="#cb54-293" aria-hidden="true" tabindex="-1"></a>      <span class="at">FUN =</span> quantile, <span class="at">probs =</span> <span class="fu">c</span>(<span class="fl">0.025</span>, <span class="fl">0.5</span>, <span class="fl">0.975</span>))</span>
+<span id="cb54-294"><a href="#cb54-294" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb54-295"><a href="#cb54-295" aria-hidden="true" tabindex="-1"></a><span class="co"># Compare</span></span>
+<span id="cb54-296"><a href="#cb54-296" aria-hidden="true" tabindex="-1"></a>ci_mat</span>
+<span id="cb54-297"><a href="#cb54-297" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb54-298"><a href="#cb54-298" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot the relationship between intercept and slope</span></span>
+<span id="cb54-299"><a href="#cb54-299" aria-hidden="true" tabindex="-1"></a><span class="co"># Notice the covariance</span></span>
+<span id="cb54-300"><a href="#cb54-300" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(test_mat_t, <span class="at">xlab =</span> <span class="st">"Intercept"</span>, <span class="at">ylab =</span> <span class="st">"Slope"</span>)</span>
+<span id="cb54-301"><a href="#cb54-301" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb54-302"><a href="#cb54-302" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb54-303"><a href="#cb54-303" aria-hidden="true" tabindex="-1"></a>Next, for each pair of intercept and slope randomly drawn above, we will calculate the expected values of $Y$ across the range of covariate $x$. We will then summarize the 95% quantile of expected $Y$ at each value of $x$ in this interpolation. To do this, we need a function to calculate the expected value of $Y$. This function will have the intercept and slope as inputs and will output the expected values of $Y$ across a range of $x$. Then, we will <span class="in">`apply()`</span> this function using all of the values of intercept and slope, in a vectorized and therefore very efficient manner, rather than using any <span class="in">`for`</span> loops. </span>
+<span id="cb54-304"><a href="#cb54-304" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb54-307"><a href="#cb54-307" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb54-308"><a href="#cb54-308" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a matrix that holds the values of x</span></span>
+<span id="cb54-309"><a href="#cb54-309" aria-hidden="true" tabindex="-1"></a><span class="co"># over which we want to interpolate the expected</span></span>
+<span id="cb54-310"><a href="#cb54-310" aria-hidden="true" tabindex="-1"></a><span class="co"># values of Y</span></span>
+<span id="cb54-311"><a href="#cb54-311" aria-hidden="true" tabindex="-1"></a>x_fake_mat <span class="ot">=</span> </span>
+<span id="cb54-312"><a href="#cb54-312" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cbind</span>(</span>
+<span id="cb54-313"><a href="#cb54-313" aria-hidden="true" tabindex="-1"></a>    <span class="fu">rep</span>(<span class="dv">1</span>, <span class="at">times =</span> <span class="dv">100</span>),</span>
+<span id="cb54-314"><a href="#cb54-314" aria-hidden="true" tabindex="-1"></a>    <span class="fu">seq</span>(<span class="dv">0</span>,<span class="fu">max</span>(x1),<span class="at">length.out =</span> <span class="dv">100</span>)</span>
+<span id="cb54-315"><a href="#cb54-315" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb54-316"><a href="#cb54-316" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb54-317"><a href="#cb54-317" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a function that will calculate the expected values</span></span>
+<span id="cb54-318"><a href="#cb54-318" aria-hidden="true" tabindex="-1"></a>y_hat_fun <span class="ot">=</span> <span class="cf">function</span>(x, x_mat){</span>
+<span id="cb54-319"><a href="#cb54-319" aria-hidden="true" tabindex="-1"></a>  x_mat <span class="sc">%*%</span> x</span>
+<span id="cb54-320"><a href="#cb54-320" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb54-321"><a href="#cb54-321" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb54-322"><a href="#cb54-322" aria-hidden="true" tabindex="-1"></a><span class="co"># Apply this function to all intercepts and slopes that</span></span>
+<span id="cb54-323"><a href="#cb54-323" aria-hidden="true" tabindex="-1"></a><span class="co"># we drew from the multivariate t</span></span>
+<span id="cb54-324"><a href="#cb54-324" aria-hidden="true" tabindex="-1"></a>y_pred_mt <span class="ot">=</span> <span class="fu">apply</span>(test_mat_t, <span class="dv">1</span>, y_hat_fun, <span class="at">x_mat=</span>x_fake_mat)</span>
+<span id="cb54-325"><a href="#cb54-325" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb54-326"><a href="#cb54-326" aria-hidden="true" tabindex="-1"></a><span class="co"># Summarize the 95% quantile of the expected value of Y</span></span>
+<span id="cb54-327"><a href="#cb54-327" aria-hidden="true" tabindex="-1"></a><span class="co"># at each value of x </span></span>
+<span id="cb54-328"><a href="#cb54-328" aria-hidden="true" tabindex="-1"></a>y_pred_mt_summary <span class="ot">=</span> <span class="fu">apply</span>(y_pred_mt, <span class="dv">1</span>, quantile, <span class="at">probs =</span> <span class="fu">c</span>(<span class="fl">0.025</span>, <span class="fl">0.975</span>))</span>
+<span id="cb54-329"><a href="#cb54-329" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(y_pred_mt_summary)</span>
+<span id="cb54-330"><a href="#cb54-330" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb54-331"><a href="#cb54-331" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb54-332"><a href="#cb54-332" aria-hidden="true" tabindex="-1"></a><span class="fu">### `predict()` function method</span></span>
+<span id="cb54-333"><a href="#cb54-333" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb54-334"><a href="#cb54-334" aria-hidden="true" tabindex="-1"></a>R has a built-in function <span class="in">`predict()`</span> (see specific variant <span class="in">`predict.lm()`</span>) which calculates expected values of the dependent variable from a linear regression model estimated using the function <span class="in">`lm()`</span>.</span>
+<span id="cb54-335"><a href="#cb54-335" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb54-338"><a href="#cb54-338" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb54-339"><a href="#cb54-339" aria-hidden="true" tabindex="-1"></a><span class="co"># Note that 'newdata' must be a data frame that includes the ranges</span></span>
+<span id="cb54-340"><a href="#cb54-340" aria-hidden="true" tabindex="-1"></a><span class="co"># of each covariate in the regression model for which you want </span></span>
+<span id="cb54-341"><a href="#cb54-341" aria-hidden="true" tabindex="-1"></a><span class="co"># to generate interpolated or predicted values of the dependent variable</span></span>
+<span id="cb54-342"><a href="#cb54-342" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb54-343"><a href="#cb54-343" aria-hidden="true" tabindex="-1"></a><span class="co"># Here we are calculated the expected values as well as the </span></span>
+<span id="cb54-344"><a href="#cb54-344" aria-hidden="true" tabindex="-1"></a><span class="co"># 95% confidence intervals for those expected values</span></span>
+<span id="cb54-345"><a href="#cb54-345" aria-hidden="true" tabindex="-1"></a>y_predict <span class="ot">=</span> <span class="fu">predict</span>(lm_out,</span>
+<span id="cb54-346"><a href="#cb54-346" aria-hidden="true" tabindex="-1"></a>                 <span class="at">newdata =</span> <span class="fu">data.frame</span>(<span class="at">x1 =</span> <span class="fu">c</span>(x_fake_mat[,<span class="dv">2</span>])),</span>
+<span id="cb54-347"><a href="#cb54-347" aria-hidden="true" tabindex="-1"></a>                 <span class="at">interval =</span> <span class="st">"confidence"</span>, <span class="at">level =</span> <span class="fl">0.95</span>)</span>
+<span id="cb54-348"><a href="#cb54-348" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(y_predict)</span>
+<span id="cb54-349"><a href="#cb54-349" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb54-350"><a href="#cb54-350" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb54-351"><a href="#cb54-351" aria-hidden="true" tabindex="-1"></a><span class="fu">### Compare the two methods </span></span>
+<span id="cb54-352"><a href="#cb54-352" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb54-353"><a href="#cb54-353" aria-hidden="true" tabindex="-1"></a>Let's visualize the output of the two methods to compare. </span>
+<span id="cb54-354"><a href="#cb54-354" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb54-357"><a href="#cb54-357" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb54-358"><a href="#cb54-358" aria-hidden="true" tabindex="-1"></a><span class="co"># plot</span></span>
+<span id="cb54-359"><a href="#cb54-359" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="at">x=</span><span class="cn">NA</span>,<span class="at">y=</span><span class="cn">NA</span>,<span class="at">xlab =</span> <span class="st">"x"</span>, <span class="at">ylab =</span> <span class="st">"y"</span>,</span>
+<span id="cb54-360"><a href="#cb54-360" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlim =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="fu">max</span>(x1)), <span class="at">ylim =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">5</span>, <span class="dv">25</span>), <span class="at">pch =</span> <span class="dv">19</span>)</span>
+<span id="cb54-361"><a href="#cb54-361" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot the expected values of Y for each pair of int/slope </span></span>
+<span id="cb54-362"><a href="#cb54-362" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>n_samp){</span>
+<span id="cb54-363"><a href="#cb54-363" aria-hidden="true" tabindex="-1"></a>  <span class="fu">lines</span>(y_pred_mt[,i] <span class="sc">~</span> x_fake_mat[,<span class="dv">2</span>],</span>
+<span id="cb54-364"><a href="#cb54-364" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Reduce the opacity of each line</span></span>
+<span id="cb54-365"><a href="#cb54-365" aria-hidden="true" tabindex="-1"></a>        <span class="at">col =</span> scales<span class="sc">::</span><span class="fu">alpha</span>(<span class="st">"black"</span>, <span class="at">alpha =</span> <span class="fl">0.1</span>), <span class="at">lwd =</span> <span class="dv">2</span>)</span>
+<span id="cb54-366"><a href="#cb54-366" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb54-367"><a href="#cb54-367" aria-hidden="true" tabindex="-1"></a><span class="co"># Add the data points</span></span>
+<span id="cb54-368"><a href="#cb54-368" aria-hidden="true" tabindex="-1"></a><span class="fu">points</span>(y <span class="sc">~</span> x1, <span class="at">col =</span> <span class="st">'orange'</span>, <span class="at">pch =</span> <span class="dv">19</span>, <span class="at">cex =</span> <span class="dv">2</span>)</span>
+<span id="cb54-369"><a href="#cb54-369" aria-hidden="true" tabindex="-1"></a><span class="co"># Add the expected values of Y from \hat{B}</span></span>
+<span id="cb54-370"><a href="#cb54-370" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">coef =</span> lm_coef, <span class="at">col =</span> <span class="st">"orange"</span>, <span class="at">lwd =</span> <span class="dv">3</span>)</span>
+<span id="cb54-371"><a href="#cb54-371" aria-hidden="true" tabindex="-1"></a><span class="co"># Add the conf int of expected Y using multivariate t</span></span>
+<span id="cb54-372"><a href="#cb54-372" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(y_pred_mt_summary[<span class="dv">1</span>,] <span class="sc">~</span> x_fake_mat[,<span class="dv">2</span>], <span class="at">lty =</span> <span class="dv">2</span>, <span class="at">lwd =</span> <span class="dv">3</span>, <span class="at">col =</span> <span class="st">"orange"</span>)</span>
+<span id="cb54-373"><a href="#cb54-373" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(y_pred_mt_summary[<span class="dv">2</span>,] <span class="sc">~</span> x_fake_mat[,<span class="dv">2</span>], <span class="at">lty =</span> <span class="dv">2</span>, <span class="at">lwd =</span> <span class="dv">3</span>, <span class="at">col =</span> <span class="st">"orange"</span>)</span>
+<span id="cb54-374"><a href="#cb54-374" aria-hidden="true" tabindex="-1"></a><span class="co"># Add the conf int of expected Y using predict() function</span></span>
+<span id="cb54-375"><a href="#cb54-375" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(y_predict[,<span class="st">"lwr"</span>]<span class="sc">~</span> x_fake_mat[,<span class="dv">2</span>], <span class="at">lty =</span> <span class="dv">3</span>, <span class="at">lwd =</span> <span class="dv">3</span>, <span class="at">col =</span> <span class="st">"purple"</span>)</span>
+<span id="cb54-376"><a href="#cb54-376" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(y_predict[,<span class="st">"upr"</span>]<span class="sc">~</span> x_fake_mat[,<span class="dv">2</span>], <span class="at">lty =</span> <span class="dv">3</span>, <span class="at">lwd =</span> <span class="dv">3</span>, <span class="at">col =</span> <span class="st">"purple"</span>)</span>
+<span id="cb54-377"><a href="#cb54-377" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb54-378"><a href="#cb54-378" aria-hidden="true" tabindex="-1"></a>There is yet a third option to calculate the uncertainty in predicted (i.e., interpolated or extrapolated) values of </span>
+<span id="cb54-379"><a href="#cb54-379" aria-hidden="true" tabindex="-1"></a>$Y$, which is to derive an exact calculation of the confidence interval using the $t$ distribution, similar to that shown in @sec-conf-beta. See Ch4.1 of Dr. Barber's book for this derivation. </span>
 <span id="cb54-380"><a href="#cb54-380" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb54-381"><a href="#cb54-381" aria-hidden="true" tabindex="-1"></a><span class="fu">## Footnotes</span></span>
-<span id="cb54-382"><a href="#cb54-382" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb54-383"><a href="#cb54-383" aria-hidden="true" tabindex="-1"></a><span class="fu">### Euclidean norm &amp; cross product {#sec-crossprod}</span></span>
-<span id="cb54-384"><a href="#cb54-384" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb54-385"><a href="#cb54-385" aria-hidden="true" tabindex="-1"></a>We often see the syntax, $|| a ||$, which is the Euclidean norm of the $n$-sized vector $a$: $$|| a || = \left( \sum_{i=1}^{n} a_i^2 \right) ^ {1/2} ,$$ so that when we see $|| a ||^2$, this results in the sum of squares of vector $a$, $\sum_{i=1}^{n} a_i^2$.</span>
-<span id="cb54-386"><a href="#cb54-386" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb54-387"><a href="#cb54-387" aria-hidden="true" tabindex="-1"></a>In the context of least squares regression, we are trying to minimize the residual sum of squares, where the residuals, $\epsilon_i$, are in vector, $\epsilon$. The sum of squares of vector $\epsilon$ is therefore $|| \epsilon ||^2$. Algebraically, we can find this value as the cross product of $\epsilon$, which is $\epsilon^{T}\epsilon$. Let's do a coded example with vector $x$.</span>
-<span id="cb54-388"><a href="#cb54-388" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb54-391"><a href="#cb54-391" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb54-392"><a href="#cb54-392" aria-hidden="true" tabindex="-1"></a><span class="co"># Vector of real numbers</span></span>
-<span id="cb54-393"><a href="#cb54-393" aria-hidden="true" tabindex="-1"></a>x <span class="ot">=</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>)</span>
-<span id="cb54-394"><a href="#cb54-394" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb54-395"><a href="#cb54-395" aria-hidden="true" tabindex="-1"></a><span class="co"># sum of squares</span></span>
-<span id="cb54-396"><a href="#cb54-396" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(x<span class="sc">^</span><span class="dv">2</span>)</span>
-<span id="cb54-397"><a href="#cb54-397" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb54-398"><a href="#cb54-398" aria-hidden="true" tabindex="-1"></a><span class="co"># Evaluated as cross-product</span></span>
-<span id="cb54-399"><a href="#cb54-399" aria-hidden="true" tabindex="-1"></a><span class="fu">t</span>(x) <span class="sc">%*%</span> x</span>
-<span id="cb54-400"><a href="#cb54-400" aria-hidden="true" tabindex="-1"></a><span class="do">## Or with crossprod()</span></span>
-<span id="cb54-401"><a href="#cb54-401" aria-hidden="true" tabindex="-1"></a><span class="fu">crossprod</span>(x,x)</span>
-<span id="cb54-402"><a href="#cb54-402" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb54-403"><a href="#cb54-403" aria-hidden="true" tabindex="-1"></a><span class="co"># Euclidean norm also known as the 2-norm</span></span>
-<span id="cb54-404"><a href="#cb54-404" aria-hidden="true" tabindex="-1"></a><span class="co"># so sum of squares is 2-norm, squared</span></span>
-<span id="cb54-405"><a href="#cb54-405" aria-hidden="true" tabindex="-1"></a><span class="fu">norm</span>(x, <span class="at">type =</span> <span class="st">"2"</span>) <span class="sc">^</span> <span class="dv">2</span></span>
-<span id="cb54-406"><a href="#cb54-406" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb54-407"><a href="#cb54-407" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb54-408"><a href="#cb54-408" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb54-409"><a href="#cb54-409" aria-hidden="true" tabindex="-1"></a><span class="fu">### `solve()` and Inverse of matrix {#sec-solve}</span></span>
-<span id="cb54-410"><a href="#cb54-410" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb54-411"><a href="#cb54-411" aria-hidden="true" tabindex="-1"></a>Suppose we have matrices $A$, $X$, and $B$, and the following expression is true: $$AX=B.$$</span>
-<span id="cb54-412"><a href="#cb54-412" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb54-413"><a href="#cb54-413" aria-hidden="true" tabindex="-1"></a>Then, suppose $X$ is unknown, such that we want to find the solution for $X$, when we rearrange: $$X = A^{-1} B,$$ where $A^{-1}$ is the multiplicative inverse of matrix $A$. To figure this out computationally, we can use the <span class="in">`solve()`</span> function in R, as long as $A$ is a square matrix and has an inverse.</span>
-<span id="cb54-414"><a href="#cb54-414" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb54-417"><a href="#cb54-417" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb54-418"><a href="#cb54-418" aria-hidden="true" tabindex="-1"></a><span class="co"># Create A and known X</span></span>
-<span id="cb54-419"><a href="#cb54-419" aria-hidden="true" tabindex="-1"></a>A <span class="ot">=</span> <span class="fu">matrix</span>(<span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">1</span>,</span>
-<span id="cb54-420"><a href="#cb54-420" aria-hidden="true" tabindex="-1"></a>             <span class="dv">5</span>,<span class="dv">2</span>), <span class="at">ncol =</span> <span class="dv">2</span>)</span>
-<span id="cb54-421"><a href="#cb54-421" aria-hidden="true" tabindex="-1"></a>X <span class="ot">=</span> <span class="fu">matrix</span>(<span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">3</span>), <span class="at">ncol =</span> <span class="dv">1</span>)</span>
-<span id="cb54-422"><a href="#cb54-422" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb54-423"><a href="#cb54-423" aria-hidden="true" tabindex="-1"></a><span class="co"># Dot product to calculate B</span></span>
-<span id="cb54-424"><a href="#cb54-424" aria-hidden="true" tabindex="-1"></a>B <span class="ot">=</span> A <span class="sc">%*%</span> X</span>
-<span id="cb54-425"><a href="#cb54-425" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb54-426"><a href="#cb54-426" aria-hidden="true" tabindex="-1"></a><span class="co"># Suppose you have A and B, but want to find X</span></span>
-<span id="cb54-427"><a href="#cb54-427" aria-hidden="true" tabindex="-1"></a>X_solve <span class="ot">=</span> <span class="fu">solve</span>(A, B)</span>
-<span id="cb54-428"><a href="#cb54-428" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb54-429"><a href="#cb54-429" aria-hidden="true" tabindex="-1"></a><span class="co"># Did it work?</span></span>
-<span id="cb54-430"><a href="#cb54-430" aria-hidden="true" tabindex="-1"></a>X; X_solve</span>
-<span id="cb54-431"><a href="#cb54-431" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb54-432"><a href="#cb54-432" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb54-433"><a href="#cb54-433" aria-hidden="true" tabindex="-1"></a>We can see, then, that <span class="in">`solve()`</span> is internally evaluating $A^{-1}$. Remember that $A^{-1}$ is not trivial to calculate, as it is the matrix that must satisfy: $AA^{-1} = I$, where $I$ is an identity matrix. In fact, <span class="in">`solve(A)`</span> returns the inverse of $A$, if it exists.</span>
-<span id="cb54-434"><a href="#cb54-434" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb54-437"><a href="#cb54-437" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb54-438"><a href="#cb54-438" aria-hidden="true" tabindex="-1"></a>inv_A <span class="ot">=</span> <span class="fu">solve</span>(A)</span>
-<span id="cb54-439"><a href="#cb54-439" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb54-440"><a href="#cb54-440" aria-hidden="true" tabindex="-1"></a><span class="co">#Did it work?</span></span>
-<span id="cb54-441"><a href="#cb54-441" aria-hidden="true" tabindex="-1"></a>(inv_A <span class="sc">%*%</span> B)</span>
-<span id="cb54-442"><a href="#cb54-442" aria-hidden="true" tabindex="-1"></a>X</span>
-<span id="cb54-443"><a href="#cb54-443" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb54-381"><a href="#cb54-381" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb54-382"><a href="#cb54-382" aria-hidden="true" tabindex="-1"></a><span class="fu">## Footnotes</span></span>
+<span id="cb54-383"><a href="#cb54-383" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb54-384"><a href="#cb54-384" aria-hidden="true" tabindex="-1"></a><span class="fu">### Euclidean norm &amp; cross product {#sec-crossprod}</span></span>
+<span id="cb54-385"><a href="#cb54-385" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb54-386"><a href="#cb54-386" aria-hidden="true" tabindex="-1"></a>We often see the syntax, $|| a ||$, which is the Euclidean norm of the $n$-sized vector $a$: $$|| a || = \left( \sum_{i=1}^{n} a_i^2 \right) ^ {1/2} ,$$ so that when we see $|| a ||^2$, this results in the sum of squares of vector $a$, $\sum_{i=1}^{n} a_i^2$.</span>
+<span id="cb54-387"><a href="#cb54-387" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb54-388"><a href="#cb54-388" aria-hidden="true" tabindex="-1"></a>In the context of least squares regression, we are trying to minimize the residual sum of squares, where the residuals, $\epsilon_i$, are in vector, $\epsilon$. The sum of squares of vector $\epsilon$ is therefore $|| \epsilon ||^2$. Algebraically, we can find this value as the cross product of $\epsilon$, which is $\epsilon^{T}\epsilon$. Let's do a coded example with vector $x$.</span>
+<span id="cb54-389"><a href="#cb54-389" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb54-392"><a href="#cb54-392" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb54-393"><a href="#cb54-393" aria-hidden="true" tabindex="-1"></a><span class="co"># Vector of real numbers</span></span>
+<span id="cb54-394"><a href="#cb54-394" aria-hidden="true" tabindex="-1"></a>x <span class="ot">=</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>)</span>
+<span id="cb54-395"><a href="#cb54-395" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb54-396"><a href="#cb54-396" aria-hidden="true" tabindex="-1"></a><span class="co"># sum of squares</span></span>
+<span id="cb54-397"><a href="#cb54-397" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(x<span class="sc">^</span><span class="dv">2</span>)</span>
+<span id="cb54-398"><a href="#cb54-398" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb54-399"><a href="#cb54-399" aria-hidden="true" tabindex="-1"></a><span class="co"># Evaluated as cross-product</span></span>
+<span id="cb54-400"><a href="#cb54-400" aria-hidden="true" tabindex="-1"></a><span class="fu">t</span>(x) <span class="sc">%*%</span> x</span>
+<span id="cb54-401"><a href="#cb54-401" aria-hidden="true" tabindex="-1"></a><span class="do">## Or with crossprod()</span></span>
+<span id="cb54-402"><a href="#cb54-402" aria-hidden="true" tabindex="-1"></a><span class="fu">crossprod</span>(x,x)</span>
+<span id="cb54-403"><a href="#cb54-403" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb54-404"><a href="#cb54-404" aria-hidden="true" tabindex="-1"></a><span class="co"># Euclidean norm also known as the 2-norm</span></span>
+<span id="cb54-405"><a href="#cb54-405" aria-hidden="true" tabindex="-1"></a><span class="co"># so sum of squares is 2-norm, squared</span></span>
+<span id="cb54-406"><a href="#cb54-406" aria-hidden="true" tabindex="-1"></a><span class="fu">norm</span>(x, <span class="at">type =</span> <span class="st">"2"</span>) <span class="sc">^</span> <span class="dv">2</span></span>
+<span id="cb54-407"><a href="#cb54-407" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb54-408"><a href="#cb54-408" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb54-409"><a href="#cb54-409" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb54-410"><a href="#cb54-410" aria-hidden="true" tabindex="-1"></a><span class="fu">### `solve()` and Inverse of matrix {#sec-solve}</span></span>
+<span id="cb54-411"><a href="#cb54-411" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb54-412"><a href="#cb54-412" aria-hidden="true" tabindex="-1"></a>Suppose we have matrices $A$, $X$, and $B$, and the following expression is true: $$AX=B.$$</span>
+<span id="cb54-413"><a href="#cb54-413" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb54-414"><a href="#cb54-414" aria-hidden="true" tabindex="-1"></a>Then, suppose $X$ is unknown, such that we want to find the solution for $X$, when we rearrange: $$X = A^{-1} B,$$ where $A^{-1}$ is the multiplicative inverse of matrix $A$. To figure this out computationally, we can use the <span class="in">`solve()`</span> function in R, as long as $A$ is a square matrix and has an inverse.</span>
+<span id="cb54-415"><a href="#cb54-415" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb54-418"><a href="#cb54-418" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb54-419"><a href="#cb54-419" aria-hidden="true" tabindex="-1"></a><span class="co"># Create A and known X</span></span>
+<span id="cb54-420"><a href="#cb54-420" aria-hidden="true" tabindex="-1"></a>A <span class="ot">=</span> <span class="fu">matrix</span>(<span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">1</span>,</span>
+<span id="cb54-421"><a href="#cb54-421" aria-hidden="true" tabindex="-1"></a>             <span class="dv">5</span>,<span class="dv">2</span>), <span class="at">ncol =</span> <span class="dv">2</span>)</span>
+<span id="cb54-422"><a href="#cb54-422" aria-hidden="true" tabindex="-1"></a>X <span class="ot">=</span> <span class="fu">matrix</span>(<span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">3</span>), <span class="at">ncol =</span> <span class="dv">1</span>)</span>
+<span id="cb54-423"><a href="#cb54-423" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb54-424"><a href="#cb54-424" aria-hidden="true" tabindex="-1"></a><span class="co"># Dot product to calculate B</span></span>
+<span id="cb54-425"><a href="#cb54-425" aria-hidden="true" tabindex="-1"></a>B <span class="ot">=</span> A <span class="sc">%*%</span> X</span>
+<span id="cb54-426"><a href="#cb54-426" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb54-427"><a href="#cb54-427" aria-hidden="true" tabindex="-1"></a><span class="co"># Suppose you have A and B, but want to find X</span></span>
+<span id="cb54-428"><a href="#cb54-428" aria-hidden="true" tabindex="-1"></a>X_solve <span class="ot">=</span> <span class="fu">solve</span>(A, B)</span>
+<span id="cb54-429"><a href="#cb54-429" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb54-430"><a href="#cb54-430" aria-hidden="true" tabindex="-1"></a><span class="co"># Did it work?</span></span>
+<span id="cb54-431"><a href="#cb54-431" aria-hidden="true" tabindex="-1"></a>X; X_solve</span>
+<span id="cb54-432"><a href="#cb54-432" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb54-433"><a href="#cb54-433" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb54-434"><a href="#cb54-434" aria-hidden="true" tabindex="-1"></a>We can see, then, that <span class="in">`solve()`</span> is internally evaluating $A^{-1}$. Remember that $A^{-1}$ is not trivial to calculate, as it is the matrix that must satisfy: $AA^{-1} = I$, where $I$ is an identity matrix. In fact, <span class="in">`solve(A)`</span> returns the inverse of $A$, if it exists.</span>
+<span id="cb54-435"><a href="#cb54-435" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb54-438"><a href="#cb54-438" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb54-439"><a href="#cb54-439" aria-hidden="true" tabindex="-1"></a>inv_A <span class="ot">=</span> <span class="fu">solve</span>(A)</span>
+<span id="cb54-440"><a href="#cb54-440" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb54-441"><a href="#cb54-441" aria-hidden="true" tabindex="-1"></a><span class="co">#Did it work?</span></span>
+<span id="cb54-442"><a href="#cb54-442" aria-hidden="true" tabindex="-1"></a>(inv_A <span class="sc">%*%</span> B)</span>
+<span id="cb54-443"><a href="#cb54-443" aria-hidden="true" tabindex="-1"></a>X</span>
+<span id="cb54-444"><a href="#cb54-444" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 </code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div></div></div></div></div>
 </div> <!-- /content -->

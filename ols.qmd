@@ -196,25 +196,26 @@ norm_pdf = dnorm(x_seq, mean = 0, sd = 1)
 # compare to t-100
 plot(NA,NA, xlab = "x", ylab = "P(x)", 
      xlim = range(x_seq), ylim = c(0, 0.5))
-lines(norm_pdf~x_seq, col = "red", lwd = 2)
-lines(t_pdf_nu2~x_seq, col = "blue", lwd = 2)
-lines(t_pdf_nu100~x_seq, col = "blue", lwd = 1.2, lty = 2)
+lines(norm_pdf~x_seq, col = "red", lwd = 3)
+lines(t_pdf_nu2~x_seq, col = "blue", lwd = 3)
+lines(t_pdf_nu100~x_seq, col = "blue", lwd = 2.5, lty = 2)
 legend(x = 2.5, y = 0.4,
        legend = c("Standard Normal", expression(italic(t)[2]), expression(italic(t)[100])),
-       lty = c(1,1,2), col = c("red", "blue", "blue"), bty = "n")
+       lty = c(1,1,2), lwd= c(2,2,2), col = c("red", "blue", "blue"), bty = "n")
 ```
 It is the case for $\hat{B} \sim N \left( B, (X^TX)^{-1} \hat{\sigma}^2 \right)$ that we do not know the mean ($B$), and we are estimating the variance, $\hat{\sigma}^2$. Specifically, we are estimating the true mean vector, $B$, as $\hat{B}$, and we are estimating the variance of the residuals as $\hat{\sigma}^2$. We can therefore re-write the uncertainty in $\hat{B}$ as a multivariate $t$ distribution: 
 $$(\hat{B} - B) \sim t_{\nu} \left( 0, \Sigma \right),$$
-where the means are zero, $\nu$ is the degrees of freedom (i.e., $n-p$), and $\Sigma = (X^TX)^{-1} \hat{\sigma}^2$. $(\hat{B} - B)$ represents the deviation of the estimated coefficients from the true coefficients, which is why the distribution is centered around zero. It is perhaps easier to separate the individual estimated coefficients, $\beta_i$, into their separate $t$-distributions, estimated as the off-diagonals of $(X^TX)^{-1} \hat{\sigma}^2$:
-$$(\hat{\beta}_i - \beta_i) \sim t_{\nu} \hat{\sigma},$$
-which shows that the $t$-distribution is scaled by the estimated $SE(\hat{\beta}_i)$. As shown in Dr. Barber's materials, using this information, we can derive the confidence interval (at the $\alpha$ confidence level) calculation for $\hat{\beta}_i$ as: 
+where the means are zero, $\nu$ is the degrees of freedom (i.e., $n-p$), and $\Sigma = (X^TX)^{-1} \hat{\sigma}^2$. $(\hat{B} - B)$ represents the deviation of the estimated coefficients from the true coefficients, which is why the distribution is centered around zero. It is perhaps easier to separate the individual estimated coefficients, $\beta_i$, into their separate $t$-distributions:
+$$\frac{(\hat{\beta}_i - \beta_i)}{SE(\hat{\beta}_i)} \sim t_{\nu}$$
+$$(\hat{\beta}_i - \beta_i) \sim t_{\nu} SE(\hat{\beta}_i),$$
+which shows that the $t$-distribution that describes the deviation of regression coefficients from the true value of those coefficients is scaled by the uncertainty in the estimated coefficients $SE(\hat{\beta}_i)$. As shown in Dr. Barber's materials, using this information, we can derive the confidence interval (at the $\alpha$ confidence level) calculation for $\hat{\beta}_i$ as: 
 $$ \hat{\beta}_i \pm t \left(\frac{1-\alpha}{2}, \nu \right) SE(\hat{\beta}_i),$$
-where the $t()$ notation represents the *critical value* of the $t$-distribution with $\nu$ degrees of freedom, $t_{crit}$, for which $P(z \le t_{crit}) = \frac{1-\alpha}{2}$, and $z$ is a continuous, random variable.
+where the $t()$ notation represents the *critical value* of the $t$-distribution, $t_{crit}$, with $\nu$ degrees of freedom, for which $P(z \le t_{crit}) = \frac{1-\alpha}{2}$, and $z$ is a continuous, random variable. This critical value can be calculated in R using the `qt()` function, which we show below. 
 
 ::: {.callout-note}
 ## Covariance of $\hat{\beta}_i$
 
-Although it is convenient and easier to digest the confidence interval of individual $\hat{\beta}_i$, we must realize that the estimates of the $\beta_i$ can covary (i.e., have non-zero covariance), which is quantified in the variance-covariance matrix of $\hat{B}$, $(X^TX)^{-1} \hat{\sigma}^2$. We will show how this is important below.
+Although it is convenient and easier to digest the confidence interval of individual $\hat{\beta}_i$, we must realize that the estimates of the $\beta_i$ can covary (i.e., have non-zero covariance), which is quantified in the variance-covariance matrix of $\hat{B}$, $(X^TX)^{-1} \hat{\sigma}^2$. We will show why this is important below.
 :::
 
 Let's manually calculate the 95% confidence intervals in $\hat{B}$ and compare to R's internal function `confint()`.
