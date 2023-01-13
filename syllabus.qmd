@@ -5,25 +5,29 @@
 
 - INF 511 Modern Regression I Spring 2023
 - 3 units
-- MW 12:45-2:00p
-- Physical: Engineering, Room 120
+- Section 001: MW  4:00-5:15p, Science & Health, Room 211 
+- Section 002: MW 12:45-2:00p, Engineering, Room 120
 - Prerequisite: Admission to SICCS graduate program, STA 270, and ((MAT 136 and MAT 137) or MAT 131))
 - Mode of Instruction: Face-to-face
-- Instructor's Name: Joseph Mihaljevic
-- Instructor's Contact Information: School of Informatics, Computing & Cyber Systems (SICCS) (Building 90) Room 213, (928) 523-5125, joseph.mihaljevic@nau.edu
-- Instructor's Availability: Office hours: TBA
-- Teaching Assistant: Amardeep Jetty, aj2569@nau.edu
-- TA's Availability. Office hours: Tues, Thurs 2:30-3:30p; *Location TBA*
+- Instructors' Names & Contacts: 
+    - Kyle Winfree (Section 001), kyle.winfree@nau.edu
+        - Room 3xx, SICCS (Building 90)
+        - Office Hours: TBA
+        - 928-523-7165
+    - Joseph Mihaljevic (Section 002), joseph.mihaljevic@nau.edu
+        - Room 213, SICCS (Building 90)
+        - Office Hours: TBA
+        - 928-523-5125
+- Teaching Assistants: 
+    - Amardeep Jetty, aj2569@nau.edu
+        - Office hours: Tues, Thurs 2:30-3:30p; *Location TBA*
 
 
 ## BbLearn, Collaborate Ultra & Recorded Lectures
-We will use the learning management system, BbLearn, to conduct some course business, including assignment disbursement and submitting. I will use BbLearn’s Collaborate Ultra to record lectures for future viewing, but you may also use Collaborate Ultra to attend virtually, if you cannot attend physically. 
+We will use the learning management system, BbLearn, to conduct some course business, including assignment disbursement and submitting. We will use BbLearn’s Collaborate Ultra to record lectures for future viewing. 
 
 ## INF511 Book Website
-Dr. Mihaljevic has compiled a [course website](https://joseph-mihaljevic.github.io/inf511-book/) that is based on a GitHub repository. This website will have required readings, coded examples which we will walk through in class and problem set materials. The website will link to Bblearn for recorded lecture materials and for posted homework. There will be other required readings (see @sec-readings).
-
-## Monitoring Attendance
-I will allow in-person and virtual attendance, although technically NAU policy is for in person attendance unless an absence is formally excused. We will monitor attendance in class and through Collaborate Ultra. See below for specific guidance on how attendance can affect your grade. 
+We have compiled a [course website](https://joseph-mihaljevic.github.io/inf511-book/) and associated [GitHub repository](https://github.com/joseph-mihaljevic/inf511-book). This website will have coded examples that we will walk through in class, and which will be required reading. There will be other required reading materials (see @sec-readings).
 
 ## Course Purpose
 INF 511 Modern Regression I is the first course in a two-semester sequence required for the MS and PhD in Informatics and Computing (INF). (See INF 512 Modern Regression II.) These courses are designed to serve the computationally oriented statistical analysis needs of the INF graduate program. Through a series of hands-on individual or team-based assignments, students will master statistical analyses, from preparing data, exploring data using numerical and/or graphical methods, modeling data, diagnosing model assumptions, remodeling and final inference. This course will provide INF graduate students with the necessary foundation for more specialized statistical methods and applications that students will encounter in subsequent INF courses, such as INF 626 Applied Bayesian Modeling and the more prediction-oriented INF 504 Data Mining and Machine Learning. More generally, INF 511 provides skills widely applicable to analysis of data across science and engineering.
@@ -44,7 +48,7 @@ methods relate to randomization and causality, random selection and population, 
 - Demonstrate an ability to work effectively in a team environment to solve realistic problems, which may be beyond any one individual!s ability to address, as indicated by peer review or other assessments of team- work.
 
 ## Assessments of Course Student Learning Outcomes {#sec-assess}
-There will be three assessment strategies: problem sets, homework, and quizzes. Problem sets will have dedicated in-class time to complete, whereas homework assignments will be done entirely outside of class. Problem sets will be completed individually, and will be primarily assessed as complete/incomplete, whereas homework assignments can be completed in teams of one to three students and will be graded in full. Assignments typically feature one or more data sets as the focus one or more aspects of a complete statistical analysis, from preparing the data, exploring the data using numerical and/or graphical methods, modeling the data, diagnosing model assumptions, remodeling and final inference. Assignment format is designed in part to mimic and reinforce the similar presentation of analyses in class/notes and to encourage discussion among students. There will be five in-class quizzes, one every $\sim$3 weeks, in lieu of exams. Attendance will also be used to assess your course performance.
+There will be three assessment strategies: problem sets, homework, and quizzes. Problem sets will have dedicated in-class time to complete, whereas homework assignments will be done entirely outside of class. **Problem sets** will be completed **individually**, and will be primarily assessed as complete/incomplete, whereas **Homework** assignments can be completed in **teams of one to three students** and will be graded in full. Assignment format is designed in part to mimic and reinforce the similar presentation of analyses in class/notes and to encourage discussion among students. There will be five **in-class Quizzes**, one every $\sim$3 weeks, in lieu of exams. Attendance & Participaiton will also be used to assess your course performance.
 
 ## Grading System
 
@@ -52,11 +56,31 @@ There will be three assessment strategies: problem sets, homework, and quizzes. 
 |:------------:|:--------:|:-------:|:----------:|
 | 20%          | 35%      | 40%     | 5%         |
 
-- **Assignments**. There are two categories of assignments, Problem Sets and Homework. See @sec-assess for the distinctions. See @sec-schedule for due-dates. Assignments will be posted periodically via BbLearn. Assignments are to be submitted electronically, via BbLearn, on the due date/time indicated in BbLearn. **Late homework will not be accepted**. For Homework, students are free to arrange different teams for different homeworks; this will not be monitored. For Homework, please ensure that *all team member names are on a submitted assignment*. Everyone on a team will submit exactly same homework; only one team member’s submission will be selected and graded with all members receiving the same score. 
+- **Attendance & Participation**. In-person attendance is required. See [University Policy](https://nau.edu/university-policy-library/student-institutional-excuses/) on excused absences. You are responsible to plan with your fellow classmates to obtain in-class material not received due to your absence. (Recall that lectures will be recorded and will be available in BbLearn.) Participation in the form of responding to questions in class, asking questions, and attending office hours may be used to determine "borderline" grade cases.
+
+::: {.callout-important}
+## Prior notification of absence
+
+**A student must notify a TA prior to absence**. Students should notify a TA of an upcoming absence via email, and the TA will evaluate whether the absence will be counted as excused or unexcused. Only students with excused absences will be allowed to attend lecture virtually, via Bblearn Collaborate Ultra. 
+:::
+
+- **Assignments**. There are two categories of assignments, Problem Sets and Homework. See @sec-assess for the distinctions. See @sec-schedule for due-dates. Assignments will be posted periodically via BbLearn. Assignments are to be submitted electronically, via BbLearn, on the due date/time indicated in BbLearn. For Homework, students are free to arrange different teams for different homeworks; this will not be monitored. For Homework, please ensure that *all team member names are on a submitted assignment*. Everyone on a team will submit exactly same homework; only one team member’s submission will be selected and graded with all members receiving the same score. 
+
+::: {.callout-important}
+## Late assignments
+
+**Late assignments will not be accepted**. Late assignments will receive zero points. 
+:::
+
 
 - **Quizzes**. There will be five in-class quizzes that are all cumulative. Each quiz will be designed to take approximately 15-20 minutes, and each will be scaled to 100 points so that they are equally weighted. 
 
-- **Attendance & Participation**. Attendance will be recorded regularly via an in-class sign-up sheet and via Collaborate Ultra. Late arrivals or early departures *exceeding 15 minutes* may be recorded as an absence. You are responsible to plan with your fellow classmates to obtain in-class material not received due to your absence. (Recall that lectures will be recorded, and nearly all, if not all, material will be available in BbLearn.) Participation in the form of responding to questions in class, asking questions, and attending office hours may be used to determine "borderline" grade cases.
+::: {.callout-important}
+## In-class quizzes
+
+**If a student does not attend a class when a quiz is given, that quiz will receive zero points**. The only exception is if a student notifies the TA, *before class*, of an impending absence. The absence must be formally excused in writing by the TA *before class* for a make-up quiz to be considered. Therefore, the notification of absence must be received *at least several hours prior* to class time. 
+:::
+
 
 ## Course Grades
 Overall course grades will follow a typical scale:
@@ -115,14 +139,12 @@ kbl(sched_df) %>%
 
 ## Course Policies
 
-- Visiting the instructor during office hours is encouraged! I am happy to talk about the class, careers, research, and topics related (even loosely) to this course. If a student cannot attend regular office hours, an appointment may be made via email, with sufficient advanced notice.
-- Email addressed to the instructor and TA must be **respectful and professional**. The instructor will respond to emails promptly, within 2 business days, but the instructor will generally not respond to emails on weekends or late in the evenings, so please plan accordingly.
-- Cheating, including plagiarism of writing or computer code, will not be tolerated. The University's Academic Integrity policies (@sec-univ-policy) will be strictly enforced. 
+- Students are encouraged to attend the office hours of the TAs and the instructors. If a student cannot attend regular office hours with the instructors, an appointment may be considered if made via email with sufficient advanced notice.
+- Email addressed to the instructors and TAs must be **respectful and professional**. The TAs and instructors will respond to emails promptly, within 2 business days. The TAs and instructors will generally not respond to emails on weekends or late in the evenings, so please plan accordingly.
+- Cheating, including plagiarism of writing or computer code, will not be tolerated. All academic integrity violations are treated seriously. Academic integrity violations will result in penalties including, but not limited to, a zero on the assignment, a failing grade in the class, or expulsion from NAU. The University's Academic Integrity policies (@sec-univ-policy) will be strictly enforced. 
 - The paramount policy of this course is that each student is required to demonstrate respect towards their peers and the instructor. The behavior of the instructor is held to the same standard. Students and instructors come from all walks of life, and may identify with a variety of ethnic, racial, religious, gender and sexual identities. Diversity of thought and perspective enhances our science. 
-- Attendance is required and will be recorded. Email the instructor to discuss excused absences. Excessive unexcused absences will reduce your overall grade: 2 unexcused absences leads to 10% course grade reduction, $\dots$, 5 unexcused absences leads to 40% course grade reduction, and 6 unexcused absences leads to a failing grade in the course.
+- Attendance is required and repeated, unexcused absences may affect the student's grade. 
 - The instructor will not provide copies of course notes. These materials should be sought from the students’ peers or by watching the recorded lectures.
-- No late work will be accepted (i.e., any late assignments will receive zero points). This policy can be relaxed in unique circumstances that are negotiated beforehand with the professor. 
-- Cheating and plagiarism are strictly prohibited. All academic integrity violations are treated seriously. Academic integrity violations will result in penalties including, but not limited to, a zero on the assignment, a failing grade in the class, or expulsion from NAU. For group assignments, the “Roles of PIs" document must be of sufficient detail that the instructor can understand the intellectual contributions of all parties. For individual-based assignments, students are encouraged to discuss the intellectual aspects of assignments with other class participants. However, each student is responsible for formulating solutions on their own and in their own words.
 - Electronic device usage must support learning in the class. All cell phones, PDAs, music players and other entertainment devices must be turned off (or put on silent) during lecture.
 - Grades will be entered in BbLearn. Please check LOUIE for your final grade.
 

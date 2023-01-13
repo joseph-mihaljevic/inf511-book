@@ -6,7 +6,10 @@ book:
   title: "INF511: Modern Regression I"
   subtitle: "Spring 2023"
   author: 
-    - name: Joseph Mihaljevic
+    - name: Joseph Mihaljevic, PhD
+      affiliations:
+        - name: Northern Arizona University
+    - name: Kyle Winfree, PhD
       affiliations:
         - name: Northern Arizona University
   site-url: https://jrmihalj.github.io/
