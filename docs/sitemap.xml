@@ -2,42 +2,46 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://jrmihalj.github.io/index.html</loc>
-    <lastmod>2023-01-13T23:47:03.458Z</lastmod>
-  </url>
-  <url>
-    <loc>https://jrmihalj.github.io/ols.html</loc>
-    <lastmod>2023-01-12T17:25:22.041Z</lastmod>
-  </url>
-  <url>
-    <loc>https://jrmihalj.github.io/max-lik.html</loc>
-    <lastmod>2023-01-09T17:52:26.225Z</lastmod>
-  </url>
-  <url>
-    <loc>https://jrmihalj.github.io/hypothesis.html</loc>
-    <lastmod>2023-01-09T17:52:26.225Z</lastmod>
-  </url>
-  <url>
-    <loc>https://jrmihalj.github.io/anova.html</loc>
-    <lastmod>2023-01-09T18:28:51.629Z</lastmod>
-  </url>
-  <url>
-    <loc>https://jrmihalj.github.io/bayesian.html</loc>
-    <lastmod>2023-01-03T23:30:40.379Z</lastmod>
-  </url>
-  <url>
-    <loc>https://jrmihalj.github.io/syllabus.html</loc>
-    <lastmod>2023-01-13T23:46:46.478Z</lastmod>
+    <lastmod>2023-01-14T00:00:11.364Z</lastmod>
   </url>
   <url>
     <loc>https://jrmihalj.github.io/software.html</loc>
-    <lastmod>2023-01-09T17:52:26.217Z</lastmod>
+    <lastmod>2023-01-13T23:50:50.466Z</lastmod>
+  </url>
+  <url>
+    <loc>https://jrmihalj.github.io/Rintro.html</loc>
+    <lastmod>2023-01-13T23:50:50.472Z</lastmod>
   </url>
   <url>
     <loc>https://jrmihalj.github.io/prob.html</loc>
-    <lastmod>2023-01-09T17:52:26.220Z</lastmod>
+    <lastmod>2023-01-13T23:50:50.476Z</lastmod>
+  </url>
+  <url>
+    <loc>https://jrmihalj.github.io/ols.html</loc>
+    <lastmod>2023-01-13T23:50:50.483Z</lastmod>
+  </url>
+  <url>
+    <loc>https://jrmihalj.github.io/hypothesis.html</loc>
+    <lastmod>2023-01-13T23:50:50.484Z</lastmod>
+  </url>
+  <url>
+    <loc>https://jrmihalj.github.io/max-lik.html</loc>
+    <lastmod>2023-01-13T23:50:50.486Z</lastmod>
+  </url>
+  <url>
+    <loc>https://jrmihalj.github.io/anova.html</loc>
+    <lastmod>2023-01-13T23:50:50.487Z</lastmod>
+  </url>
+  <url>
+    <loc>https://jrmihalj.github.io/bayesian.html</loc>
+    <lastmod>2023-01-13T23:50:50.487Z</lastmod>
   </url>
   <url>
     <loc>https://jrmihalj.github.io/references.html</loc>
-    <lastmod>2023-01-09T17:52:26.226Z</lastmod>
+    <lastmod>2023-01-13T23:50:50.488Z</lastmod>
+  </url>
+  <url>
+    <loc>https://jrmihalj.github.io/syllabus.html</loc>
+    <lastmod>2023-01-13T23:55:24.062Z</lastmod>
   </url>
 </urlset>

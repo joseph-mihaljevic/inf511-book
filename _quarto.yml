@@ -12,6 +12,7 @@ book:
     - name: Kyle Winfree, PhD
       affiliations:
         - name: Northern Arizona University
+  cover-image: cover.png
   site-url: https://jrmihalj.github.io/
   repo-url: https://github.com/joseph-mihaljevic/inf511-book
   repo-actions: [source, issue]
