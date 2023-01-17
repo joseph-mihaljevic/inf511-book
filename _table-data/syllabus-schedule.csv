@@ -1,33 +1,33 @@
 ﻿Date,Topic,Reading_Due,Assign_Due,Quiz
 16-Jan,MLK Holiday - NO CLASS,,,
-18-Jan,Introduction,"Syllabus, JM(Ch1&2), JB(1-20, AppA)",,
-23-Jan,Probability distributions ,"JB(pg1-20), JM(Ch3), FAR(Ch1)",PS-0,
-25-Jan,Probability distributions ,,,
-30-Jan,Least Squares,"JB(pg20-38, AppB), JM(Ch4)","PS-1, HW-1",
-1-Feb,Least Squares,FAR(Ch2),,Quiz 1
-6-Feb,Least Squares,JB(pg41-60),PS-2,
-8-Feb,Least Squares,,HW-2,
-13-Feb,Least Squares,"JB(pg157-170), FAR(Ch3)",,
-15-Feb,Hypothesis Testing,"JB(pg61-79), JM(Ch5), FAR(Ch10)",PS-3,
-20-Feb,Hypothesis Testing,"JB(pg80-127), FAR(Ch4)",,Quiz 2
-22-Feb,Maximum Likelihood,"JB(pg38-40), JM(Ch6)",HW-3,
-27-Feb,Maximum Likelihood,FAR(Ch5),,
-1-Mar,Maximum Likelihood,"FAR(Ch6), JB(skimCh6)",PS-4,
-6-Mar,Maximum Likelihood,FAR(Ch7),,
-8-Mar,Maximum Likelihood,FAR(Ch8),HW-4,Quiz 3
+18-Jan,SNOW CLOSURE - NO CLASS,,,
+23-Jan,Introduction,"Syllabus, JM(Ch1&2), JB(1-20, AppA)",,
+25-Jan,Probability distributions ,"JB(pg1-20), JM(Ch3), FAR(Ch1)",PS-0,
+30-Jan,Probability distributions ,,,
+1-Feb,Least Squares,"JB(pg20-38, AppB), JM(Ch4)","PS-1, HW-1",
+6-Feb,Least Squares,FAR(Ch2),,Quiz 1
+8-Feb,Least Squares,JB(pg41-60),PS-2,
+13-Feb,Least Squares,,HW-2,
+15-Feb,Least Squares,"JB(pg157-170), FAR(Ch3)",,
+20-Feb,Hypothesis Testing,"JB(pg61-79), JM(Ch5), FAR(Ch10)",PS-3,
+22-Feb,Hypothesis Testing,"JB(pg80-127), FAR(Ch4)",,Quiz 2
+27-Feb,Maximum Likelihood,"JB(pg38-40), JM(Ch6)",HW-3,
+1-Mar,Maximum Likelihood,FAR(Ch5),,
+6-Mar,Maximum Likelihood,"FAR(Ch6), JB(skimCh6)",PS-4,
+8-Mar,Maximum Likelihood,FAR(Ch7),,
 13-Mar,Spring Break - NO CLASS,,,
 15-Mar,Spring Break - NO CLASS,,,
-20-Mar,ANOVA,"JB(Ch14), JM(Ch7), FAR(Ch14)",PS-5,
-22-Mar,ANOVA,JB(Ch15.1-15.3),,
-27-Mar,ANOVA,"JB(Ch15.4-15.5), FAR(Ch15)",PS-6,
-29-Mar,ANOVA,FAR(Ch16),,
-3-Apr,Model Comparison,"JB(refreshCh3.2), FAR(Ch10)",HW-5,
-5-Apr,Model Comparison,FAR(Ch11),,
-10-Apr,Model Comparison,JB(pg170-223),PS-7,
-12-Apr,Bayesian Inference,,,Quiz 4
-17-Apr,Bayesian Inference,,,
-19-Apr,Bayesian Inference,,HW-6,
-24-Apr,Bayesian Inference,,PS-8,
-26-Apr,Bayesian Inference,,,
-1-May,Research Lecture,,PS-9,Quiz 5
-3-May,Research Lecture,,HW-7,
+20-Mar,Maximum Likelihood,FAR(Ch8),HW-4,Quiz 3
+22-Mar,ANOVA,"JB(Ch14), JM(Ch7), FAR(Ch14)",PS-5,
+27-Mar,ANOVA,JB(Ch15.1-15.3),,
+29-Mar,ANOVA,"JB(Ch15.4-15.5), FAR(Ch15)",PS-6,
+3-Apr,ANOVA,FAR(Ch16),,
+5-Apr,Model Comparison,"JB(refreshCh3.2), FAR(Ch10)",HW-5,
+10-Apr,Model Comparison,FAR(Ch11),,
+12-Apr,Model Comparison,JB(pg170-223),PS-7,
+17-Apr,Bayesian Inference,,,Quiz 4
+19-Apr,Bayesian Inference,,,
+24-Apr,Bayesian Inference,,HW-6,
+26-Apr,Bayesian Inference,,PS-8,
+1-May,Bayesian Inference,,,
+3-May,Research Lecture,,HW-7,Quiz 5
