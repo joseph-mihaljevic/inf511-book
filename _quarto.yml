@@ -9,7 +9,7 @@ book:
     - name: Joseph Mihaljevic, PhD
       affiliations:
         - name: Northern Arizona University
-    - name: Kyle Winfree, PhD
+    - name: Isaac Shaffer, MS
       affiliations:
         - name: Northern Arizona University
   cover-image: cover.png
@@ -52,24 +52,3 @@ format:
     code-fold: false
     highlight-style: printing
     code-block-bg: true
-    
-  pdf:
-    documentclass: scrreprt
-    lof: true
-    lot: true
-    toc: true
-    toc-depth: 2
-    fig-cap-location: bottom
-    tbl-cap-location: bottom
-    geometry:
-      - margin=1in
-      - heightrounded
-    hyperrefoptions:
-      - linktoc=all
-    colorlinks: true
-    linkcolor: "blue"
-    biblio-style: apalike
-    keep-tex: true
-    code-block-bg: true
-    code-overflow: wrap
-    code-line-numbers: true

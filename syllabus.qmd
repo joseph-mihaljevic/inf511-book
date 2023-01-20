@@ -10,10 +10,10 @@
 - Prerequisite: Admission to SICCS graduate program, STA 270, and ((MAT 136 and MAT 137) or MAT 131))
 - Mode of Instruction: Face-to-face
 - Instructors' Names & Contacts: 
-    - Kyle Winfree (Section 001), kyle.winfree@nau.edu
-        - Room 305, SICCS (Building 90)
-        - Office Hours: Wed 11a-12p, Thurs 2-3p (General walk-in)
-        - 928-523-7165
+    - Isaac Shaffer (Section 001), isaac.shaffer@nau.edu
+        - Room 3xx, SICCS (Building 90)
+        - Office Hours: 
+        - 928-523-xxxx
     - Joseph Mihaljevic (Section 002), joseph.mihaljevic@nau.edu
         - Room 213, SICCS (Building 90)
         - Office Hours: Mon 4-5p, Thurs 11a-12p 
