@@ -11,16 +11,17 @@
 - Mode of Instruction: Face-to-face
 - Instructors' Names & Contacts: 
     - Isaac Shaffer (Section 001), isaac.shaffer@nau.edu
-        - Room 3xx, SICCS (Building 90)
-        - Office Hours: 
-        - 928-523-xxxx
+        - Room 306, SICCS (Building 90)
+        - Office Hours: Tues, Thurs 8:30-10:00am
+        - 928-523-5877
     - Joseph Mihaljevic (Section 002), joseph.mihaljevic@nau.edu
         - Room 213, SICCS (Building 90)
         - Office Hours: Mon 4-5p, Thurs 11a-12p 
         - 928-523-5125
 - Teaching Assistants: 
     - Amardeep Jetty, aj2569@nau.edu
-        - Office hours: Tues, Thurs 2:30-3:30p; *Location TBA*
+        - Office hours: Tues, Thurs 2:30-3:30p
+        - Location: Room 102, ENG (Building 69)
 
 
 ## BbLearn, Collaborate Ultra & Recorded Lectures
