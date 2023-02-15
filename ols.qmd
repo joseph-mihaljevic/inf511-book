@@ -355,6 +355,171 @@ lines(y_predict[,"upr"]~ x_fake_mat[,2], lty = 3, lwd = 3, col = "purple")
 There is yet a third option to calculate the uncertainty in predicted (i.e., interpolated or extrapolated) values of 
 $Y$, which is to derive an exact calculation of the confidence interval using the $t$ distribution, similar to that shown in @sec-conf-beta. See Ch4.1 of Dr. Barber's book for this derivation. 
 
+## Multiple Linear Regression
+
+So far, we have only discussed a single input variable in our model, which is a simple linear regression. When we have multiple input variables, we are dealing with multiple linear regression analysis, so the model looks like:
+$$y_i = \beta_0 + \beta_1 x_{1,i} + \beta_2 x_{2,i} + \dots + \beta_{p-1} x_{p-1,i} + \epsilon_i$$
+where $p$ is the number of model coefficients and $p-1$ is the number of input variables. Still, in matrix notation the model is $Y = XB + \epsilon$, so the least squares regression analysis approach still works. However, our interpretation of the model coefficients becomes a bit more challenging. 
+
+Let's look at a data set within the `faraway` package.
+```{r}
+#| message: false
+#| warning: false
+#| fig-width: 8
+#| fig-height: 3.5
+
+library(faraway)
+data(gala)
+
+# Plot the raw data relationships
+par(mfrow=c(1,3))
+plot(gala$Species ~ gala$Elevation, xlab = "Elevation", ylab = "Species", pch = 19)
+plot(gala$Species ~ gala$Area, xlab = "Area", ylab = "Species", pch = 19)
+plot(gala$Species ~ gala$Adjacent, xlab = "Adjacent", ylab = "Species", pch = 19)
+par(mfrow=c(1,1))
+
+# Conduct multiple and single linear regressionm, focusing on Elevation
+m1 = lm(Species ~ Elevation + Area + Adjacent, data = gala)
+m2 = lm(Species ~ Elevation, data = gala)
+coef(m1); coef(m2)
+```
+
+```{r}
+plot(gala$Species ~ gala$Elevation, xlab = "Elevation", ylab = "Species", pch = 19)
+abline(coef=coef(m1)[1:2])
+abline(coef=coef(m2)[1:2], lty = 2)
+```
+
+What we see above is how the addition of `Area` and `Adjacent` input variables into the model "adjusts" the effect of `Elevation`, leading to two unique estimates of the slope (i.e., effect) of `Elevation`. Let's probe multiple linear regression more closely by using simulated data.
+
+First, let's simulate a model with 80 data points that correspond to observations of 4 input variables and one outcome variable. 
+```{r}
+n = 80
+n_covariate = 4
+p = n_covariate + 1
+
+betas = vector("numeric", length = p)
+xmat = matrix(0, nrow = n, ncol = p)
+sigma = 2.25
+
+# Column for intercept
+xmat[,1] = 1
+
+# Generate the covariate data randomly:
+set.seed(5)
+xmat[,2] = rnorm(n, mean = 5, sd = 8)
+xmat[,3] = runif(n, min = 0, max = 20)
+xmat[,4] = rchisq(n, df = 50)
+xmat[,5] = rpois(n, lambda = 10)
+
+par(mfrow=c(2,2))
+for(i in 2:p){
+    hist(xmat[,i], main = paste("covariate ", i-1))
+}
+
+# Set the betas:
+betas[1] = 1.0
+betas[2] = 0.75
+betas[3] = -1.2
+betas[4] = 0.0
+betas[5] = 1.8
+
+# Calculate the observed 'y', adding residual error
+y = xmat %*% betas + rnorm(n, mean = 0, sd = sigma)
+par(mfrow=c(1,1))
+hist(y)
+
+par(mfrow=c(2,2))
+for(i in 2:p){
+    plot(y ~ xmat[,i],
+         xlab = paste("covariate ", i-1))
+}
+```
+
+How do we figure out the expected value of $y$ for a particular situation? Here's an example. What is the expected value of $y$ when $x_2 = 0.5$, but the rest of the input variables are at their average values?
+
+```{r}  
+# Written out long-ways:
+pred_y = 
+    betas[1]*1 + 
+    betas[2]*mean(xmat[,2]) + 
+    betas[3]*0.5 + 
+    betas[4]*mean(xmat[,4]) + 
+    betas[5]*mean(xmat[,5]) 
+pred_y
+```
+
+Now let's use ordinary least squares regression to estimate our model coefficients from the data, and then compare these to our "known" values of the model parameters. 
+
+```{r}
+# Run the model:
+m1 = lm(y ~ 0 + xmat)
+# Note that the following two models give the same results
+#m2 = lm(y ~ 0 + X1 + X2 + X3 + X4 + X5, data = data.frame(xmat))
+#m3 = lm(y ~ 1 + X2 + X3 + X4 + X5, data = data.frame(xmat))
+summary(m1)
+#summary(m2)
+#summary(m3)
+
+# Compare known `betas` to estimated coefficients
+cbind(betas, coef(m1)) 
+
+# plot the regression lines with abline
+coef_m1 = coef(m1)
+par(mfrow=c(2,2))
+for(i in 2:p){
+    
+    plot(y ~ xmat[,i], pch=19,
+         xlab = paste("covariate ", i-1),
+         ylab = "y",
+         ylim = range(y))
+    abline(coef=coef_m1[c(1,i)])
+}
+```
+
+Well, those regression lines do not look correct. That is because we are interpretting the slopes and intercepts a little incorrectly and not plotting them in the correct manner. 
+
+::: {.callout-note}
+## How to plot the output of `lm()` for multiple linear regression
+
+When we isolate and visualize the relationship between the outcome and a single input variable, what we are really observing is the adjusted relationship, after accounting for the other input variables in the model. To understand the expected value of $y$ for any particular value of the single input variable, we really need to set the other input variables to their mean value. Let's demonstrate this below with the `predict()` function.
+:::
+
+Let's determine the expected values of $y$ for input variable 2 ($x_2$) and plot it.
+
+```{r}
+# Prediction for covariate 2 when all other input vars at mean
+my_df = data.frame(xmat[,2:5])
+head(my_df)
+
+# Re-run the model but with just the input variables, 
+# and the intercept is implicit
+m2 = lm(y ~ 1 + X1 + X2 + X3 + X4, data = my_df)
+
+# Now let's try to predict y across a range of 
+# input variable 2,
+# while holding the other input variables at
+# their average values
+
+n_pred = 100
+new_df = data.frame(
+  X1 = rep(mean(my_df$X1), n_pred),
+  X2 = seq(0, 20, length.out = n_pred),
+  X3 = rep(mean(my_df$X3), n_pred),
+  X4 = rep(mean(my_df$X4), n_pred)
+)
+
+y_pred2 = predict(m2, newdata = new_df)
+
+# Now plot:
+par(mfrow=c(1,1))
+plot(y ~ my_df$X2, pch = 19,
+     xlab = "covariate 2", ylab = "y")
+lines(y_pred2 ~ new_df$X2)
+```
+
+Now we see that the `predict()` function shows a more intuitive relationship between input variable $x_2$ and outcome $y$, *while accounting for the effects of the three other input variables*.
+
 
 ## Footnotes
 
