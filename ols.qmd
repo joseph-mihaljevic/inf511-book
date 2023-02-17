@@ -392,7 +392,7 @@ abline(coef=coef(m2)[1:2], lty = 2)
 
 What we see above is how the addition of `Area` and `Adjacent` input variables into the model "adjusts" the effect of `Elevation`, leading to two unique estimates of the slope (i.e., effect) of `Elevation`. Let's probe multiple linear regression more closely by using simulated data.
 
-First, let's simulate a model with 80 data points that correspond to observations of 4 input variables and one outcome variable. 
+First, let's simulate a model with 80 data points that correspond to observations of 4 input variables and one outcome variable. Note that in [Footnotes @sec-mlr], we show a case with a categorical/binary input variable. 
 ```{r}
 n = 80
 n_covariate = 4
@@ -579,3 +579,57 @@ inv_A = solve(A)
 (inv_A %*% B)
 X
 ```
+
+### Multiple linear regression with a categorical input {#sec-mlr}
+
+Let's simulate a case in which we have one categorical input variable that takes on values "low", "medium", and "high", and one continuous input variable. 
+```{r}
+set.seed(7)
+n=90
+sigma = 0.8
+
+# Xmatrix
+## Intercept
+x0 = rep(1, times = n) 
+## Categorical input variable
+### Note that we need to code this as "0" "1" "2" to 
+### simulate our outcome variable "y"
+x1 = rep(c(0,1,2), each=n/3)
+x1L = factor(x1, labels = c("low", "med", "high"))
+## Continuous input variable
+x2 = rnorm(n, 0, 2.5)
+xmat = cbind(x0,x1,x2)
+head(xmat)
+
+# Intercept and 2 slopes
+betas=c(1.5, 1.2, -1.5)
+
+# Simulate outcome variable, as usual
+y2 = xmat %*% betas + rnorm(n,0,sigma)
+
+# Plot the relationships
+par(mfrow=c(1,2))
+plot(y2~x1)
+plot(y2~x2)
+
+# Run the model
+## Note that we us the "factor" input variable
+## "x1L", which has "levels"
+m_cat = lm(y2 ~ 1 + x1L + x2)
+summary(m_cat)
+coef(m_cat)
+```
+
+How do we interpret the slopes, because we see there is a separate slope for `x1Lmed` and `x1Lhigh`? We can understand better by seeing how the linear model addes up. For instance, what is the expected value of the outcome variable when $x_1$ is `high`, and $x_2 = 2.0$?
+
+```{r}
+## Using m1_binL:
+y2_pred = 
+    1*coef(m_cat)[1] + # Global average (intercept)
+    0*coef(m_cat)[2] + # Not "med"
+    1*coef(m_cat)[3] + # Yes "high"
+    2.0*coef(m_cat)[4] # x2=2.0 * slope
+as.numeric(y2_pred)
+```
+
+When we assigned the slope of the categorical input variable as $1.2$, remember this is the expected change in $y$ as the input variable changes by a value of $1.0$. In the model, we code the $x_1$ variable as taking numerical values $0$, $1$, and $2$ to represent categories, "low", "medium", and "high". So, the slope for `x1med` is the expected change in $y$ as the input variable changes from "low" to "medium", an effective change of $1.0$. Then, the slope for `x1high` is the expected change in $y$ as the input variable changes from "low" to "high", an effective change of $2.0$; hence, this slope is estimated as $2.29$, with standard error $0.19$. Notice how this slope is approximately twice our "known" slope for the input variable, which was $1.2$.
