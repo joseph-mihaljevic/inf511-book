@@ -66,7 +66,7 @@ The $t$-statistic is calculated as follows:
 $$t_i = \frac{\beta_i - \mu}{SE(\beta_i)}, \quad \text{and}$$ 
 $$t_i \sim t(\nu),$$ 
 
-where $t(\nu)$ is a $t$-distribution with $\nu=n-p$ degrees of freedom. Then we find $P(t > |t_i|) = 1 - P(t \le |t_i|)$, which is our $p$-value for the test. 
+where $\mu=0$ represents our null hypothesis, and $t(\nu)$ is a $t$-distribution with $\nu=n-p$ degrees of freedom. Then we find $P(t > |t_i|) = 1 - P(t \le |t_i|)$, which is our $p$-value for the test. 
 
 Let's manually calculate the $t_i$ and the $P(t > |t_i|)$ for input variables $x_1$, which has a significant positive effect on $y$, and for $x_3$, which has no detectable linear effect on $y$. 
 
@@ -92,7 +92,6 @@ se_beta_x3 = se_betas[4]
 t_x1 = (coef_x1 - 0)/se_beta_x1
 t_x3 = (coef_x3 - 0)/se_beta_x3
 
-
 # Calculate P(t > |t_i|) = 1 - P(t <= |t_i|)
 # abs() calculates absolute value
 p_x1 = 1 - pt(abs(t_x1), df = t_df)
@@ -112,6 +111,8 @@ t_table
 ## from the summary table 
 m1_summary$coefficients[c(2,4), 3:4]
 ```
+Although our manual $p$-value calculation is zero, what this really means is that the $p$-value is so low, that it exceeds the significant digits that are allowed in (computer) memory, which is why the `lm()` `summary` output reports the `p-value: < 2.2e-16`. 
+
 Let's plot the $t_i$ on the $t$-distribution to see if these $p$-values make sense.
 ```{r}
 tseq = seq(-21, 21, by = 0.1)
@@ -196,7 +197,13 @@ p_f_m1 = 1 - pf(f_stat,
 p_f_m1
 ```
 
-Although this $p$-value is zero, what this really means is that the $p$-value is so low, that it exceeds the significant digits that are allowed in (computer) memory, which is why the `lm()` output reports the `p-value: < 2.2e-16`. 
+Again, although this $p$-value is showing zero, what this really means is that the $p$-value is so low, that it exceeds the significant digits that are allowed in (computer) memory, which is why the `lm()` output reports the `p-value: < 2.2e-16`. 
+
+```{r}
+# Reminder:
+m1_summary
+```
+
 
 ## Goodness of fit with $R^2$ {#sec-r2}
 
