@@ -263,7 +263,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 </header><section id="lecture-material" class="level2" data-number="4.1"><h2 data-number="4.1" class="anchored" data-anchor-id="lecture-material">
 <span class="header-section-number">4.1</span> Lecture material</h2>
-<p>Please download and print the lecture materials from <a href="https://bblearn.nau.edu/" target="_blank">Bblearn</a> or the <a href="https://github.com/joseph-mihaljevic/inf511-book/tree/main/lecture-material" target="_blank">GitHub repo</a>. After lectures, the recordings will appear in the Bblearn Collaborate Ultra section.</p>
+<p>Please download and print the lecture materials from <a href="https://bblearn.nau.edu/" target="_blank">Bblearn</a>. After lectures, the recordings will appear in the Bblearn Collaborate Ultra section.</p>
 </section><section id="in-class-code" class="level2 unnumbered"><h2 class="unnumbered anchored" data-anchor-id="in-class-code">In-class Code</h2>
 <p>Remember that our goal is to estimate the linear relationship between data observations of response variable, <span class="math inline">\(y\)</span>, and its measured covariate, <span class="math inline">\(x\)</span>, following: <span class="math inline">\(Y = XB + \epsilon\)</span>, where <span class="math inline">\(\epsilon \sim N(0, \sigma^2 I).\)</span> Our coefficients to estimate are therefore <span class="math inline">\(\hat{B}\)</span>, which is a column vector of the intercept and slope. We also estimate the standard deviation of the residuals (i.e., residual error), <span class="math inline">\(\hat{\sigma}\)</span>. To estimate the coefficients, we are attempting to minimize the residual sum of squares, <span class="math inline">\(|| \epsilon || ^ 2\)</span>. See <a href="#sec-crossprod">Footnotes&nbsp;<span>4.12.1</span></a> for more information regarding this notation.</p>
 </section><section id="generate-the-data" class="level2" data-number="4.2"><h2 data-number="4.2" class="anchored" data-anchor-id="generate-the-data">
@@ -326,7 +326,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span><span class="va">y_hat</span> <span class="op">=</span> <span class="va">xmat</span> <span class="op"><a href="https://rdrr.io/r/base/matmult.html">%*%</a></span> <span class="va">betas</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/points.html">points</a></span><span class="op">(</span><span class="va">y_hat</span> <span class="op">~</span> <span class="va">x1</span>, cex <span class="op">=</span> <span class="fl">1.25</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="ols_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid" width="672"></p>
+<p><img src="ols_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 </section><section id="sec-lm-output" class="level2" data-number="4.4"><h2 data-number="4.4" class="anchored" data-anchor-id="sec-lm-output">
@@ -421,7 +421,7 @@ F-statistic: 6.153 on 1 and 2 DF,  p-value: 0.1313</code></pre>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/abline.html">abline</a></span><span class="op">(</span>coef <span class="op">=</span> <span class="va">bhat_solve</span>,</span>
 <span>       col <span class="op">=</span> <span class="st">"purple"</span>, lty <span class="op">=</span> <span class="fl">3</span>, lwd <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="ols_files/figure-html/unnamed-chunk-10-1.png" class="img-fluid" width="672"></p>
+<p><img src="ols_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 </section><section id="why-are-the-hatb-different-from-true-b" class="level2" data-number="4.7"><h2 data-number="4.7" class="anchored" data-anchor-id="why-are-the-hatb-different-from-true-b">
@@ -481,7 +481,7 @@ F-statistic: 6.153 on 1 and 2 DF,  p-value: 0.1313</code></pre>
 <p>To calculate confidence intervals for <span class="math inline">\(\hat{B}\)</span>, we first must understand the <span class="math inline">\(t\)</span> (a.k.a. Student’s <span class="math inline">\(t\)</span>) probability distribution. This distribution represents the case when we are estimating the mean of a normally distributed variable and either the sample size is small or the variable’s standard deviation is unknown. Essentially, the <span class="math inline">\(t\)</span> distribution increases the uncertainty (i.e., variance) in cases of low sample size (i.e., small <span class="math inline">\(n\)</span>). With low sample size (and/or high number of parameters), the degrees of freedom of the <span class="math inline">\(t\)</span>-distribution, <span class="math inline">\(\nu\)</span> is low, whereas with high sample size, <span class="math inline">\(\nu\)</span> is large. As <span class="math inline">\(\nu\)</span> approaches infinity, the <span class="math inline">\(t\)</span>-distribution approximates the standard normal distribution (i.e., <span class="math inline">\(N(\mu, \sigma)|\mu=0,\sigma=1\)</span>).</p>
 <div class="cell">
 <div class="cell-output-display">
-<p><img src="ols_files/figure-html/unnamed-chunk-16-1.png" class="img-fluid" width="672"></p>
+<p><img src="ols_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 <p>It is the case for <span class="math inline">\(\hat{B} \sim N \left( B, (X^TX)^{-1} \hat{\sigma}^2 \right)\)</span> that we do not know the mean (<span class="math inline">\(B\)</span>), and we are estimating the variance, <span class="math inline">\(\hat{\sigma}^2\)</span>. Specifically, we are estimating the true mean vector, <span class="math inline">\(B\)</span>, as <span class="math inline">\(\hat{B}\)</span>, and we are estimating the variance of the residuals as <span class="math inline">\(\hat{\sigma}^2\)</span>. We can therefore re-write the uncertainty in <span class="math inline">\(\hat{B}\)</span> as a multivariate <span class="math inline">\(t\)</span> distribution: <span class="math display">\[(\hat{B} - B) \sim t_{\nu} \left( 0, \Sigma \right),\]</span> where the means are zero, <span class="math inline">\(\nu\)</span> is the degrees of freedom (i.e., <span class="math inline">\(n-p\)</span>), and <span class="math inline">\(\Sigma = (X^TX)^{-1} \hat{\sigma}^2\)</span>. <span class="math inline">\((\hat{B} - B)\)</span> represents the deviation of the estimated coefficients from the true coefficients, which is why the distribution is centered around zero. It is perhaps easier to separate the individual estimated coefficients, <span class="math inline">\(\beta_i\)</span>, into their separate <span class="math inline">\(t\)</span>-distributions: <span class="math display">\[\frac{(\hat{\beta}_i - \beta_i)}{SE(\hat{\beta}_i)} \sim t_{\nu}\]</span> <span class="math display">\[(\hat{\beta}_i - \beta_i) \sim t_{\nu} SE(\hat{\beta}_i),\]</span> which shows that the <span class="math inline">\(t\)</span>-distribution that describes the deviation of regression coefficients from the true value of those coefficients is scaled by the uncertainty in the estimated coefficients <span class="math inline">\(SE(\hat{\beta}_i)\)</span>. As shown in Dr.&nbsp;Barber’s materials, using this information, we can derive the confidence interval (at the <span class="math inline">\(\alpha\)</span> confidence level) calculation for <span class="math inline">\(\hat{\beta}_i\)</span> as: <span class="math display">\[ \hat{\beta}_i \pm t \left(\frac{1-\alpha}{2}, \nu \right) SE(\hat{\beta}_i),\]</span> where the <span class="math inline">\(t()\)</span> notation represents the <em>critical value</em> of the <span class="math inline">\(t\)</span>-distribution, <span class="math inline">\(t_{crit}\)</span>, with <span class="math inline">\(\nu\)</span> degrees of freedom, for which <span class="math inline">\(P(z \le t_{crit}) = \frac{1-\alpha}{2}\)</span>, and <span class="math inline">\(z\)</span> is a continuous, random variable. This critical value can be calculated in R using the <code><a href="https://rdrr.io/r/stats/TDist.html">qt()</a></code> function, which we show below.</p>
@@ -580,7 +580,7 @@ slope     1.628571 -1.196212  4.453355</code></pre>
 <span><span class="co"># Notice the covariance</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">test_mat_t</span>, xlab <span class="op">=</span> <span class="st">"Intercept"</span>, ylab <span class="op">=</span> <span class="st">"Slope"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="ols_files/figure-html/unnamed-chunk-20-1.png" class="img-fluid" width="672"></p>
+<p><img src="ols_files/figure-html/unnamed-chunk-10-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 <p>Next, for each pair of intercept and slope randomly drawn above, we will calculate the expected values of <span class="math inline">\(Y\)</span> across the range of covariate <span class="math inline">\(x\)</span>. We will then summarize the 95% quantile of expected <span class="math inline">\(Y\)</span> at each value of <span class="math inline">\(x\)</span> in this interpolation. To do this, we need a function to calculate the expected value of <span class="math inline">\(Y\)</span>. This function will have the intercept and slope as inputs and will output the expected values of <span class="math inline">\(Y\)</span> across a range of <span class="math inline">\(x\)</span>. Then, we will <code><a href="https://rdrr.io/r/base/apply.html">apply()</a></code> this function using all of the values of intercept and slope, in a vectorized and therefore very efficient manner, rather than using any <code>for</code> loops.</p>
@@ -659,7 +659,7 @@ slope     1.628571 -1.196212  4.453355</code></pre>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/lines.html">lines</a></span><span class="op">(</span><span class="va">y_predict</span><span class="op">[</span>,<span class="st">"lwr"</span><span class="op">]</span><span class="op">~</span> <span class="va">x_fake_mat</span><span class="op">[</span>,<span class="fl">2</span><span class="op">]</span>, lty <span class="op">=</span> <span class="fl">3</span>, lwd <span class="op">=</span> <span class="fl">3</span>, col <span class="op">=</span> <span class="st">"purple"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/lines.html">lines</a></span><span class="op">(</span><span class="va">y_predict</span><span class="op">[</span>,<span class="st">"upr"</span><span class="op">]</span><span class="op">~</span> <span class="va">x_fake_mat</span><span class="op">[</span>,<span class="fl">2</span><span class="op">]</span>, lty <span class="op">=</span> <span class="fl">3</span>, lwd <span class="op">=</span> <span class="fl">3</span>, col <span class="op">=</span> <span class="st">"purple"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="ols_files/figure-html/unnamed-chunk-26-1.png" class="img-fluid" width="672"></p>
+<p><img src="ols_files/figure-html/unnamed-chunk-13-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 <p>There is yet a third option to calculate the uncertainty in predicted (i.e., interpolated or extrapolated) values of <span class="math inline">\(Y\)</span>, which is to derive an exact calculation of the confidence interval using the <span class="math inline">\(t\)</span> distribution, similar to that shown in <a href="#sec-conf-beta"><span>Section&nbsp;4.9</span></a>. See Ch4.1 of Dr.&nbsp;Barber’s book for this derivation.</p>
@@ -677,7 +677,7 @@ slope     1.628571 -1.196212  4.453355</code></pre>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">gala</span><span class="op">$</span><span class="va">Species</span> <span class="op">~</span> <span class="va">gala</span><span class="op">$</span><span class="va">Area</span>, xlab <span class="op">=</span> <span class="st">"Area"</span>, ylab <span class="op">=</span> <span class="st">"Species"</span>, pch <span class="op">=</span> <span class="fl">19</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">gala</span><span class="op">$</span><span class="va">Species</span> <span class="op">~</span> <span class="va">gala</span><span class="op">$</span><span class="va">Adjacent</span>, xlab <span class="op">=</span> <span class="st">"Adjacent"</span>, ylab <span class="op">=</span> <span class="st">"Species"</span>, pch <span class="op">=</span> <span class="fl">19</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="ols_files/figure-html/unnamed-chunk-28-1.png" class="img-fluid" width="768"></p>
+<p><img src="ols_files/figure-html/unnamed-chunk-14-1.png" class="img-fluid" width="768"></p>
 </div>
 <div class="sourceCode" id="cb40"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html">par</a></span><span class="op">(</span>mfrow<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">1</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
@@ -699,7 +699,7 @@ slope     1.628571 -1.196212  4.453355</code></pre>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/abline.html">abline</a></span><span class="op">(</span>coef<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/stats/coef.html">coef</a></span><span class="op">(</span><span class="va">m1</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">2</span><span class="op">]</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/abline.html">abline</a></span><span class="op">(</span>coef<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/stats/coef.html">coef</a></span><span class="op">(</span><span class="va">m2</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">2</span><span class="op">]</span>, lty <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="ols_files/figure-html/unnamed-chunk-30-1.png" class="img-fluid" width="672"></p>
+<p><img src="ols_files/figure-html/unnamed-chunk-15-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 <p>What we see above is how the addition of <code>Area</code> and <code>Adjacent</code> input variables into the model “adjusts” the effect of <code>Elevation</code>, leading to two unique estimates of the slope (i.e., effect) of <code>Elevation</code>. Let’s probe multiple linear regression more closely by using simulated data.</p>
@@ -728,7 +728,7 @@ slope     1.628571 -1.196212  4.453355</code></pre>
 <span>    <span class="fu"><a href="https://rdrr.io/r/graphics/hist.html">hist</a></span><span class="op">(</span><span class="va">xmat</span><span class="op">[</span>,<span class="va">i</span><span class="op">]</span>, main <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste</a></span><span class="op">(</span><span class="st">"covariate "</span>, <span class="va">i</span><span class="op">-</span><span class="fl">1</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="ols_files/figure-html/unnamed-chunk-32-1.png" class="img-fluid" width="672"></p>
+<p><img src="ols_files/figure-html/unnamed-chunk-16-1.png" class="img-fluid" width="672"></p>
 </div>
 <div class="sourceCode" id="cb45"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Set the betas:</span></span>
 <span><span class="va">betas</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span> <span class="op">=</span> <span class="fl">1.0</span></span>
@@ -742,7 +742,7 @@ slope     1.628571 -1.196212  4.453355</code></pre>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html">par</a></span><span class="op">(</span>mfrow<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">1</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/hist.html">hist</a></span><span class="op">(</span><span class="va">y</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="ols_files/figure-html/unnamed-chunk-32-2.png" class="img-fluid" width="672"></p>
+<p><img src="ols_files/figure-html/unnamed-chunk-16-2.png" class="img-fluid" width="672"></p>
 </div>
 <div class="sourceCode" id="cb46"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html">par</a></span><span class="op">(</span>mfrow<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">2</span>,<span class="fl">2</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="kw">for</span><span class="op">(</span><span class="va">i</span> <span class="kw">in</span> <span class="fl">2</span><span class="op">:</span><span class="va">p</span><span class="op">)</span><span class="op">{</span></span>
@@ -750,7 +750,7 @@ slope     1.628571 -1.196212  4.453355</code></pre>
 <span>         xlab <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste</a></span><span class="op">(</span><span class="st">"covariate "</span>, <span class="va">i</span><span class="op">-</span><span class="fl">1</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="ols_files/figure-html/unnamed-chunk-32-3.png" class="img-fluid" width="672"></p>
+<p><img src="ols_files/figure-html/unnamed-chunk-16-3.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 <p>How do we figure out the expected value of <span class="math inline">\(y\)</span> for a particular situation? Here’s an example. What is the expected value of <span class="math inline">\(y\)</span> when <span class="math inline">\(x_2 = 0.5\)</span>, but the rest of the input variables are at their average values?</p>
@@ -823,7 +823,7 @@ xmat5  1.80  1.826125438</code></pre>
 <span>    <span class="fu"><a href="https://rdrr.io/r/graphics/abline.html">abline</a></span><span class="op">(</span>coef<span class="op">=</span><span class="va">coef_m1</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="va">i</span><span class="op">)</span><span class="op">]</span><span class="op">)</span></span>
 <span><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="ols_files/figure-html/unnamed-chunk-36-1.png" class="img-fluid" width="672"></p>
+<p><img src="ols_files/figure-html/unnamed-chunk-18-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 <p>Well, those regression lines do not look correct. That is because we are interpretting the slopes and intercepts a little incorrectly and not plotting them in the correct manner.</p>
@@ -879,7 +879,7 @@ How to plot the output of <code><a href="https://rdrr.io/r/stats/lm.html">lm()</
 <span>     xlab <span class="op">=</span> <span class="st">"covariate 2"</span>, ylab <span class="op">=</span> <span class="st">"y"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/lines.html">lines</a></span><span class="op">(</span><span class="va">y_pred2</span> <span class="op">~</span> <span class="va">new_df</span><span class="op">$</span><span class="va">X2</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="ols_files/figure-html/unnamed-chunk-38-1.png" class="img-fluid" width="672"></p>
+<p><img src="ols_files/figure-html/unnamed-chunk-19-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 <p>Now we see that the <code><a href="https://rdrr.io/r/stats/predict.html">predict()</a></code> function shows a more intuitive relationship between input variable <span class="math inline">\(x_2\)</span> and outcome <span class="math inline">\(y\)</span>, <em>while accounting for the effects of the three other input variables</em>.</p>
@@ -1004,7 +1004,7 @@ How to plot the output of <code><a href="https://rdrr.io/r/stats/lm.html">lm()</
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">y2</span><span class="op">~</span><span class="va">x1</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">y2</span><span class="op">~</span><span class="va">x2</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="ols_files/figure-html/unnamed-chunk-46-1.png" class="img-fluid" width="672"></p>
+<p><img src="ols_files/figure-html/unnamed-chunk-23-1.png" class="img-fluid" width="672"></p>
 </div>
 <div class="sourceCode" id="cb75"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Run the model</span></span>
 <span><span class="co">## Note that we us the "factor" input variable</span></span>
@@ -1255,7 +1255,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb81-2"><a href="#cb81-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb81-3"><a href="#cb81-3" aria-hidden="true" tabindex="-1"></a><span class="fu">## Lecture material</span></span>
 <span id="cb81-4"><a href="#cb81-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb81-5"><a href="#cb81-5" aria-hidden="true" tabindex="-1"></a>Please download and print the lecture materials from <span class="co">[</span><span class="ot">Bblearn</span><span class="co">](https://bblearn.nau.edu/)</span>{target="_blank"} or the [GitHub repo](https://github.com/joseph-mihaljevic/inf511-book/tree/main/lecture-material){target="_blank"}. After lectures, the recordings will appear in the Bblearn Collaborate Ultra section.</span>
+<span id="cb81-5"><a href="#cb81-5" aria-hidden="true" tabindex="-1"></a>Please download and print the lecture materials from <span class="co">[</span><span class="ot">Bblearn</span><span class="co">](https://bblearn.nau.edu/)</span>{target="_blank"}. After lectures, the recordings will appear in the Bblearn Collaborate Ultra section.</span>
 <span id="cb81-6"><a href="#cb81-6" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb81-7"><a href="#cb81-7" aria-hidden="true" tabindex="-1"></a><span class="fu">## In-class Code {.unnumbered}</span></span>
 <span id="cb81-8"><a href="#cb81-8" aria-hidden="true" tabindex="-1"></a></span>
