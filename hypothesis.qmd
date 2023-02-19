@@ -111,7 +111,7 @@ t_table
 ## from the summary table 
 m1_summary$coefficients[c(2,4), 3:4]
 ```
-Although our manual $p$-value calculation is zero, what this really means is that the $p$-value is so low, that it exceeds the significant digits that are allowed in (computer) memory, which is why the `lm()` `summary` output reports the `p-value: < 2.2e-16`. 
+Although our manual $p$-value calculation is zero, what this really means is that the $p$-value is so low, that it exceeds the significant digits that are allowed in (computer) memory, which is why the `lm()` `summary` output reports the notation `Pr(>|t|): < 2.2e-16`. 
 
 Let's plot the $t_i$ on the $t$-distribution to see if these $p$-values make sense.
 ```{r}
@@ -138,8 +138,8 @@ For the above hypothesis, we calculate the $F$-statistic as:
 $$F_{stat} = \frac{ \frac{SSE(\text{null}) - SSE(\text{full})}{\text{df}_{\text{null}}-\text{df}_{\text{full}}} }{ \frac{SSE(\text{full})}{\text{df}_{\text{full}}} }, \quad \text{and}$$
 $$F_{stat} \sim F(\text{df}_{\text{numerator}}, \text{df}_{\text{denominator}})$$
 
-The $SSE(\text{null})$ refers to the sum of squared errors (i.e., residuals) for the null model that takes the form $y_i = \beta_0 + \epsilon_i$, such that the $E[y_i] = \beta_0 = \bar{y}$. 
-The $\text{df}_{\text{numerator}}$ is equal to $\text{df}_{\text{null}} - \text{df}_{\text{full}}$, and the $\text{df}_{\text{denominator}}$ is equal to  $\text{df}_{\text{full}}$. 
+The $SSE(\text{null})$ refers to the sum of squared errors (i.e., residuals) for the null model that takes the form $y_i = \beta_0 + \epsilon_i$, such that the $E[y_i] = \beta_0 = \bar{y}$. Because this reduced model only has one coefficient, $\beta_0$, then the $\text{df}_{\text{null}} = n - 1$.
+Note that, following the expression for $F_{stat}$, the $\text{df}_{\text{numerator}}$ is equal to $\text{df}_{\text{null}} - \text{df}_{\text{full}}$, and the $\text{df}_{\text{denominator}}$ is equal to  $\text{df}_{\text{full}}$. 
 
 In this test, we are essentially trying to understand if the full model, which includes all of the input variables in the model, does a better job at explaining the outcome variable compared to a null model that simply explains the data by saying that we should expect to see $y$ values that are most often close to the mean of $y$, which equals $\bar{y}$. 
 
