@@ -1,12 +1,9 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
-
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta charset="utf-8">
 <meta name="generator" content="quarto-1.2.269">
-
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-
-
 <title>INF511: Modern Regression I - 6&nbsp; Maximum Likelihood</title>
 <style>
 code{white-space: pre-wrap;}
@@ -85,7 +82,6 @@ code span.vs { color: #4070a0; } /* VerbatimString */
 code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
 </style>
 
-
 <script src="site_libs/quarto-nav/quarto-nav.js"></script>
 <script src="site_libs/quarto-nav/headroom.min.js"></script>
 <script src="site_libs/clipboard/clipboard.min.js"></script>
@@ -103,8 +99,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
-<script id="quarto-search-options" type="application/json">{
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light"><script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
   "collapse-after": 3,
@@ -122,30 +117,21 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
     "search-detached-cancel-button-title": "Cancel",
     "search-submit-button-title": "Submit"
   }
-}</script>
-<style>html{ scroll-behavior: smooth; }</style>
-
-
+}</script><style>html{ scroll-behavior: smooth; }</style>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 </head>
-
 <body class="nav-sidebar floating">
 
 <div id="quarto-search-results"></div>
-  <header id="quarto-header" class="headroom fixed-top">
-  <nav class="quarto-secondary-nav" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
-    <div class="container-fluid d-flex justify-content-between">
+  <header id="quarto-header" class="headroom fixed-top"><nav class="quarto-secondary-nav" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }"><div class="container-fluid d-flex justify-content-between">
       <h1 class="quarto-secondary-nav-title"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Maximum Likelihood</span></h1>
       <button type="button" class="quarto-btn-toggle btn" aria-label="Show secondary navigation">
         <i class="bi bi-chevron-right"></i>
       </button>
     </div>
-  </nav>
-</header>
-<!-- content -->
-<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+  </nav></header><!-- content --><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
 <!-- sidebar -->
-  <nav id="quarto-sidebar" class="sidebar collapse sidebar-navigation floating overflow-auto">
-    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+  <nav id="quarto-sidebar" class="sidebar collapse sidebar-navigation floating overflow-auto"><div class="pt-lg-2 mt-2 text-left sidebar-header">
     <div class="sidebar-title mb-0 py-0">
       <a href="./">INF511: Modern Regression I</a> 
         <div class="sidebar-tools-main">
@@ -160,36 +146,26 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
       </div>
     <div class="sidebar-menu-container"> 
     <ul class="list-unstyled mt-1">
-        <li class="sidebar-item">
+<li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./index.html" class="sidebar-item-text sidebar-link">Preface</a>
   </div>
 </li>
-        <li class="sidebar-item sidebar-item-section">
-      <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="false">Pre-requisites</a>
-          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="false">
-            <i class="bi bi-chevron-right ms-2"></i>
-          </a> 
-      </div>
-      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 ">  
-          <li class="sidebar-item">
+        <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./software.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Software</span></a>
   </div>
 </li>
-          <li class="sidebar-item">
+        <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./Rintro.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Introduction to R</span></a>
   </div>
 </li>
-          <li class="sidebar-item">
+        <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./prob.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Probability distributions</span></a>
   </div>
 </li>
-      </ul>
-  </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./ols.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Ordinary Least Squares</span></a>
@@ -222,31 +198,53 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="false">Appendices</a>
-          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="false">
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="false">Appendices</a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="false">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 ">  
-          <li class="sidebar-item">
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 ">
+<li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./syllabus.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">A</span>&nbsp; <span class="chapter-title">Syllabus</span></a>
   </div>
 </li>
       </ul>
-  </li>
+</li>
     </ul>
-    </div>
-</nav>
-<!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        
+</div>
+</nav><!-- margin-sidebar --><div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active"><h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+<li><a href="#lecture-material" id="toc-lecture-material" class="nav-link active" data-scroll-target="#lecture-material"><span class="toc-section-number">6.1</span>  Lecture material</a></li>
+  <li><a href="#sec-data" id="toc-sec-data" class="nav-link" data-scroll-target="#sec-data"><span class="toc-section-number">6.2</span>  Generate some data</a></li>
+  <li><a href="#calculate-a-likelihood" id="toc-calculate-a-likelihood" class="nav-link" data-scroll-target="#calculate-a-likelihood"><span class="toc-section-number">6.3</span>  Calculate a likelihood</a></li>
+  <li>
+<a href="#using-optim-to-minimize-the-negative-log-likelihood" id="toc-using-optim-to-minimize-the-negative-log-likelihood" class="nav-link" data-scroll-target="#using-optim-to-minimize-the-negative-log-likelihood"><span class="toc-section-number">6.4</span>  Using <code>optim()</code> to minimize the negative log-likelihood</a>
+  <ul class="collapse">
+<li><a href="#function-to-calculate-the-negative-log-likelihood" id="toc-function-to-calculate-the-negative-log-likelihood" class="nav-link" data-scroll-target="#function-to-calculate-the-negative-log-likelihood"><span class="toc-section-number">6.4.1</span>  Function to calculate the negative log-likelihood</a></li>
+  <li><a href="#compare-optim-results-to-the-ols-output" id="toc-compare-optim-results-to-the-ols-output" class="nav-link" data-scroll-target="#compare-optim-results-to-the-ols-output"><span class="toc-section-number">6.4.2</span>  Compare <code>optim()</code> results to the OLS output</a></li>
+  </ul>
+</li>
+  <li>
+<a href="#hypothesis-testing-for-maximum-likelihood" id="toc-hypothesis-testing-for-maximum-likelihood" class="nav-link" data-scroll-target="#hypothesis-testing-for-maximum-likelihood"><span class="toc-section-number">6.5</span>  Hypothesis-testing for maximum likelihood</a>
+  <ul class="collapse">
+<li><a href="#likelihood-ratio-and-the-chi2-test" id="toc-likelihood-ratio-and-the-chi2-test" class="nav-link" data-scroll-target="#likelihood-ratio-and-the-chi2-test"><span class="toc-section-number">6.5.1</span>  Likelihood ratio and the <span class="math inline">\(\chi^2\)</span> test</a></li>
+  <li><a href="#manual-calculation-of-the-likelihood-ratio-test" id="toc-manual-calculation-of-the-likelihood-ratio-test" class="nav-link" data-scroll-target="#manual-calculation-of-the-likelihood-ratio-test"><span class="toc-section-number">6.5.2</span>  Manual calculation of the likelihood ratio test</a></li>
+  </ul>
+</li>
+  <li>
+<a href="#footnotes" id="toc-footnotes" class="nav-link" data-scroll-target="#footnotes"><span class="toc-section-number">6.6</span>  Footnotes</a>
+  <ul class="collapse">
+<li><a href="#sec-hessian" id="toc-sec-hessian" class="nav-link" data-scroll-target="#sec-hessian"><span class="toc-section-number">6.6.1</span>  Hessian matrix</a></li>
+  <li><a href="#sec-least-sq" id="toc-sec-least-sq" class="nav-link" data-scroll-target="#sec-least-sq"><span class="toc-section-number">6.6.2</span>  <code>optim()</code> using least squares</a></li>
+  </ul>
+</li>
+  </ul><div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/joseph-mihaljevic/inf511-book/blob/main/max-lik.qmd" class="toc-action">View source</a></p><p><a href="https://github.com/joseph-mihaljevic/inf511-book/issues/new" class="toc-action">Report an issue</a></p></div></div></nav>
     </div>
 <!-- main -->
-<main class="content" id="quarto-document-content">
-
-<header id="title-block-header" class="quarto-title-block default">
-<div class="quarto-title">
+<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block default"><div class="quarto-title">
 <div class="quarto-title-block"><div><h1 class="title"><span id="sec-max-lik" class="quarto-section-identifier d-none d-lg-block"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Maximum Likelihood</span></span></h1><button type="button" class="btn code-tools-button" id="quarto-code-tools-source"><i class="bi"></i> Code</button></div></div>
 </div>
 
@@ -260,16 +258,365 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   </div>
   
 
-</header>
+</header><section id="lecture-material" class="level2" data-number="6.1"><h2 data-number="6.1" class="anchored" data-anchor-id="lecture-material">
+<span class="header-section-number">6.1</span> Lecture material</h2>
+<p>Please download and print the lecture materials from <a href="https://bblearn.nau.edu/" target="_blank">Bblearn</a>. After lectures, the recordings will appear in the Bblearn Collaborate Ultra section.</p>
+</section><section id="sec-data" class="level2" data-number="6.2"><h2 data-number="6.2" class="anchored" data-anchor-id="sec-data">
+<span class="header-section-number">6.2</span> Generate some data</h2>
+<p>First, let’s generate some data for the case of a simple linear regression.</p>
+<div class="cell">
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co">### PARAMS</span></span>
+<span><span class="va">beta0</span> <span class="op">=</span> <span class="fl">1.5</span></span>
+<span><span class="va">beta1</span> <span class="op">=</span> <span class="fl">0.5</span></span>
+<span><span class="va">sigma</span> <span class="op">=</span> <span class="fl">0.4</span></span>
+<span><span class="va">n</span> <span class="op">=</span> <span class="fl">30</span></span>
+<span></span>
+<span><span class="co">### GENERATE DATA</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">5</span><span class="op">)</span></span>
+<span><span class="va">x</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Uniform.html">runif</a></span><span class="op">(</span><span class="va">n</span>, <span class="op">-</span><span class="fl">1.5</span>, <span class="fl">1.5</span><span class="op">)</span></span>
+<span><span class="va">exp_y</span> <span class="op">=</span> <span class="va">beta0</span> <span class="op">+</span> <span class="va">beta1</span><span class="op">*</span><span class="va">x</span></span>
+<span><span class="va">y</span> <span class="op">=</span> <span class="va">exp_y</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span><span class="op">(</span><span class="va">n</span>, mean<span class="op">=</span><span class="fl">0</span>, sd<span class="op">=</span><span class="va">sigma</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Create a data frame </span></span>
+<span><span class="va">my_df</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>y <span class="op">=</span> <span class="va">y</span>, x <span class="op">=</span> <span class="va">x</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">my_df</span><span class="op">$</span><span class="va">y</span> <span class="op">~</span> <span class="va">my_df</span><span class="op">$</span><span class="va">x</span>, pch <span class="op">=</span> <span class="fl">19</span>,</span>
+<span>     xlab <span class="op">=</span> <span class="st">"x"</span>, ylab <span class="op">=</span> <span class="st">"y"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="max-lik_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section><section id="calculate-a-likelihood" class="level2" data-number="6.3"><h2 data-number="6.3" class="anchored" data-anchor-id="calculate-a-likelihood">
+<span class="header-section-number">6.3</span> Calculate a likelihood</h2>
+<p>Remember that, for simple linear regression, the likelihood of a single data point is as follows: <span class="math display">\[y_i \sim N(\beta_0 + \beta_1 x_i, \sigma^2)\]</span> <span class="math display">\[P(y_i | X_i B, \sigma^2) = \frac{1}{\sqrt{2 \pi \sigma^2}} \text{e}^{-\frac{1}{2}\frac{(y_i - X_i B)^2}{\sigma^2}}\]</span></p>
+<p>Then, the full likelihood of the data set <span class="math inline">\(Y\)</span> is computed as:</p>
+<p><span class="math display">\[ P(Y | X B, \sigma^2) = \prod^n_{i=1} P(y_i | X_i B, \sigma^2)\]</span> Or, on the natural logarithmic scale: <span class="math display">\[ ln\left(P(Y | X B, \sigma^2)\right) = \sum^n_{i=1} ln\left(P(y_i | X_i B, \sigma^2)\right)\]</span></p>
+<div class="cell">
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># How to calculate the likelihood of a single data point:</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">dnorm</a></span><span class="op">(</span><span class="va">y</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>, </span>
+<span>      mean <span class="op">=</span> <span class="va">beta0</span> <span class="op">+</span> <span class="va">beta1</span><span class="op">*</span><span class="va">x</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>,</span>
+<span>      sd <span class="op">=</span> <span class="va">sigma</span>,</span>
+<span>      log <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.987769</code></pre>
+</div>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Calculate the full likelihood of the data, using the product</span></span>
+<span><span class="co">## Vectorized:</span></span>
+<span><span class="va">LH_notlog</span><span class="op">=</span> </span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/prod.html">prod</a></span><span class="op">(</span></span>
+<span>    <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">dnorm</a></span><span class="op">(</span><span class="va">y</span>, </span>
+<span>          mean <span class="op">=</span> <span class="va">beta0</span> <span class="op">+</span> <span class="va">beta1</span><span class="op">*</span><span class="va">x</span>,</span>
+<span>          sd <span class="op">=</span> <span class="va">sigma</span>,</span>
+<span>          log <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Log-likelihood, vectorized</span></span>
+<span><span class="va">LH_log</span> <span class="op">=</span> </span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span></span>
+<span>    <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">dnorm</a></span><span class="op">(</span><span class="va">y</span>, </span>
+<span>          mean <span class="op">=</span> <span class="va">beta0</span> <span class="op">+</span> <span class="va">beta1</span><span class="op">*</span><span class="va">x</span>,</span>
+<span>          sd <span class="op">=</span> <span class="va">sigma</span>,</span>
+<span>          log <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Make sure the output makes sense</span></span>
+<span><span class="va">LH_notlog</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 8.496937e-10</code></pre>
+</div>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Indeed the log-likelihood is the log of the </span></span>
+<span><span class="co"># likelihood on the raw probability scale.</span></span>
+<span><span class="va">LH_log</span>; <span class="fu"><a href="https://rdrr.io/r/base/Log.html">log</a></span><span class="op">(</span><span class="va">LH_notlog</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] -20.88615</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] -20.88615</code></pre>
+</div>
+</div>
+</section><section id="using-optim-to-minimize-the-negative-log-likelihood" class="level2" data-number="6.4"><h2 data-number="6.4" class="anchored" data-anchor-id="using-optim-to-minimize-the-negative-log-likelihood">
+<span class="header-section-number">6.4</span> Using <code>optim()</code> to minimize the negative log-likelihood</h2>
+<p>As we discussed in lecture, it is more computationally convenient to minimize functions, rather than to maximize. Therefore, to conduct linear regression analysis with maximum likelihood methods, we will find the values of <span class="math inline">\(\hat{B}\)</span> that minimize the negative log-likelihood of the data: <span class="math inline">\(-ln\left(P(Y | X B, \sigma^2)\right)\)</span>.</p>
+<section id="function-to-calculate-the-negative-log-likelihood" class="level3" data-number="6.4.1"><h3 data-number="6.4.1" class="anchored" data-anchor-id="function-to-calculate-the-negative-log-likelihood">
+<span class="header-section-number">6.4.1</span> Function to calculate the negative log-likelihood</h3>
+<p>First, we need to construct a function that calculates the negative log-likelihood and that specifies the parameters of the model that eventually need to be estimated by the <code><a href="https://rdrr.io/r/stats/optim.html">optim()</a></code> function.</p>
+<div class="cell">
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co">### NEG LOG-LIK MINIMIZATION</span></span>
+<span><span class="va">neg_log_lik</span> <span class="op">=</span> <span class="kw">function</span><span class="op">(</span><span class="va">p</span>, <span class="va">data_df</span><span class="op">)</span><span class="op">{</span></span>
+<span>    <span class="va">beta0</span><span class="op">=</span><span class="va">p</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span></span>
+<span>    <span class="va">beta1</span><span class="op">=</span><span class="va">p</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span></span>
+<span>    <span class="va">sigma</span><span class="op">=</span><span class="va">p</span><span class="op">[</span><span class="fl">3</span><span class="op">]</span></span>
+<span>    </span>
+<span>    <span class="va">mu</span> <span class="op">=</span> <span class="va">beta0</span> <span class="op">+</span> <span class="va">beta1</span><span class="op">*</span><span class="va">data_df</span><span class="op">$</span><span class="va">x</span></span>
+<span>    </span>
+<span>    <span class="va">nll</span> <span class="op">=</span> <span class="op">-</span><span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">dnorm</a></span><span class="op">(</span><span class="va">data_df</span><span class="op">$</span><span class="va">y</span>, mean<span class="op">=</span><span class="va">mu</span>, sd<span class="op">=</span><span class="va">sigma</span>, log <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></span>
+<span>    <span class="kw"><a href="https://rdrr.io/r/base/function.html">return</a></span><span class="op">(</span><span class="va">nll</span><span class="op">)</span></span>
+<span><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Here you can see the inputs to the function: <code>p</code> is a vector of parameters to be estimated (i.e., optimized), and <code>data_df</code> is a <code>data.frame</code> that holds the values of outcome variable <span class="math inline">\(y\)</span> and associated input variables, in this case, just one <span class="math inline">\(x\)</span>.</p>
+<p>Then, we can use the <code><a href="https://rdrr.io/r/stats/optim.html">optim()</a></code> function, which implements a gradient descent algorithm to estimate the values of the parameters that minimize the provided function, <code>neg_log_lik()</code>. We will learn more about gradient descent later, because this is a very important method used widely across machine learning and neural networks.</p>
+<div class="cell">
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">m_nll</span> <span class="op">=</span> </span>
+<span>    <span class="fu"><a href="https://rdrr.io/r/stats/optim.html">optim</a></span><span class="op">(</span></span>
+<span>        par <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0.1</span>,<span class="fl">0</span>,<span class="fl">0.1</span><span class="op">)</span>,</span>
+<span>        fn <span class="op">=</span> <span class="va">neg_log_lik</span>,</span>
+<span>        data_df <span class="op">=</span> <span class="va">my_df</span>,</span>
+<span>        method <span class="op">=</span> <span class="st">"L-BFGS-B"</span>,</span>
+<span>        lower<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">5</span>,<span class="op">-</span><span class="fl">5</span>,<span class="fl">0.001</span><span class="op">)</span>,</span>
+<span>        upper<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">5</span>,<span class="fl">5</span>,<span class="fl">5</span><span class="op">)</span>,</span>
+<span>        hessian <span class="op">=</span> <span class="cn">TRUE</span></span>
+<span>    <span class="op">)</span></span>
+<span><span class="va">par_tab_nll</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html">rbind</a></span><span class="op">(</span><span class="va">m_nll</span><span class="op">$</span><span class="va">par</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span><span class="op">(</span><span class="va">par_tab_nll</span><span class="op">)</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"int"</span>, <span class="st">"slope"</span>, <span class="st">"sigma"</span><span class="op">)</span></span>
+<span><span class="va">par_tab_nll</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>          int   slope     sigma
+[1,] 1.598468 0.56205 0.4571571</code></pre>
+</div>
+</div>
+<p>Note the <code><a href="https://rdrr.io/r/stats/optim.html">optim()</a></code> options. <code>par</code> specifies the initial guesses of the three parameters, whereas <code>lower</code> and <code>upper</code> specify the bounds across which to search for the best values of the parameters. With <code>hessian = TRUE</code> we are asking the function to output an estimate of the Hessian matrix of the function, which helps us to estimate the standard errors of the parameter estimates (see <a href="#sec-hessian">Footnotes&nbsp;<span>6.6.1</span></a>). The <code>method</code> specifies the algorithm used to minimize the function, which in this case is a modified quasi-Newton method, <code>L-BFGS-B</code>, which is a type of gradient descent algorithm, to be discussed later.</p>
+<p>We can see that the function outputs three point-estimates, which are <span class="math inline">\(\hat{B}\)</span> (i.e., slope and intercept), as well as the residual standard deviation, <span class="math inline">\(\hat{\sigma}\)</span>.</p>
+</section><section id="compare-optim-results-to-the-ols-output" class="level3" data-number="6.4.2"><h3 data-number="6.4.2" class="anchored" data-anchor-id="compare-optim-results-to-the-ols-output">
+<span class="header-section-number">6.4.2</span> Compare <code>optim()</code> results to the OLS output</h3>
+<div class="cell">
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co">### COMPARE TO LM()</span></span>
+<span><span class="va">m_ols</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span><span class="op">(</span><span class="va">y</span> <span class="op">~</span> <span class="fl">1</span> <span class="op">+</span> <span class="va">x</span>, data <span class="op">=</span> <span class="va">my_df</span><span class="op">)</span></span>
+<span><span class="va">m_ols_summary</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">m_ols</span><span class="op">)</span></span>
+<span><span class="va">m_ols_summary</span> <span class="co"># Notice p-value</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+lm(formula = y ~ 1 + x, data = my_df)
 
-<p>TBA</p>
+Residuals:
+     Min       1Q   Median       3Q      Max 
+-1.04966 -0.37035  0.06069  0.37520  0.72646 
+
+Coefficients:
+            Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept)  1.59847    0.08643  18.495  &lt; 2e-16 ***
+x            0.56205    0.09864   5.698 4.14e-06 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 0.4732 on 28 degrees of freedom
+Multiple R-squared:  0.537, Adjusted R-squared:  0.5204 
+F-statistic: 32.47 on 1 and 28 DF,  p-value: 4.136e-06</code></pre>
+</div>
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">par_tab_ols</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/coef.html">coef</a></span><span class="op">(</span><span class="va">m_ols</span><span class="op">)</span>, <span class="va">m_ols_summary</span><span class="op">$</span><span class="va">sigma</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">par_tab_ols</span><span class="op">)</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"int"</span>, <span class="st">"slope"</span>, <span class="st">"sigma"</span><span class="op">)</span></span>
+<span><span class="va">par_tab_ols</span>; <span class="va">par_tab_nll</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>      int     slope     sigma 
+1.5984685 0.5620501 0.4732005 </code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>          int   slope     sigma
+[1,] 1.598468 0.56205 0.4571571</code></pre>
+</div>
+<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">my_df</span><span class="op">$</span><span class="va">y</span> <span class="op">~</span> <span class="va">my_df</span><span class="op">$</span><span class="va">x</span>, pch <span class="op">=</span> <span class="fl">19</span>,</span>
+<span>     xlab <span class="op">=</span> <span class="st">"x"</span>, ylab <span class="op">=</span> <span class="st">"y"</span><span class="op">)</span></span>
+<span><span class="co"># Line from OLS</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/abline.html">abline</a></span><span class="op">(</span>coef <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/coef.html">coef</a></span><span class="op">(</span><span class="va">m_ols</span><span class="op">)</span>, col <span class="op">=</span> <span class="st">"black"</span>, lwd <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span>
+<span><span class="co"># Line from MaxLikelihood</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/abline.html">abline</a></span><span class="op">(</span>coef <span class="op">=</span> <span class="va">m_nll</span><span class="op">$</span><span class="va">par</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">2</span><span class="op">]</span>, col <span class="op">=</span> <span class="st">"red"</span>, lty <span class="op">=</span> <span class="fl">2</span>, lwd <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="max-lik_files/figure-html/unnamed-chunk-10-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>As we learned in lecture, the estimates of <span class="math inline">\(\hat{B}\)</span> from least squares and maximum likelihood are equivalent. And indeed, we see the same estimates produced from <code><a href="https://rdrr.io/r/stats/lm.html">lm()</a></code> and <code><a href="https://rdrr.io/r/stats/optim.html">optim()</a></code>. Also if you look at <code>Residual standard error</code> in the <code><a href="https://rdrr.io/r/stats/lm.html">lm()</a></code> output, you see the equivalent estimate for <span class="math inline">\(\hat{\sigma}\)</span> compared to the <code><a href="https://rdrr.io/r/stats/optim.html">optim()</a></code> output.</p>
+</section></section><section id="hypothesis-testing-for-maximum-likelihood" class="level2" data-number="6.5"><h2 data-number="6.5" class="anchored" data-anchor-id="hypothesis-testing-for-maximum-likelihood">
+<span class="header-section-number">6.5</span> Hypothesis-testing for maximum likelihood</h2>
+<p>As explained in lecture, we will use the likelihood ratio test to test:</p>
+<p><span class="math display">\[H_0: \beta_i = 0\]</span> <span class="math display">\[H_A: \beta_i \ne 0\]</span> In the least squares framework, we used a <span class="math inline">\(t\)</span>-test. But, for maximum likelihood, we are going to base our test on the <em>likelihood</em> of a model that does or does not include the slope, similar to the <span class="math inline">\(F\)</span>-test we learned before.</p>
+<p>For the case of simple linear regression, we’re testing whether there is a significant difference between these models: <span class="math display">\[H_0: y_i = \beta_0 + \epsilon_i\]</span> <span class="math display">\[H_A: y_i = \beta_0 + \beta_1 x_i + \epsilon_i\]</span> Notice that in <span class="math inline">\(H_0\)</span>, the slope <span class="math inline">\(\beta_1\)</span> is assumed to be zero.</p>
+<section id="likelihood-ratio-and-the-chi2-test" class="level3" data-number="6.5.1"><h3 data-number="6.5.1" class="anchored" data-anchor-id="likelihood-ratio-and-the-chi2-test">
+<span class="header-section-number">6.5.1</span> Likelihood ratio and the <span class="math inline">\(\chi^2\)</span> test</h3>
+<p>Our goal is to understand if the likelihood of the null model, <span class="math inline">\(P(Y | \beta_0, \sigma^2)\)</span>, is sufficiently low compared to the likelihood of the full model, <span class="math inline">\(P(Y | \beta_0, \beta_1, x, \sigma^2)\)</span>, that we can reliably reject the null hypothesis.</p>
+<p>We therefore construct a ratio of the likelihoods of the full and null model, very similar to the <span class="math inline">\(F\)</span>-test framework. The log-likelihood ratio (<span class="math inline">\(LHR\)</span>) becomes our test statistic: <span class="math display">\[LHR_{\text{test}} = -2 ln \left(\frac{LH_{\text{null}}}{LH_{\text{full}}} \right)\]</span></p>
+<p>Then, folks smarter than I have done the math to prove that this test statistic is equivalent to a <span class="math inline">\(\chi^2\)</span> test statistic, such that:</p>
+<p><span class="math display">\[LHR_{\text{test}} \sim  \chi^2_k\]</span></p>
+<p>where <span class="math inline">\(\chi^2_k\)</span> is a <span class="math inline">\(\chi^2\)</span> probability distribution with <span class="math inline">\(k\)</span> degrees of freedom. <span class="math inline">\(k\)</span> is equal to <span class="math inline">\(p_{\text{full}} - p_{\text{null}}\)</span>, where <span class="math inline">\(p\)</span> is the number of model coefficients. In the case of simple linear regression, where we are removing just one model coefficient from the full model (i.e., set slope equal to zero), then <span class="math inline">\(k = 2-1 = 1\)</span>.</p>
+<p>Finally, we can determine <span class="math inline">\(P(\chi^2 &gt; LHR_{\text{test}})\)</span>, which gives us our <span class="math inline">\(p\)</span>-value. This statistical test is known as the “likelihood ratio test,” and it is equivalently referred to as the “<span class="math inline">\(\chi^2\)</span>” test, which we’ll see in the code below.</p>
+</section><section id="manual-calculation-of-the-likelihood-ratio-test" class="level3" data-number="6.5.2"><h3 data-number="6.5.2" class="anchored" data-anchor-id="manual-calculation-of-the-likelihood-ratio-test">
+<span class="header-section-number">6.5.2</span> Manual calculation of the likelihood ratio test</h3>
+<p>To begin, we need to use maximum likelihood to estimate the likelihood of the “null” model. We need to adjust our function that will be used by <code><a href="https://rdrr.io/r/stats/optim.html">optim()</a></code> to only include two parameters: the intercept, and the residual standard deviation.</p>
+<div class="cell">
+<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Need a null model:</span></span>
+<span><span class="va">nll_null</span> <span class="op">=</span> <span class="kw">function</span><span class="op">(</span><span class="va">p</span>, <span class="va">data_df</span><span class="op">)</span><span class="op">{</span></span>
+<span>    <span class="va">beta0</span><span class="op">=</span><span class="va">p</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span></span>
+<span>    <span class="va">sigma</span><span class="op">=</span><span class="va">p</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span></span>
+<span>    </span>
+<span>    <span class="va">mu</span> <span class="op">=</span> <span class="va">beta0</span></span>
+<span>    </span>
+<span>    <span class="va">nll</span> <span class="op">=</span> <span class="op">-</span><span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">dnorm</a></span><span class="op">(</span><span class="va">data_df</span><span class="op">$</span><span class="va">y</span>, mean<span class="op">=</span><span class="va">mu</span>, sd<span class="op">=</span><span class="va">sigma</span>, log <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></span>
+<span>    <span class="kw"><a href="https://rdrr.io/r/base/function.html">return</a></span><span class="op">(</span><span class="va">nll</span><span class="op">)</span></span>
+<span><span class="op">}</span></span>
+<span></span>
+<span><span class="va">m_nll_null</span> <span class="op">=</span> </span>
+<span>    <span class="fu"><a href="https://rdrr.io/r/stats/optim.html">optim</a></span><span class="op">(</span></span>
+<span>        par <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0.1</span>,<span class="fl">0.1</span><span class="op">)</span>,</span>
+<span>        fn <span class="op">=</span> <span class="va">nll_null</span>,</span>
+<span>        data_df <span class="op">=</span> <span class="va">my_df</span>,</span>
+<span>        method <span class="op">=</span> <span class="st">"L-BFGS-B"</span>,</span>
+<span>        lower<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">5</span>,<span class="fl">0.001</span><span class="op">)</span>,</span>
+<span>        upper<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">5</span>,<span class="fl">5</span><span class="op">)</span></span>
+<span>    <span class="op">)</span></span>
+<span><span class="va">par_tab_nll_null</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html">rbind</a></span><span class="op">(</span><span class="va">m_nll_null</span><span class="op">$</span><span class="va">par</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span><span class="op">(</span><span class="va">par_tab_nll_null</span><span class="op">)</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"int"</span>, <span class="st">"sigma"</span><span class="op">)</span></span>
+<span><span class="va">par_tab_nll_null</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>          int     sigma
+[1,] 1.612056 0.6718164</code></pre>
+</div>
+<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">my_df</span><span class="op">$</span><span class="va">y</span> <span class="op">~</span> <span class="va">my_df</span><span class="op">$</span><span class="va">x</span>, pch <span class="op">=</span> <span class="fl">19</span>,</span>
+<span>     xlab <span class="op">=</span> <span class="st">"x"</span>, ylab <span class="op">=</span> <span class="st">"y"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/abline.html">abline</a></span><span class="op">(</span>coef <span class="op">=</span> <span class="va">m_nll</span><span class="op">$</span><span class="va">par</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">2</span><span class="op">]</span>, col <span class="op">=</span> <span class="st">"red"</span>, lty <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/abline.html">abline</a></span><span class="op">(</span>h <span class="op">=</span> <span class="va">m_nll_null</span><span class="op">$</span><span class="va">par</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>, col <span class="op">=</span> <span class="st">"red"</span>, lty <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="max-lik_files/figure-html/unnamed-chunk-12-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>The flat dashed line represents the null (intercept-only) model. Now, we calculate the likelihood ratio test statistic, and compare to the <span class="math inline">\(\chi^2\)</span> probability distribution to determine our <span class="math inline">\(p\)</span>-value of the test. Note that within the <code><a href="https://rdrr.io/r/stats/optim.html">optim()</a></code> function’s output list, there is a numeric object called <code>value</code>. This <code>value</code> is the negative log-likelihood of the model with the estimated coefficients. We can use this to calculate our test statistic.</p>
+<div class="cell">
+<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># use exp() to convert the negative log likelihood to </span></span>
+<span><span class="co"># raw probability scale</span></span>
+<span><span class="va">log_lh_full</span> <span class="op">=</span> <span class="op">-</span><span class="va">m_nll</span><span class="op">$</span><span class="va">value</span></span>
+<span><span class="va">log_lh_null</span> <span class="op">=</span> <span class="op">-</span><span class="va">m_nll_null</span><span class="op">$</span><span class="va">value</span></span>
+<span></span>
+<span><span class="va">lh_full</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html">exp</a></span><span class="op">(</span><span class="va">log_lh_full</span><span class="op">)</span></span>
+<span><span class="va">lh_null</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html">exp</a></span><span class="op">(</span><span class="va">log_lh_null</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Now calculate LHR</span></span>
+<span><span class="va">lhr</span> <span class="op">=</span> <span class="op">-</span><span class="fl">2</span> <span class="op">*</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html">log</a></span><span class="op">(</span><span class="va">lh_null</span> <span class="op">/</span> <span class="va">lh_full</span><span class="op">)</span></span>
+<span><span class="va">lhr</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 23.09763</code></pre>
+</div>
+<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Of course, using rules of natural logs, this is equivalent:</span></span>
+<span><span class="op">-</span><span class="fl">2</span> <span class="op">*</span> <span class="op">(</span><span class="va">log_lh_null</span> <span class="op">-</span> <span class="va">log_lh_full</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 23.09763</code></pre>
+</div>
+</div>
+<p>Now that we have our value of <span class="math inline">\(LHR_{\text{test}}\)</span>, we use the <span class="math inline">\(\chi^2\)</span>-distribution to find <span class="math inline">\(P(\chi^2 &gt; LHR_{\text{test}})\)</span>, which is the <span class="math inline">\(p\)</span>-value of the test.</p>
+<div class="cell">
+<div class="sourceCode" id="cb25"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># How many parameters being "removed" (i.e., set to zero) in test:</span></span>
+<span><span class="va">df_chi</span> <span class="op">=</span> <span class="fl">2</span> <span class="op">-</span> <span class="fl">1</span></span>
+<span></span>
+<span><span class="co"># Prob null is true</span></span>
+<span><span class="va">p_val</span> <span class="op">=</span> <span class="fl">1</span> <span class="op">-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Chisquare.html">pchisq</a></span><span class="op">(</span><span class="va">lhr</span>, df <span class="op">=</span> <span class="va">df_chi</span><span class="op">)</span></span>
+<span><span class="va">p_val</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 1.539803e-06</code></pre>
+</div>
+</div>
+<p>Based on this low <span class="math inline">\(p\)</span>-value, we would say there is sufficient evidence to reject the null hypothesis and that the slope <span class="math inline">\(\beta_1\)</span> is significantly different than zero.</p>
+<p>We can compare this outcome to a built-in <code>R</code> function called <code><a href="https://rdrr.io/r/stats/add1.html">drop1()</a></code>.</p>
+<div class="cell">
+<div class="sourceCode" id="cb27"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/stats/add1.html">drop1</a></span><span class="op">(</span><span class="va">m_ols</span>, test <span class="op">=</span> <span class="st">"Chisq"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Single term deletions
+
+Model:
+y ~ 1 + x
+       Df Sum of Sq     RSS     AIC Pr(&gt;Chi)    
+&lt;none&gt;               6.2697 -42.964             
+x       1    7.2703 13.5401 -21.866 1.54e-06 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
+</div>
+</div>
+<p>In the function, we specified <code>Chisq</code> test, which implements the <span class="math inline">\(\chi^2\)</span> test using the likelihood ratio. What we see in this summary output is <code>Pr(&gt;Chi)</code> which is equivalent to our manually computed value of <span class="math inline">\(P(\chi^2 &gt; LHR_{\text{test}})\)</span>. This output from <code><a href="https://rdrr.io/r/stats/add1.html">drop1()</a></code> does not provide a whole lot of detail, but if you look at the <code><a href="https://rdrr.io/r/utils/help.html">help()</a></code>, it says that if you specify <code>test = "Chisq"</code>, it conducts a likelihood-ratio test. It doesn’t specifically output the likelihood ratio, but we can see the <span class="math inline">\(p\)</span>-value is equivalent to our manual calculation above.</p>
+</section></section><section id="footnotes" class="level2" data-number="6.6"><h2 data-number="6.6" class="anchored" data-anchor-id="footnotes">
+<span class="header-section-number">6.6</span> Footnotes</h2>
+<section id="sec-hessian" class="level3" data-number="6.6.1"><h3 data-number="6.6.1" class="anchored" data-anchor-id="sec-hessian">
+<span class="header-section-number">6.6.1</span> Hessian matrix</h3>
+<p>The <code><a href="https://rdrr.io/r/stats/optim.html">optim()</a></code> function provides point estimates for the maximum likelihood-derived model coefficients. Just like in least squares regression, however, we want to quantify the uncertainty in these estimates. We therefore want the standard error in the model coefficient estimates.</p>
+<p>In the case of least squares, we showed how we can calculate a variance-covariance matrix for the model coefficients, and then the square-root of the diagonal of this matrix equals the standard error. For maximum likelihood we can estimate this same variance-covariance matrix, but it comes from a different matrix called the Hessian. We do not need to go into detail, but the Hessian is the matrix of second derivatives of the likelihood with respect to the parameters (I will not ask you to recall this information). Then the variance-covariance matrix of the estimated model coefficients is calculated as the inverse of the Hessian matrix that corresponds to the negative log-likelihood. If the Hessian matrix of the negative log-likelihood is <span class="math inline">\(H\)</span>, then <span class="math display">\[SE(\hat{\beta_i}) = \sqrt{\text{diag}\left( H^{-1}\right)_i}\]</span> I understand that’s complicated, but it’s easy enough to extract these values computationally from <code><a href="https://rdrr.io/r/stats/optim.html">optim()</a></code> output, assuming you use the option <code>hessian = TRUE</code>.</p>
+<div class="cell">
+<div class="sourceCode" id="cb29"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Extract the Hessian from the optim() output</span></span>
+<span><span class="va">hessian</span> <span class="op">=</span> <span class="va">m_nll</span><span class="op">$</span><span class="va">hessian</span></span>
+<span><span class="co"># Calculate the var-cov matrix from the inverse Hessian</span></span>
+<span><span class="co"># Remember solve(X) gives X^-1</span></span>
+<span><span class="va">params_varcov</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/solve.html">solve</a></span><span class="op">(</span><span class="va">hessian</span><span class="op">)</span></span>
+<span><span class="co"># Then extract the diagonal and take the square root</span></span>
+<span><span class="co"># This gives a vector of SE(\param_i)</span></span>
+<span><span class="va">se_params</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html">sqrt</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/diag.html">diag</a></span><span class="op">(</span><span class="va">params_varcov</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">params_tab</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html">cbind</a></span><span class="op">(</span><span class="va">m_nll</span><span class="op">$</span><span class="va">par</span>, <span class="va">se_params</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span><span class="op">(</span><span class="va">params_tab</span><span class="op">)</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Estimate"</span>, <span class="st">"Std. Error"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html">rownames</a></span><span class="op">(</span><span class="va">params_tab</span><span class="op">)</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Intercept"</span>, <span class="st">"slope"</span>, <span class="st">"sigma"</span><span class="op">)</span></span>
+<span><span class="va">params_tab</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>           Estimate Std. Error
+Intercept 1.5984685 0.08349686
+slope     0.5620500 0.09529343
+sigma     0.4571571 0.05901782</code></pre>
+</div>
+<div class="sourceCode" id="cb31"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Same as OLS? </span></span>
+<span><span class="va">m_ols_summary</span><span class="op">$</span><span class="va">coefficients</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">2</span><span class="op">)</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">2</span><span class="op">]</span> <span class="co"># Pretty close!</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>             Estimate Std. Error
+(Intercept) 1.5984685 0.08642710
+x           0.5620501 0.09863766</code></pre>
+</div>
+</div>
+<p>We can see that the standard errors for the maximum likelihood estimators are the same as the OLS estimators.</p>
+</section><section id="sec-least-sq" class="level3" data-number="6.6.2"><h3 data-number="6.6.2" class="anchored" data-anchor-id="sec-least-sq">
+<span class="header-section-number">6.6.2</span> <code>optim()</code> using least squares</h3>
+<p>Remember that <code><a href="https://rdrr.io/r/stats/optim.html">optim()</a></code> is not specific to maximum likelihood, but rather it implements one of several optional minimization algorithms. Therefore, we can use it to minimize any quantity. To emphasize this point, remember that in least squares regression, we are finding the values of the model coefficients <span class="math inline">\(\hat{B}\)</span> that minimize the sum of squared errors, <span class="math inline">\(\sum_i^n \epsilon_i^2 = \epsilon^T\epsilon\)</span>. Let’s minimize this quantity using <code><a href="https://rdrr.io/r/stats/optim.html">optim()</a></code>.</p>
+<div class="cell">
+<div class="sourceCode" id="cb33"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co">### LEAST SQUARES MINIMIZATION</span></span>
+<span></span>
+<span><span class="co"># We need a function to calculate the sum of squared errors:</span></span>
+<span><span class="va">least_sq</span> <span class="op">=</span> <span class="kw">function</span><span class="op">(</span><span class="va">p</span>, <span class="va">data_df</span><span class="op">)</span><span class="op">{</span></span>
+<span>    <span class="va">beta0</span><span class="op">=</span><span class="va">p</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span></span>
+<span>    <span class="va">beta1</span><span class="op">=</span><span class="va">p</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span></span>
+<span>    <span class="va">y</span> <span class="op">=</span> <span class="va">data_df</span><span class="op">$</span><span class="va">y</span></span>
+<span>    <span class="va">n</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/length.html">length</a></span><span class="op">(</span><span class="va">y</span><span class="op">)</span></span>
+<span>    </span>
+<span>    <span class="va">expected_y</span> <span class="op">=</span> <span class="va">beta0</span> <span class="op">+</span> <span class="va">beta1</span><span class="op">*</span><span class="va">data_df</span><span class="op">$</span><span class="va">x</span></span>
+<span>    <span class="va">sse</span> <span class="op">=</span> <span class="fl">0</span></span>
+<span>    <span class="kw">for</span><span class="op">(</span><span class="va">i</span> <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span><span class="va">n</span><span class="op">)</span><span class="op">{</span></span>
+<span>        <span class="va">epsilon_i</span> <span class="op">=</span> <span class="va">y</span><span class="op">[</span><span class="va">i</span><span class="op">]</span> <span class="op">-</span> <span class="va">expected_y</span><span class="op">[</span><span class="va">i</span><span class="op">]</span></span>
+<span>        <span class="va">sse</span> <span class="op">=</span> <span class="va">sse</span> <span class="op">+</span> <span class="op">(</span><span class="va">epsilon_i</span><span class="op">)</span><span class="op">^</span><span class="fl">2</span></span>
+<span>    <span class="op">}</span></span>
+<span>    </span>
+<span>    <span class="kw"><a href="https://rdrr.io/r/base/function.html">return</a></span><span class="op">(</span><span class="va">sse</span><span class="op">)</span></span>
+<span><span class="op">}</span></span>
+<span></span>
+<span><span class="co">### OPTIMIZE LEAST SQUARES</span></span>
+<span><span class="va">fit_least_sq</span> <span class="op">=</span> </span>
+<span>    <span class="fu"><a href="https://rdrr.io/r/stats/optim.html">optim</a></span><span class="op">(</span></span>
+<span>        par <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">0</span><span class="op">)</span>,</span>
+<span>        fn <span class="op">=</span> <span class="va">least_sq</span>,</span>
+<span>        data_df <span class="op">=</span> <span class="va">my_df</span>,</span>
+<span>        method <span class="op">=</span> <span class="st">"L-BFGS-B"</span>,</span>
+<span>        lower<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">5</span>,<span class="op">-</span><span class="fl">5</span><span class="op">)</span>,</span>
+<span>        upper<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">5</span>,<span class="fl">5</span><span class="op">)</span>,</span>
+<span>        hessian <span class="op">=</span> <span class="cn">TRUE</span></span>
+<span>    <span class="op">)</span></span>
+<span><span class="co"># Create a table of estimates:</span></span>
+<span><span class="va">par_tab_least_sq</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html">rbind</a></span><span class="op">(</span><span class="va">fit_least_sq</span><span class="op">$</span><span class="va">par</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span><span class="op">(</span><span class="va">par_tab_least_sq</span><span class="op">)</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"int"</span>, <span class="st">"slope"</span><span class="op">)</span></span>
+<span><span class="va">par_tab_least_sq</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>          int     slope
+[1,] 1.598469 0.5620501</code></pre>
+</div>
+<div class="sourceCode" id="cb35"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Compare to original OLS estimates:</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/stats/coef.html">coef</a></span><span class="op">(</span><span class="va">m_ols</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>(Intercept)           x 
+  1.5984685   0.5620501 </code></pre>
+</div>
+</div>
+<p>You could also use the Hessian output to calculate the standard errors of the model coefficients, but I will leave that up to you.</p>
 
 
 <!-- -->
 
-
-</main> <!-- /main -->
-<script id="quarto-html-after-body" type="application/javascript">
+</section></section></main><!-- /main --><script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const toggleBodyColorMode = (bsSheetEl) => {
     const mode = bsSheetEl.getAttribute("data-mode");
@@ -452,9 +799,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }
   }
 });
-</script>
-<nav class="page-navigation">
-  <div class="nav-page nav-page-previous">
+</script><nav class="page-navigation"><div class="nav-page nav-page-previous">
       <a href="./hypothesis.html" class="pagination-link">
         <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Hypothesis Testing</span></span>
       </a>          
@@ -465,9 +810,322 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       </a>
   </div>
 </nav><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">Source Code</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="">
-<div class="sourceCode" id="cb1" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu"># Maximum Likelihood {#sec-max-lik}</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>TBA</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb37" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="fu"># Maximum Likelihood {#sec-max-lik}</span></span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a><span class="fu">## Lecture material</span></span>
+<span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-5"><a href="#cb37-5" aria-hidden="true" tabindex="-1"></a>Please download and print the lecture materials from <span class="co">[</span><span class="ot">Bblearn</span><span class="co">](https://bblearn.nau.edu/)</span>{target="_blank"}. After lectures, the recordings will appear in the Bblearn Collaborate Ultra section.</span>
+<span id="cb37-6"><a href="#cb37-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-7"><a href="#cb37-7" aria-hidden="true" tabindex="-1"></a><span class="fu">## Generate some data {#sec-data}</span></span>
+<span id="cb37-8"><a href="#cb37-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-9"><a href="#cb37-9" aria-hidden="true" tabindex="-1"></a>First, let's generate some data for the case of a simple linear regression.</span>
+<span id="cb37-10"><a href="#cb37-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-13"><a href="#cb37-13" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb37-14"><a href="#cb37-14" aria-hidden="true" tabindex="-1"></a><span class="do">### PARAMS</span></span>
+<span id="cb37-15"><a href="#cb37-15" aria-hidden="true" tabindex="-1"></a>beta0 <span class="ot">=</span> <span class="fl">1.5</span></span>
+<span id="cb37-16"><a href="#cb37-16" aria-hidden="true" tabindex="-1"></a>beta1 <span class="ot">=</span> <span class="fl">0.5</span></span>
+<span id="cb37-17"><a href="#cb37-17" aria-hidden="true" tabindex="-1"></a>sigma <span class="ot">=</span> <span class="fl">0.4</span></span>
+<span id="cb37-18"><a href="#cb37-18" aria-hidden="true" tabindex="-1"></a>n <span class="ot">=</span> <span class="dv">30</span></span>
+<span id="cb37-19"><a href="#cb37-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-20"><a href="#cb37-20" aria-hidden="true" tabindex="-1"></a><span class="do">### GENERATE DATA</span></span>
+<span id="cb37-21"><a href="#cb37-21" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">5</span>)</span>
+<span id="cb37-22"><a href="#cb37-22" aria-hidden="true" tabindex="-1"></a>x <span class="ot">=</span> <span class="fu">runif</span>(n, <span class="sc">-</span><span class="fl">1.5</span>, <span class="fl">1.5</span>)</span>
+<span id="cb37-23"><a href="#cb37-23" aria-hidden="true" tabindex="-1"></a>exp_y <span class="ot">=</span> beta0 <span class="sc">+</span> beta1<span class="sc">*</span>x</span>
+<span id="cb37-24"><a href="#cb37-24" aria-hidden="true" tabindex="-1"></a>y <span class="ot">=</span> exp_y <span class="sc">+</span> <span class="fu">rnorm</span>(n, <span class="at">mean=</span><span class="dv">0</span>, <span class="at">sd=</span>sigma)</span>
+<span id="cb37-25"><a href="#cb37-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-26"><a href="#cb37-26" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a data frame </span></span>
+<span id="cb37-27"><a href="#cb37-27" aria-hidden="true" tabindex="-1"></a>my_df <span class="ot">=</span> <span class="fu">data.frame</span>(<span class="at">y =</span> y, <span class="at">x =</span> x)</span>
+<span id="cb37-28"><a href="#cb37-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-29"><a href="#cb37-29" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(my_df<span class="sc">$</span>y <span class="sc">~</span> my_df<span class="sc">$</span>x, <span class="at">pch =</span> <span class="dv">19</span>,</span>
+<span id="cb37-30"><a href="#cb37-30" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">"x"</span>, <span class="at">ylab =</span> <span class="st">"y"</span>)</span>
+<span id="cb37-31"><a href="#cb37-31" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb37-32"><a href="#cb37-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-33"><a href="#cb37-33" aria-hidden="true" tabindex="-1"></a><span class="fu">## Calculate a likelihood</span></span>
+<span id="cb37-34"><a href="#cb37-34" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-35"><a href="#cb37-35" aria-hidden="true" tabindex="-1"></a>Remember that, for simple linear regression, the likelihood of a single data point is as follows:</span>
+<span id="cb37-36"><a href="#cb37-36" aria-hidden="true" tabindex="-1"></a>$$y_i \sim N(\beta_0 + \beta_1 x_i, \sigma^2)$$</span>
+<span id="cb37-37"><a href="#cb37-37" aria-hidden="true" tabindex="-1"></a>$$P(y_i | X_i B, \sigma^2) = \frac{1}{\sqrt{2 \pi \sigma^2}} \text{e}^{-\frac{1}{2}\frac{(y_i - X_i B)^2}{\sigma^2}}$$</span>
+<span id="cb37-38"><a href="#cb37-38" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-39"><a href="#cb37-39" aria-hidden="true" tabindex="-1"></a>Then, the full likelihood of the data set $Y$ is computed as:</span>
+<span id="cb37-40"><a href="#cb37-40" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-41"><a href="#cb37-41" aria-hidden="true" tabindex="-1"></a>$$ P(Y | X B, \sigma^2) = \prod^n_{i=1} P(y_i | X_i B, \sigma^2)$$</span>
+<span id="cb37-42"><a href="#cb37-42" aria-hidden="true" tabindex="-1"></a>Or, on the natural logarithmic scale:</span>
+<span id="cb37-43"><a href="#cb37-43" aria-hidden="true" tabindex="-1"></a>$$ ln\left(P(Y | X B, \sigma^2)\right) = \sum^n_{i=1} ln\left(P(y_i | X_i B, \sigma^2)\right)$$</span>
+<span id="cb37-44"><a href="#cb37-44" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-47"><a href="#cb37-47" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb37-48"><a href="#cb37-48" aria-hidden="true" tabindex="-1"></a><span class="co"># How to calculate the likelihood of a single data point:</span></span>
+<span id="cb37-49"><a href="#cb37-49" aria-hidden="true" tabindex="-1"></a><span class="fu">dnorm</span>(y[<span class="dv">1</span>], </span>
+<span id="cb37-50"><a href="#cb37-50" aria-hidden="true" tabindex="-1"></a>      <span class="at">mean =</span> beta0 <span class="sc">+</span> beta1<span class="sc">*</span>x[<span class="dv">1</span>],</span>
+<span id="cb37-51"><a href="#cb37-51" aria-hidden="true" tabindex="-1"></a>      <span class="at">sd =</span> sigma,</span>
+<span id="cb37-52"><a href="#cb37-52" aria-hidden="true" tabindex="-1"></a>      <span class="at">log =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb37-53"><a href="#cb37-53" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-54"><a href="#cb37-54" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate the full likelihood of the data, using the product</span></span>
+<span id="cb37-55"><a href="#cb37-55" aria-hidden="true" tabindex="-1"></a><span class="do">## Vectorized:</span></span>
+<span id="cb37-56"><a href="#cb37-56" aria-hidden="true" tabindex="-1"></a>LH_notlog<span class="ot">=</span> </span>
+<span id="cb37-57"><a href="#cb37-57" aria-hidden="true" tabindex="-1"></a><span class="fu">prod</span>(</span>
+<span id="cb37-58"><a href="#cb37-58" aria-hidden="true" tabindex="-1"></a>    <span class="fu">dnorm</span>(y, </span>
+<span id="cb37-59"><a href="#cb37-59" aria-hidden="true" tabindex="-1"></a>          <span class="at">mean =</span> beta0 <span class="sc">+</span> beta1<span class="sc">*</span>x,</span>
+<span id="cb37-60"><a href="#cb37-60" aria-hidden="true" tabindex="-1"></a>          <span class="at">sd =</span> sigma,</span>
+<span id="cb37-61"><a href="#cb37-61" aria-hidden="true" tabindex="-1"></a>          <span class="at">log =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb37-62"><a href="#cb37-62" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb37-63"><a href="#cb37-63" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-64"><a href="#cb37-64" aria-hidden="true" tabindex="-1"></a><span class="co"># Log-likelihood, vectorized</span></span>
+<span id="cb37-65"><a href="#cb37-65" aria-hidden="true" tabindex="-1"></a>LH_log <span class="ot">=</span> </span>
+<span id="cb37-66"><a href="#cb37-66" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(</span>
+<span id="cb37-67"><a href="#cb37-67" aria-hidden="true" tabindex="-1"></a>    <span class="fu">dnorm</span>(y, </span>
+<span id="cb37-68"><a href="#cb37-68" aria-hidden="true" tabindex="-1"></a>          <span class="at">mean =</span> beta0 <span class="sc">+</span> beta1<span class="sc">*</span>x,</span>
+<span id="cb37-69"><a href="#cb37-69" aria-hidden="true" tabindex="-1"></a>          <span class="at">sd =</span> sigma,</span>
+<span id="cb37-70"><a href="#cb37-70" aria-hidden="true" tabindex="-1"></a>          <span class="at">log =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb37-71"><a href="#cb37-71" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb37-72"><a href="#cb37-72" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-73"><a href="#cb37-73" aria-hidden="true" tabindex="-1"></a><span class="co"># Make sure the output makes sense</span></span>
+<span id="cb37-74"><a href="#cb37-74" aria-hidden="true" tabindex="-1"></a>LH_notlog</span>
+<span id="cb37-75"><a href="#cb37-75" aria-hidden="true" tabindex="-1"></a><span class="co"># Indeed the log-likelihood is the log of the </span></span>
+<span id="cb37-76"><a href="#cb37-76" aria-hidden="true" tabindex="-1"></a><span class="co"># likelihood on the raw probability scale.</span></span>
+<span id="cb37-77"><a href="#cb37-77" aria-hidden="true" tabindex="-1"></a>LH_log; <span class="fu">log</span>(LH_notlog)</span>
+<span id="cb37-78"><a href="#cb37-78" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb37-79"><a href="#cb37-79" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-80"><a href="#cb37-80" aria-hidden="true" tabindex="-1"></a><span class="fu">## Using `optim()` to minimize the negative log-likelihood</span></span>
+<span id="cb37-81"><a href="#cb37-81" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-82"><a href="#cb37-82" aria-hidden="true" tabindex="-1"></a>As we discussed in lecture, it is more computationally convenient to minimize functions, rather than to maximize. Therefore, to conduct linear regression analysis with maximum likelihood methods, we will find the values of $\hat{B}$ that minimize the negative log-likelihood of the data: $-ln\left(P(Y | X B, \sigma^2)\right)$.</span>
+<span id="cb37-83"><a href="#cb37-83" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-84"><a href="#cb37-84" aria-hidden="true" tabindex="-1"></a><span class="fu">### Function to calculate the negative log-likelihood</span></span>
+<span id="cb37-85"><a href="#cb37-85" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-86"><a href="#cb37-86" aria-hidden="true" tabindex="-1"></a>First, we need to construct a function that calculates the negative log-likelihood and that specifies the parameters of the model that eventually need to be estimated by the <span class="in">`optim()`</span> function.</span>
+<span id="cb37-87"><a href="#cb37-87" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-90"><a href="#cb37-90" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb37-91"><a href="#cb37-91" aria-hidden="true" tabindex="-1"></a><span class="do">### NEG LOG-LIK MINIMIZATION</span></span>
+<span id="cb37-92"><a href="#cb37-92" aria-hidden="true" tabindex="-1"></a>neg_log_lik <span class="ot">=</span> <span class="cf">function</span>(p, data_df){</span>
+<span id="cb37-93"><a href="#cb37-93" aria-hidden="true" tabindex="-1"></a>    beta0<span class="ot">=</span>p[<span class="dv">1</span>]</span>
+<span id="cb37-94"><a href="#cb37-94" aria-hidden="true" tabindex="-1"></a>    beta1<span class="ot">=</span>p[<span class="dv">2</span>]</span>
+<span id="cb37-95"><a href="#cb37-95" aria-hidden="true" tabindex="-1"></a>    sigma<span class="ot">=</span>p[<span class="dv">3</span>]</span>
+<span id="cb37-96"><a href="#cb37-96" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb37-97"><a href="#cb37-97" aria-hidden="true" tabindex="-1"></a>    mu <span class="ot">=</span> beta0 <span class="sc">+</span> beta1<span class="sc">*</span>data_df<span class="sc">$</span>x</span>
+<span id="cb37-98"><a href="#cb37-98" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb37-99"><a href="#cb37-99" aria-hidden="true" tabindex="-1"></a>    nll <span class="ot">=</span> <span class="sc">-</span><span class="fu">sum</span>(<span class="fu">dnorm</span>(data_df<span class="sc">$</span>y, <span class="at">mean=</span>mu, <span class="at">sd=</span>sigma, <span class="at">log =</span> <span class="cn">TRUE</span>))</span>
+<span id="cb37-100"><a href="#cb37-100" aria-hidden="true" tabindex="-1"></a>    <span class="fu">return</span>(nll)</span>
+<span id="cb37-101"><a href="#cb37-101" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb37-102"><a href="#cb37-102" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb37-103"><a href="#cb37-103" aria-hidden="true" tabindex="-1"></a>Here you can see the inputs to the function: <span class="in">`p`</span> is a vector of parameters to be estimated (i.e., optimized), and <span class="in">`data_df`</span> is a <span class="in">`data.frame`</span> that holds the values of outcome variable $y$ and associated input variables, in this case, just one $x$. </span>
+<span id="cb37-104"><a href="#cb37-104" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-105"><a href="#cb37-105" aria-hidden="true" tabindex="-1"></a>Then, we can use the <span class="in">`optim()`</span> function, which implements a gradient descent algorithm to estimate the values of the parameters that minimize the provided function, <span class="in">`neg_log_lik()`</span>. We will learn more about gradient descent later, because this is a very important method used widely across machine learning and neural networks. </span>
+<span id="cb37-106"><a href="#cb37-106" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-109"><a href="#cb37-109" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb37-110"><a href="#cb37-110" aria-hidden="true" tabindex="-1"></a>m_nll <span class="ot">=</span> </span>
+<span id="cb37-111"><a href="#cb37-111" aria-hidden="true" tabindex="-1"></a>    <span class="fu">optim</span>(</span>
+<span id="cb37-112"><a href="#cb37-112" aria-hidden="true" tabindex="-1"></a>        <span class="at">par =</span> <span class="fu">c</span>(<span class="fl">0.1</span>,<span class="dv">0</span>,<span class="fl">0.1</span>),</span>
+<span id="cb37-113"><a href="#cb37-113" aria-hidden="true" tabindex="-1"></a>        <span class="at">fn =</span> neg_log_lik,</span>
+<span id="cb37-114"><a href="#cb37-114" aria-hidden="true" tabindex="-1"></a>        <span class="at">data_df =</span> my_df,</span>
+<span id="cb37-115"><a href="#cb37-115" aria-hidden="true" tabindex="-1"></a>        <span class="at">method =</span> <span class="st">"L-BFGS-B"</span>,</span>
+<span id="cb37-116"><a href="#cb37-116" aria-hidden="true" tabindex="-1"></a>        <span class="at">lower=</span><span class="fu">c</span>(<span class="sc">-</span><span class="dv">5</span>,<span class="sc">-</span><span class="dv">5</span>,<span class="fl">0.001</span>),</span>
+<span id="cb37-117"><a href="#cb37-117" aria-hidden="true" tabindex="-1"></a>        <span class="at">upper=</span><span class="fu">c</span>(<span class="dv">5</span>,<span class="dv">5</span>,<span class="dv">5</span>),</span>
+<span id="cb37-118"><a href="#cb37-118" aria-hidden="true" tabindex="-1"></a>        <span class="at">hessian =</span> <span class="cn">TRUE</span></span>
+<span id="cb37-119"><a href="#cb37-119" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb37-120"><a href="#cb37-120" aria-hidden="true" tabindex="-1"></a>par_tab_nll <span class="ot">=</span> <span class="fu">rbind</span>(m_nll<span class="sc">$</span>par)</span>
+<span id="cb37-121"><a href="#cb37-121" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(par_tab_nll) <span class="ot">=</span> <span class="fu">c</span>(<span class="st">"int"</span>, <span class="st">"slope"</span>, <span class="st">"sigma"</span>)</span>
+<span id="cb37-122"><a href="#cb37-122" aria-hidden="true" tabindex="-1"></a>par_tab_nll</span>
+<span id="cb37-123"><a href="#cb37-123" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb37-124"><a href="#cb37-124" aria-hidden="true" tabindex="-1"></a>Note the <span class="in">`optim()`</span> options. <span class="in">`par`</span> specifies the initial guesses of the three parameters, whereas <span class="in">`lower`</span> and <span class="in">`upper`</span> specify the bounds across which to search for the best values of the parameters. With <span class="in">`hessian = TRUE`</span> we are asking the function to output an estimate of the Hessian matrix of the function, which helps us to estimate the standard errors of the parameter estimates (see <span class="co">[</span><span class="ot">Footnotes @sec-hessian</span><span class="co">]</span>). The <span class="in">`method`</span> specifies the algorithm used to minimize the function, which in this case is a modified quasi-Newton method, <span class="in">`L-BFGS-B`</span>, which is a type of gradient descent algorithm, to be discussed later. </span>
+<span id="cb37-125"><a href="#cb37-125" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-126"><a href="#cb37-126" aria-hidden="true" tabindex="-1"></a>We can see that the function outputs three point-estimates, which are $\hat{B}$ (i.e., slope and intercept), as well as the residual standard deviation, $\hat{\sigma}$.</span>
+<span id="cb37-127"><a href="#cb37-127" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-128"><a href="#cb37-128" aria-hidden="true" tabindex="-1"></a><span class="fu">### Compare `optim()` results to the OLS output</span></span>
+<span id="cb37-131"><a href="#cb37-131" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb37-132"><a href="#cb37-132" aria-hidden="true" tabindex="-1"></a><span class="do">### COMPARE TO LM()</span></span>
+<span id="cb37-133"><a href="#cb37-133" aria-hidden="true" tabindex="-1"></a>m_ols <span class="ot">=</span> <span class="fu">lm</span>(y <span class="sc">~</span> <span class="dv">1</span> <span class="sc">+</span> x, <span class="at">data =</span> my_df)</span>
+<span id="cb37-134"><a href="#cb37-134" aria-hidden="true" tabindex="-1"></a>m_ols_summary <span class="ot">=</span> <span class="fu">summary</span>(m_ols)</span>
+<span id="cb37-135"><a href="#cb37-135" aria-hidden="true" tabindex="-1"></a>m_ols_summary <span class="co"># Notice p-value</span></span>
+<span id="cb37-136"><a href="#cb37-136" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-137"><a href="#cb37-137" aria-hidden="true" tabindex="-1"></a>par_tab_ols <span class="ot">=</span> <span class="fu">c</span>(<span class="fu">coef</span>(m_ols), m_ols_summary<span class="sc">$</span>sigma)</span>
+<span id="cb37-138"><a href="#cb37-138" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(par_tab_ols) <span class="ot">=</span> <span class="fu">c</span>(<span class="st">"int"</span>, <span class="st">"slope"</span>, <span class="st">"sigma"</span>)</span>
+<span id="cb37-139"><a href="#cb37-139" aria-hidden="true" tabindex="-1"></a>par_tab_ols; par_tab_nll</span>
+<span id="cb37-140"><a href="#cb37-140" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-141"><a href="#cb37-141" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(my_df<span class="sc">$</span>y <span class="sc">~</span> my_df<span class="sc">$</span>x, <span class="at">pch =</span> <span class="dv">19</span>,</span>
+<span id="cb37-142"><a href="#cb37-142" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">"x"</span>, <span class="at">ylab =</span> <span class="st">"y"</span>)</span>
+<span id="cb37-143"><a href="#cb37-143" aria-hidden="true" tabindex="-1"></a><span class="co"># Line from OLS</span></span>
+<span id="cb37-144"><a href="#cb37-144" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">coef =</span> <span class="fu">coef</span>(m_ols), <span class="at">col =</span> <span class="st">"black"</span>, <span class="at">lwd =</span> <span class="dv">2</span>)</span>
+<span id="cb37-145"><a href="#cb37-145" aria-hidden="true" tabindex="-1"></a><span class="co"># Line from MaxLikelihood</span></span>
+<span id="cb37-146"><a href="#cb37-146" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">coef =</span> m_nll<span class="sc">$</span>par[<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>], <span class="at">col =</span> <span class="st">"red"</span>, <span class="at">lty =</span> <span class="dv">2</span>, <span class="at">lwd =</span> <span class="dv">2</span>)</span>
+<span id="cb37-147"><a href="#cb37-147" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb37-148"><a href="#cb37-148" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-149"><a href="#cb37-149" aria-hidden="true" tabindex="-1"></a>As we learned in lecture, the estimates of $\hat{B}$ from least squares and maximum likelihood are equivalent. And indeed, we see the same estimates produced from <span class="in">`lm()`</span> and <span class="in">`optim()`</span>. Also if you look at <span class="in">`Residual standard error`</span> in the <span class="in">`lm()`</span> output, you see the equivalent estimate for $\hat{\sigma}$ compared to the <span class="in">`optim()`</span> output. </span>
+<span id="cb37-150"><a href="#cb37-150" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-151"><a href="#cb37-151" aria-hidden="true" tabindex="-1"></a><span class="fu">## Hypothesis-testing for maximum likelihood</span></span>
+<span id="cb37-152"><a href="#cb37-152" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-153"><a href="#cb37-153" aria-hidden="true" tabindex="-1"></a>As explained in lecture, we will use the likelihood ratio test to test:</span>
+<span id="cb37-154"><a href="#cb37-154" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-155"><a href="#cb37-155" aria-hidden="true" tabindex="-1"></a>$$H_0: \beta_i = 0$$</span>
+<span id="cb37-156"><a href="#cb37-156" aria-hidden="true" tabindex="-1"></a>$$H_A: \beta_i \ne 0$$</span>
+<span id="cb37-157"><a href="#cb37-157" aria-hidden="true" tabindex="-1"></a>In the least squares framework, we used a $t$-test. But, for maximum likelihood, we are going to base our test on the *likelihood* of a model that does or does not include the slope, similar to the $F$-test we learned before. </span>
+<span id="cb37-158"><a href="#cb37-158" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-159"><a href="#cb37-159" aria-hidden="true" tabindex="-1"></a>For the case of simple linear regression, we're testing whether there is a significant difference between these models:</span>
+<span id="cb37-160"><a href="#cb37-160" aria-hidden="true" tabindex="-1"></a>$$H_0: y_i = \beta_0 + \epsilon_i$$</span>
+<span id="cb37-161"><a href="#cb37-161" aria-hidden="true" tabindex="-1"></a>$$H_A: y_i = \beta_0 + \beta_1 x_i + \epsilon_i$$</span>
+<span id="cb37-162"><a href="#cb37-162" aria-hidden="true" tabindex="-1"></a>Notice that in $H_0$, the slope $\beta_1$ is assumed to be zero.  </span>
+<span id="cb37-163"><a href="#cb37-163" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-164"><a href="#cb37-164" aria-hidden="true" tabindex="-1"></a><span class="fu">### Likelihood ratio and the $\chi^2$ test</span></span>
+<span id="cb37-165"><a href="#cb37-165" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-166"><a href="#cb37-166" aria-hidden="true" tabindex="-1"></a>Our goal is to understand if the likelihood of the null model, $P(Y | \beta_0, \sigma^2)$, is sufficiently low compared to the likelihood of the full model, $P(Y | \beta_0, \beta_1, x, \sigma^2)$, that we can reliably reject the null hypothesis.</span>
+<span id="cb37-167"><a href="#cb37-167" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-168"><a href="#cb37-168" aria-hidden="true" tabindex="-1"></a>We therefore construct a ratio of the likelihoods of the full and null model, very similar to the $F$-test framework. The log-likelihood ratio ($LHR$) becomes our test statistic:</span>
+<span id="cb37-169"><a href="#cb37-169" aria-hidden="true" tabindex="-1"></a>$$LHR_{\text{test}} = -2 ln \left(\frac{LH_{\text{null}}}{LH_{\text{full}}} \right)$$</span>
+<span id="cb37-170"><a href="#cb37-170" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-171"><a href="#cb37-171" aria-hidden="true" tabindex="-1"></a>Then, folks smarter than I have done the math to prove that this test statistic is equivalent to a $\chi^2$ test statistic, such that:</span>
+<span id="cb37-172"><a href="#cb37-172" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-173"><a href="#cb37-173" aria-hidden="true" tabindex="-1"></a>$$LHR_{\text{test}} \sim  \chi^2_k$$</span>
+<span id="cb37-174"><a href="#cb37-174" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-175"><a href="#cb37-175" aria-hidden="true" tabindex="-1"></a>where $\chi^2_k$ is a $\chi^2$ probability distribution with $k$ degrees of freedom. $k$ is equal to $p_{\text{full}} - p_{\text{null}}$, where $p$ is the number of model coefficients. In the case of simple linear regression, where we are removing just one model coefficient from the full model (i.e., set slope equal to zero), then $k = 2-1 = 1$.</span>
+<span id="cb37-176"><a href="#cb37-176" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-177"><a href="#cb37-177" aria-hidden="true" tabindex="-1"></a>Finally, we can determine $P(\chi^2 &gt; LHR_{\text{test}})$, which gives us our $p$-value. This statistical test is known as the "likelihood ratio test," and it is equivalently referred to as the "$\chi^2$" test, which we'll see in the code below. </span>
+<span id="cb37-178"><a href="#cb37-178" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-179"><a href="#cb37-179" aria-hidden="true" tabindex="-1"></a><span class="fu">### Manual calculation of the likelihood ratio test</span></span>
+<span id="cb37-180"><a href="#cb37-180" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-181"><a href="#cb37-181" aria-hidden="true" tabindex="-1"></a>To begin, we need to use maximum likelihood to estimate the likelihood of the "null" model. We need to adjust our function that will be used by <span class="in">`optim()`</span> to only include two parameters: the intercept, and the residual standard deviation. </span>
+<span id="cb37-182"><a href="#cb37-182" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-185"><a href="#cb37-185" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb37-186"><a href="#cb37-186" aria-hidden="true" tabindex="-1"></a><span class="co"># Need a null model:</span></span>
+<span id="cb37-187"><a href="#cb37-187" aria-hidden="true" tabindex="-1"></a>nll_null <span class="ot">=</span> <span class="cf">function</span>(p, data_df){</span>
+<span id="cb37-188"><a href="#cb37-188" aria-hidden="true" tabindex="-1"></a>    beta0<span class="ot">=</span>p[<span class="dv">1</span>]</span>
+<span id="cb37-189"><a href="#cb37-189" aria-hidden="true" tabindex="-1"></a>    sigma<span class="ot">=</span>p[<span class="dv">2</span>]</span>
+<span id="cb37-190"><a href="#cb37-190" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb37-191"><a href="#cb37-191" aria-hidden="true" tabindex="-1"></a>    mu <span class="ot">=</span> beta0</span>
+<span id="cb37-192"><a href="#cb37-192" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb37-193"><a href="#cb37-193" aria-hidden="true" tabindex="-1"></a>    nll <span class="ot">=</span> <span class="sc">-</span><span class="fu">sum</span>(<span class="fu">dnorm</span>(data_df<span class="sc">$</span>y, <span class="at">mean=</span>mu, <span class="at">sd=</span>sigma, <span class="at">log =</span> <span class="cn">TRUE</span>))</span>
+<span id="cb37-194"><a href="#cb37-194" aria-hidden="true" tabindex="-1"></a>    <span class="fu">return</span>(nll)</span>
+<span id="cb37-195"><a href="#cb37-195" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb37-196"><a href="#cb37-196" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-197"><a href="#cb37-197" aria-hidden="true" tabindex="-1"></a>m_nll_null <span class="ot">=</span> </span>
+<span id="cb37-198"><a href="#cb37-198" aria-hidden="true" tabindex="-1"></a>    <span class="fu">optim</span>(</span>
+<span id="cb37-199"><a href="#cb37-199" aria-hidden="true" tabindex="-1"></a>        <span class="at">par =</span> <span class="fu">c</span>(<span class="fl">0.1</span>,<span class="fl">0.1</span>),</span>
+<span id="cb37-200"><a href="#cb37-200" aria-hidden="true" tabindex="-1"></a>        <span class="at">fn =</span> nll_null,</span>
+<span id="cb37-201"><a href="#cb37-201" aria-hidden="true" tabindex="-1"></a>        <span class="at">data_df =</span> my_df,</span>
+<span id="cb37-202"><a href="#cb37-202" aria-hidden="true" tabindex="-1"></a>        <span class="at">method =</span> <span class="st">"L-BFGS-B"</span>,</span>
+<span id="cb37-203"><a href="#cb37-203" aria-hidden="true" tabindex="-1"></a>        <span class="at">lower=</span><span class="fu">c</span>(<span class="sc">-</span><span class="dv">5</span>,<span class="fl">0.001</span>),</span>
+<span id="cb37-204"><a href="#cb37-204" aria-hidden="true" tabindex="-1"></a>        <span class="at">upper=</span><span class="fu">c</span>(<span class="dv">5</span>,<span class="dv">5</span>)</span>
+<span id="cb37-205"><a href="#cb37-205" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb37-206"><a href="#cb37-206" aria-hidden="true" tabindex="-1"></a>par_tab_nll_null <span class="ot">=</span> <span class="fu">rbind</span>(m_nll_null<span class="sc">$</span>par)</span>
+<span id="cb37-207"><a href="#cb37-207" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(par_tab_nll_null) <span class="ot">=</span> <span class="fu">c</span>(<span class="st">"int"</span>, <span class="st">"sigma"</span>)</span>
+<span id="cb37-208"><a href="#cb37-208" aria-hidden="true" tabindex="-1"></a>par_tab_nll_null</span>
+<span id="cb37-209"><a href="#cb37-209" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-210"><a href="#cb37-210" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(my_df<span class="sc">$</span>y <span class="sc">~</span> my_df<span class="sc">$</span>x, <span class="at">pch =</span> <span class="dv">19</span>,</span>
+<span id="cb37-211"><a href="#cb37-211" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">"x"</span>, <span class="at">ylab =</span> <span class="st">"y"</span>)</span>
+<span id="cb37-212"><a href="#cb37-212" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">coef =</span> m_nll<span class="sc">$</span>par[<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>], <span class="at">col =</span> <span class="st">"red"</span>, <span class="at">lty =</span> <span class="dv">1</span>)</span>
+<span id="cb37-213"><a href="#cb37-213" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">h =</span> m_nll_null<span class="sc">$</span>par[<span class="dv">1</span>], <span class="at">col =</span> <span class="st">"red"</span>, <span class="at">lty =</span> <span class="dv">2</span>)</span>
+<span id="cb37-214"><a href="#cb37-214" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb37-215"><a href="#cb37-215" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-216"><a href="#cb37-216" aria-hidden="true" tabindex="-1"></a>The flat dashed line represents the null (intercept-only) model. Now, we calculate the likelihood ratio test statistic, and compare to the $\chi^2$ probability distribution to determine our $p$-value of the test. Note that within the <span class="in">`optim()`</span> function's output list, there is a numeric object called <span class="in">`value`</span>. This <span class="in">`value`</span> is the negative log-likelihood of the model with the estimated coefficients. We can use this to calculate our test statistic.</span>
+<span id="cb37-217"><a href="#cb37-217" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-220"><a href="#cb37-220" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb37-221"><a href="#cb37-221" aria-hidden="true" tabindex="-1"></a><span class="co"># use exp() to convert the negative log likelihood to </span></span>
+<span id="cb37-222"><a href="#cb37-222" aria-hidden="true" tabindex="-1"></a><span class="co"># raw probability scale</span></span>
+<span id="cb37-223"><a href="#cb37-223" aria-hidden="true" tabindex="-1"></a>log_lh_full <span class="ot">=</span> <span class="sc">-</span>m_nll<span class="sc">$</span>value</span>
+<span id="cb37-224"><a href="#cb37-224" aria-hidden="true" tabindex="-1"></a>log_lh_null <span class="ot">=</span> <span class="sc">-</span>m_nll_null<span class="sc">$</span>value</span>
+<span id="cb37-225"><a href="#cb37-225" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-226"><a href="#cb37-226" aria-hidden="true" tabindex="-1"></a>lh_full <span class="ot">=</span> <span class="fu">exp</span>(log_lh_full)</span>
+<span id="cb37-227"><a href="#cb37-227" aria-hidden="true" tabindex="-1"></a>lh_null <span class="ot">=</span> <span class="fu">exp</span>(log_lh_null)</span>
+<span id="cb37-228"><a href="#cb37-228" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-229"><a href="#cb37-229" aria-hidden="true" tabindex="-1"></a><span class="co"># Now calculate LHR</span></span>
+<span id="cb37-230"><a href="#cb37-230" aria-hidden="true" tabindex="-1"></a>lhr <span class="ot">=</span> <span class="sc">-</span><span class="dv">2</span> <span class="sc">*</span> <span class="fu">log</span>(lh_null <span class="sc">/</span> lh_full)</span>
+<span id="cb37-231"><a href="#cb37-231" aria-hidden="true" tabindex="-1"></a>lhr</span>
+<span id="cb37-232"><a href="#cb37-232" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-233"><a href="#cb37-233" aria-hidden="true" tabindex="-1"></a><span class="co"># Of course, using rules of natural logs, this is equivalent:</span></span>
+<span id="cb37-234"><a href="#cb37-234" aria-hidden="true" tabindex="-1"></a><span class="sc">-</span><span class="dv">2</span> <span class="sc">*</span> (log_lh_null <span class="sc">-</span> log_lh_full)</span>
+<span id="cb37-235"><a href="#cb37-235" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb37-236"><a href="#cb37-236" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-237"><a href="#cb37-237" aria-hidden="true" tabindex="-1"></a>Now that we have our value of $LHR_{\text{test}}$, we use the $\chi^2$-distribution to find $P(\chi^2 &gt; LHR_{\text{test}})$, which is the $p$-value of the test.</span>
+<span id="cb37-238"><a href="#cb37-238" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-241"><a href="#cb37-241" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb37-242"><a href="#cb37-242" aria-hidden="true" tabindex="-1"></a><span class="co"># How many parameters being "removed" (i.e., set to zero) in test:</span></span>
+<span id="cb37-243"><a href="#cb37-243" aria-hidden="true" tabindex="-1"></a>df_chi <span class="ot">=</span> <span class="dv">2</span> <span class="sc">-</span> <span class="dv">1</span></span>
+<span id="cb37-244"><a href="#cb37-244" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-245"><a href="#cb37-245" aria-hidden="true" tabindex="-1"></a><span class="co"># Prob null is true</span></span>
+<span id="cb37-246"><a href="#cb37-246" aria-hidden="true" tabindex="-1"></a>p_val <span class="ot">=</span> <span class="dv">1</span> <span class="sc">-</span> <span class="fu">pchisq</span>(lhr, <span class="at">df =</span> df_chi)</span>
+<span id="cb37-247"><a href="#cb37-247" aria-hidden="true" tabindex="-1"></a>p_val</span>
+<span id="cb37-248"><a href="#cb37-248" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb37-249"><a href="#cb37-249" aria-hidden="true" tabindex="-1"></a>Based on this low $p$-value, we would say there is sufficient evidence to reject the null hypothesis and that the slope $\beta_1$ is significantly different than zero. </span>
+<span id="cb37-250"><a href="#cb37-250" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-251"><a href="#cb37-251" aria-hidden="true" tabindex="-1"></a>We can compare this outcome to a built-in <span class="in">`R`</span> function called <span class="in">`drop1()`</span>. </span>
+<span id="cb37-252"><a href="#cb37-252" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-255"><a href="#cb37-255" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb37-256"><a href="#cb37-256" aria-hidden="true" tabindex="-1"></a><span class="fu">drop1</span>(m_ols, <span class="at">test =</span> <span class="st">"Chisq"</span>)</span>
+<span id="cb37-257"><a href="#cb37-257" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb37-258"><a href="#cb37-258" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-259"><a href="#cb37-259" aria-hidden="true" tabindex="-1"></a>In the function, we specified <span class="in">`Chisq`</span> test, which implements the $\chi^2$ test using the likelihood ratio. What we see in this summary output is <span class="in">`Pr(&gt;Chi)`</span> which is equivalent to our manually computed value of $P(\chi^2 &gt; LHR_{\text{test}})$. This output from <span class="in">`drop1()`</span> does not provide a whole lot of detail, but if you look at the <span class="in">`help()`</span>, it says that if you specify <span class="in">`test = "Chisq"`</span>, it conducts a likelihood-ratio test. It doesn't specifically output the likelihood ratio, but we can see the $p$-value is equivalent to our manual calculation above. </span>
+<span id="cb37-260"><a href="#cb37-260" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-261"><a href="#cb37-261" aria-hidden="true" tabindex="-1"></a><span class="fu">## Footnotes </span></span>
+<span id="cb37-262"><a href="#cb37-262" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-263"><a href="#cb37-263" aria-hidden="true" tabindex="-1"></a><span class="fu">### Hessian matrix {#sec-hessian}</span></span>
+<span id="cb37-264"><a href="#cb37-264" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-265"><a href="#cb37-265" aria-hidden="true" tabindex="-1"></a>The <span class="in">`optim()`</span> function provides point estimates for the maximum likelihood-derived model coefficients. Just like in least squares regression, however, we want to quantify the uncertainty in these estimates. We therefore want the standard error in the model coefficient estimates. </span>
+<span id="cb37-266"><a href="#cb37-266" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-267"><a href="#cb37-267" aria-hidden="true" tabindex="-1"></a>In the case of least squares, we showed how we can calculate a variance-covariance matrix for the model coefficients, and then the square-root of the diagonal of this matrix equals the standard error. For maximum likelihood we can estimate this same variance-covariance matrix, but it comes from a different matrix called the Hessian. We do not need to go into detail, but the Hessian is the matrix of second derivatives of the likelihood with respect to the parameters (I will not ask you to recall this information). Then the variance-covariance matrix of the estimated model coefficients is calculated as the inverse of the Hessian matrix that corresponds to the negative log-likelihood. If the Hessian matrix of the negative log-likelihood is $H$, then</span>
+<span id="cb37-268"><a href="#cb37-268" aria-hidden="true" tabindex="-1"></a>$$SE(\hat{\beta_i}) = \sqrt{\text{diag}\left( H^{-1}\right)_i}$$</span>
+<span id="cb37-269"><a href="#cb37-269" aria-hidden="true" tabindex="-1"></a>I understand that's complicated, but it's easy enough to extract these values computationally from <span class="in">`optim()`</span> output, assuming you use the option <span class="in">`hessian = TRUE`</span>. </span>
+<span id="cb37-272"><a href="#cb37-272" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb37-273"><a href="#cb37-273" aria-hidden="true" tabindex="-1"></a><span class="co"># Extract the Hessian from the optim() output</span></span>
+<span id="cb37-274"><a href="#cb37-274" aria-hidden="true" tabindex="-1"></a>hessian <span class="ot">=</span> m_nll<span class="sc">$</span>hessian</span>
+<span id="cb37-275"><a href="#cb37-275" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate the var-cov matrix from the inverse Hessian</span></span>
+<span id="cb37-276"><a href="#cb37-276" aria-hidden="true" tabindex="-1"></a><span class="co"># Remember solve(X) gives X^-1</span></span>
+<span id="cb37-277"><a href="#cb37-277" aria-hidden="true" tabindex="-1"></a>params_varcov <span class="ot">=</span> <span class="fu">solve</span>(hessian)</span>
+<span id="cb37-278"><a href="#cb37-278" aria-hidden="true" tabindex="-1"></a><span class="co"># Then extract the diagonal and take the square root</span></span>
+<span id="cb37-279"><a href="#cb37-279" aria-hidden="true" tabindex="-1"></a><span class="co"># This gives a vector of SE(\param_i)</span></span>
+<span id="cb37-280"><a href="#cb37-280" aria-hidden="true" tabindex="-1"></a>se_params <span class="ot">=</span> <span class="fu">sqrt</span>(<span class="fu">diag</span>(params_varcov))</span>
+<span id="cb37-281"><a href="#cb37-281" aria-hidden="true" tabindex="-1"></a>params_tab <span class="ot">=</span> <span class="fu">cbind</span>(m_nll<span class="sc">$</span>par, se_params)</span>
+<span id="cb37-282"><a href="#cb37-282" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(params_tab) <span class="ot">=</span> <span class="fu">c</span>(<span class="st">"Estimate"</span>, <span class="st">"Std. Error"</span>)</span>
+<span id="cb37-283"><a href="#cb37-283" aria-hidden="true" tabindex="-1"></a><span class="fu">rownames</span>(params_tab) <span class="ot">=</span> <span class="fu">c</span>(<span class="st">"Intercept"</span>, <span class="st">"slope"</span>, <span class="st">"sigma"</span>)</span>
+<span id="cb37-284"><a href="#cb37-284" aria-hidden="true" tabindex="-1"></a>params_tab</span>
+<span id="cb37-285"><a href="#cb37-285" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-286"><a href="#cb37-286" aria-hidden="true" tabindex="-1"></a><span class="co"># Same as OLS? </span></span>
+<span id="cb37-287"><a href="#cb37-287" aria-hidden="true" tabindex="-1"></a>m_ols_summary<span class="sc">$</span>coefficients[<span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>), <span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>] <span class="co"># Pretty close!</span></span>
+<span id="cb37-288"><a href="#cb37-288" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb37-289"><a href="#cb37-289" aria-hidden="true" tabindex="-1"></a>We can see that the standard errors for the maximum likelihood estimators are the same as the OLS estimators. </span>
+<span id="cb37-290"><a href="#cb37-290" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-291"><a href="#cb37-291" aria-hidden="true" tabindex="-1"></a><span class="fu">### `optim()` using least squares {#sec-least-sq}</span></span>
+<span id="cb37-292"><a href="#cb37-292" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-293"><a href="#cb37-293" aria-hidden="true" tabindex="-1"></a>Remember that <span class="in">`optim()`</span> is not specific to maximum likelihood, but rather it implements one of several optional minimization algorithms. Therefore, we can use it to minimize any quantity. To emphasize this point, remember that in least squares regression, we are finding the values of the model coefficients $\hat{B}$ that minimize the sum of squared errors, $\sum_i^n \epsilon_i^2 = \epsilon^T\epsilon$. Let's minimize this quantity using <span class="in">`optim()`</span>. </span>
+<span id="cb37-294"><a href="#cb37-294" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-297"><a href="#cb37-297" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb37-298"><a href="#cb37-298" aria-hidden="true" tabindex="-1"></a><span class="do">### LEAST SQUARES MINIMIZATION</span></span>
+<span id="cb37-299"><a href="#cb37-299" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-300"><a href="#cb37-300" aria-hidden="true" tabindex="-1"></a><span class="co"># We need a function to calculate the sum of squared errors:</span></span>
+<span id="cb37-301"><a href="#cb37-301" aria-hidden="true" tabindex="-1"></a>least_sq <span class="ot">=</span> <span class="cf">function</span>(p, data_df){</span>
+<span id="cb37-302"><a href="#cb37-302" aria-hidden="true" tabindex="-1"></a>    beta0<span class="ot">=</span>p[<span class="dv">1</span>]</span>
+<span id="cb37-303"><a href="#cb37-303" aria-hidden="true" tabindex="-1"></a>    beta1<span class="ot">=</span>p[<span class="dv">2</span>]</span>
+<span id="cb37-304"><a href="#cb37-304" aria-hidden="true" tabindex="-1"></a>    y <span class="ot">=</span> data_df<span class="sc">$</span>y</span>
+<span id="cb37-305"><a href="#cb37-305" aria-hidden="true" tabindex="-1"></a>    n <span class="ot">=</span> <span class="fu">length</span>(y)</span>
+<span id="cb37-306"><a href="#cb37-306" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb37-307"><a href="#cb37-307" aria-hidden="true" tabindex="-1"></a>    expected_y <span class="ot">=</span> beta0 <span class="sc">+</span> beta1<span class="sc">*</span>data_df<span class="sc">$</span>x</span>
+<span id="cb37-308"><a href="#cb37-308" aria-hidden="true" tabindex="-1"></a>    sse <span class="ot">=</span> <span class="dv">0</span></span>
+<span id="cb37-309"><a href="#cb37-309" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>n){</span>
+<span id="cb37-310"><a href="#cb37-310" aria-hidden="true" tabindex="-1"></a>        epsilon_i <span class="ot">=</span> y[i] <span class="sc">-</span> expected_y[i]</span>
+<span id="cb37-311"><a href="#cb37-311" aria-hidden="true" tabindex="-1"></a>        sse <span class="ot">=</span> sse <span class="sc">+</span> (epsilon_i)<span class="sc">^</span><span class="dv">2</span></span>
+<span id="cb37-312"><a href="#cb37-312" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb37-313"><a href="#cb37-313" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb37-314"><a href="#cb37-314" aria-hidden="true" tabindex="-1"></a>    <span class="fu">return</span>(sse)</span>
+<span id="cb37-315"><a href="#cb37-315" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb37-316"><a href="#cb37-316" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-317"><a href="#cb37-317" aria-hidden="true" tabindex="-1"></a><span class="do">### OPTIMIZE LEAST SQUARES</span></span>
+<span id="cb37-318"><a href="#cb37-318" aria-hidden="true" tabindex="-1"></a>fit_least_sq <span class="ot">=</span> </span>
+<span id="cb37-319"><a href="#cb37-319" aria-hidden="true" tabindex="-1"></a>    <span class="fu">optim</span>(</span>
+<span id="cb37-320"><a href="#cb37-320" aria-hidden="true" tabindex="-1"></a>        <span class="at">par =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">0</span>),</span>
+<span id="cb37-321"><a href="#cb37-321" aria-hidden="true" tabindex="-1"></a>        <span class="at">fn =</span> least_sq,</span>
+<span id="cb37-322"><a href="#cb37-322" aria-hidden="true" tabindex="-1"></a>        <span class="at">data_df =</span> my_df,</span>
+<span id="cb37-323"><a href="#cb37-323" aria-hidden="true" tabindex="-1"></a>        <span class="at">method =</span> <span class="st">"L-BFGS-B"</span>,</span>
+<span id="cb37-324"><a href="#cb37-324" aria-hidden="true" tabindex="-1"></a>        <span class="at">lower=</span><span class="fu">c</span>(<span class="sc">-</span><span class="dv">5</span>,<span class="sc">-</span><span class="dv">5</span>),</span>
+<span id="cb37-325"><a href="#cb37-325" aria-hidden="true" tabindex="-1"></a>        <span class="at">upper=</span><span class="fu">c</span>(<span class="dv">5</span>,<span class="dv">5</span>),</span>
+<span id="cb37-326"><a href="#cb37-326" aria-hidden="true" tabindex="-1"></a>        <span class="at">hessian =</span> <span class="cn">TRUE</span></span>
+<span id="cb37-327"><a href="#cb37-327" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb37-328"><a href="#cb37-328" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a table of estimates:</span></span>
+<span id="cb37-329"><a href="#cb37-329" aria-hidden="true" tabindex="-1"></a>par_tab_least_sq <span class="ot">=</span> <span class="fu">rbind</span>(fit_least_sq<span class="sc">$</span>par)</span>
+<span id="cb37-330"><a href="#cb37-330" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(par_tab_least_sq) <span class="ot">=</span> <span class="fu">c</span>(<span class="st">"int"</span>, <span class="st">"slope"</span>)</span>
+<span id="cb37-331"><a href="#cb37-331" aria-hidden="true" tabindex="-1"></a>par_tab_least_sq</span>
+<span id="cb37-332"><a href="#cb37-332" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-333"><a href="#cb37-333" aria-hidden="true" tabindex="-1"></a><span class="co"># Compare to original OLS estimates:</span></span>
+<span id="cb37-334"><a href="#cb37-334" aria-hidden="true" tabindex="-1"></a><span class="fu">coef</span>(m_ols)</span>
+<span id="cb37-335"><a href="#cb37-335" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb37-336"><a href="#cb37-336" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-337"><a href="#cb37-337" aria-hidden="true" tabindex="-1"></a>You could also use the Hessian output to calculate the standard errors of the model coefficients, but I will leave that up to you. </span>
+</code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div></div></div></div></div>
 </div> <!-- /content -->
 
