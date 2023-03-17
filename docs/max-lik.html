@@ -234,11 +234,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   <li><a href="#manual-calculation-of-the-likelihood-ratio-test" id="toc-manual-calculation-of-the-likelihood-ratio-test" class="nav-link" data-scroll-target="#manual-calculation-of-the-likelihood-ratio-test"><span class="toc-section-number">6.5.2</span>  Manual calculation of the likelihood ratio test</a></li>
   </ul>
 </li>
+  <li><a href="#gradient-descent-algorithm" id="toc-gradient-descent-algorithm" class="nav-link" data-scroll-target="#gradient-descent-algorithm"><span class="toc-section-number">6.6</span>  Gradient descent algorithm</a></li>
   <li>
-<a href="#footnotes" id="toc-footnotes" class="nav-link" data-scroll-target="#footnotes"><span class="toc-section-number">6.6</span>  Footnotes</a>
+<a href="#footnotes" id="toc-footnotes" class="nav-link" data-scroll-target="#footnotes"><span class="toc-section-number">6.7</span>  Footnotes</a>
   <ul class="collapse">
-<li><a href="#sec-hessian" id="toc-sec-hessian" class="nav-link" data-scroll-target="#sec-hessian"><span class="toc-section-number">6.6.1</span>  Hessian matrix</a></li>
-  <li><a href="#sec-least-sq" id="toc-sec-least-sq" class="nav-link" data-scroll-target="#sec-least-sq"><span class="toc-section-number">6.6.2</span>  <code>optim()</code> using least squares</a></li>
+<li><a href="#sec-hessian" id="toc-sec-hessian" class="nav-link" data-scroll-target="#sec-hessian"><span class="toc-section-number">6.7.1</span>  Hessian matrix</a></li>
+  <li><a href="#sec-least-sq" id="toc-sec-least-sq" class="nav-link" data-scroll-target="#sec-least-sq"><span class="toc-section-number">6.7.2</span>  <code>optim()</code> using least squares</a></li>
+  <li><a href="#sec-grad-multi" id="toc-sec-grad-multi" class="nav-link" data-scroll-target="#sec-grad-multi"><span class="toc-section-number">6.7.3</span>  Gradient descent, multiple parameters</a></li>
   </ul>
 </li>
   </ul><div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/joseph-mihaljevic/inf511-book/blob/main/max-lik.qmd" class="toc-action">View source</a></p><p><a href="https://github.com/joseph-mihaljevic/inf511-book/issues/new" class="toc-action">Report an issue</a></p></div></div></nav>
@@ -374,7 +376,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 [1,] 1.598468 0.56205 0.4571571</code></pre>
 </div>
 </div>
-<p>Note the <code><a href="https://rdrr.io/r/stats/optim.html">optim()</a></code> options. <code>par</code> specifies the initial guesses of the three parameters, whereas <code>lower</code> and <code>upper</code> specify the bounds across which to search for the best values of the parameters. With <code>hessian = TRUE</code> we are asking the function to output an estimate of the Hessian matrix of the function, which helps us to estimate the standard errors of the parameter estimates (see <a href="#sec-hessian">Footnotes&nbsp;<span>6.6.1</span></a>). The <code>method</code> specifies the algorithm used to minimize the function, which in this case is a modified quasi-Newton method, <code>L-BFGS-B</code>, which is a type of gradient descent algorithm, to be discussed later.</p>
+<p>Note the <code><a href="https://rdrr.io/r/stats/optim.html">optim()</a></code> options. <code>par</code> specifies the initial guesses of the three parameters, whereas <code>lower</code> and <code>upper</code> specify the bounds across which to search for the best values of the parameters. With <code>hessian = TRUE</code> we are asking the function to output an estimate of the Hessian matrix of the function, which helps us to estimate the standard errors of the parameter estimates (see <a href="#sec-hessian">Footnotes&nbsp;<span>6.7.1</span></a>). The <code>method</code> specifies the algorithm used to minimize the function, which in this case is a modified quasi-Newton method, <code>L-BFGS-B</code>, which is a type of gradient descent algorithm, to be discussed later.</p>
 <p>We can see that the function outputs three point-estimates, which are <span class="math inline">\(\hat{B}\)</span> (i.e., slope and intercept), as well as the residual standard deviation, <span class="math inline">\(\hat{\sigma}\)</span>.</p>
 </section><section id="compare-optim-results-to-the-ols-output" class="level3" data-number="6.4.2"><h3 data-number="6.4.2" class="anchored" data-anchor-id="compare-optim-results-to-the-ols-output">
 <span class="header-section-number">6.4.2</span> Compare <code>optim()</code> results to the OLS output</h3>
@@ -528,14 +530,124 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 </div>
 </div>
 <p>In the function, we specified <code>Chisq</code> test, which implements the <span class="math inline">\(\chi^2\)</span> test using the likelihood ratio. What we see in this summary output is <code>Pr(&gt;Chi)</code> which is equivalent to our manually computed value of <span class="math inline">\(P(\chi^2 &gt; LHR_{\text{test}})\)</span>. This output from <code><a href="https://rdrr.io/r/stats/add1.html">drop1()</a></code> does not provide a whole lot of detail, but if you look at the <code><a href="https://rdrr.io/r/utils/help.html">help()</a></code>, it says that if you specify <code>test = "Chisq"</code>, it conducts a likelihood-ratio test. It doesn’t specifically output the likelihood ratio, but we can see the <span class="math inline">\(p\)</span>-value is equivalent to our manual calculation above.</p>
-</section></section><section id="footnotes" class="level2" data-number="6.6"><h2 data-number="6.6" class="anchored" data-anchor-id="footnotes">
-<span class="header-section-number">6.6</span> Footnotes</h2>
-<section id="sec-hessian" class="level3" data-number="6.6.1"><h3 data-number="6.6.1" class="anchored" data-anchor-id="sec-hessian">
-<span class="header-section-number">6.6.1</span> Hessian matrix</h3>
+</section></section><section id="gradient-descent-algorithm" class="level2" data-number="6.6"><h2 data-number="6.6" class="anchored" data-anchor-id="gradient-descent-algorithm">
+<span class="header-section-number">6.6</span> Gradient descent algorithm</h2>
+<p>How does the <code><a href="https://rdrr.io/r/stats/optim.html">optim()</a></code> function work? There are various optimization algorithms that can be implemented by <code><a href="https://rdrr.io/r/stats/optim.html">optim()</a></code> that are specified by the user in the <code>method</code> option. Several of these are gradient-based algorithms, which is a family of algorithms that are very common in engineering problems (e.g., optimal control of drones) and machine learning (e.g., neural networks, reinforcement learning). These algorithms generally minimize an “objective function”: <span class="math inline">\(\min_{{x\in {\mathbb R}^{n}}}\;f(x)\)</span>.</p>
+<p>A gradient descent algorithm is the most common algorithm for minimizing a function. There are many varieties of these algorithms that employ various “tricks” to make the algorithms more efficient (e.g., find the solution in a smaller number of iterations) or more reliable. In lecture we outlined the foundational gradient descent algorithm, upon which many more advanced algorithms are based. For a function <span class="math inline">\(f(x)\)</span>, find the value of <span class="math inline">\(x\)</span> that solves the problem: <span class="math inline">\(\min _{{x\in {\mathbb R}^{n}}}\;f(x)\)</span></p>
+<ol type="1">
+<li>Choose a starting value of <span class="math inline">\(x\)</span>
+</li>
+<li>Evaluate <span class="math inline">\(\nabla f(x)\)</span>. With <span class="math inline">\(h=10^{-4}\)</span>: <span class="math display">\[\text{grad} = \frac{f(x+h) - f(x)}{h}\]</span>
+</li>
+<li>Set the search direction as <span class="math inline">\(\text{direct} = -\nabla f(x)\)</span>
+</li>
+<li>Set the step size as a fraction of <span class="math inline">\(\nabla f(x)\)</span>: <span class="math inline">\(\text{alpha} = 0.005\)</span>
+</li>
+<li>Update <span class="math inline">\(x\)</span> for next iteration: <span class="math display">\[x = x + \text{alpha}* \text{direct}\]</span>
+</li>
+<li>Repeat Steps 2-5 until <span class="math inline">\(\nabla f(x) \approx 0\)</span> (i.e., <span class="math inline">\(||\text{grad}|| \le 10^{-4}\)</span>)</li>
+</ol>
+<p>Let’s implement this algorithm for the maximum likelihood solution of simple linear regression, using the data set above. To make this easier, we’re going to assume that we know the intercept and the residual standard deviation perfectly, so we are only trying to estimate the slope. See <a href="#sec-grad-multi">Footnotes&nbsp;<span>6.7.3</span></a> for the case in which we estimate all three model parameters simultaneously using gradient descent.</p>
+<div class="cell">
+<div class="sourceCode" id="cb29"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Set up some storage arrays:</span></span>
+<span><span class="va">slope_guess</span> <span class="op">=</span> <span class="cn">NULL</span></span>
+<span><span class="va">nll_guess</span> <span class="op">=</span> <span class="cn">NULL</span></span>
+<span></span>
+<span><span class="co"># initial guess</span></span>
+<span><span class="va">slope</span> <span class="op">=</span> <span class="fl">0.1</span></span>
+<span></span>
+<span><span class="co"># set h for approx of gradient</span></span>
+<span><span class="va">h</span> <span class="op">=</span> <span class="fl">1e-4</span></span>
+<span></span>
+<span><span class="co"># set step size</span></span>
+<span><span class="va">alpha</span> <span class="op">=</span> <span class="fl">0.005</span></span>
+<span></span>
+<span><span class="co"># Set gradient to arbitrary high number</span></span>
+<span><span class="co">## This makes the while() loop work</span></span>
+<span><span class="va">grad</span> <span class="op">=</span> <span class="fl">100</span></span>
+<span></span>
+<span><span class="co"># initialize counter</span></span>
+<span><span class="va">i</span> <span class="op">=</span> <span class="fl">1</span></span>
+<span></span>
+<span><span class="co"># While gradient is not yet \approx zero</span></span>
+<span><span class="kw">while</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/norm.html">norm</a></span><span class="op">(</span><span class="va">grad</span>, <span class="st">"2"</span><span class="op">)</span> <span class="op">&gt;</span> <span class="fl">10</span><span class="op">^</span><span class="op">-</span><span class="fl">4</span><span class="op">)</span> <span class="op">{</span></span>
+<span>    </span>
+<span>    <span class="co"># Store the current value of slope:</span></span>
+<span>    <span class="va">slope_guess</span><span class="op">[</span><span class="va">i</span><span class="op">]</span> <span class="op">=</span> <span class="va">slope</span></span>
+<span>    </span>
+<span>    <span class="co">#############</span></span>
+<span>    <span class="co"># Approximate the gradient of the nll</span></span>
+<span>    <span class="co">#############</span></span>
+<span>    <span class="co">## Adjust the slope by a small number, h</span></span>
+<span>    <span class="va">slope_adj</span> <span class="op">=</span> <span class="va">slope</span> <span class="op">+</span> <span class="va">h</span></span>
+<span>    <span class="co">## Calculate f(slope)</span></span>
+<span>    <span class="va">f_slope</span> <span class="op">=</span> <span class="fu">neg_log_lik</span><span class="op">(</span>p <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="va">beta0</span>, <span class="va">slope</span>, <span class="va">sigma</span><span class="op">)</span>, </span>
+<span>                          data_df <span class="op">=</span> <span class="va">my_df</span><span class="op">)</span></span>
+<span>    <span class="co">## Store the current nll</span></span>
+<span>    <span class="va">nll_guess</span><span class="op">[</span><span class="va">i</span><span class="op">]</span> <span class="op">=</span> <span class="va">f_slope</span></span>
+<span>    <span class="co">## Calculate f(slope + h)</span></span>
+<span>    <span class="va">f_slope_adj</span> <span class="op">=</span> <span class="fu">neg_log_lik</span><span class="op">(</span>p <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="va">beta0</span>, <span class="va">slope_adj</span>, <span class="va">sigma</span><span class="op">)</span>, </span>
+<span>                              data_df <span class="op">=</span> <span class="va">my_df</span><span class="op">)</span></span>
+<span>    <span class="co">## Calculate gradient</span></span>
+<span>    <span class="va">grad</span> <span class="op">=</span> <span class="op">(</span><span class="va">f_slope_adj</span> <span class="op">-</span> <span class="va">f_slope</span><span class="op">)</span> <span class="op">/</span> <span class="va">h</span></span>
+<span>    </span>
+<span>    <span class="co"># search direction</span></span>
+<span>    <span class="va">direct</span> <span class="op">=</span> <span class="op">-</span><span class="va">grad</span></span>
+<span>    </span>
+<span>    <span class="co"># update slope</span></span>
+<span>    <span class="va">slope</span> <span class="op">=</span> <span class="va">slope</span> <span class="op">+</span> <span class="va">alpha</span> <span class="op">*</span> <span class="va">direct</span></span>
+<span>    </span>
+<span>    <span class="co"># counter for x</span></span>
+<span>    <span class="va">i</span> <span class="op">=</span> <span class="va">i</span> <span class="op">+</span> <span class="fl">1</span></span>
+<span><span class="op">}</span></span>
+<span></span>
+<span><span class="co"># Output the optimal slope and associated nll</span></span>
+<span><span class="va">n_iter</span> <span class="op">=</span> <span class="va">i</span><span class="op">-</span><span class="fl">1</span></span>
+<span></span>
+<span><span class="va">grad_descent_tab</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html">cbind</a></span><span class="op">(</span><span class="va">slope_guess</span><span class="op">[</span><span class="va">n_iter</span><span class="op">]</span>, <span class="va">nll_guess</span><span class="op">[</span><span class="va">n_iter</span><span class="op">]</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span><span class="op">(</span><span class="va">grad_descent_tab</span><span class="op">)</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"slope"</span>, <span class="st">"neg_log_lik"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Compare to optim() outpu</span></span>
+<span><span class="va">optim_nll_tab</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html">cbind</a></span><span class="op">(</span><span class="va">m_nll</span><span class="op">$</span><span class="va">par</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span>, <span class="va">m_nll</span><span class="op">$</span><span class="va">value</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span><span class="op">(</span><span class="va">optim_nll_tab</span><span class="op">)</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"slope"</span>, <span class="st">"neg_log_lik"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="st">"Gradient Descent:"</span><span class="op">)</span>;<span class="va">grad_descent_tab</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "Gradient Descent:"</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>         slope neg_log_lik
+[1,] 0.5651002    20.58064</code></pre>
+</div>
+<div class="sourceCode" id="cb32"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="st">"optim() output:"</span><span class="op">)</span>;<span class="va">optim_nll_tab</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "optim() output:"</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>       slope neg_log_lik
+[1,] 0.56205    19.08618</code></pre>
+</div>
+</div>
+<p>Note that the estimates are not exactly the same, especially because when we used <code><a href="https://rdrr.io/r/stats/optim.html">optim()</a></code> we were estimating all three parameters simultaneously: intercept, slope, residual standard error.</p>
+<p>Now, let’s visualize the gradient descent.</p>
+<div class="cell">
+<div class="sourceCode" id="cb35"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">nll_guess</span> <span class="op">~</span> <span class="va">slope_guess</span>, </span>
+<span>     pch <span class="op">=</span> <span class="fl">19</span>, type <span class="op">=</span> <span class="st">"b"</span>, </span>
+<span>     ylab <span class="op">=</span> <span class="st">"Neg. Log. Likelihood"</span>,</span>
+<span>     xlab <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/expression.html">expression</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/influence.measures.html">hat</a></span><span class="op">(</span><span class="va">beta</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span><span class="op">)</span>,</span>
+<span>     xlim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0.1</span>, <span class="fl">0.6</span><span class="op">)</span>, ylim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">15</span>, <span class="fl">40</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="max-lik_files/figure-html/unnamed-chunk-11-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section><section id="footnotes" class="level2" data-number="6.7"><h2 data-number="6.7" class="anchored" data-anchor-id="footnotes">
+<span class="header-section-number">6.7</span> Footnotes</h2>
+<section id="sec-hessian" class="level3" data-number="6.7.1"><h3 data-number="6.7.1" class="anchored" data-anchor-id="sec-hessian">
+<span class="header-section-number">6.7.1</span> Hessian matrix</h3>
 <p>The <code><a href="https://rdrr.io/r/stats/optim.html">optim()</a></code> function provides point estimates for the maximum likelihood-derived model coefficients. Just like in least squares regression, however, we want to quantify the uncertainty in these estimates. We therefore want the standard error in the model coefficient estimates.</p>
 <p>In the case of least squares, we showed how we can calculate a variance-covariance matrix for the model coefficients, and then the square-root of the diagonal of this matrix equals the standard error. For maximum likelihood we can estimate this same variance-covariance matrix, but it comes from a different matrix called the Hessian. We do not need to go into detail, but the Hessian is the matrix of second derivatives of the likelihood with respect to the parameters (I will not ask you to recall this information). Then the variance-covariance matrix of the estimated model coefficients is calculated as the inverse of the Hessian matrix that corresponds to the negative log-likelihood. If the Hessian matrix of the negative log-likelihood is <span class="math inline">\(H\)</span>, then <span class="math display">\[SE(\hat{\beta_i}) = \sqrt{\text{diag}\left( H^{-1}\right)_i}\]</span> I understand that’s complicated, but it’s easy enough to extract these values computationally from <code><a href="https://rdrr.io/r/stats/optim.html">optim()</a></code> output, assuming you use the option <code>hessian = TRUE</code>.</p>
 <div class="cell">
-<div class="sourceCode" id="cb29"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Extract the Hessian from the optim() output</span></span>
+<div class="sourceCode" id="cb36"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Extract the Hessian from the optim() output</span></span>
 <span><span class="va">hessian</span> <span class="op">=</span> <span class="va">m_nll</span><span class="op">$</span><span class="va">hessian</span></span>
 <span><span class="co"># Calculate the var-cov matrix from the inverse Hessian</span></span>
 <span><span class="co"># Remember solve(X) gives X^-1</span></span>
@@ -553,7 +665,7 @@ Intercept 1.5984685 0.08349686
 slope     0.5620500 0.09529343
 sigma     0.4571571 0.05901782</code></pre>
 </div>
-<div class="sourceCode" id="cb31"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Same as OLS? </span></span>
+<div class="sourceCode" id="cb38"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Same as OLS? </span></span>
 <span><span class="va">m_ols_summary</span><span class="op">$</span><span class="va">coefficients</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">2</span><span class="op">)</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">2</span><span class="op">]</span> <span class="co"># Pretty close!</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>             Estimate Std. Error
@@ -562,11 +674,11 @@ x           0.5620501 0.09863766</code></pre>
 </div>
 </div>
 <p>We can see that the standard errors for the maximum likelihood estimators are the same as the OLS estimators.</p>
-</section><section id="sec-least-sq" class="level3" data-number="6.6.2"><h3 data-number="6.6.2" class="anchored" data-anchor-id="sec-least-sq">
-<span class="header-section-number">6.6.2</span> <code>optim()</code> using least squares</h3>
+</section><section id="sec-least-sq" class="level3" data-number="6.7.2"><h3 data-number="6.7.2" class="anchored" data-anchor-id="sec-least-sq">
+<span class="header-section-number">6.7.2</span> <code>optim()</code> using least squares</h3>
 <p>Remember that <code><a href="https://rdrr.io/r/stats/optim.html">optim()</a></code> is not specific to maximum likelihood, but rather it implements one of several optional minimization algorithms. Therefore, we can use it to minimize any quantity. To emphasize this point, remember that in least squares regression, we are finding the values of the model coefficients <span class="math inline">\(\hat{B}\)</span> that minimize the sum of squared errors, <span class="math inline">\(\sum_i^n \epsilon_i^2 = \epsilon^T\epsilon\)</span>. Let’s minimize this quantity using <code><a href="https://rdrr.io/r/stats/optim.html">optim()</a></code>.</p>
 <div class="cell">
-<div class="sourceCode" id="cb33"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co">### LEAST SQUARES MINIMIZATION</span></span>
+<div class="sourceCode" id="cb40"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co">### LEAST SQUARES MINIMIZATION</span></span>
 <span></span>
 <span><span class="co"># We need a function to calculate the sum of squared errors:</span></span>
 <span><span class="va">least_sq</span> <span class="op">=</span> <span class="kw">function</span><span class="op">(</span><span class="va">p</span>, <span class="va">data_df</span><span class="op">)</span><span class="op">{</span></span>
@@ -604,7 +716,7 @@ x           0.5620501 0.09863766</code></pre>
 <pre><code>          int     slope
 [1,] 1.598469 0.5620501</code></pre>
 </div>
-<div class="sourceCode" id="cb35"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Compare to original OLS estimates:</span></span>
+<div class="sourceCode" id="cb42"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Compare to original OLS estimates:</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/stats/coef.html">coef</a></span><span class="op">(</span><span class="va">m_ols</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>(Intercept)           x 
@@ -612,6 +724,133 @@ x           0.5620501 0.09863766</code></pre>
 </div>
 </div>
 <p>You could also use the Hessian output to calculate the standard errors of the model coefficients, but I will leave that up to you.</p>
+</section><section id="sec-grad-multi" class="level3" data-number="6.7.3"><h3 data-number="6.7.3" class="anchored" data-anchor-id="sec-grad-multi">
+<span class="header-section-number">6.7.3</span> Gradient descent, multiple parameters</h3>
+<p>Now let’s suppose we want to estimate all of our model parameters (intercept, slope, residual standard deviation) simultaneously using gradient descent. Recall from lecture that we need to estimate three components of the gradient (the partial derivates of the function with respect to each model parameter).</p>
+<div class="cell">
+<div class="sourceCode" id="cb44"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># How many params to estimate?</span></span>
+<span><span class="va">n_param</span> <span class="op">=</span> <span class="fl">3</span></span>
+<span></span>
+<span><span class="co"># Set up some storage arrays:</span></span>
+<span><span class="co">## Guess that the number of iterations will be 100 or less...</span></span>
+<span><span class="va">param_guess</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/array.html">array</a></span><span class="op">(</span><span class="fl">0</span>, dim<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">100</span>,<span class="va">n_param</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">nll_guess</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/vector.html">vector</a></span><span class="op">(</span><span class="st">"numeric"</span>, length <span class="op">=</span> <span class="fl">100</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># initial guesses</span></span>
+<span><span class="va">param</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/vector.html">vector</a></span><span class="op">(</span><span class="st">"numeric"</span>, length <span class="op">=</span> <span class="va">n_param</span><span class="op">)</span></span>
+<span><span class="va">param</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span> <span class="op">=</span> <span class="fl">0.0</span> <span class="co"># intercept</span></span>
+<span><span class="va">param</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span> <span class="op">=</span> <span class="fl">1.0</span></span>
+<span><span class="va">param</span><span class="op">[</span><span class="fl">3</span><span class="op">]</span> <span class="op">=</span> <span class="fl">2.5</span></span>
+<span></span>
+<span><span class="co"># set h for approx of gradient</span></span>
+<span><span class="va">h</span> <span class="op">=</span> <span class="fl">1e-4</span></span>
+<span></span>
+<span><span class="co"># set step size</span></span>
+<span><span class="va">alpha</span> <span class="op">=</span> <span class="fl">0.005</span></span>
+<span></span>
+<span><span class="co"># Set gradient components to arbitrary high numbers</span></span>
+<span><span class="co">## This makes the while() loop work</span></span>
+<span><span class="va">grad</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span><span class="op">(</span><span class="fl">100</span>, times <span class="op">=</span> <span class="va">n_param</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># initialize counter</span></span>
+<span><span class="va">i</span> <span class="op">=</span> <span class="fl">1</span></span>
+<span></span>
+<span><span class="co"># While gradient is not yet \approx zero</span></span>
+<span><span class="kw">while</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/norm.html">norm</a></span><span class="op">(</span><span class="va">grad</span>, <span class="st">"2"</span><span class="op">)</span> <span class="op">&gt;</span> <span class="fl">10</span><span class="op">^</span><span class="op">-</span><span class="fl">4</span><span class="op">)</span> <span class="op">{</span></span>
+<span>    </span>
+<span>    <span class="co"># Store the current value of slope:</span></span>
+<span>    <span class="va">param_guess</span><span class="op">[</span><span class="va">i</span>, <span class="op">]</span> <span class="op">=</span> <span class="va">param</span></span>
+<span>    </span>
+<span>    <span class="co">#############</span></span>
+<span>    <span class="co"># Approximate the gradient of the nll</span></span>
+<span>    <span class="co">#############</span></span>
+<span>    </span>
+<span>    <span class="co">## Calculate nll with all current params</span></span>
+<span>    <span class="va">f_x</span> <span class="op">=</span> <span class="fu">neg_log_lik</span><span class="op">(</span>p <span class="op">=</span> <span class="va">param</span>, </span>
+<span>                          data_df <span class="op">=</span> <span class="va">my_df</span><span class="op">)</span></span>
+<span>    <span class="co">## Store the current nll</span></span>
+<span>    <span class="va">nll_guess</span><span class="op">[</span><span class="va">i</span><span class="op">]</span> <span class="op">=</span> <span class="va">f_x</span></span>
+<span>    </span>
+<span>    <span class="co">## One param at a time, approximate gradient component</span></span>
+<span>    <span class="co">## (i.e., partial derivative)</span></span>
+<span>    <span class="kw">for</span><span class="op">(</span><span class="va">j</span> <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span><span class="va">n_param</span><span class="op">)</span><span class="op">{</span></span>
+<span>        <span class="co">## Keep all but one params the same</span></span>
+<span>        <span class="va">param_adj</span> <span class="op">=</span> <span class="cn">NULL</span></span>
+<span>        <span class="va">param_adj</span> <span class="op">=</span> <span class="va">param</span></span>
+<span>        <span class="va">param_adj</span><span class="op">[</span><span class="va">j</span><span class="op">]</span> <span class="op">=</span> <span class="va">param</span><span class="op">[</span><span class="va">j</span><span class="op">]</span> <span class="op">+</span> <span class="va">h</span></span>
+<span>        </span>
+<span>        <span class="va">f_x_adj</span> <span class="op">=</span> <span class="fu">neg_log_lik</span><span class="op">(</span>p <span class="op">=</span> <span class="va">param_adj</span>, </span>
+<span>                              data_df <span class="op">=</span> <span class="va">my_df</span><span class="op">)</span></span>
+<span>        <span class="co">## Calculate gradient component</span></span>
+<span>        <span class="va">grad</span><span class="op">[</span><span class="va">j</span><span class="op">]</span> <span class="op">=</span> <span class="op">(</span><span class="va">f_x_adj</span> <span class="op">-</span> <span class="va">f_x</span><span class="op">)</span> <span class="op">/</span> <span class="va">h</span></span>
+<span>    <span class="op">}</span></span>
+<span>    </span>
+<span>    <span class="co"># search direction</span></span>
+<span>    <span class="co">## Note that 'direct' is an array of size n_param</span></span>
+<span>    <span class="va">direct</span> <span class="op">=</span> <span class="op">-</span><span class="va">grad</span></span>
+<span>    </span>
+<span>    <span class="co"># update params</span></span>
+<span>    <span class="kw">for</span><span class="op">(</span><span class="va">j</span> <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span><span class="va">n_param</span><span class="op">)</span><span class="op">{</span></span>
+<span>        <span class="va">param</span><span class="op">[</span><span class="va">j</span><span class="op">]</span> <span class="op">=</span> <span class="va">param</span><span class="op">[</span><span class="va">j</span><span class="op">]</span> <span class="op">+</span> <span class="va">alpha</span> <span class="op">*</span> <span class="va">direct</span><span class="op">[</span><span class="va">j</span><span class="op">]</span></span>
+<span>    <span class="op">}</span></span>
+<span>    </span>
+<span>    <span class="co"># counter for x</span></span>
+<span>    <span class="va">i</span> <span class="op">=</span> <span class="va">i</span> <span class="op">+</span> <span class="fl">1</span></span>
+<span><span class="op">}</span></span>
+<span></span>
+<span><span class="co"># Output the optimal slope and associated nll</span></span>
+<span><span class="va">n_iter</span> <span class="op">=</span> <span class="va">i</span><span class="op">-</span><span class="fl">1</span></span>
+<span></span>
+<span><span class="va">grad_descent_tab</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html">cbind</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/cbind.html">rbind</a></span><span class="op">(</span><span class="va">param_guess</span><span class="op">[</span><span class="va">n_iter</span>,<span class="op">]</span><span class="op">)</span>, </span>
+<span>                         <span class="va">nll_guess</span><span class="op">[</span><span class="va">n_iter</span><span class="op">]</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span><span class="op">(</span><span class="va">grad_descent_tab</span><span class="op">)</span> <span class="op">=</span> </span>
+<span>    <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"int"</span>, <span class="st">"slope"</span>, <span class="st">"sigma"</span>, <span class="st">"neg_log_lik"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Compare to optim() output</span></span>
+<span><span class="va">optim_nll_tab</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html">cbind</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/cbind.html">rbind</a></span><span class="op">(</span><span class="va">m_nll</span><span class="op">$</span><span class="va">par</span><span class="op">)</span>, </span>
+<span>                      <span class="va">m_nll</span><span class="op">$</span><span class="va">value</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span><span class="op">(</span><span class="va">optim_nll_tab</span><span class="op">)</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span><span class="op">(</span><span class="va">grad_descent_tab</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="st">"Gradient Descent:"</span><span class="op">)</span>;<span class="va">grad_descent_tab</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "Gradient Descent:"</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>         int     slope     sigma neg_log_lik
+[1,] 1.59842 0.5620025 0.4571052    19.08618</code></pre>
+</div>
+<div class="sourceCode" id="cb47"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="st">"optim() output:"</span><span class="op">)</span>;<span class="va">optim_nll_tab</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "optim() output:"</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>          int   slope     sigma neg_log_lik
+[1,] 1.598468 0.56205 0.4571571    19.08618</code></pre>
+</div>
+</div>
+<p>Now, plot the gradient descent:</p>
+<div class="cell">
+<div class="sourceCode" id="cb50"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html">par</a></span><span class="op">(</span>mfrow<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">3</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">nll_guess</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="va">n_iter</span><span class="op">]</span><span class="op">~</span><span class="va">param_guess</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="va">n_iter</span>, <span class="fl">1</span><span class="op">]</span>, </span>
+<span>     pch<span class="op">=</span><span class="fl">19</span>, type <span class="op">=</span> <span class="st">"b"</span>, </span>
+<span>     col <span class="op">=</span> <span class="st">"blue"</span>,</span>
+<span>     ylab <span class="op">=</span> <span class="st">"Neg. Log Likelihood"</span>, </span>
+<span>     xlab <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/expression.html">expression</a></span><span class="op">(</span><span class="st">"Intercept, "</span><span class="op">~</span><span class="va">beta</span><span class="op">[</span><span class="fl">0</span><span class="op">]</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">nll_guess</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="va">n_iter</span><span class="op">]</span><span class="op">~</span><span class="va">param_guess</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="va">n_iter</span>, <span class="fl">2</span><span class="op">]</span>,</span>
+<span>     pch<span class="op">=</span><span class="fl">19</span>, type <span class="op">=</span> <span class="st">"b"</span>, </span>
+<span>     col <span class="op">=</span> <span class="st">"orange"</span>,</span>
+<span>     ylab <span class="op">=</span> <span class="st">"Neg. Log Likelihood"</span>, </span>
+<span>     xlab <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/expression.html">expression</a></span><span class="op">(</span><span class="st">"Slope, "</span><span class="op">~</span><span class="va">beta</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">nll_guess</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="va">n_iter</span><span class="op">]</span><span class="op">~</span><span class="va">param_guess</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="va">n_iter</span>, <span class="fl">3</span><span class="op">]</span>, </span>
+<span>     pch<span class="op">=</span><span class="fl">19</span>, type <span class="op">=</span> <span class="st">"b"</span>, </span>
+<span>     col <span class="op">=</span> <span class="st">"red"</span>,</span>
+<span>     ylab <span class="op">=</span> <span class="st">"Neg. Log Likelihood"</span>, </span>
+<span>     xlab <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/expression.html">expression</a></span><span class="op">(</span><span class="st">"Residual Std.Dev., "</span><span class="op">~</span><span class="va">sigma</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="max-lik_files/figure-html/unnamed-chunk-15-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>We can see for the intercept, our first guess was too low, so we descended the gradient by addition (i.e., search direction was positive), whereas for the slope and the residual standard deviation, our first guess was too large, so we descended the gradients by subtraction (i.e., search direction was negative).</p>
 
 
 <!-- -->
@@ -810,321 +1049,531 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       </a>
   </div>
 </nav><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">Source Code</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="">
-<div class="sourceCode" id="cb37" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="fu"># Maximum Likelihood {#sec-max-lik}</span></span>
-<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a><span class="fu">## Lecture material</span></span>
-<span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb37-5"><a href="#cb37-5" aria-hidden="true" tabindex="-1"></a>Please download and print the lecture materials from <span class="co">[</span><span class="ot">Bblearn</span><span class="co">](https://bblearn.nau.edu/)</span>{target="_blank"}. After lectures, the recordings will appear in the Bblearn Collaborate Ultra section.</span>
-<span id="cb37-6"><a href="#cb37-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb37-7"><a href="#cb37-7" aria-hidden="true" tabindex="-1"></a><span class="fu">## Generate some data {#sec-data}</span></span>
-<span id="cb37-8"><a href="#cb37-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb37-9"><a href="#cb37-9" aria-hidden="true" tabindex="-1"></a>First, let's generate some data for the case of a simple linear regression.</span>
-<span id="cb37-10"><a href="#cb37-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb37-13"><a href="#cb37-13" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb37-14"><a href="#cb37-14" aria-hidden="true" tabindex="-1"></a><span class="do">### PARAMS</span></span>
-<span id="cb37-15"><a href="#cb37-15" aria-hidden="true" tabindex="-1"></a>beta0 <span class="ot">=</span> <span class="fl">1.5</span></span>
-<span id="cb37-16"><a href="#cb37-16" aria-hidden="true" tabindex="-1"></a>beta1 <span class="ot">=</span> <span class="fl">0.5</span></span>
-<span id="cb37-17"><a href="#cb37-17" aria-hidden="true" tabindex="-1"></a>sigma <span class="ot">=</span> <span class="fl">0.4</span></span>
-<span id="cb37-18"><a href="#cb37-18" aria-hidden="true" tabindex="-1"></a>n <span class="ot">=</span> <span class="dv">30</span></span>
-<span id="cb37-19"><a href="#cb37-19" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb37-20"><a href="#cb37-20" aria-hidden="true" tabindex="-1"></a><span class="do">### GENERATE DATA</span></span>
-<span id="cb37-21"><a href="#cb37-21" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">5</span>)</span>
-<span id="cb37-22"><a href="#cb37-22" aria-hidden="true" tabindex="-1"></a>x <span class="ot">=</span> <span class="fu">runif</span>(n, <span class="sc">-</span><span class="fl">1.5</span>, <span class="fl">1.5</span>)</span>
-<span id="cb37-23"><a href="#cb37-23" aria-hidden="true" tabindex="-1"></a>exp_y <span class="ot">=</span> beta0 <span class="sc">+</span> beta1<span class="sc">*</span>x</span>
-<span id="cb37-24"><a href="#cb37-24" aria-hidden="true" tabindex="-1"></a>y <span class="ot">=</span> exp_y <span class="sc">+</span> <span class="fu">rnorm</span>(n, <span class="at">mean=</span><span class="dv">0</span>, <span class="at">sd=</span>sigma)</span>
-<span id="cb37-25"><a href="#cb37-25" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb37-26"><a href="#cb37-26" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a data frame </span></span>
-<span id="cb37-27"><a href="#cb37-27" aria-hidden="true" tabindex="-1"></a>my_df <span class="ot">=</span> <span class="fu">data.frame</span>(<span class="at">y =</span> y, <span class="at">x =</span> x)</span>
-<span id="cb37-28"><a href="#cb37-28" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb37-29"><a href="#cb37-29" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(my_df<span class="sc">$</span>y <span class="sc">~</span> my_df<span class="sc">$</span>x, <span class="at">pch =</span> <span class="dv">19</span>,</span>
-<span id="cb37-30"><a href="#cb37-30" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">"x"</span>, <span class="at">ylab =</span> <span class="st">"y"</span>)</span>
-<span id="cb37-31"><a href="#cb37-31" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb37-32"><a href="#cb37-32" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb37-33"><a href="#cb37-33" aria-hidden="true" tabindex="-1"></a><span class="fu">## Calculate a likelihood</span></span>
-<span id="cb37-34"><a href="#cb37-34" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb37-35"><a href="#cb37-35" aria-hidden="true" tabindex="-1"></a>Remember that, for simple linear regression, the likelihood of a single data point is as follows:</span>
-<span id="cb37-36"><a href="#cb37-36" aria-hidden="true" tabindex="-1"></a>$$y_i \sim N(\beta_0 + \beta_1 x_i, \sigma^2)$$</span>
-<span id="cb37-37"><a href="#cb37-37" aria-hidden="true" tabindex="-1"></a>$$P(y_i | X_i B, \sigma^2) = \frac{1}{\sqrt{2 \pi \sigma^2}} \text{e}^{-\frac{1}{2}\frac{(y_i - X_i B)^2}{\sigma^2}}$$</span>
-<span id="cb37-38"><a href="#cb37-38" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb37-39"><a href="#cb37-39" aria-hidden="true" tabindex="-1"></a>Then, the full likelihood of the data set $Y$ is computed as:</span>
-<span id="cb37-40"><a href="#cb37-40" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb37-41"><a href="#cb37-41" aria-hidden="true" tabindex="-1"></a>$$ P(Y | X B, \sigma^2) = \prod^n_{i=1} P(y_i | X_i B, \sigma^2)$$</span>
-<span id="cb37-42"><a href="#cb37-42" aria-hidden="true" tabindex="-1"></a>Or, on the natural logarithmic scale:</span>
-<span id="cb37-43"><a href="#cb37-43" aria-hidden="true" tabindex="-1"></a>$$ ln\left(P(Y | X B, \sigma^2)\right) = \sum^n_{i=1} ln\left(P(y_i | X_i B, \sigma^2)\right)$$</span>
-<span id="cb37-44"><a href="#cb37-44" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb37-47"><a href="#cb37-47" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb37-48"><a href="#cb37-48" aria-hidden="true" tabindex="-1"></a><span class="co"># How to calculate the likelihood of a single data point:</span></span>
-<span id="cb37-49"><a href="#cb37-49" aria-hidden="true" tabindex="-1"></a><span class="fu">dnorm</span>(y[<span class="dv">1</span>], </span>
-<span id="cb37-50"><a href="#cb37-50" aria-hidden="true" tabindex="-1"></a>      <span class="at">mean =</span> beta0 <span class="sc">+</span> beta1<span class="sc">*</span>x[<span class="dv">1</span>],</span>
-<span id="cb37-51"><a href="#cb37-51" aria-hidden="true" tabindex="-1"></a>      <span class="at">sd =</span> sigma,</span>
-<span id="cb37-52"><a href="#cb37-52" aria-hidden="true" tabindex="-1"></a>      <span class="at">log =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb37-53"><a href="#cb37-53" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb37-54"><a href="#cb37-54" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate the full likelihood of the data, using the product</span></span>
-<span id="cb37-55"><a href="#cb37-55" aria-hidden="true" tabindex="-1"></a><span class="do">## Vectorized:</span></span>
-<span id="cb37-56"><a href="#cb37-56" aria-hidden="true" tabindex="-1"></a>LH_notlog<span class="ot">=</span> </span>
-<span id="cb37-57"><a href="#cb37-57" aria-hidden="true" tabindex="-1"></a><span class="fu">prod</span>(</span>
-<span id="cb37-58"><a href="#cb37-58" aria-hidden="true" tabindex="-1"></a>    <span class="fu">dnorm</span>(y, </span>
-<span id="cb37-59"><a href="#cb37-59" aria-hidden="true" tabindex="-1"></a>          <span class="at">mean =</span> beta0 <span class="sc">+</span> beta1<span class="sc">*</span>x,</span>
-<span id="cb37-60"><a href="#cb37-60" aria-hidden="true" tabindex="-1"></a>          <span class="at">sd =</span> sigma,</span>
-<span id="cb37-61"><a href="#cb37-61" aria-hidden="true" tabindex="-1"></a>          <span class="at">log =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb37-62"><a href="#cb37-62" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb37-63"><a href="#cb37-63" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb37-64"><a href="#cb37-64" aria-hidden="true" tabindex="-1"></a><span class="co"># Log-likelihood, vectorized</span></span>
-<span id="cb37-65"><a href="#cb37-65" aria-hidden="true" tabindex="-1"></a>LH_log <span class="ot">=</span> </span>
-<span id="cb37-66"><a href="#cb37-66" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(</span>
-<span id="cb37-67"><a href="#cb37-67" aria-hidden="true" tabindex="-1"></a>    <span class="fu">dnorm</span>(y, </span>
-<span id="cb37-68"><a href="#cb37-68" aria-hidden="true" tabindex="-1"></a>          <span class="at">mean =</span> beta0 <span class="sc">+</span> beta1<span class="sc">*</span>x,</span>
-<span id="cb37-69"><a href="#cb37-69" aria-hidden="true" tabindex="-1"></a>          <span class="at">sd =</span> sigma,</span>
-<span id="cb37-70"><a href="#cb37-70" aria-hidden="true" tabindex="-1"></a>          <span class="at">log =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb37-71"><a href="#cb37-71" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb37-72"><a href="#cb37-72" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb37-73"><a href="#cb37-73" aria-hidden="true" tabindex="-1"></a><span class="co"># Make sure the output makes sense</span></span>
-<span id="cb37-74"><a href="#cb37-74" aria-hidden="true" tabindex="-1"></a>LH_notlog</span>
-<span id="cb37-75"><a href="#cb37-75" aria-hidden="true" tabindex="-1"></a><span class="co"># Indeed the log-likelihood is the log of the </span></span>
-<span id="cb37-76"><a href="#cb37-76" aria-hidden="true" tabindex="-1"></a><span class="co"># likelihood on the raw probability scale.</span></span>
-<span id="cb37-77"><a href="#cb37-77" aria-hidden="true" tabindex="-1"></a>LH_log; <span class="fu">log</span>(LH_notlog)</span>
-<span id="cb37-78"><a href="#cb37-78" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb37-79"><a href="#cb37-79" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb37-80"><a href="#cb37-80" aria-hidden="true" tabindex="-1"></a><span class="fu">## Using `optim()` to minimize the negative log-likelihood</span></span>
-<span id="cb37-81"><a href="#cb37-81" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb37-82"><a href="#cb37-82" aria-hidden="true" tabindex="-1"></a>As we discussed in lecture, it is more computationally convenient to minimize functions, rather than to maximize. Therefore, to conduct linear regression analysis with maximum likelihood methods, we will find the values of $\hat{B}$ that minimize the negative log-likelihood of the data: $-ln\left(P(Y | X B, \sigma^2)\right)$.</span>
-<span id="cb37-83"><a href="#cb37-83" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb37-84"><a href="#cb37-84" aria-hidden="true" tabindex="-1"></a><span class="fu">### Function to calculate the negative log-likelihood</span></span>
-<span id="cb37-85"><a href="#cb37-85" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb37-86"><a href="#cb37-86" aria-hidden="true" tabindex="-1"></a>First, we need to construct a function that calculates the negative log-likelihood and that specifies the parameters of the model that eventually need to be estimated by the <span class="in">`optim()`</span> function.</span>
-<span id="cb37-87"><a href="#cb37-87" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb37-90"><a href="#cb37-90" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb37-91"><a href="#cb37-91" aria-hidden="true" tabindex="-1"></a><span class="do">### NEG LOG-LIK MINIMIZATION</span></span>
-<span id="cb37-92"><a href="#cb37-92" aria-hidden="true" tabindex="-1"></a>neg_log_lik <span class="ot">=</span> <span class="cf">function</span>(p, data_df){</span>
-<span id="cb37-93"><a href="#cb37-93" aria-hidden="true" tabindex="-1"></a>    beta0<span class="ot">=</span>p[<span class="dv">1</span>]</span>
-<span id="cb37-94"><a href="#cb37-94" aria-hidden="true" tabindex="-1"></a>    beta1<span class="ot">=</span>p[<span class="dv">2</span>]</span>
-<span id="cb37-95"><a href="#cb37-95" aria-hidden="true" tabindex="-1"></a>    sigma<span class="ot">=</span>p[<span class="dv">3</span>]</span>
-<span id="cb37-96"><a href="#cb37-96" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb37-97"><a href="#cb37-97" aria-hidden="true" tabindex="-1"></a>    mu <span class="ot">=</span> beta0 <span class="sc">+</span> beta1<span class="sc">*</span>data_df<span class="sc">$</span>x</span>
-<span id="cb37-98"><a href="#cb37-98" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb37-99"><a href="#cb37-99" aria-hidden="true" tabindex="-1"></a>    nll <span class="ot">=</span> <span class="sc">-</span><span class="fu">sum</span>(<span class="fu">dnorm</span>(data_df<span class="sc">$</span>y, <span class="at">mean=</span>mu, <span class="at">sd=</span>sigma, <span class="at">log =</span> <span class="cn">TRUE</span>))</span>
-<span id="cb37-100"><a href="#cb37-100" aria-hidden="true" tabindex="-1"></a>    <span class="fu">return</span>(nll)</span>
-<span id="cb37-101"><a href="#cb37-101" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb37-102"><a href="#cb37-102" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb37-103"><a href="#cb37-103" aria-hidden="true" tabindex="-1"></a>Here you can see the inputs to the function: <span class="in">`p`</span> is a vector of parameters to be estimated (i.e., optimized), and <span class="in">`data_df`</span> is a <span class="in">`data.frame`</span> that holds the values of outcome variable $y$ and associated input variables, in this case, just one $x$. </span>
-<span id="cb37-104"><a href="#cb37-104" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb37-105"><a href="#cb37-105" aria-hidden="true" tabindex="-1"></a>Then, we can use the <span class="in">`optim()`</span> function, which implements a gradient descent algorithm to estimate the values of the parameters that minimize the provided function, <span class="in">`neg_log_lik()`</span>. We will learn more about gradient descent later, because this is a very important method used widely across machine learning and neural networks. </span>
-<span id="cb37-106"><a href="#cb37-106" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb37-109"><a href="#cb37-109" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb37-110"><a href="#cb37-110" aria-hidden="true" tabindex="-1"></a>m_nll <span class="ot">=</span> </span>
-<span id="cb37-111"><a href="#cb37-111" aria-hidden="true" tabindex="-1"></a>    <span class="fu">optim</span>(</span>
-<span id="cb37-112"><a href="#cb37-112" aria-hidden="true" tabindex="-1"></a>        <span class="at">par =</span> <span class="fu">c</span>(<span class="fl">0.1</span>,<span class="dv">0</span>,<span class="fl">0.1</span>),</span>
-<span id="cb37-113"><a href="#cb37-113" aria-hidden="true" tabindex="-1"></a>        <span class="at">fn =</span> neg_log_lik,</span>
-<span id="cb37-114"><a href="#cb37-114" aria-hidden="true" tabindex="-1"></a>        <span class="at">data_df =</span> my_df,</span>
-<span id="cb37-115"><a href="#cb37-115" aria-hidden="true" tabindex="-1"></a>        <span class="at">method =</span> <span class="st">"L-BFGS-B"</span>,</span>
-<span id="cb37-116"><a href="#cb37-116" aria-hidden="true" tabindex="-1"></a>        <span class="at">lower=</span><span class="fu">c</span>(<span class="sc">-</span><span class="dv">5</span>,<span class="sc">-</span><span class="dv">5</span>,<span class="fl">0.001</span>),</span>
-<span id="cb37-117"><a href="#cb37-117" aria-hidden="true" tabindex="-1"></a>        <span class="at">upper=</span><span class="fu">c</span>(<span class="dv">5</span>,<span class="dv">5</span>,<span class="dv">5</span>),</span>
-<span id="cb37-118"><a href="#cb37-118" aria-hidden="true" tabindex="-1"></a>        <span class="at">hessian =</span> <span class="cn">TRUE</span></span>
-<span id="cb37-119"><a href="#cb37-119" aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb37-120"><a href="#cb37-120" aria-hidden="true" tabindex="-1"></a>par_tab_nll <span class="ot">=</span> <span class="fu">rbind</span>(m_nll<span class="sc">$</span>par)</span>
-<span id="cb37-121"><a href="#cb37-121" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(par_tab_nll) <span class="ot">=</span> <span class="fu">c</span>(<span class="st">"int"</span>, <span class="st">"slope"</span>, <span class="st">"sigma"</span>)</span>
-<span id="cb37-122"><a href="#cb37-122" aria-hidden="true" tabindex="-1"></a>par_tab_nll</span>
-<span id="cb37-123"><a href="#cb37-123" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb37-124"><a href="#cb37-124" aria-hidden="true" tabindex="-1"></a>Note the <span class="in">`optim()`</span> options. <span class="in">`par`</span> specifies the initial guesses of the three parameters, whereas <span class="in">`lower`</span> and <span class="in">`upper`</span> specify the bounds across which to search for the best values of the parameters. With <span class="in">`hessian = TRUE`</span> we are asking the function to output an estimate of the Hessian matrix of the function, which helps us to estimate the standard errors of the parameter estimates (see <span class="co">[</span><span class="ot">Footnotes @sec-hessian</span><span class="co">]</span>). The <span class="in">`method`</span> specifies the algorithm used to minimize the function, which in this case is a modified quasi-Newton method, <span class="in">`L-BFGS-B`</span>, which is a type of gradient descent algorithm, to be discussed later. </span>
-<span id="cb37-125"><a href="#cb37-125" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb37-126"><a href="#cb37-126" aria-hidden="true" tabindex="-1"></a>We can see that the function outputs three point-estimates, which are $\hat{B}$ (i.e., slope and intercept), as well as the residual standard deviation, $\hat{\sigma}$.</span>
-<span id="cb37-127"><a href="#cb37-127" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb37-128"><a href="#cb37-128" aria-hidden="true" tabindex="-1"></a><span class="fu">### Compare `optim()` results to the OLS output</span></span>
-<span id="cb37-131"><a href="#cb37-131" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb37-132"><a href="#cb37-132" aria-hidden="true" tabindex="-1"></a><span class="do">### COMPARE TO LM()</span></span>
-<span id="cb37-133"><a href="#cb37-133" aria-hidden="true" tabindex="-1"></a>m_ols <span class="ot">=</span> <span class="fu">lm</span>(y <span class="sc">~</span> <span class="dv">1</span> <span class="sc">+</span> x, <span class="at">data =</span> my_df)</span>
-<span id="cb37-134"><a href="#cb37-134" aria-hidden="true" tabindex="-1"></a>m_ols_summary <span class="ot">=</span> <span class="fu">summary</span>(m_ols)</span>
-<span id="cb37-135"><a href="#cb37-135" aria-hidden="true" tabindex="-1"></a>m_ols_summary <span class="co"># Notice p-value</span></span>
-<span id="cb37-136"><a href="#cb37-136" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb37-137"><a href="#cb37-137" aria-hidden="true" tabindex="-1"></a>par_tab_ols <span class="ot">=</span> <span class="fu">c</span>(<span class="fu">coef</span>(m_ols), m_ols_summary<span class="sc">$</span>sigma)</span>
-<span id="cb37-138"><a href="#cb37-138" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(par_tab_ols) <span class="ot">=</span> <span class="fu">c</span>(<span class="st">"int"</span>, <span class="st">"slope"</span>, <span class="st">"sigma"</span>)</span>
-<span id="cb37-139"><a href="#cb37-139" aria-hidden="true" tabindex="-1"></a>par_tab_ols; par_tab_nll</span>
-<span id="cb37-140"><a href="#cb37-140" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb37-141"><a href="#cb37-141" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(my_df<span class="sc">$</span>y <span class="sc">~</span> my_df<span class="sc">$</span>x, <span class="at">pch =</span> <span class="dv">19</span>,</span>
-<span id="cb37-142"><a href="#cb37-142" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">"x"</span>, <span class="at">ylab =</span> <span class="st">"y"</span>)</span>
-<span id="cb37-143"><a href="#cb37-143" aria-hidden="true" tabindex="-1"></a><span class="co"># Line from OLS</span></span>
-<span id="cb37-144"><a href="#cb37-144" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">coef =</span> <span class="fu">coef</span>(m_ols), <span class="at">col =</span> <span class="st">"black"</span>, <span class="at">lwd =</span> <span class="dv">2</span>)</span>
-<span id="cb37-145"><a href="#cb37-145" aria-hidden="true" tabindex="-1"></a><span class="co"># Line from MaxLikelihood</span></span>
-<span id="cb37-146"><a href="#cb37-146" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">coef =</span> m_nll<span class="sc">$</span>par[<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>], <span class="at">col =</span> <span class="st">"red"</span>, <span class="at">lty =</span> <span class="dv">2</span>, <span class="at">lwd =</span> <span class="dv">2</span>)</span>
-<span id="cb37-147"><a href="#cb37-147" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb37-148"><a href="#cb37-148" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb37-149"><a href="#cb37-149" aria-hidden="true" tabindex="-1"></a>As we learned in lecture, the estimates of $\hat{B}$ from least squares and maximum likelihood are equivalent. And indeed, we see the same estimates produced from <span class="in">`lm()`</span> and <span class="in">`optim()`</span>. Also if you look at <span class="in">`Residual standard error`</span> in the <span class="in">`lm()`</span> output, you see the equivalent estimate for $\hat{\sigma}$ compared to the <span class="in">`optim()`</span> output. </span>
-<span id="cb37-150"><a href="#cb37-150" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb37-151"><a href="#cb37-151" aria-hidden="true" tabindex="-1"></a><span class="fu">## Hypothesis-testing for maximum likelihood</span></span>
-<span id="cb37-152"><a href="#cb37-152" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb37-153"><a href="#cb37-153" aria-hidden="true" tabindex="-1"></a>As explained in lecture, we will use the likelihood ratio test to test:</span>
-<span id="cb37-154"><a href="#cb37-154" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb37-155"><a href="#cb37-155" aria-hidden="true" tabindex="-1"></a>$$H_0: \beta_i = 0$$</span>
-<span id="cb37-156"><a href="#cb37-156" aria-hidden="true" tabindex="-1"></a>$$H_A: \beta_i \ne 0$$</span>
-<span id="cb37-157"><a href="#cb37-157" aria-hidden="true" tabindex="-1"></a>In the least squares framework, we used a $t$-test. But, for maximum likelihood, we are going to base our test on the *likelihood* of a model that does or does not include the slope, similar to the $F$-test we learned before. </span>
-<span id="cb37-158"><a href="#cb37-158" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb37-159"><a href="#cb37-159" aria-hidden="true" tabindex="-1"></a>For the case of simple linear regression, we're testing whether there is a significant difference between these models:</span>
-<span id="cb37-160"><a href="#cb37-160" aria-hidden="true" tabindex="-1"></a>$$H_0: y_i = \beta_0 + \epsilon_i$$</span>
-<span id="cb37-161"><a href="#cb37-161" aria-hidden="true" tabindex="-1"></a>$$H_A: y_i = \beta_0 + \beta_1 x_i + \epsilon_i$$</span>
-<span id="cb37-162"><a href="#cb37-162" aria-hidden="true" tabindex="-1"></a>Notice that in $H_0$, the slope $\beta_1$ is assumed to be zero.  </span>
-<span id="cb37-163"><a href="#cb37-163" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb37-164"><a href="#cb37-164" aria-hidden="true" tabindex="-1"></a><span class="fu">### Likelihood ratio and the $\chi^2$ test</span></span>
-<span id="cb37-165"><a href="#cb37-165" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb37-166"><a href="#cb37-166" aria-hidden="true" tabindex="-1"></a>Our goal is to understand if the likelihood of the null model, $P(Y | \beta_0, \sigma^2)$, is sufficiently low compared to the likelihood of the full model, $P(Y | \beta_0, \beta_1, x, \sigma^2)$, that we can reliably reject the null hypothesis.</span>
-<span id="cb37-167"><a href="#cb37-167" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb37-168"><a href="#cb37-168" aria-hidden="true" tabindex="-1"></a>We therefore construct a ratio of the likelihoods of the full and null model, very similar to the $F$-test framework. The log-likelihood ratio ($LHR$) becomes our test statistic:</span>
-<span id="cb37-169"><a href="#cb37-169" aria-hidden="true" tabindex="-1"></a>$$LHR_{\text{test}} = -2 ln \left(\frac{LH_{\text{null}}}{LH_{\text{full}}} \right)$$</span>
-<span id="cb37-170"><a href="#cb37-170" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb37-171"><a href="#cb37-171" aria-hidden="true" tabindex="-1"></a>Then, folks smarter than I have done the math to prove that this test statistic is equivalent to a $\chi^2$ test statistic, such that:</span>
-<span id="cb37-172"><a href="#cb37-172" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb37-173"><a href="#cb37-173" aria-hidden="true" tabindex="-1"></a>$$LHR_{\text{test}} \sim  \chi^2_k$$</span>
-<span id="cb37-174"><a href="#cb37-174" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb37-175"><a href="#cb37-175" aria-hidden="true" tabindex="-1"></a>where $\chi^2_k$ is a $\chi^2$ probability distribution with $k$ degrees of freedom. $k$ is equal to $p_{\text{full}} - p_{\text{null}}$, where $p$ is the number of model coefficients. In the case of simple linear regression, where we are removing just one model coefficient from the full model (i.e., set slope equal to zero), then $k = 2-1 = 1$.</span>
-<span id="cb37-176"><a href="#cb37-176" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb37-177"><a href="#cb37-177" aria-hidden="true" tabindex="-1"></a>Finally, we can determine $P(\chi^2 &gt; LHR_{\text{test}})$, which gives us our $p$-value. This statistical test is known as the "likelihood ratio test," and it is equivalently referred to as the "$\chi^2$" test, which we'll see in the code below. </span>
-<span id="cb37-178"><a href="#cb37-178" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb37-179"><a href="#cb37-179" aria-hidden="true" tabindex="-1"></a><span class="fu">### Manual calculation of the likelihood ratio test</span></span>
-<span id="cb37-180"><a href="#cb37-180" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb37-181"><a href="#cb37-181" aria-hidden="true" tabindex="-1"></a>To begin, we need to use maximum likelihood to estimate the likelihood of the "null" model. We need to adjust our function that will be used by <span class="in">`optim()`</span> to only include two parameters: the intercept, and the residual standard deviation. </span>
-<span id="cb37-182"><a href="#cb37-182" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb37-185"><a href="#cb37-185" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb37-186"><a href="#cb37-186" aria-hidden="true" tabindex="-1"></a><span class="co"># Need a null model:</span></span>
-<span id="cb37-187"><a href="#cb37-187" aria-hidden="true" tabindex="-1"></a>nll_null <span class="ot">=</span> <span class="cf">function</span>(p, data_df){</span>
-<span id="cb37-188"><a href="#cb37-188" aria-hidden="true" tabindex="-1"></a>    beta0<span class="ot">=</span>p[<span class="dv">1</span>]</span>
-<span id="cb37-189"><a href="#cb37-189" aria-hidden="true" tabindex="-1"></a>    sigma<span class="ot">=</span>p[<span class="dv">2</span>]</span>
-<span id="cb37-190"><a href="#cb37-190" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb37-191"><a href="#cb37-191" aria-hidden="true" tabindex="-1"></a>    mu <span class="ot">=</span> beta0</span>
-<span id="cb37-192"><a href="#cb37-192" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb37-193"><a href="#cb37-193" aria-hidden="true" tabindex="-1"></a>    nll <span class="ot">=</span> <span class="sc">-</span><span class="fu">sum</span>(<span class="fu">dnorm</span>(data_df<span class="sc">$</span>y, <span class="at">mean=</span>mu, <span class="at">sd=</span>sigma, <span class="at">log =</span> <span class="cn">TRUE</span>))</span>
-<span id="cb37-194"><a href="#cb37-194" aria-hidden="true" tabindex="-1"></a>    <span class="fu">return</span>(nll)</span>
-<span id="cb37-195"><a href="#cb37-195" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb37-196"><a href="#cb37-196" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb37-197"><a href="#cb37-197" aria-hidden="true" tabindex="-1"></a>m_nll_null <span class="ot">=</span> </span>
-<span id="cb37-198"><a href="#cb37-198" aria-hidden="true" tabindex="-1"></a>    <span class="fu">optim</span>(</span>
-<span id="cb37-199"><a href="#cb37-199" aria-hidden="true" tabindex="-1"></a>        <span class="at">par =</span> <span class="fu">c</span>(<span class="fl">0.1</span>,<span class="fl">0.1</span>),</span>
-<span id="cb37-200"><a href="#cb37-200" aria-hidden="true" tabindex="-1"></a>        <span class="at">fn =</span> nll_null,</span>
-<span id="cb37-201"><a href="#cb37-201" aria-hidden="true" tabindex="-1"></a>        <span class="at">data_df =</span> my_df,</span>
-<span id="cb37-202"><a href="#cb37-202" aria-hidden="true" tabindex="-1"></a>        <span class="at">method =</span> <span class="st">"L-BFGS-B"</span>,</span>
-<span id="cb37-203"><a href="#cb37-203" aria-hidden="true" tabindex="-1"></a>        <span class="at">lower=</span><span class="fu">c</span>(<span class="sc">-</span><span class="dv">5</span>,<span class="fl">0.001</span>),</span>
-<span id="cb37-204"><a href="#cb37-204" aria-hidden="true" tabindex="-1"></a>        <span class="at">upper=</span><span class="fu">c</span>(<span class="dv">5</span>,<span class="dv">5</span>)</span>
-<span id="cb37-205"><a href="#cb37-205" aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb37-206"><a href="#cb37-206" aria-hidden="true" tabindex="-1"></a>par_tab_nll_null <span class="ot">=</span> <span class="fu">rbind</span>(m_nll_null<span class="sc">$</span>par)</span>
-<span id="cb37-207"><a href="#cb37-207" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(par_tab_nll_null) <span class="ot">=</span> <span class="fu">c</span>(<span class="st">"int"</span>, <span class="st">"sigma"</span>)</span>
-<span id="cb37-208"><a href="#cb37-208" aria-hidden="true" tabindex="-1"></a>par_tab_nll_null</span>
-<span id="cb37-209"><a href="#cb37-209" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb37-210"><a href="#cb37-210" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(my_df<span class="sc">$</span>y <span class="sc">~</span> my_df<span class="sc">$</span>x, <span class="at">pch =</span> <span class="dv">19</span>,</span>
-<span id="cb37-211"><a href="#cb37-211" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">"x"</span>, <span class="at">ylab =</span> <span class="st">"y"</span>)</span>
-<span id="cb37-212"><a href="#cb37-212" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">coef =</span> m_nll<span class="sc">$</span>par[<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>], <span class="at">col =</span> <span class="st">"red"</span>, <span class="at">lty =</span> <span class="dv">1</span>)</span>
-<span id="cb37-213"><a href="#cb37-213" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">h =</span> m_nll_null<span class="sc">$</span>par[<span class="dv">1</span>], <span class="at">col =</span> <span class="st">"red"</span>, <span class="at">lty =</span> <span class="dv">2</span>)</span>
-<span id="cb37-214"><a href="#cb37-214" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb37-215"><a href="#cb37-215" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb37-216"><a href="#cb37-216" aria-hidden="true" tabindex="-1"></a>The flat dashed line represents the null (intercept-only) model. Now, we calculate the likelihood ratio test statistic, and compare to the $\chi^2$ probability distribution to determine our $p$-value of the test. Note that within the <span class="in">`optim()`</span> function's output list, there is a numeric object called <span class="in">`value`</span>. This <span class="in">`value`</span> is the negative log-likelihood of the model with the estimated coefficients. We can use this to calculate our test statistic.</span>
-<span id="cb37-217"><a href="#cb37-217" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb37-220"><a href="#cb37-220" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb37-221"><a href="#cb37-221" aria-hidden="true" tabindex="-1"></a><span class="co"># use exp() to convert the negative log likelihood to </span></span>
-<span id="cb37-222"><a href="#cb37-222" aria-hidden="true" tabindex="-1"></a><span class="co"># raw probability scale</span></span>
-<span id="cb37-223"><a href="#cb37-223" aria-hidden="true" tabindex="-1"></a>log_lh_full <span class="ot">=</span> <span class="sc">-</span>m_nll<span class="sc">$</span>value</span>
-<span id="cb37-224"><a href="#cb37-224" aria-hidden="true" tabindex="-1"></a>log_lh_null <span class="ot">=</span> <span class="sc">-</span>m_nll_null<span class="sc">$</span>value</span>
-<span id="cb37-225"><a href="#cb37-225" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb37-226"><a href="#cb37-226" aria-hidden="true" tabindex="-1"></a>lh_full <span class="ot">=</span> <span class="fu">exp</span>(log_lh_full)</span>
-<span id="cb37-227"><a href="#cb37-227" aria-hidden="true" tabindex="-1"></a>lh_null <span class="ot">=</span> <span class="fu">exp</span>(log_lh_null)</span>
-<span id="cb37-228"><a href="#cb37-228" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb37-229"><a href="#cb37-229" aria-hidden="true" tabindex="-1"></a><span class="co"># Now calculate LHR</span></span>
-<span id="cb37-230"><a href="#cb37-230" aria-hidden="true" tabindex="-1"></a>lhr <span class="ot">=</span> <span class="sc">-</span><span class="dv">2</span> <span class="sc">*</span> <span class="fu">log</span>(lh_null <span class="sc">/</span> lh_full)</span>
-<span id="cb37-231"><a href="#cb37-231" aria-hidden="true" tabindex="-1"></a>lhr</span>
-<span id="cb37-232"><a href="#cb37-232" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb37-233"><a href="#cb37-233" aria-hidden="true" tabindex="-1"></a><span class="co"># Of course, using rules of natural logs, this is equivalent:</span></span>
-<span id="cb37-234"><a href="#cb37-234" aria-hidden="true" tabindex="-1"></a><span class="sc">-</span><span class="dv">2</span> <span class="sc">*</span> (log_lh_null <span class="sc">-</span> log_lh_full)</span>
-<span id="cb37-235"><a href="#cb37-235" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb37-236"><a href="#cb37-236" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb37-237"><a href="#cb37-237" aria-hidden="true" tabindex="-1"></a>Now that we have our value of $LHR_{\text{test}}$, we use the $\chi^2$-distribution to find $P(\chi^2 &gt; LHR_{\text{test}})$, which is the $p$-value of the test.</span>
-<span id="cb37-238"><a href="#cb37-238" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb37-241"><a href="#cb37-241" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb37-242"><a href="#cb37-242" aria-hidden="true" tabindex="-1"></a><span class="co"># How many parameters being "removed" (i.e., set to zero) in test:</span></span>
-<span id="cb37-243"><a href="#cb37-243" aria-hidden="true" tabindex="-1"></a>df_chi <span class="ot">=</span> <span class="dv">2</span> <span class="sc">-</span> <span class="dv">1</span></span>
-<span id="cb37-244"><a href="#cb37-244" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb37-245"><a href="#cb37-245" aria-hidden="true" tabindex="-1"></a><span class="co"># Prob null is true</span></span>
-<span id="cb37-246"><a href="#cb37-246" aria-hidden="true" tabindex="-1"></a>p_val <span class="ot">=</span> <span class="dv">1</span> <span class="sc">-</span> <span class="fu">pchisq</span>(lhr, <span class="at">df =</span> df_chi)</span>
-<span id="cb37-247"><a href="#cb37-247" aria-hidden="true" tabindex="-1"></a>p_val</span>
-<span id="cb37-248"><a href="#cb37-248" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb37-249"><a href="#cb37-249" aria-hidden="true" tabindex="-1"></a>Based on this low $p$-value, we would say there is sufficient evidence to reject the null hypothesis and that the slope $\beta_1$ is significantly different than zero. </span>
-<span id="cb37-250"><a href="#cb37-250" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb37-251"><a href="#cb37-251" aria-hidden="true" tabindex="-1"></a>We can compare this outcome to a built-in <span class="in">`R`</span> function called <span class="in">`drop1()`</span>. </span>
-<span id="cb37-252"><a href="#cb37-252" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb37-255"><a href="#cb37-255" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb37-256"><a href="#cb37-256" aria-hidden="true" tabindex="-1"></a><span class="fu">drop1</span>(m_ols, <span class="at">test =</span> <span class="st">"Chisq"</span>)</span>
-<span id="cb37-257"><a href="#cb37-257" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb37-258"><a href="#cb37-258" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb37-259"><a href="#cb37-259" aria-hidden="true" tabindex="-1"></a>In the function, we specified <span class="in">`Chisq`</span> test, which implements the $\chi^2$ test using the likelihood ratio. What we see in this summary output is <span class="in">`Pr(&gt;Chi)`</span> which is equivalent to our manually computed value of $P(\chi^2 &gt; LHR_{\text{test}})$. This output from <span class="in">`drop1()`</span> does not provide a whole lot of detail, but if you look at the <span class="in">`help()`</span>, it says that if you specify <span class="in">`test = "Chisq"`</span>, it conducts a likelihood-ratio test. It doesn't specifically output the likelihood ratio, but we can see the $p$-value is equivalent to our manual calculation above. </span>
-<span id="cb37-260"><a href="#cb37-260" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb37-261"><a href="#cb37-261" aria-hidden="true" tabindex="-1"></a><span class="fu">## Footnotes </span></span>
-<span id="cb37-262"><a href="#cb37-262" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb37-263"><a href="#cb37-263" aria-hidden="true" tabindex="-1"></a><span class="fu">### Hessian matrix {#sec-hessian}</span></span>
-<span id="cb37-264"><a href="#cb37-264" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb37-265"><a href="#cb37-265" aria-hidden="true" tabindex="-1"></a>The <span class="in">`optim()`</span> function provides point estimates for the maximum likelihood-derived model coefficients. Just like in least squares regression, however, we want to quantify the uncertainty in these estimates. We therefore want the standard error in the model coefficient estimates. </span>
-<span id="cb37-266"><a href="#cb37-266" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb37-267"><a href="#cb37-267" aria-hidden="true" tabindex="-1"></a>In the case of least squares, we showed how we can calculate a variance-covariance matrix for the model coefficients, and then the square-root of the diagonal of this matrix equals the standard error. For maximum likelihood we can estimate this same variance-covariance matrix, but it comes from a different matrix called the Hessian. We do not need to go into detail, but the Hessian is the matrix of second derivatives of the likelihood with respect to the parameters (I will not ask you to recall this information). Then the variance-covariance matrix of the estimated model coefficients is calculated as the inverse of the Hessian matrix that corresponds to the negative log-likelihood. If the Hessian matrix of the negative log-likelihood is $H$, then</span>
-<span id="cb37-268"><a href="#cb37-268" aria-hidden="true" tabindex="-1"></a>$$SE(\hat{\beta_i}) = \sqrt{\text{diag}\left( H^{-1}\right)_i}$$</span>
-<span id="cb37-269"><a href="#cb37-269" aria-hidden="true" tabindex="-1"></a>I understand that's complicated, but it's easy enough to extract these values computationally from <span class="in">`optim()`</span> output, assuming you use the option <span class="in">`hessian = TRUE`</span>. </span>
-<span id="cb37-272"><a href="#cb37-272" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb37-273"><a href="#cb37-273" aria-hidden="true" tabindex="-1"></a><span class="co"># Extract the Hessian from the optim() output</span></span>
-<span id="cb37-274"><a href="#cb37-274" aria-hidden="true" tabindex="-1"></a>hessian <span class="ot">=</span> m_nll<span class="sc">$</span>hessian</span>
-<span id="cb37-275"><a href="#cb37-275" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate the var-cov matrix from the inverse Hessian</span></span>
-<span id="cb37-276"><a href="#cb37-276" aria-hidden="true" tabindex="-1"></a><span class="co"># Remember solve(X) gives X^-1</span></span>
-<span id="cb37-277"><a href="#cb37-277" aria-hidden="true" tabindex="-1"></a>params_varcov <span class="ot">=</span> <span class="fu">solve</span>(hessian)</span>
-<span id="cb37-278"><a href="#cb37-278" aria-hidden="true" tabindex="-1"></a><span class="co"># Then extract the diagonal and take the square root</span></span>
-<span id="cb37-279"><a href="#cb37-279" aria-hidden="true" tabindex="-1"></a><span class="co"># This gives a vector of SE(\param_i)</span></span>
-<span id="cb37-280"><a href="#cb37-280" aria-hidden="true" tabindex="-1"></a>se_params <span class="ot">=</span> <span class="fu">sqrt</span>(<span class="fu">diag</span>(params_varcov))</span>
-<span id="cb37-281"><a href="#cb37-281" aria-hidden="true" tabindex="-1"></a>params_tab <span class="ot">=</span> <span class="fu">cbind</span>(m_nll<span class="sc">$</span>par, se_params)</span>
-<span id="cb37-282"><a href="#cb37-282" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(params_tab) <span class="ot">=</span> <span class="fu">c</span>(<span class="st">"Estimate"</span>, <span class="st">"Std. Error"</span>)</span>
-<span id="cb37-283"><a href="#cb37-283" aria-hidden="true" tabindex="-1"></a><span class="fu">rownames</span>(params_tab) <span class="ot">=</span> <span class="fu">c</span>(<span class="st">"Intercept"</span>, <span class="st">"slope"</span>, <span class="st">"sigma"</span>)</span>
-<span id="cb37-284"><a href="#cb37-284" aria-hidden="true" tabindex="-1"></a>params_tab</span>
-<span id="cb37-285"><a href="#cb37-285" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb37-286"><a href="#cb37-286" aria-hidden="true" tabindex="-1"></a><span class="co"># Same as OLS? </span></span>
-<span id="cb37-287"><a href="#cb37-287" aria-hidden="true" tabindex="-1"></a>m_ols_summary<span class="sc">$</span>coefficients[<span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>), <span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>] <span class="co"># Pretty close!</span></span>
-<span id="cb37-288"><a href="#cb37-288" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb37-289"><a href="#cb37-289" aria-hidden="true" tabindex="-1"></a>We can see that the standard errors for the maximum likelihood estimators are the same as the OLS estimators. </span>
-<span id="cb37-290"><a href="#cb37-290" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb37-291"><a href="#cb37-291" aria-hidden="true" tabindex="-1"></a><span class="fu">### `optim()` using least squares {#sec-least-sq}</span></span>
-<span id="cb37-292"><a href="#cb37-292" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb37-293"><a href="#cb37-293" aria-hidden="true" tabindex="-1"></a>Remember that <span class="in">`optim()`</span> is not specific to maximum likelihood, but rather it implements one of several optional minimization algorithms. Therefore, we can use it to minimize any quantity. To emphasize this point, remember that in least squares regression, we are finding the values of the model coefficients $\hat{B}$ that minimize the sum of squared errors, $\sum_i^n \epsilon_i^2 = \epsilon^T\epsilon$. Let's minimize this quantity using <span class="in">`optim()`</span>. </span>
-<span id="cb37-294"><a href="#cb37-294" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb37-297"><a href="#cb37-297" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb37-298"><a href="#cb37-298" aria-hidden="true" tabindex="-1"></a><span class="do">### LEAST SQUARES MINIMIZATION</span></span>
-<span id="cb37-299"><a href="#cb37-299" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb37-300"><a href="#cb37-300" aria-hidden="true" tabindex="-1"></a><span class="co"># We need a function to calculate the sum of squared errors:</span></span>
-<span id="cb37-301"><a href="#cb37-301" aria-hidden="true" tabindex="-1"></a>least_sq <span class="ot">=</span> <span class="cf">function</span>(p, data_df){</span>
-<span id="cb37-302"><a href="#cb37-302" aria-hidden="true" tabindex="-1"></a>    beta0<span class="ot">=</span>p[<span class="dv">1</span>]</span>
-<span id="cb37-303"><a href="#cb37-303" aria-hidden="true" tabindex="-1"></a>    beta1<span class="ot">=</span>p[<span class="dv">2</span>]</span>
-<span id="cb37-304"><a href="#cb37-304" aria-hidden="true" tabindex="-1"></a>    y <span class="ot">=</span> data_df<span class="sc">$</span>y</span>
-<span id="cb37-305"><a href="#cb37-305" aria-hidden="true" tabindex="-1"></a>    n <span class="ot">=</span> <span class="fu">length</span>(y)</span>
-<span id="cb37-306"><a href="#cb37-306" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb37-307"><a href="#cb37-307" aria-hidden="true" tabindex="-1"></a>    expected_y <span class="ot">=</span> beta0 <span class="sc">+</span> beta1<span class="sc">*</span>data_df<span class="sc">$</span>x</span>
-<span id="cb37-308"><a href="#cb37-308" aria-hidden="true" tabindex="-1"></a>    sse <span class="ot">=</span> <span class="dv">0</span></span>
-<span id="cb37-309"><a href="#cb37-309" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>n){</span>
-<span id="cb37-310"><a href="#cb37-310" aria-hidden="true" tabindex="-1"></a>        epsilon_i <span class="ot">=</span> y[i] <span class="sc">-</span> expected_y[i]</span>
-<span id="cb37-311"><a href="#cb37-311" aria-hidden="true" tabindex="-1"></a>        sse <span class="ot">=</span> sse <span class="sc">+</span> (epsilon_i)<span class="sc">^</span><span class="dv">2</span></span>
-<span id="cb37-312"><a href="#cb37-312" aria-hidden="true" tabindex="-1"></a>    }</span>
-<span id="cb37-313"><a href="#cb37-313" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb37-314"><a href="#cb37-314" aria-hidden="true" tabindex="-1"></a>    <span class="fu">return</span>(sse)</span>
-<span id="cb37-315"><a href="#cb37-315" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb37-316"><a href="#cb37-316" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb37-317"><a href="#cb37-317" aria-hidden="true" tabindex="-1"></a><span class="do">### OPTIMIZE LEAST SQUARES</span></span>
-<span id="cb37-318"><a href="#cb37-318" aria-hidden="true" tabindex="-1"></a>fit_least_sq <span class="ot">=</span> </span>
-<span id="cb37-319"><a href="#cb37-319" aria-hidden="true" tabindex="-1"></a>    <span class="fu">optim</span>(</span>
-<span id="cb37-320"><a href="#cb37-320" aria-hidden="true" tabindex="-1"></a>        <span class="at">par =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">0</span>),</span>
-<span id="cb37-321"><a href="#cb37-321" aria-hidden="true" tabindex="-1"></a>        <span class="at">fn =</span> least_sq,</span>
-<span id="cb37-322"><a href="#cb37-322" aria-hidden="true" tabindex="-1"></a>        <span class="at">data_df =</span> my_df,</span>
-<span id="cb37-323"><a href="#cb37-323" aria-hidden="true" tabindex="-1"></a>        <span class="at">method =</span> <span class="st">"L-BFGS-B"</span>,</span>
-<span id="cb37-324"><a href="#cb37-324" aria-hidden="true" tabindex="-1"></a>        <span class="at">lower=</span><span class="fu">c</span>(<span class="sc">-</span><span class="dv">5</span>,<span class="sc">-</span><span class="dv">5</span>),</span>
-<span id="cb37-325"><a href="#cb37-325" aria-hidden="true" tabindex="-1"></a>        <span class="at">upper=</span><span class="fu">c</span>(<span class="dv">5</span>,<span class="dv">5</span>),</span>
-<span id="cb37-326"><a href="#cb37-326" aria-hidden="true" tabindex="-1"></a>        <span class="at">hessian =</span> <span class="cn">TRUE</span></span>
-<span id="cb37-327"><a href="#cb37-327" aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb37-328"><a href="#cb37-328" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a table of estimates:</span></span>
-<span id="cb37-329"><a href="#cb37-329" aria-hidden="true" tabindex="-1"></a>par_tab_least_sq <span class="ot">=</span> <span class="fu">rbind</span>(fit_least_sq<span class="sc">$</span>par)</span>
-<span id="cb37-330"><a href="#cb37-330" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(par_tab_least_sq) <span class="ot">=</span> <span class="fu">c</span>(<span class="st">"int"</span>, <span class="st">"slope"</span>)</span>
-<span id="cb37-331"><a href="#cb37-331" aria-hidden="true" tabindex="-1"></a>par_tab_least_sq</span>
-<span id="cb37-332"><a href="#cb37-332" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb37-333"><a href="#cb37-333" aria-hidden="true" tabindex="-1"></a><span class="co"># Compare to original OLS estimates:</span></span>
-<span id="cb37-334"><a href="#cb37-334" aria-hidden="true" tabindex="-1"></a><span class="fu">coef</span>(m_ols)</span>
-<span id="cb37-335"><a href="#cb37-335" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb37-336"><a href="#cb37-336" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb37-337"><a href="#cb37-337" aria-hidden="true" tabindex="-1"></a>You could also use the Hessian output to calculate the standard errors of the model coefficients, but I will leave that up to you. </span>
+<div class="sourceCode" id="cb51" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a><span class="fu"># Maximum Likelihood {#sec-max-lik}</span></span>
+<span id="cb51-2"><a href="#cb51-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-3"><a href="#cb51-3" aria-hidden="true" tabindex="-1"></a><span class="fu">## Lecture material</span></span>
+<span id="cb51-4"><a href="#cb51-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-5"><a href="#cb51-5" aria-hidden="true" tabindex="-1"></a>Please download and print the lecture materials from <span class="co">[</span><span class="ot">Bblearn</span><span class="co">](https://bblearn.nau.edu/)</span>{target="_blank"}. After lectures, the recordings will appear in the Bblearn Collaborate Ultra section.</span>
+<span id="cb51-6"><a href="#cb51-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-7"><a href="#cb51-7" aria-hidden="true" tabindex="-1"></a><span class="fu">## Generate some data {#sec-data}</span></span>
+<span id="cb51-8"><a href="#cb51-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-9"><a href="#cb51-9" aria-hidden="true" tabindex="-1"></a>First, let's generate some data for the case of a simple linear regression.</span>
+<span id="cb51-10"><a href="#cb51-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-13"><a href="#cb51-13" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb51-14"><a href="#cb51-14" aria-hidden="true" tabindex="-1"></a><span class="do">### PARAMS</span></span>
+<span id="cb51-15"><a href="#cb51-15" aria-hidden="true" tabindex="-1"></a>beta0 <span class="ot">=</span> <span class="fl">1.5</span></span>
+<span id="cb51-16"><a href="#cb51-16" aria-hidden="true" tabindex="-1"></a>beta1 <span class="ot">=</span> <span class="fl">0.5</span></span>
+<span id="cb51-17"><a href="#cb51-17" aria-hidden="true" tabindex="-1"></a>sigma <span class="ot">=</span> <span class="fl">0.4</span></span>
+<span id="cb51-18"><a href="#cb51-18" aria-hidden="true" tabindex="-1"></a>n <span class="ot">=</span> <span class="dv">30</span></span>
+<span id="cb51-19"><a href="#cb51-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-20"><a href="#cb51-20" aria-hidden="true" tabindex="-1"></a><span class="do">### GENERATE DATA</span></span>
+<span id="cb51-21"><a href="#cb51-21" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">5</span>)</span>
+<span id="cb51-22"><a href="#cb51-22" aria-hidden="true" tabindex="-1"></a>x <span class="ot">=</span> <span class="fu">runif</span>(n, <span class="sc">-</span><span class="fl">1.5</span>, <span class="fl">1.5</span>)</span>
+<span id="cb51-23"><a href="#cb51-23" aria-hidden="true" tabindex="-1"></a>exp_y <span class="ot">=</span> beta0 <span class="sc">+</span> beta1<span class="sc">*</span>x</span>
+<span id="cb51-24"><a href="#cb51-24" aria-hidden="true" tabindex="-1"></a>y <span class="ot">=</span> exp_y <span class="sc">+</span> <span class="fu">rnorm</span>(n, <span class="at">mean=</span><span class="dv">0</span>, <span class="at">sd=</span>sigma)</span>
+<span id="cb51-25"><a href="#cb51-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-26"><a href="#cb51-26" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a data frame </span></span>
+<span id="cb51-27"><a href="#cb51-27" aria-hidden="true" tabindex="-1"></a>my_df <span class="ot">=</span> <span class="fu">data.frame</span>(<span class="at">y =</span> y, <span class="at">x =</span> x)</span>
+<span id="cb51-28"><a href="#cb51-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-29"><a href="#cb51-29" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(my_df<span class="sc">$</span>y <span class="sc">~</span> my_df<span class="sc">$</span>x, <span class="at">pch =</span> <span class="dv">19</span>,</span>
+<span id="cb51-30"><a href="#cb51-30" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">"x"</span>, <span class="at">ylab =</span> <span class="st">"y"</span>)</span>
+<span id="cb51-31"><a href="#cb51-31" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb51-32"><a href="#cb51-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-33"><a href="#cb51-33" aria-hidden="true" tabindex="-1"></a><span class="fu">## Calculate a likelihood</span></span>
+<span id="cb51-34"><a href="#cb51-34" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-35"><a href="#cb51-35" aria-hidden="true" tabindex="-1"></a>Remember that, for simple linear regression, the likelihood of a single data point is as follows:</span>
+<span id="cb51-36"><a href="#cb51-36" aria-hidden="true" tabindex="-1"></a>$$y_i \sim N(\beta_0 + \beta_1 x_i, \sigma^2)$$</span>
+<span id="cb51-37"><a href="#cb51-37" aria-hidden="true" tabindex="-1"></a>$$P(y_i | X_i B, \sigma^2) = \frac{1}{\sqrt{2 \pi \sigma^2}} \text{e}^{-\frac{1}{2}\frac{(y_i - X_i B)^2}{\sigma^2}}$$</span>
+<span id="cb51-38"><a href="#cb51-38" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-39"><a href="#cb51-39" aria-hidden="true" tabindex="-1"></a>Then, the full likelihood of the data set $Y$ is computed as:</span>
+<span id="cb51-40"><a href="#cb51-40" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-41"><a href="#cb51-41" aria-hidden="true" tabindex="-1"></a>$$ P(Y | X B, \sigma^2) = \prod^n_{i=1} P(y_i | X_i B, \sigma^2)$$</span>
+<span id="cb51-42"><a href="#cb51-42" aria-hidden="true" tabindex="-1"></a>Or, on the natural logarithmic scale:</span>
+<span id="cb51-43"><a href="#cb51-43" aria-hidden="true" tabindex="-1"></a>$$ ln\left(P(Y | X B, \sigma^2)\right) = \sum^n_{i=1} ln\left(P(y_i | X_i B, \sigma^2)\right)$$</span>
+<span id="cb51-44"><a href="#cb51-44" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-47"><a href="#cb51-47" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb51-48"><a href="#cb51-48" aria-hidden="true" tabindex="-1"></a><span class="co"># How to calculate the likelihood of a single data point:</span></span>
+<span id="cb51-49"><a href="#cb51-49" aria-hidden="true" tabindex="-1"></a><span class="fu">dnorm</span>(y[<span class="dv">1</span>], </span>
+<span id="cb51-50"><a href="#cb51-50" aria-hidden="true" tabindex="-1"></a>      <span class="at">mean =</span> beta0 <span class="sc">+</span> beta1<span class="sc">*</span>x[<span class="dv">1</span>],</span>
+<span id="cb51-51"><a href="#cb51-51" aria-hidden="true" tabindex="-1"></a>      <span class="at">sd =</span> sigma,</span>
+<span id="cb51-52"><a href="#cb51-52" aria-hidden="true" tabindex="-1"></a>      <span class="at">log =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb51-53"><a href="#cb51-53" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-54"><a href="#cb51-54" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate the full likelihood of the data, using the product</span></span>
+<span id="cb51-55"><a href="#cb51-55" aria-hidden="true" tabindex="-1"></a><span class="do">## Vectorized:</span></span>
+<span id="cb51-56"><a href="#cb51-56" aria-hidden="true" tabindex="-1"></a>LH_notlog<span class="ot">=</span> </span>
+<span id="cb51-57"><a href="#cb51-57" aria-hidden="true" tabindex="-1"></a><span class="fu">prod</span>(</span>
+<span id="cb51-58"><a href="#cb51-58" aria-hidden="true" tabindex="-1"></a>    <span class="fu">dnorm</span>(y, </span>
+<span id="cb51-59"><a href="#cb51-59" aria-hidden="true" tabindex="-1"></a>          <span class="at">mean =</span> beta0 <span class="sc">+</span> beta1<span class="sc">*</span>x,</span>
+<span id="cb51-60"><a href="#cb51-60" aria-hidden="true" tabindex="-1"></a>          <span class="at">sd =</span> sigma,</span>
+<span id="cb51-61"><a href="#cb51-61" aria-hidden="true" tabindex="-1"></a>          <span class="at">log =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb51-62"><a href="#cb51-62" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb51-63"><a href="#cb51-63" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-64"><a href="#cb51-64" aria-hidden="true" tabindex="-1"></a><span class="co"># Log-likelihood, vectorized</span></span>
+<span id="cb51-65"><a href="#cb51-65" aria-hidden="true" tabindex="-1"></a>LH_log <span class="ot">=</span> </span>
+<span id="cb51-66"><a href="#cb51-66" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(</span>
+<span id="cb51-67"><a href="#cb51-67" aria-hidden="true" tabindex="-1"></a>    <span class="fu">dnorm</span>(y, </span>
+<span id="cb51-68"><a href="#cb51-68" aria-hidden="true" tabindex="-1"></a>          <span class="at">mean =</span> beta0 <span class="sc">+</span> beta1<span class="sc">*</span>x,</span>
+<span id="cb51-69"><a href="#cb51-69" aria-hidden="true" tabindex="-1"></a>          <span class="at">sd =</span> sigma,</span>
+<span id="cb51-70"><a href="#cb51-70" aria-hidden="true" tabindex="-1"></a>          <span class="at">log =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb51-71"><a href="#cb51-71" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb51-72"><a href="#cb51-72" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-73"><a href="#cb51-73" aria-hidden="true" tabindex="-1"></a><span class="co"># Make sure the output makes sense</span></span>
+<span id="cb51-74"><a href="#cb51-74" aria-hidden="true" tabindex="-1"></a>LH_notlog</span>
+<span id="cb51-75"><a href="#cb51-75" aria-hidden="true" tabindex="-1"></a><span class="co"># Indeed the log-likelihood is the log of the </span></span>
+<span id="cb51-76"><a href="#cb51-76" aria-hidden="true" tabindex="-1"></a><span class="co"># likelihood on the raw probability scale.</span></span>
+<span id="cb51-77"><a href="#cb51-77" aria-hidden="true" tabindex="-1"></a>LH_log; <span class="fu">log</span>(LH_notlog)</span>
+<span id="cb51-78"><a href="#cb51-78" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb51-79"><a href="#cb51-79" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-80"><a href="#cb51-80" aria-hidden="true" tabindex="-1"></a><span class="fu">## Using `optim()` to minimize the negative log-likelihood</span></span>
+<span id="cb51-81"><a href="#cb51-81" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-82"><a href="#cb51-82" aria-hidden="true" tabindex="-1"></a>As we discussed in lecture, it is more computationally convenient to minimize functions, rather than to maximize. Therefore, to conduct linear regression analysis with maximum likelihood methods, we will find the values of $\hat{B}$ that minimize the negative log-likelihood of the data: $-ln\left(P(Y | X B, \sigma^2)\right)$.</span>
+<span id="cb51-83"><a href="#cb51-83" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-84"><a href="#cb51-84" aria-hidden="true" tabindex="-1"></a><span class="fu">### Function to calculate the negative log-likelihood</span></span>
+<span id="cb51-85"><a href="#cb51-85" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-86"><a href="#cb51-86" aria-hidden="true" tabindex="-1"></a>First, we need to construct a function that calculates the negative log-likelihood and that specifies the parameters of the model that eventually need to be estimated by the <span class="in">`optim()`</span> function.</span>
+<span id="cb51-87"><a href="#cb51-87" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-90"><a href="#cb51-90" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb51-91"><a href="#cb51-91" aria-hidden="true" tabindex="-1"></a><span class="do">### NEG LOG-LIK MINIMIZATION</span></span>
+<span id="cb51-92"><a href="#cb51-92" aria-hidden="true" tabindex="-1"></a>neg_log_lik <span class="ot">=</span> <span class="cf">function</span>(p, data_df){</span>
+<span id="cb51-93"><a href="#cb51-93" aria-hidden="true" tabindex="-1"></a>    beta0<span class="ot">=</span>p[<span class="dv">1</span>]</span>
+<span id="cb51-94"><a href="#cb51-94" aria-hidden="true" tabindex="-1"></a>    beta1<span class="ot">=</span>p[<span class="dv">2</span>]</span>
+<span id="cb51-95"><a href="#cb51-95" aria-hidden="true" tabindex="-1"></a>    sigma<span class="ot">=</span>p[<span class="dv">3</span>]</span>
+<span id="cb51-96"><a href="#cb51-96" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb51-97"><a href="#cb51-97" aria-hidden="true" tabindex="-1"></a>    mu <span class="ot">=</span> beta0 <span class="sc">+</span> beta1<span class="sc">*</span>data_df<span class="sc">$</span>x</span>
+<span id="cb51-98"><a href="#cb51-98" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb51-99"><a href="#cb51-99" aria-hidden="true" tabindex="-1"></a>    nll <span class="ot">=</span> <span class="sc">-</span><span class="fu">sum</span>(<span class="fu">dnorm</span>(data_df<span class="sc">$</span>y, <span class="at">mean=</span>mu, <span class="at">sd=</span>sigma, <span class="at">log =</span> <span class="cn">TRUE</span>))</span>
+<span id="cb51-100"><a href="#cb51-100" aria-hidden="true" tabindex="-1"></a>    <span class="fu">return</span>(nll)</span>
+<span id="cb51-101"><a href="#cb51-101" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb51-102"><a href="#cb51-102" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb51-103"><a href="#cb51-103" aria-hidden="true" tabindex="-1"></a>Here you can see the inputs to the function: <span class="in">`p`</span> is a vector of parameters to be estimated (i.e., optimized), and <span class="in">`data_df`</span> is a <span class="in">`data.frame`</span> that holds the values of outcome variable $y$ and associated input variables, in this case, just one $x$. </span>
+<span id="cb51-104"><a href="#cb51-104" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-105"><a href="#cb51-105" aria-hidden="true" tabindex="-1"></a>Then, we can use the <span class="in">`optim()`</span> function, which implements a gradient descent algorithm to estimate the values of the parameters that minimize the provided function, <span class="in">`neg_log_lik()`</span>. We will learn more about gradient descent later, because this is a very important method used widely across machine learning and neural networks. </span>
+<span id="cb51-106"><a href="#cb51-106" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-109"><a href="#cb51-109" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb51-110"><a href="#cb51-110" aria-hidden="true" tabindex="-1"></a>m_nll <span class="ot">=</span> </span>
+<span id="cb51-111"><a href="#cb51-111" aria-hidden="true" tabindex="-1"></a>    <span class="fu">optim</span>(</span>
+<span id="cb51-112"><a href="#cb51-112" aria-hidden="true" tabindex="-1"></a>        <span class="at">par =</span> <span class="fu">c</span>(<span class="fl">0.1</span>,<span class="dv">0</span>,<span class="fl">0.1</span>),</span>
+<span id="cb51-113"><a href="#cb51-113" aria-hidden="true" tabindex="-1"></a>        <span class="at">fn =</span> neg_log_lik,</span>
+<span id="cb51-114"><a href="#cb51-114" aria-hidden="true" tabindex="-1"></a>        <span class="at">data_df =</span> my_df,</span>
+<span id="cb51-115"><a href="#cb51-115" aria-hidden="true" tabindex="-1"></a>        <span class="at">method =</span> <span class="st">"L-BFGS-B"</span>,</span>
+<span id="cb51-116"><a href="#cb51-116" aria-hidden="true" tabindex="-1"></a>        <span class="at">lower=</span><span class="fu">c</span>(<span class="sc">-</span><span class="dv">5</span>,<span class="sc">-</span><span class="dv">5</span>,<span class="fl">0.001</span>),</span>
+<span id="cb51-117"><a href="#cb51-117" aria-hidden="true" tabindex="-1"></a>        <span class="at">upper=</span><span class="fu">c</span>(<span class="dv">5</span>,<span class="dv">5</span>,<span class="dv">5</span>),</span>
+<span id="cb51-118"><a href="#cb51-118" aria-hidden="true" tabindex="-1"></a>        <span class="at">hessian =</span> <span class="cn">TRUE</span></span>
+<span id="cb51-119"><a href="#cb51-119" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb51-120"><a href="#cb51-120" aria-hidden="true" tabindex="-1"></a>par_tab_nll <span class="ot">=</span> <span class="fu">rbind</span>(m_nll<span class="sc">$</span>par)</span>
+<span id="cb51-121"><a href="#cb51-121" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(par_tab_nll) <span class="ot">=</span> <span class="fu">c</span>(<span class="st">"int"</span>, <span class="st">"slope"</span>, <span class="st">"sigma"</span>)</span>
+<span id="cb51-122"><a href="#cb51-122" aria-hidden="true" tabindex="-1"></a>par_tab_nll</span>
+<span id="cb51-123"><a href="#cb51-123" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb51-124"><a href="#cb51-124" aria-hidden="true" tabindex="-1"></a>Note the <span class="in">`optim()`</span> options. <span class="in">`par`</span> specifies the initial guesses of the three parameters, whereas <span class="in">`lower`</span> and <span class="in">`upper`</span> specify the bounds across which to search for the best values of the parameters. With <span class="in">`hessian = TRUE`</span> we are asking the function to output an estimate of the Hessian matrix of the function, which helps us to estimate the standard errors of the parameter estimates (see <span class="co">[</span><span class="ot">Footnotes @sec-hessian</span><span class="co">]</span>). The <span class="in">`method`</span> specifies the algorithm used to minimize the function, which in this case is a modified quasi-Newton method, <span class="in">`L-BFGS-B`</span>, which is a type of gradient descent algorithm, to be discussed later. </span>
+<span id="cb51-125"><a href="#cb51-125" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-126"><a href="#cb51-126" aria-hidden="true" tabindex="-1"></a>We can see that the function outputs three point-estimates, which are $\hat{B}$ (i.e., slope and intercept), as well as the residual standard deviation, $\hat{\sigma}$.</span>
+<span id="cb51-127"><a href="#cb51-127" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-128"><a href="#cb51-128" aria-hidden="true" tabindex="-1"></a><span class="fu">### Compare `optim()` results to the OLS output</span></span>
+<span id="cb51-131"><a href="#cb51-131" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb51-132"><a href="#cb51-132" aria-hidden="true" tabindex="-1"></a><span class="do">### COMPARE TO LM()</span></span>
+<span id="cb51-133"><a href="#cb51-133" aria-hidden="true" tabindex="-1"></a>m_ols <span class="ot">=</span> <span class="fu">lm</span>(y <span class="sc">~</span> <span class="dv">1</span> <span class="sc">+</span> x, <span class="at">data =</span> my_df)</span>
+<span id="cb51-134"><a href="#cb51-134" aria-hidden="true" tabindex="-1"></a>m_ols_summary <span class="ot">=</span> <span class="fu">summary</span>(m_ols)</span>
+<span id="cb51-135"><a href="#cb51-135" aria-hidden="true" tabindex="-1"></a>m_ols_summary <span class="co"># Notice p-value</span></span>
+<span id="cb51-136"><a href="#cb51-136" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-137"><a href="#cb51-137" aria-hidden="true" tabindex="-1"></a>par_tab_ols <span class="ot">=</span> <span class="fu">c</span>(<span class="fu">coef</span>(m_ols), m_ols_summary<span class="sc">$</span>sigma)</span>
+<span id="cb51-138"><a href="#cb51-138" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(par_tab_ols) <span class="ot">=</span> <span class="fu">c</span>(<span class="st">"int"</span>, <span class="st">"slope"</span>, <span class="st">"sigma"</span>)</span>
+<span id="cb51-139"><a href="#cb51-139" aria-hidden="true" tabindex="-1"></a>par_tab_ols; par_tab_nll</span>
+<span id="cb51-140"><a href="#cb51-140" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-141"><a href="#cb51-141" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(my_df<span class="sc">$</span>y <span class="sc">~</span> my_df<span class="sc">$</span>x, <span class="at">pch =</span> <span class="dv">19</span>,</span>
+<span id="cb51-142"><a href="#cb51-142" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">"x"</span>, <span class="at">ylab =</span> <span class="st">"y"</span>)</span>
+<span id="cb51-143"><a href="#cb51-143" aria-hidden="true" tabindex="-1"></a><span class="co"># Line from OLS</span></span>
+<span id="cb51-144"><a href="#cb51-144" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">coef =</span> <span class="fu">coef</span>(m_ols), <span class="at">col =</span> <span class="st">"black"</span>, <span class="at">lwd =</span> <span class="dv">2</span>)</span>
+<span id="cb51-145"><a href="#cb51-145" aria-hidden="true" tabindex="-1"></a><span class="co"># Line from MaxLikelihood</span></span>
+<span id="cb51-146"><a href="#cb51-146" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">coef =</span> m_nll<span class="sc">$</span>par[<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>], <span class="at">col =</span> <span class="st">"red"</span>, <span class="at">lty =</span> <span class="dv">2</span>, <span class="at">lwd =</span> <span class="dv">2</span>)</span>
+<span id="cb51-147"><a href="#cb51-147" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb51-148"><a href="#cb51-148" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-149"><a href="#cb51-149" aria-hidden="true" tabindex="-1"></a>As we learned in lecture, the estimates of $\hat{B}$ from least squares and maximum likelihood are equivalent. And indeed, we see the same estimates produced from <span class="in">`lm()`</span> and <span class="in">`optim()`</span>. Also if you look at <span class="in">`Residual standard error`</span> in the <span class="in">`lm()`</span> output, you see the equivalent estimate for $\hat{\sigma}$ compared to the <span class="in">`optim()`</span> output. </span>
+<span id="cb51-150"><a href="#cb51-150" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-151"><a href="#cb51-151" aria-hidden="true" tabindex="-1"></a><span class="fu">## Hypothesis-testing for maximum likelihood</span></span>
+<span id="cb51-152"><a href="#cb51-152" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-153"><a href="#cb51-153" aria-hidden="true" tabindex="-1"></a>As explained in lecture, we will use the likelihood ratio test to test:</span>
+<span id="cb51-154"><a href="#cb51-154" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-155"><a href="#cb51-155" aria-hidden="true" tabindex="-1"></a>$$H_0: \beta_i = 0$$</span>
+<span id="cb51-156"><a href="#cb51-156" aria-hidden="true" tabindex="-1"></a>$$H_A: \beta_i \ne 0$$</span>
+<span id="cb51-157"><a href="#cb51-157" aria-hidden="true" tabindex="-1"></a>In the least squares framework, we used a $t$-test. But, for maximum likelihood, we are going to base our test on the *likelihood* of a model that does or does not include the slope, similar to the $F$-test we learned before. </span>
+<span id="cb51-158"><a href="#cb51-158" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-159"><a href="#cb51-159" aria-hidden="true" tabindex="-1"></a>For the case of simple linear regression, we're testing whether there is a significant difference between these models:</span>
+<span id="cb51-160"><a href="#cb51-160" aria-hidden="true" tabindex="-1"></a>$$H_0: y_i = \beta_0 + \epsilon_i$$</span>
+<span id="cb51-161"><a href="#cb51-161" aria-hidden="true" tabindex="-1"></a>$$H_A: y_i = \beta_0 + \beta_1 x_i + \epsilon_i$$</span>
+<span id="cb51-162"><a href="#cb51-162" aria-hidden="true" tabindex="-1"></a>Notice that in $H_0$, the slope $\beta_1$ is assumed to be zero.  </span>
+<span id="cb51-163"><a href="#cb51-163" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-164"><a href="#cb51-164" aria-hidden="true" tabindex="-1"></a><span class="fu">### Likelihood ratio and the $\chi^2$ test</span></span>
+<span id="cb51-165"><a href="#cb51-165" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-166"><a href="#cb51-166" aria-hidden="true" tabindex="-1"></a>Our goal is to understand if the likelihood of the null model, $P(Y | \beta_0, \sigma^2)$, is sufficiently low compared to the likelihood of the full model, $P(Y | \beta_0, \beta_1, x, \sigma^2)$, that we can reliably reject the null hypothesis.</span>
+<span id="cb51-167"><a href="#cb51-167" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-168"><a href="#cb51-168" aria-hidden="true" tabindex="-1"></a>We therefore construct a ratio of the likelihoods of the full and null model, very similar to the $F$-test framework. The log-likelihood ratio ($LHR$) becomes our test statistic:</span>
+<span id="cb51-169"><a href="#cb51-169" aria-hidden="true" tabindex="-1"></a>$$LHR_{\text{test}} = -2 ln \left(\frac{LH_{\text{null}}}{LH_{\text{full}}} \right)$$</span>
+<span id="cb51-170"><a href="#cb51-170" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-171"><a href="#cb51-171" aria-hidden="true" tabindex="-1"></a>Then, folks smarter than I have done the math to prove that this test statistic is equivalent to a $\chi^2$ test statistic, such that:</span>
+<span id="cb51-172"><a href="#cb51-172" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-173"><a href="#cb51-173" aria-hidden="true" tabindex="-1"></a>$$LHR_{\text{test}} \sim  \chi^2_k$$</span>
+<span id="cb51-174"><a href="#cb51-174" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-175"><a href="#cb51-175" aria-hidden="true" tabindex="-1"></a>where $\chi^2_k$ is a $\chi^2$ probability distribution with $k$ degrees of freedom. $k$ is equal to $p_{\text{full}} - p_{\text{null}}$, where $p$ is the number of model coefficients. In the case of simple linear regression, where we are removing just one model coefficient from the full model (i.e., set slope equal to zero), then $k = 2-1 = 1$.</span>
+<span id="cb51-176"><a href="#cb51-176" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-177"><a href="#cb51-177" aria-hidden="true" tabindex="-1"></a>Finally, we can determine $P(\chi^2 &gt; LHR_{\text{test}})$, which gives us our $p$-value. This statistical test is known as the "likelihood ratio test," and it is equivalently referred to as the "$\chi^2$" test, which we'll see in the code below. </span>
+<span id="cb51-178"><a href="#cb51-178" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-179"><a href="#cb51-179" aria-hidden="true" tabindex="-1"></a><span class="fu">### Manual calculation of the likelihood ratio test</span></span>
+<span id="cb51-180"><a href="#cb51-180" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-181"><a href="#cb51-181" aria-hidden="true" tabindex="-1"></a>To begin, we need to use maximum likelihood to estimate the likelihood of the "null" model. We need to adjust our function that will be used by <span class="in">`optim()`</span> to only include two parameters: the intercept, and the residual standard deviation. </span>
+<span id="cb51-182"><a href="#cb51-182" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-185"><a href="#cb51-185" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb51-186"><a href="#cb51-186" aria-hidden="true" tabindex="-1"></a><span class="co"># Need a null model:</span></span>
+<span id="cb51-187"><a href="#cb51-187" aria-hidden="true" tabindex="-1"></a>nll_null <span class="ot">=</span> <span class="cf">function</span>(p, data_df){</span>
+<span id="cb51-188"><a href="#cb51-188" aria-hidden="true" tabindex="-1"></a>    beta0<span class="ot">=</span>p[<span class="dv">1</span>]</span>
+<span id="cb51-189"><a href="#cb51-189" aria-hidden="true" tabindex="-1"></a>    sigma<span class="ot">=</span>p[<span class="dv">2</span>]</span>
+<span id="cb51-190"><a href="#cb51-190" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb51-191"><a href="#cb51-191" aria-hidden="true" tabindex="-1"></a>    mu <span class="ot">=</span> beta0</span>
+<span id="cb51-192"><a href="#cb51-192" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb51-193"><a href="#cb51-193" aria-hidden="true" tabindex="-1"></a>    nll <span class="ot">=</span> <span class="sc">-</span><span class="fu">sum</span>(<span class="fu">dnorm</span>(data_df<span class="sc">$</span>y, <span class="at">mean=</span>mu, <span class="at">sd=</span>sigma, <span class="at">log =</span> <span class="cn">TRUE</span>))</span>
+<span id="cb51-194"><a href="#cb51-194" aria-hidden="true" tabindex="-1"></a>    <span class="fu">return</span>(nll)</span>
+<span id="cb51-195"><a href="#cb51-195" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb51-196"><a href="#cb51-196" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-197"><a href="#cb51-197" aria-hidden="true" tabindex="-1"></a>m_nll_null <span class="ot">=</span> </span>
+<span id="cb51-198"><a href="#cb51-198" aria-hidden="true" tabindex="-1"></a>    <span class="fu">optim</span>(</span>
+<span id="cb51-199"><a href="#cb51-199" aria-hidden="true" tabindex="-1"></a>        <span class="at">par =</span> <span class="fu">c</span>(<span class="fl">0.1</span>,<span class="fl">0.1</span>),</span>
+<span id="cb51-200"><a href="#cb51-200" aria-hidden="true" tabindex="-1"></a>        <span class="at">fn =</span> nll_null,</span>
+<span id="cb51-201"><a href="#cb51-201" aria-hidden="true" tabindex="-1"></a>        <span class="at">data_df =</span> my_df,</span>
+<span id="cb51-202"><a href="#cb51-202" aria-hidden="true" tabindex="-1"></a>        <span class="at">method =</span> <span class="st">"L-BFGS-B"</span>,</span>
+<span id="cb51-203"><a href="#cb51-203" aria-hidden="true" tabindex="-1"></a>        <span class="at">lower=</span><span class="fu">c</span>(<span class="sc">-</span><span class="dv">5</span>,<span class="fl">0.001</span>),</span>
+<span id="cb51-204"><a href="#cb51-204" aria-hidden="true" tabindex="-1"></a>        <span class="at">upper=</span><span class="fu">c</span>(<span class="dv">5</span>,<span class="dv">5</span>)</span>
+<span id="cb51-205"><a href="#cb51-205" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb51-206"><a href="#cb51-206" aria-hidden="true" tabindex="-1"></a>par_tab_nll_null <span class="ot">=</span> <span class="fu">rbind</span>(m_nll_null<span class="sc">$</span>par)</span>
+<span id="cb51-207"><a href="#cb51-207" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(par_tab_nll_null) <span class="ot">=</span> <span class="fu">c</span>(<span class="st">"int"</span>, <span class="st">"sigma"</span>)</span>
+<span id="cb51-208"><a href="#cb51-208" aria-hidden="true" tabindex="-1"></a>par_tab_nll_null</span>
+<span id="cb51-209"><a href="#cb51-209" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-210"><a href="#cb51-210" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(my_df<span class="sc">$</span>y <span class="sc">~</span> my_df<span class="sc">$</span>x, <span class="at">pch =</span> <span class="dv">19</span>,</span>
+<span id="cb51-211"><a href="#cb51-211" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">"x"</span>, <span class="at">ylab =</span> <span class="st">"y"</span>)</span>
+<span id="cb51-212"><a href="#cb51-212" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">coef =</span> m_nll<span class="sc">$</span>par[<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>], <span class="at">col =</span> <span class="st">"red"</span>, <span class="at">lty =</span> <span class="dv">1</span>)</span>
+<span id="cb51-213"><a href="#cb51-213" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">h =</span> m_nll_null<span class="sc">$</span>par[<span class="dv">1</span>], <span class="at">col =</span> <span class="st">"red"</span>, <span class="at">lty =</span> <span class="dv">2</span>)</span>
+<span id="cb51-214"><a href="#cb51-214" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb51-215"><a href="#cb51-215" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-216"><a href="#cb51-216" aria-hidden="true" tabindex="-1"></a>The flat dashed line represents the null (intercept-only) model. Now, we calculate the likelihood ratio test statistic, and compare to the $\chi^2$ probability distribution to determine our $p$-value of the test. Note that within the <span class="in">`optim()`</span> function's output list, there is a numeric object called <span class="in">`value`</span>. This <span class="in">`value`</span> is the negative log-likelihood of the model with the estimated coefficients. We can use this to calculate our test statistic.</span>
+<span id="cb51-217"><a href="#cb51-217" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-220"><a href="#cb51-220" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb51-221"><a href="#cb51-221" aria-hidden="true" tabindex="-1"></a><span class="co"># use exp() to convert the negative log likelihood to </span></span>
+<span id="cb51-222"><a href="#cb51-222" aria-hidden="true" tabindex="-1"></a><span class="co"># raw probability scale</span></span>
+<span id="cb51-223"><a href="#cb51-223" aria-hidden="true" tabindex="-1"></a>log_lh_full <span class="ot">=</span> <span class="sc">-</span>m_nll<span class="sc">$</span>value</span>
+<span id="cb51-224"><a href="#cb51-224" aria-hidden="true" tabindex="-1"></a>log_lh_null <span class="ot">=</span> <span class="sc">-</span>m_nll_null<span class="sc">$</span>value</span>
+<span id="cb51-225"><a href="#cb51-225" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-226"><a href="#cb51-226" aria-hidden="true" tabindex="-1"></a>lh_full <span class="ot">=</span> <span class="fu">exp</span>(log_lh_full)</span>
+<span id="cb51-227"><a href="#cb51-227" aria-hidden="true" tabindex="-1"></a>lh_null <span class="ot">=</span> <span class="fu">exp</span>(log_lh_null)</span>
+<span id="cb51-228"><a href="#cb51-228" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-229"><a href="#cb51-229" aria-hidden="true" tabindex="-1"></a><span class="co"># Now calculate LHR</span></span>
+<span id="cb51-230"><a href="#cb51-230" aria-hidden="true" tabindex="-1"></a>lhr <span class="ot">=</span> <span class="sc">-</span><span class="dv">2</span> <span class="sc">*</span> <span class="fu">log</span>(lh_null <span class="sc">/</span> lh_full)</span>
+<span id="cb51-231"><a href="#cb51-231" aria-hidden="true" tabindex="-1"></a>lhr</span>
+<span id="cb51-232"><a href="#cb51-232" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-233"><a href="#cb51-233" aria-hidden="true" tabindex="-1"></a><span class="co"># Of course, using rules of natural logs, this is equivalent:</span></span>
+<span id="cb51-234"><a href="#cb51-234" aria-hidden="true" tabindex="-1"></a><span class="sc">-</span><span class="dv">2</span> <span class="sc">*</span> (log_lh_null <span class="sc">-</span> log_lh_full)</span>
+<span id="cb51-235"><a href="#cb51-235" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb51-236"><a href="#cb51-236" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-237"><a href="#cb51-237" aria-hidden="true" tabindex="-1"></a>Now that we have our value of $LHR_{\text{test}}$, we use the $\chi^2$-distribution to find $P(\chi^2 &gt; LHR_{\text{test}})$, which is the $p$-value of the test.</span>
+<span id="cb51-238"><a href="#cb51-238" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-241"><a href="#cb51-241" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb51-242"><a href="#cb51-242" aria-hidden="true" tabindex="-1"></a><span class="co"># How many parameters being "removed" (i.e., set to zero) in test:</span></span>
+<span id="cb51-243"><a href="#cb51-243" aria-hidden="true" tabindex="-1"></a>df_chi <span class="ot">=</span> <span class="dv">2</span> <span class="sc">-</span> <span class="dv">1</span></span>
+<span id="cb51-244"><a href="#cb51-244" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-245"><a href="#cb51-245" aria-hidden="true" tabindex="-1"></a><span class="co"># Prob null is true</span></span>
+<span id="cb51-246"><a href="#cb51-246" aria-hidden="true" tabindex="-1"></a>p_val <span class="ot">=</span> <span class="dv">1</span> <span class="sc">-</span> <span class="fu">pchisq</span>(lhr, <span class="at">df =</span> df_chi)</span>
+<span id="cb51-247"><a href="#cb51-247" aria-hidden="true" tabindex="-1"></a>p_val</span>
+<span id="cb51-248"><a href="#cb51-248" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb51-249"><a href="#cb51-249" aria-hidden="true" tabindex="-1"></a>Based on this low $p$-value, we would say there is sufficient evidence to reject the null hypothesis and that the slope $\beta_1$ is significantly different than zero. </span>
+<span id="cb51-250"><a href="#cb51-250" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-251"><a href="#cb51-251" aria-hidden="true" tabindex="-1"></a>We can compare this outcome to a built-in <span class="in">`R`</span> function called <span class="in">`drop1()`</span>. </span>
+<span id="cb51-252"><a href="#cb51-252" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-255"><a href="#cb51-255" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb51-256"><a href="#cb51-256" aria-hidden="true" tabindex="-1"></a><span class="fu">drop1</span>(m_ols, <span class="at">test =</span> <span class="st">"Chisq"</span>)</span>
+<span id="cb51-257"><a href="#cb51-257" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb51-258"><a href="#cb51-258" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-259"><a href="#cb51-259" aria-hidden="true" tabindex="-1"></a>In the function, we specified <span class="in">`Chisq`</span> test, which implements the $\chi^2$ test using the likelihood ratio. What we see in this summary output is <span class="in">`Pr(&gt;Chi)`</span> which is equivalent to our manually computed value of $P(\chi^2 &gt; LHR_{\text{test}})$. This output from <span class="in">`drop1()`</span> does not provide a whole lot of detail, but if you look at the <span class="in">`help()`</span>, it says that if you specify <span class="in">`test = "Chisq"`</span>, it conducts a likelihood-ratio test. It doesn't specifically output the likelihood ratio, but we can see the $p$-value is equivalent to our manual calculation above. </span>
+<span id="cb51-260"><a href="#cb51-260" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-261"><a href="#cb51-261" aria-hidden="true" tabindex="-1"></a><span class="fu">## Gradient descent algorithm</span></span>
+<span id="cb51-262"><a href="#cb51-262" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-263"><a href="#cb51-263" aria-hidden="true" tabindex="-1"></a>How does the <span class="in">`optim()`</span> function work? There are various optimization algorithms that can be implemented by <span class="in">`optim()`</span> that are specified by the user in the <span class="in">`method`</span> option. Several of these are gradient-based algorithms, which is a family of algorithms that are very common in engineering problems (e.g., optimal control of drones) and machine learning (e.g., neural networks, reinforcement learning). These algorithms generally minimize an "objective function": $\min_{{x\in {\mathbb  R}^{n}}}\;f(x)$. </span>
+<span id="cb51-264"><a href="#cb51-264" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-265"><a href="#cb51-265" aria-hidden="true" tabindex="-1"></a>A gradient descent algorithm is the most common algorithm for minimizing a function. There are many varieties of these algorithms that employ various "tricks" to make the algorithms more efficient (e.g., find the solution in a smaller number of iterations) or more reliable. In lecture we outlined the foundational gradient descent algorithm, upon which many more advanced algorithms are based. For a function $f(x)$, find the value of $x$ that solves the problem: $\min _{{x\in {\mathbb  R}^{n}}}\;f(x)$</span>
+<span id="cb51-266"><a href="#cb51-266" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-267"><a href="#cb51-267" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>Choose a starting value of $x$</span>
+<span id="cb51-268"><a href="#cb51-268" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>Evaluate $\nabla f(x)$. With $h=10^{-4}$:</span>
+<span id="cb51-269"><a href="#cb51-269" aria-hidden="true" tabindex="-1"></a>$$\text{grad} = \frac{f(x+h) - f(x)}{h}$$</span>
+<span id="cb51-270"><a href="#cb51-270" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>Set the search direction as $\text{direct} = -\nabla f(x)$</span>
+<span id="cb51-271"><a href="#cb51-271" aria-hidden="true" tabindex="-1"></a><span class="ss">4. </span>Set the step size as a fraction of $\nabla f(x)$: $\text{alpha} = 0.005$</span>
+<span id="cb51-272"><a href="#cb51-272" aria-hidden="true" tabindex="-1"></a><span class="ss">5. </span>Update $x$ for next iteration: $$x = x + \text{alpha}* \text{direct}$$</span>
+<span id="cb51-273"><a href="#cb51-273" aria-hidden="true" tabindex="-1"></a><span class="ss">6. </span>Repeat Steps 2-5 until $\nabla f(x) \approx 0$ (i.e., $||\text{grad}|| \le 10^{-4}$)</span>
+<span id="cb51-274"><a href="#cb51-274" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-275"><a href="#cb51-275" aria-hidden="true" tabindex="-1"></a>Let's implement this algorithm for the maximum likelihood solution of simple linear regression, using the data set above. To make this easier, we're going to assume that we know the intercept and the residual standard deviation perfectly, so we are only trying to estimate the slope. See <span class="co">[</span><span class="ot">Footnotes @sec-grad-multi</span><span class="co">]</span> for the case in which we estimate all three model parameters simultaneously using gradient descent. </span>
+<span id="cb51-276"><a href="#cb51-276" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-279"><a href="#cb51-279" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb51-280"><a href="#cb51-280" aria-hidden="true" tabindex="-1"></a><span class="co"># Set up some storage arrays:</span></span>
+<span id="cb51-281"><a href="#cb51-281" aria-hidden="true" tabindex="-1"></a>slope_guess <span class="ot">=</span> <span class="cn">NULL</span></span>
+<span id="cb51-282"><a href="#cb51-282" aria-hidden="true" tabindex="-1"></a>nll_guess <span class="ot">=</span> <span class="cn">NULL</span></span>
+<span id="cb51-283"><a href="#cb51-283" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-284"><a href="#cb51-284" aria-hidden="true" tabindex="-1"></a><span class="co"># initial guess</span></span>
+<span id="cb51-285"><a href="#cb51-285" aria-hidden="true" tabindex="-1"></a>slope <span class="ot">=</span> <span class="fl">0.1</span></span>
+<span id="cb51-286"><a href="#cb51-286" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-287"><a href="#cb51-287" aria-hidden="true" tabindex="-1"></a><span class="co"># set h for approx of gradient</span></span>
+<span id="cb51-288"><a href="#cb51-288" aria-hidden="true" tabindex="-1"></a>h <span class="ot">=</span> <span class="fl">1e-4</span></span>
+<span id="cb51-289"><a href="#cb51-289" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-290"><a href="#cb51-290" aria-hidden="true" tabindex="-1"></a><span class="co"># set step size</span></span>
+<span id="cb51-291"><a href="#cb51-291" aria-hidden="true" tabindex="-1"></a>alpha <span class="ot">=</span> <span class="fl">0.005</span></span>
+<span id="cb51-292"><a href="#cb51-292" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-293"><a href="#cb51-293" aria-hidden="true" tabindex="-1"></a><span class="co"># Set gradient to arbitrary high number</span></span>
+<span id="cb51-294"><a href="#cb51-294" aria-hidden="true" tabindex="-1"></a><span class="do">## This makes the while() loop work</span></span>
+<span id="cb51-295"><a href="#cb51-295" aria-hidden="true" tabindex="-1"></a>grad <span class="ot">=</span> <span class="dv">100</span></span>
+<span id="cb51-296"><a href="#cb51-296" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-297"><a href="#cb51-297" aria-hidden="true" tabindex="-1"></a><span class="co"># initialize counter</span></span>
+<span id="cb51-298"><a href="#cb51-298" aria-hidden="true" tabindex="-1"></a>i <span class="ot">=</span> <span class="dv">1</span></span>
+<span id="cb51-299"><a href="#cb51-299" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-300"><a href="#cb51-300" aria-hidden="true" tabindex="-1"></a><span class="co"># While gradient is not yet \approx zero</span></span>
+<span id="cb51-301"><a href="#cb51-301" aria-hidden="true" tabindex="-1"></a><span class="cf">while</span> (<span class="fu">norm</span>(grad, <span class="st">"2"</span>) <span class="sc">&gt;</span> <span class="dv">10</span><span class="sc">^-</span><span class="dv">4</span>) {</span>
+<span id="cb51-302"><a href="#cb51-302" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb51-303"><a href="#cb51-303" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Store the current value of slope:</span></span>
+<span id="cb51-304"><a href="#cb51-304" aria-hidden="true" tabindex="-1"></a>    slope_guess[i] <span class="ot">=</span> slope</span>
+<span id="cb51-305"><a href="#cb51-305" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb51-306"><a href="#cb51-306" aria-hidden="true" tabindex="-1"></a>    <span class="do">#############</span></span>
+<span id="cb51-307"><a href="#cb51-307" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Approximate the gradient of the nll</span></span>
+<span id="cb51-308"><a href="#cb51-308" aria-hidden="true" tabindex="-1"></a>    <span class="do">#############</span></span>
+<span id="cb51-309"><a href="#cb51-309" aria-hidden="true" tabindex="-1"></a>    <span class="do">## Adjust the slope by a small number, h</span></span>
+<span id="cb51-310"><a href="#cb51-310" aria-hidden="true" tabindex="-1"></a>    slope_adj <span class="ot">=</span> slope <span class="sc">+</span> h</span>
+<span id="cb51-311"><a href="#cb51-311" aria-hidden="true" tabindex="-1"></a>    <span class="do">## Calculate f(slope)</span></span>
+<span id="cb51-312"><a href="#cb51-312" aria-hidden="true" tabindex="-1"></a>    f_slope <span class="ot">=</span> <span class="fu">neg_log_lik</span>(<span class="at">p =</span> <span class="fu">c</span>(beta0, slope, sigma), </span>
+<span id="cb51-313"><a href="#cb51-313" aria-hidden="true" tabindex="-1"></a>                          <span class="at">data_df =</span> my_df)</span>
+<span id="cb51-314"><a href="#cb51-314" aria-hidden="true" tabindex="-1"></a>    <span class="do">## Store the current nll</span></span>
+<span id="cb51-315"><a href="#cb51-315" aria-hidden="true" tabindex="-1"></a>    nll_guess[i] <span class="ot">=</span> f_slope</span>
+<span id="cb51-316"><a href="#cb51-316" aria-hidden="true" tabindex="-1"></a>    <span class="do">## Calculate f(slope + h)</span></span>
+<span id="cb51-317"><a href="#cb51-317" aria-hidden="true" tabindex="-1"></a>    f_slope_adj <span class="ot">=</span> <span class="fu">neg_log_lik</span>(<span class="at">p =</span> <span class="fu">c</span>(beta0, slope_adj, sigma), </span>
+<span id="cb51-318"><a href="#cb51-318" aria-hidden="true" tabindex="-1"></a>                              <span class="at">data_df =</span> my_df)</span>
+<span id="cb51-319"><a href="#cb51-319" aria-hidden="true" tabindex="-1"></a>    <span class="do">## Calculate gradient</span></span>
+<span id="cb51-320"><a href="#cb51-320" aria-hidden="true" tabindex="-1"></a>    grad <span class="ot">=</span> (f_slope_adj <span class="sc">-</span> f_slope) <span class="sc">/</span> h</span>
+<span id="cb51-321"><a href="#cb51-321" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb51-322"><a href="#cb51-322" aria-hidden="true" tabindex="-1"></a>    <span class="co"># search direction</span></span>
+<span id="cb51-323"><a href="#cb51-323" aria-hidden="true" tabindex="-1"></a>    direct <span class="ot">=</span> <span class="sc">-</span>grad</span>
+<span id="cb51-324"><a href="#cb51-324" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb51-325"><a href="#cb51-325" aria-hidden="true" tabindex="-1"></a>    <span class="co"># update slope</span></span>
+<span id="cb51-326"><a href="#cb51-326" aria-hidden="true" tabindex="-1"></a>    slope <span class="ot">=</span> slope <span class="sc">+</span> alpha <span class="sc">*</span> direct</span>
+<span id="cb51-327"><a href="#cb51-327" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb51-328"><a href="#cb51-328" aria-hidden="true" tabindex="-1"></a>    <span class="co"># counter for x</span></span>
+<span id="cb51-329"><a href="#cb51-329" aria-hidden="true" tabindex="-1"></a>    i <span class="ot">=</span> i <span class="sc">+</span> <span class="dv">1</span></span>
+<span id="cb51-330"><a href="#cb51-330" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb51-331"><a href="#cb51-331" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-332"><a href="#cb51-332" aria-hidden="true" tabindex="-1"></a><span class="co"># Output the optimal slope and associated nll</span></span>
+<span id="cb51-333"><a href="#cb51-333" aria-hidden="true" tabindex="-1"></a>n_iter <span class="ot">=</span> i<span class="dv">-1</span></span>
+<span id="cb51-334"><a href="#cb51-334" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-335"><a href="#cb51-335" aria-hidden="true" tabindex="-1"></a>grad_descent_tab <span class="ot">=</span> <span class="fu">cbind</span>(slope_guess[n_iter], nll_guess[n_iter])</span>
+<span id="cb51-336"><a href="#cb51-336" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(grad_descent_tab) <span class="ot">=</span> <span class="fu">c</span>(<span class="st">"slope"</span>, <span class="st">"neg_log_lik"</span>)</span>
+<span id="cb51-337"><a href="#cb51-337" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-338"><a href="#cb51-338" aria-hidden="true" tabindex="-1"></a><span class="co"># Compare to optim() outpu</span></span>
+<span id="cb51-339"><a href="#cb51-339" aria-hidden="true" tabindex="-1"></a>optim_nll_tab <span class="ot">=</span> <span class="fu">cbind</span>(m_nll<span class="sc">$</span>par[<span class="dv">2</span>], m_nll<span class="sc">$</span>value)</span>
+<span id="cb51-340"><a href="#cb51-340" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(optim_nll_tab) <span class="ot">=</span> <span class="fu">c</span>(<span class="st">"slope"</span>, <span class="st">"neg_log_lik"</span>)</span>
+<span id="cb51-341"><a href="#cb51-341" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-342"><a href="#cb51-342" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="st">"Gradient Descent:"</span>);grad_descent_tab</span>
+<span id="cb51-343"><a href="#cb51-343" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="st">"optim() output:"</span>);optim_nll_tab</span>
+<span id="cb51-344"><a href="#cb51-344" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb51-345"><a href="#cb51-345" aria-hidden="true" tabindex="-1"></a>Note that the estimates are not exactly the same, especially because when we used <span class="in">`optim()`</span> we were estimating all three parameters simultaneously: intercept, slope, residual standard error.</span>
+<span id="cb51-346"><a href="#cb51-346" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-347"><a href="#cb51-347" aria-hidden="true" tabindex="-1"></a>Now, let's visualize the gradient descent.</span>
+<span id="cb51-348"><a href="#cb51-348" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-351"><a href="#cb51-351" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb51-352"><a href="#cb51-352" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(nll_guess <span class="sc">~</span> slope_guess, </span>
+<span id="cb51-353"><a href="#cb51-353" aria-hidden="true" tabindex="-1"></a>     <span class="at">pch =</span> <span class="dv">19</span>, <span class="at">type =</span> <span class="st">"b"</span>, </span>
+<span id="cb51-354"><a href="#cb51-354" aria-hidden="true" tabindex="-1"></a>     <span class="at">ylab =</span> <span class="st">"Neg. Log. Likelihood"</span>,</span>
+<span id="cb51-355"><a href="#cb51-355" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="fu">expression</span>(<span class="fu">hat</span>(beta)[<span class="dv">1</span>]),</span>
+<span id="cb51-356"><a href="#cb51-356" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlim =</span> <span class="fu">c</span>(<span class="fl">0.1</span>, <span class="fl">0.6</span>), <span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">15</span>, <span class="dv">40</span>))</span>
+<span id="cb51-357"><a href="#cb51-357" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb51-358"><a href="#cb51-358" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-359"><a href="#cb51-359" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-360"><a href="#cb51-360" aria-hidden="true" tabindex="-1"></a><span class="fu">## Footnotes </span></span>
+<span id="cb51-361"><a href="#cb51-361" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-362"><a href="#cb51-362" aria-hidden="true" tabindex="-1"></a><span class="fu">### Hessian matrix {#sec-hessian}</span></span>
+<span id="cb51-363"><a href="#cb51-363" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-364"><a href="#cb51-364" aria-hidden="true" tabindex="-1"></a>The <span class="in">`optim()`</span> function provides point estimates for the maximum likelihood-derived model coefficients. Just like in least squares regression, however, we want to quantify the uncertainty in these estimates. We therefore want the standard error in the model coefficient estimates. </span>
+<span id="cb51-365"><a href="#cb51-365" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-366"><a href="#cb51-366" aria-hidden="true" tabindex="-1"></a>In the case of least squares, we showed how we can calculate a variance-covariance matrix for the model coefficients, and then the square-root of the diagonal of this matrix equals the standard error. For maximum likelihood we can estimate this same variance-covariance matrix, but it comes from a different matrix called the Hessian. We do not need to go into detail, but the Hessian is the matrix of second derivatives of the likelihood with respect to the parameters (I will not ask you to recall this information). Then the variance-covariance matrix of the estimated model coefficients is calculated as the inverse of the Hessian matrix that corresponds to the negative log-likelihood. If the Hessian matrix of the negative log-likelihood is $H$, then</span>
+<span id="cb51-367"><a href="#cb51-367" aria-hidden="true" tabindex="-1"></a>$$SE(\hat{\beta_i}) = \sqrt{\text{diag}\left( H^{-1}\right)_i}$$</span>
+<span id="cb51-368"><a href="#cb51-368" aria-hidden="true" tabindex="-1"></a>I understand that's complicated, but it's easy enough to extract these values computationally from <span class="in">`optim()`</span> output, assuming you use the option <span class="in">`hessian = TRUE`</span>. </span>
+<span id="cb51-371"><a href="#cb51-371" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb51-372"><a href="#cb51-372" aria-hidden="true" tabindex="-1"></a><span class="co"># Extract the Hessian from the optim() output</span></span>
+<span id="cb51-373"><a href="#cb51-373" aria-hidden="true" tabindex="-1"></a>hessian <span class="ot">=</span> m_nll<span class="sc">$</span>hessian</span>
+<span id="cb51-374"><a href="#cb51-374" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate the var-cov matrix from the inverse Hessian</span></span>
+<span id="cb51-375"><a href="#cb51-375" aria-hidden="true" tabindex="-1"></a><span class="co"># Remember solve(X) gives X^-1</span></span>
+<span id="cb51-376"><a href="#cb51-376" aria-hidden="true" tabindex="-1"></a>params_varcov <span class="ot">=</span> <span class="fu">solve</span>(hessian)</span>
+<span id="cb51-377"><a href="#cb51-377" aria-hidden="true" tabindex="-1"></a><span class="co"># Then extract the diagonal and take the square root</span></span>
+<span id="cb51-378"><a href="#cb51-378" aria-hidden="true" tabindex="-1"></a><span class="co"># This gives a vector of SE(\param_i)</span></span>
+<span id="cb51-379"><a href="#cb51-379" aria-hidden="true" tabindex="-1"></a>se_params <span class="ot">=</span> <span class="fu">sqrt</span>(<span class="fu">diag</span>(params_varcov))</span>
+<span id="cb51-380"><a href="#cb51-380" aria-hidden="true" tabindex="-1"></a>params_tab <span class="ot">=</span> <span class="fu">cbind</span>(m_nll<span class="sc">$</span>par, se_params)</span>
+<span id="cb51-381"><a href="#cb51-381" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(params_tab) <span class="ot">=</span> <span class="fu">c</span>(<span class="st">"Estimate"</span>, <span class="st">"Std. Error"</span>)</span>
+<span id="cb51-382"><a href="#cb51-382" aria-hidden="true" tabindex="-1"></a><span class="fu">rownames</span>(params_tab) <span class="ot">=</span> <span class="fu">c</span>(<span class="st">"Intercept"</span>, <span class="st">"slope"</span>, <span class="st">"sigma"</span>)</span>
+<span id="cb51-383"><a href="#cb51-383" aria-hidden="true" tabindex="-1"></a>params_tab</span>
+<span id="cb51-384"><a href="#cb51-384" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-385"><a href="#cb51-385" aria-hidden="true" tabindex="-1"></a><span class="co"># Same as OLS? </span></span>
+<span id="cb51-386"><a href="#cb51-386" aria-hidden="true" tabindex="-1"></a>m_ols_summary<span class="sc">$</span>coefficients[<span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>), <span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>] <span class="co"># Pretty close!</span></span>
+<span id="cb51-387"><a href="#cb51-387" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb51-388"><a href="#cb51-388" aria-hidden="true" tabindex="-1"></a>We can see that the standard errors for the maximum likelihood estimators are the same as the OLS estimators. </span>
+<span id="cb51-389"><a href="#cb51-389" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-390"><a href="#cb51-390" aria-hidden="true" tabindex="-1"></a><span class="fu">### `optim()` using least squares {#sec-least-sq}</span></span>
+<span id="cb51-391"><a href="#cb51-391" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-392"><a href="#cb51-392" aria-hidden="true" tabindex="-1"></a>Remember that <span class="in">`optim()`</span> is not specific to maximum likelihood, but rather it implements one of several optional minimization algorithms. Therefore, we can use it to minimize any quantity. To emphasize this point, remember that in least squares regression, we are finding the values of the model coefficients $\hat{B}$ that minimize the sum of squared errors, $\sum_i^n \epsilon_i^2 = \epsilon^T\epsilon$. Let's minimize this quantity using <span class="in">`optim()`</span>. </span>
+<span id="cb51-393"><a href="#cb51-393" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-396"><a href="#cb51-396" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb51-397"><a href="#cb51-397" aria-hidden="true" tabindex="-1"></a><span class="do">### LEAST SQUARES MINIMIZATION</span></span>
+<span id="cb51-398"><a href="#cb51-398" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-399"><a href="#cb51-399" aria-hidden="true" tabindex="-1"></a><span class="co"># We need a function to calculate the sum of squared errors:</span></span>
+<span id="cb51-400"><a href="#cb51-400" aria-hidden="true" tabindex="-1"></a>least_sq <span class="ot">=</span> <span class="cf">function</span>(p, data_df){</span>
+<span id="cb51-401"><a href="#cb51-401" aria-hidden="true" tabindex="-1"></a>    beta0<span class="ot">=</span>p[<span class="dv">1</span>]</span>
+<span id="cb51-402"><a href="#cb51-402" aria-hidden="true" tabindex="-1"></a>    beta1<span class="ot">=</span>p[<span class="dv">2</span>]</span>
+<span id="cb51-403"><a href="#cb51-403" aria-hidden="true" tabindex="-1"></a>    y <span class="ot">=</span> data_df<span class="sc">$</span>y</span>
+<span id="cb51-404"><a href="#cb51-404" aria-hidden="true" tabindex="-1"></a>    n <span class="ot">=</span> <span class="fu">length</span>(y)</span>
+<span id="cb51-405"><a href="#cb51-405" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb51-406"><a href="#cb51-406" aria-hidden="true" tabindex="-1"></a>    expected_y <span class="ot">=</span> beta0 <span class="sc">+</span> beta1<span class="sc">*</span>data_df<span class="sc">$</span>x</span>
+<span id="cb51-407"><a href="#cb51-407" aria-hidden="true" tabindex="-1"></a>    sse <span class="ot">=</span> <span class="dv">0</span></span>
+<span id="cb51-408"><a href="#cb51-408" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>n){</span>
+<span id="cb51-409"><a href="#cb51-409" aria-hidden="true" tabindex="-1"></a>        epsilon_i <span class="ot">=</span> y[i] <span class="sc">-</span> expected_y[i]</span>
+<span id="cb51-410"><a href="#cb51-410" aria-hidden="true" tabindex="-1"></a>        sse <span class="ot">=</span> sse <span class="sc">+</span> (epsilon_i)<span class="sc">^</span><span class="dv">2</span></span>
+<span id="cb51-411"><a href="#cb51-411" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb51-412"><a href="#cb51-412" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb51-413"><a href="#cb51-413" aria-hidden="true" tabindex="-1"></a>    <span class="fu">return</span>(sse)</span>
+<span id="cb51-414"><a href="#cb51-414" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb51-415"><a href="#cb51-415" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-416"><a href="#cb51-416" aria-hidden="true" tabindex="-1"></a><span class="do">### OPTIMIZE LEAST SQUARES</span></span>
+<span id="cb51-417"><a href="#cb51-417" aria-hidden="true" tabindex="-1"></a>fit_least_sq <span class="ot">=</span> </span>
+<span id="cb51-418"><a href="#cb51-418" aria-hidden="true" tabindex="-1"></a>    <span class="fu">optim</span>(</span>
+<span id="cb51-419"><a href="#cb51-419" aria-hidden="true" tabindex="-1"></a>        <span class="at">par =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">0</span>),</span>
+<span id="cb51-420"><a href="#cb51-420" aria-hidden="true" tabindex="-1"></a>        <span class="at">fn =</span> least_sq,</span>
+<span id="cb51-421"><a href="#cb51-421" aria-hidden="true" tabindex="-1"></a>        <span class="at">data_df =</span> my_df,</span>
+<span id="cb51-422"><a href="#cb51-422" aria-hidden="true" tabindex="-1"></a>        <span class="at">method =</span> <span class="st">"L-BFGS-B"</span>,</span>
+<span id="cb51-423"><a href="#cb51-423" aria-hidden="true" tabindex="-1"></a>        <span class="at">lower=</span><span class="fu">c</span>(<span class="sc">-</span><span class="dv">5</span>,<span class="sc">-</span><span class="dv">5</span>),</span>
+<span id="cb51-424"><a href="#cb51-424" aria-hidden="true" tabindex="-1"></a>        <span class="at">upper=</span><span class="fu">c</span>(<span class="dv">5</span>,<span class="dv">5</span>),</span>
+<span id="cb51-425"><a href="#cb51-425" aria-hidden="true" tabindex="-1"></a>        <span class="at">hessian =</span> <span class="cn">TRUE</span></span>
+<span id="cb51-426"><a href="#cb51-426" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb51-427"><a href="#cb51-427" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a table of estimates:</span></span>
+<span id="cb51-428"><a href="#cb51-428" aria-hidden="true" tabindex="-1"></a>par_tab_least_sq <span class="ot">=</span> <span class="fu">rbind</span>(fit_least_sq<span class="sc">$</span>par)</span>
+<span id="cb51-429"><a href="#cb51-429" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(par_tab_least_sq) <span class="ot">=</span> <span class="fu">c</span>(<span class="st">"int"</span>, <span class="st">"slope"</span>)</span>
+<span id="cb51-430"><a href="#cb51-430" aria-hidden="true" tabindex="-1"></a>par_tab_least_sq</span>
+<span id="cb51-431"><a href="#cb51-431" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-432"><a href="#cb51-432" aria-hidden="true" tabindex="-1"></a><span class="co"># Compare to original OLS estimates:</span></span>
+<span id="cb51-433"><a href="#cb51-433" aria-hidden="true" tabindex="-1"></a><span class="fu">coef</span>(m_ols)</span>
+<span id="cb51-434"><a href="#cb51-434" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb51-435"><a href="#cb51-435" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-436"><a href="#cb51-436" aria-hidden="true" tabindex="-1"></a>You could also use the Hessian output to calculate the standard errors of the model coefficients, but I will leave that up to you.</span>
+<span id="cb51-437"><a href="#cb51-437" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-438"><a href="#cb51-438" aria-hidden="true" tabindex="-1"></a><span class="fu">### Gradient descent, multiple parameters {#sec-grad-multi}</span></span>
+<span id="cb51-439"><a href="#cb51-439" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-440"><a href="#cb51-440" aria-hidden="true" tabindex="-1"></a>Now let's suppose we want to estimate all of our model parameters (intercept, slope, residual standard deviation) simultaneously using gradient descent. Recall from lecture that we need to estimate three components of the gradient (the partial derivates of the function with respect to each model parameter).</span>
+<span id="cb51-441"><a href="#cb51-441" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-444"><a href="#cb51-444" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb51-445"><a href="#cb51-445" aria-hidden="true" tabindex="-1"></a><span class="co"># How many params to estimate?</span></span>
+<span id="cb51-446"><a href="#cb51-446" aria-hidden="true" tabindex="-1"></a>n_param <span class="ot">=</span> <span class="dv">3</span></span>
+<span id="cb51-447"><a href="#cb51-447" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-448"><a href="#cb51-448" aria-hidden="true" tabindex="-1"></a><span class="co"># Set up some storage arrays:</span></span>
+<span id="cb51-449"><a href="#cb51-449" aria-hidden="true" tabindex="-1"></a><span class="do">## Guess that the number of iterations will be 100 or less...</span></span>
+<span id="cb51-450"><a href="#cb51-450" aria-hidden="true" tabindex="-1"></a>param_guess <span class="ot">=</span> <span class="fu">array</span>(<span class="dv">0</span>, <span class="at">dim=</span><span class="fu">c</span>(<span class="dv">100</span>,n_param))</span>
+<span id="cb51-451"><a href="#cb51-451" aria-hidden="true" tabindex="-1"></a>nll_guess <span class="ot">=</span> <span class="fu">vector</span>(<span class="st">"numeric"</span>, <span class="at">length =</span> <span class="dv">100</span>)</span>
+<span id="cb51-452"><a href="#cb51-452" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-453"><a href="#cb51-453" aria-hidden="true" tabindex="-1"></a><span class="co"># initial guesses</span></span>
+<span id="cb51-454"><a href="#cb51-454" aria-hidden="true" tabindex="-1"></a>param <span class="ot">=</span> <span class="fu">vector</span>(<span class="st">"numeric"</span>, <span class="at">length =</span> n_param)</span>
+<span id="cb51-455"><a href="#cb51-455" aria-hidden="true" tabindex="-1"></a>param[<span class="dv">1</span>] <span class="ot">=</span> <span class="fl">0.0</span> <span class="co"># intercept</span></span>
+<span id="cb51-456"><a href="#cb51-456" aria-hidden="true" tabindex="-1"></a>param[<span class="dv">2</span>] <span class="ot">=</span> <span class="fl">1.0</span></span>
+<span id="cb51-457"><a href="#cb51-457" aria-hidden="true" tabindex="-1"></a>param[<span class="dv">3</span>] <span class="ot">=</span> <span class="fl">2.5</span></span>
+<span id="cb51-458"><a href="#cb51-458" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-459"><a href="#cb51-459" aria-hidden="true" tabindex="-1"></a><span class="co"># set h for approx of gradient</span></span>
+<span id="cb51-460"><a href="#cb51-460" aria-hidden="true" tabindex="-1"></a>h <span class="ot">=</span> <span class="fl">1e-4</span></span>
+<span id="cb51-461"><a href="#cb51-461" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-462"><a href="#cb51-462" aria-hidden="true" tabindex="-1"></a><span class="co"># set step size</span></span>
+<span id="cb51-463"><a href="#cb51-463" aria-hidden="true" tabindex="-1"></a>alpha <span class="ot">=</span> <span class="fl">0.005</span></span>
+<span id="cb51-464"><a href="#cb51-464" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-465"><a href="#cb51-465" aria-hidden="true" tabindex="-1"></a><span class="co"># Set gradient components to arbitrary high numbers</span></span>
+<span id="cb51-466"><a href="#cb51-466" aria-hidden="true" tabindex="-1"></a><span class="do">## This makes the while() loop work</span></span>
+<span id="cb51-467"><a href="#cb51-467" aria-hidden="true" tabindex="-1"></a>grad <span class="ot">=</span> <span class="fu">rep</span>(<span class="dv">100</span>, <span class="at">times =</span> n_param)</span>
+<span id="cb51-468"><a href="#cb51-468" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-469"><a href="#cb51-469" aria-hidden="true" tabindex="-1"></a><span class="co"># initialize counter</span></span>
+<span id="cb51-470"><a href="#cb51-470" aria-hidden="true" tabindex="-1"></a>i <span class="ot">=</span> <span class="dv">1</span></span>
+<span id="cb51-471"><a href="#cb51-471" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-472"><a href="#cb51-472" aria-hidden="true" tabindex="-1"></a><span class="co"># While gradient is not yet \approx zero</span></span>
+<span id="cb51-473"><a href="#cb51-473" aria-hidden="true" tabindex="-1"></a><span class="cf">while</span> (<span class="fu">norm</span>(grad, <span class="st">"2"</span>) <span class="sc">&gt;</span> <span class="dv">10</span><span class="sc">^-</span><span class="dv">4</span>) {</span>
+<span id="cb51-474"><a href="#cb51-474" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb51-475"><a href="#cb51-475" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Store the current value of slope:</span></span>
+<span id="cb51-476"><a href="#cb51-476" aria-hidden="true" tabindex="-1"></a>    param_guess[i, ] <span class="ot">=</span> param</span>
+<span id="cb51-477"><a href="#cb51-477" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb51-478"><a href="#cb51-478" aria-hidden="true" tabindex="-1"></a>    <span class="do">#############</span></span>
+<span id="cb51-479"><a href="#cb51-479" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Approximate the gradient of the nll</span></span>
+<span id="cb51-480"><a href="#cb51-480" aria-hidden="true" tabindex="-1"></a>    <span class="do">#############</span></span>
+<span id="cb51-481"><a href="#cb51-481" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb51-482"><a href="#cb51-482" aria-hidden="true" tabindex="-1"></a>    <span class="do">## Calculate nll with all current params</span></span>
+<span id="cb51-483"><a href="#cb51-483" aria-hidden="true" tabindex="-1"></a>    f_x <span class="ot">=</span> <span class="fu">neg_log_lik</span>(<span class="at">p =</span> param, </span>
+<span id="cb51-484"><a href="#cb51-484" aria-hidden="true" tabindex="-1"></a>                          <span class="at">data_df =</span> my_df)</span>
+<span id="cb51-485"><a href="#cb51-485" aria-hidden="true" tabindex="-1"></a>    <span class="do">## Store the current nll</span></span>
+<span id="cb51-486"><a href="#cb51-486" aria-hidden="true" tabindex="-1"></a>    nll_guess[i] <span class="ot">=</span> f_x</span>
+<span id="cb51-487"><a href="#cb51-487" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb51-488"><a href="#cb51-488" aria-hidden="true" tabindex="-1"></a>    <span class="do">## One param at a time, approximate gradient component</span></span>
+<span id="cb51-489"><a href="#cb51-489" aria-hidden="true" tabindex="-1"></a>    <span class="do">## (i.e., partial derivative)</span></span>
+<span id="cb51-490"><a href="#cb51-490" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span>(j <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>n_param){</span>
+<span id="cb51-491"><a href="#cb51-491" aria-hidden="true" tabindex="-1"></a>        <span class="do">## Keep all but one params the same</span></span>
+<span id="cb51-492"><a href="#cb51-492" aria-hidden="true" tabindex="-1"></a>        param_adj <span class="ot">=</span> <span class="cn">NULL</span></span>
+<span id="cb51-493"><a href="#cb51-493" aria-hidden="true" tabindex="-1"></a>        param_adj <span class="ot">=</span> param</span>
+<span id="cb51-494"><a href="#cb51-494" aria-hidden="true" tabindex="-1"></a>        param_adj[j] <span class="ot">=</span> param[j] <span class="sc">+</span> h</span>
+<span id="cb51-495"><a href="#cb51-495" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb51-496"><a href="#cb51-496" aria-hidden="true" tabindex="-1"></a>        f_x_adj <span class="ot">=</span> <span class="fu">neg_log_lik</span>(<span class="at">p =</span> param_adj, </span>
+<span id="cb51-497"><a href="#cb51-497" aria-hidden="true" tabindex="-1"></a>                              <span class="at">data_df =</span> my_df)</span>
+<span id="cb51-498"><a href="#cb51-498" aria-hidden="true" tabindex="-1"></a>        <span class="do">## Calculate gradient component</span></span>
+<span id="cb51-499"><a href="#cb51-499" aria-hidden="true" tabindex="-1"></a>        grad[j] <span class="ot">=</span> (f_x_adj <span class="sc">-</span> f_x) <span class="sc">/</span> h</span>
+<span id="cb51-500"><a href="#cb51-500" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb51-501"><a href="#cb51-501" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb51-502"><a href="#cb51-502" aria-hidden="true" tabindex="-1"></a>    <span class="co"># search direction</span></span>
+<span id="cb51-503"><a href="#cb51-503" aria-hidden="true" tabindex="-1"></a>    <span class="do">## Note that 'direct' is an array of size n_param</span></span>
+<span id="cb51-504"><a href="#cb51-504" aria-hidden="true" tabindex="-1"></a>    direct <span class="ot">=</span> <span class="sc">-</span>grad</span>
+<span id="cb51-505"><a href="#cb51-505" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb51-506"><a href="#cb51-506" aria-hidden="true" tabindex="-1"></a>    <span class="co"># update params</span></span>
+<span id="cb51-507"><a href="#cb51-507" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span>(j <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>n_param){</span>
+<span id="cb51-508"><a href="#cb51-508" aria-hidden="true" tabindex="-1"></a>        param[j] <span class="ot">=</span> param[j] <span class="sc">+</span> alpha <span class="sc">*</span> direct[j]</span>
+<span id="cb51-509"><a href="#cb51-509" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb51-510"><a href="#cb51-510" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb51-511"><a href="#cb51-511" aria-hidden="true" tabindex="-1"></a>    <span class="co"># counter for x</span></span>
+<span id="cb51-512"><a href="#cb51-512" aria-hidden="true" tabindex="-1"></a>    i <span class="ot">=</span> i <span class="sc">+</span> <span class="dv">1</span></span>
+<span id="cb51-513"><a href="#cb51-513" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb51-514"><a href="#cb51-514" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-515"><a href="#cb51-515" aria-hidden="true" tabindex="-1"></a><span class="co"># Output the optimal slope and associated nll</span></span>
+<span id="cb51-516"><a href="#cb51-516" aria-hidden="true" tabindex="-1"></a>n_iter <span class="ot">=</span> i<span class="dv">-1</span></span>
+<span id="cb51-517"><a href="#cb51-517" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-518"><a href="#cb51-518" aria-hidden="true" tabindex="-1"></a>grad_descent_tab <span class="ot">=</span> <span class="fu">cbind</span>(<span class="fu">rbind</span>(param_guess[n_iter,]), </span>
+<span id="cb51-519"><a href="#cb51-519" aria-hidden="true" tabindex="-1"></a>                         nll_guess[n_iter])</span>
+<span id="cb51-520"><a href="#cb51-520" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(grad_descent_tab) <span class="ot">=</span> </span>
+<span id="cb51-521"><a href="#cb51-521" aria-hidden="true" tabindex="-1"></a>    <span class="fu">c</span>(<span class="st">"int"</span>, <span class="st">"slope"</span>, <span class="st">"sigma"</span>, <span class="st">"neg_log_lik"</span>)</span>
+<span id="cb51-522"><a href="#cb51-522" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-523"><a href="#cb51-523" aria-hidden="true" tabindex="-1"></a><span class="co"># Compare to optim() output</span></span>
+<span id="cb51-524"><a href="#cb51-524" aria-hidden="true" tabindex="-1"></a>optim_nll_tab <span class="ot">=</span> <span class="fu">cbind</span>(<span class="fu">rbind</span>(m_nll<span class="sc">$</span>par), </span>
+<span id="cb51-525"><a href="#cb51-525" aria-hidden="true" tabindex="-1"></a>                      m_nll<span class="sc">$</span>value)</span>
+<span id="cb51-526"><a href="#cb51-526" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(optim_nll_tab) <span class="ot">=</span> <span class="fu">colnames</span>(grad_descent_tab)</span>
+<span id="cb51-527"><a href="#cb51-527" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-528"><a href="#cb51-528" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="st">"Gradient Descent:"</span>);grad_descent_tab</span>
+<span id="cb51-529"><a href="#cb51-529" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="st">"optim() output:"</span>);optim_nll_tab</span>
+<span id="cb51-530"><a href="#cb51-530" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb51-531"><a href="#cb51-531" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-532"><a href="#cb51-532" aria-hidden="true" tabindex="-1"></a>Now, plot the gradient descent:</span>
+<span id="cb51-533"><a href="#cb51-533" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-536"><a href="#cb51-536" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb51-537"><a href="#cb51-537" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow=</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">3</span>))</span>
+<span id="cb51-538"><a href="#cb51-538" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(nll_guess[<span class="dv">1</span><span class="sc">:</span>n_iter]<span class="sc">~</span>param_guess[<span class="dv">1</span><span class="sc">:</span>n_iter, <span class="dv">1</span>], </span>
+<span id="cb51-539"><a href="#cb51-539" aria-hidden="true" tabindex="-1"></a>     <span class="at">pch=</span><span class="dv">19</span>, <span class="at">type =</span> <span class="st">"b"</span>, </span>
+<span id="cb51-540"><a href="#cb51-540" aria-hidden="true" tabindex="-1"></a>     <span class="at">col =</span> <span class="st">"blue"</span>,</span>
+<span id="cb51-541"><a href="#cb51-541" aria-hidden="true" tabindex="-1"></a>     <span class="at">ylab =</span> <span class="st">"Neg. Log Likelihood"</span>, </span>
+<span id="cb51-542"><a href="#cb51-542" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="fu">expression</span>(<span class="st">"Intercept, "</span><span class="sc">~</span>beta[<span class="dv">0</span>]))</span>
+<span id="cb51-543"><a href="#cb51-543" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(nll_guess[<span class="dv">1</span><span class="sc">:</span>n_iter]<span class="sc">~</span>param_guess[<span class="dv">1</span><span class="sc">:</span>n_iter, <span class="dv">2</span>],</span>
+<span id="cb51-544"><a href="#cb51-544" aria-hidden="true" tabindex="-1"></a>     <span class="at">pch=</span><span class="dv">19</span>, <span class="at">type =</span> <span class="st">"b"</span>, </span>
+<span id="cb51-545"><a href="#cb51-545" aria-hidden="true" tabindex="-1"></a>     <span class="at">col =</span> <span class="st">"orange"</span>,</span>
+<span id="cb51-546"><a href="#cb51-546" aria-hidden="true" tabindex="-1"></a>     <span class="at">ylab =</span> <span class="st">"Neg. Log Likelihood"</span>, </span>
+<span id="cb51-547"><a href="#cb51-547" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="fu">expression</span>(<span class="st">"Slope, "</span><span class="sc">~</span>beta[<span class="dv">1</span>]))</span>
+<span id="cb51-548"><a href="#cb51-548" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(nll_guess[<span class="dv">1</span><span class="sc">:</span>n_iter]<span class="sc">~</span>param_guess[<span class="dv">1</span><span class="sc">:</span>n_iter, <span class="dv">3</span>], </span>
+<span id="cb51-549"><a href="#cb51-549" aria-hidden="true" tabindex="-1"></a>     <span class="at">pch=</span><span class="dv">19</span>, <span class="at">type =</span> <span class="st">"b"</span>, </span>
+<span id="cb51-550"><a href="#cb51-550" aria-hidden="true" tabindex="-1"></a>     <span class="at">col =</span> <span class="st">"red"</span>,</span>
+<span id="cb51-551"><a href="#cb51-551" aria-hidden="true" tabindex="-1"></a>     <span class="at">ylab =</span> <span class="st">"Neg. Log Likelihood"</span>, </span>
+<span id="cb51-552"><a href="#cb51-552" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="fu">expression</span>(<span class="st">"Residual Std.Dev., "</span><span class="sc">~</span>sigma))</span>
+<span id="cb51-553"><a href="#cb51-553" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-554"><a href="#cb51-554" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb51-555"><a href="#cb51-555" aria-hidden="true" tabindex="-1"></a>We can see for the intercept, our first guess was too low, so we descended the gradient by addition (i.e., search direction was positive), whereas for the slope and the residual standard deviation, our first guess was too large, so we descended the gradients by subtraction (i.e., search direction was negative).</span>
 </code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div></div></div></div></div>
 </div> <!-- /content -->

@@ -240,6 +240,101 @@ drop1(m_ols, test = "Chisq")
 
 In the function, we specified `Chisq` test, which implements the $\chi^2$ test using the likelihood ratio. What we see in this summary output is `Pr(>Chi)` which is equivalent to our manually computed value of $P(\chi^2 > LHR_{\text{test}})$. This output from `drop1()` does not provide a whole lot of detail, but if you look at the `help()`, it says that if you specify `test = "Chisq"`, it conducts a likelihood-ratio test. It doesn't specifically output the likelihood ratio, but we can see the $p$-value is equivalent to our manual calculation above. 
 
+## Gradient descent algorithm
+
+How does the `optim()` function work? There are various optimization algorithms that can be implemented by `optim()` that are specified by the user in the `method` option. Several of these are gradient-based algorithms, which is a family of algorithms that are very common in engineering problems (e.g., optimal control of drones) and machine learning (e.g., neural networks, reinforcement learning). These algorithms generally minimize an "objective function": $\min_{{x\in {\mathbb  R}^{n}}}\;f(x)$. 
+
+A gradient descent algorithm is the most common algorithm for minimizing a function. There are many varieties of these algorithms that employ various "tricks" to make the algorithms more efficient (e.g., find the solution in a smaller number of iterations) or more reliable. In lecture we outlined the foundational gradient descent algorithm, upon which many more advanced algorithms are based. For a function $f(x)$, find the value of $x$ that solves the problem: $\min _{{x\in {\mathbb  R}^{n}}}\;f(x)$
+
+1. Choose a starting value of $x$
+2. Evaluate $\nabla f(x)$. With $h=10^{-4}$:
+$$\text{grad} = \frac{f(x+h) - f(x)}{h}$$
+3. Set the search direction as $\text{direct} = -\nabla f(x)$
+4. Set the step size as a fraction of $\nabla f(x)$: $\text{alpha} = 0.005$
+5. Update $x$ for next iteration: $$x = x + \text{alpha}* \text{direct}$$
+6. Repeat Steps 2-5 until $\nabla f(x) \approx 0$ (i.e., $||\text{grad}|| \le 10^{-4}$)
+
+Let's implement this algorithm for the maximum likelihood solution of simple linear regression, using the data set above. To make this easier, we're going to assume that we know the intercept and the residual standard deviation perfectly, so we are only trying to estimate the slope. See [Footnotes @sec-grad-multi] for the case in which we estimate all three model parameters simultaneously using gradient descent. 
+
+```{r}
+# Set up some storage arrays:
+slope_guess = NULL
+nll_guess = NULL
+
+# initial guess
+slope = 0.1
+
+# set h for approx of gradient
+h = 1e-4
+
+# set step size
+alpha = 0.005
+
+# Set gradient to arbitrary high number
+## This makes the while() loop work
+grad = 100
+
+# initialize counter
+i = 1
+
+# While gradient is not yet \approx zero
+while (norm(grad, "2") > 10^-4) {
+    
+    # Store the current value of slope:
+    slope_guess[i] = slope
+    
+    #############
+    # Approximate the gradient of the nll
+    #############
+    ## Adjust the slope by a small number, h
+    slope_adj = slope + h
+    ## Calculate f(slope)
+    f_slope = neg_log_lik(p = c(beta0, slope, sigma), 
+                          data_df = my_df)
+    ## Store the current nll
+    nll_guess[i] = f_slope
+    ## Calculate f(slope + h)
+    f_slope_adj = neg_log_lik(p = c(beta0, slope_adj, sigma), 
+                              data_df = my_df)
+    ## Calculate gradient
+    grad = (f_slope_adj - f_slope) / h
+    
+    # search direction
+    direct = -grad
+    
+    # update slope
+    slope = slope + alpha * direct
+    
+    # counter for x
+    i = i + 1
+}
+
+# Output the optimal slope and associated nll
+n_iter = i-1
+
+grad_descent_tab = cbind(slope_guess[n_iter], nll_guess[n_iter])
+colnames(grad_descent_tab) = c("slope", "neg_log_lik")
+
+# Compare to optim() outpu
+optim_nll_tab = cbind(m_nll$par[2], m_nll$value)
+colnames(optim_nll_tab) = c("slope", "neg_log_lik")
+
+print("Gradient Descent:");grad_descent_tab
+print("optim() output:");optim_nll_tab
+```
+Note that the estimates are not exactly the same, especially because when we used `optim()` we were estimating all three parameters simultaneously: intercept, slope, residual standard error.
+
+Now, let's visualize the gradient descent.
+
+```{r}
+plot(nll_guess ~ slope_guess, 
+     pch = 19, type = "b", 
+     ylab = "Neg. Log. Likelihood",
+     xlab = expression(hat(beta)[1]),
+     xlim = c(0.1, 0.6), ylim = c(15, 40))
+```
+
+
 ## Footnotes 
 
 ### Hessian matrix {#sec-hessian}
@@ -312,4 +407,119 @@ par_tab_least_sq
 coef(m_ols)
 ```
 
-You could also use the Hessian output to calculate the standard errors of the model coefficients, but I will leave that up to you. 
+You could also use the Hessian output to calculate the standard errors of the model coefficients, but I will leave that up to you.
+
+### Gradient descent, multiple parameters {#sec-grad-multi}
+
+Now let's suppose we want to estimate all of our model parameters (intercept, slope, residual standard deviation) simultaneously using gradient descent. Recall from lecture that we need to estimate three components of the gradient (the partial derivates of the function with respect to each model parameter).
+
+```{r}
+# How many params to estimate?
+n_param = 3
+
+# Set up some storage arrays:
+## Guess that the number of iterations will be 100 or less...
+param_guess = array(0, dim=c(100,n_param))
+nll_guess = vector("numeric", length = 100)
+
+# initial guesses
+param = vector("numeric", length = n_param)
+param[1] = 0.0 # intercept
+param[2] = 1.0
+param[3] = 2.5
+
+# set h for approx of gradient
+h = 1e-4
+
+# set step size
+alpha = 0.005
+
+# Set gradient components to arbitrary high numbers
+## This makes the while() loop work
+grad = rep(100, times = n_param)
+
+# initialize counter
+i = 1
+
+# While gradient is not yet \approx zero
+while (norm(grad, "2") > 10^-4) {
+    
+    # Store the current value of slope:
+    param_guess[i, ] = param
+    
+    #############
+    # Approximate the gradient of the nll
+    #############
+    
+    ## Calculate nll with all current params
+    f_x = neg_log_lik(p = param, 
+                          data_df = my_df)
+    ## Store the current nll
+    nll_guess[i] = f_x
+    
+    ## One param at a time, approximate gradient component
+    ## (i.e., partial derivative)
+    for(j in 1:n_param){
+        ## Keep all but one params the same
+        param_adj = NULL
+        param_adj = param
+        param_adj[j] = param[j] + h
+        
+        f_x_adj = neg_log_lik(p = param_adj, 
+                              data_df = my_df)
+        ## Calculate gradient component
+        grad[j] = (f_x_adj - f_x) / h
+    }
+    
+    # search direction
+    ## Note that 'direct' is an array of size n_param
+    direct = -grad
+    
+    # update params
+    for(j in 1:n_param){
+        param[j] = param[j] + alpha * direct[j]
+    }
+    
+    # counter for x
+    i = i + 1
+}
+
+# Output the optimal slope and associated nll
+n_iter = i-1
+
+grad_descent_tab = cbind(rbind(param_guess[n_iter,]), 
+                         nll_guess[n_iter])
+colnames(grad_descent_tab) = 
+    c("int", "slope", "sigma", "neg_log_lik")
+
+# Compare to optim() output
+optim_nll_tab = cbind(rbind(m_nll$par), 
+                      m_nll$value)
+colnames(optim_nll_tab) = colnames(grad_descent_tab)
+
+print("Gradient Descent:");grad_descent_tab
+print("optim() output:");optim_nll_tab
+```
+
+Now, plot the gradient descent:
+
+```{r}
+par(mfrow=c(1,3))
+plot(nll_guess[1:n_iter]~param_guess[1:n_iter, 1], 
+     pch=19, type = "b", 
+     col = "blue",
+     ylab = "Neg. Log Likelihood", 
+     xlab = expression("Intercept, "~beta[0]))
+plot(nll_guess[1:n_iter]~param_guess[1:n_iter, 2],
+     pch=19, type = "b", 
+     col = "orange",
+     ylab = "Neg. Log Likelihood", 
+     xlab = expression("Slope, "~beta[1]))
+plot(nll_guess[1:n_iter]~param_guess[1:n_iter, 3], 
+     pch=19, type = "b", 
+     col = "red",
+     ylab = "Neg. Log Likelihood", 
+     xlab = expression("Residual Std.Dev., "~sigma))
+
+```
+We can see for the intercept, our first guess was too low, so we descended the gradient by addition (i.e., search direction was positive), whereas for the slope and the residual standard deviation, our first guess was too large, so we descended the gradients by subtraction (i.e., search direction was negative).
