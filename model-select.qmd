@@ -1,0 +1,167 @@
+# Model selection {#sec-modelselect}
+
+## Lecture material
+
+Please download and print the lecture materials from [Bblearn](https://bblearn.nau.edu/){target="_blank"}. After lectures, the recordings will appear in the Bblearn Collaborate Ultra section.
+
+## Generate the data {#sec-data}
+
+Here we will demonstrate two approaches to model comparison. But first let's generate data, in the same way we did for multiple linear regression in (@sec-ols). Note that in this case, we will specify that two of the input variables have zero slope (i.e., no linear association with the outcome variable).
+
+```{r}
+n = 40
+n_covariate = 4
+p = n_covariate + 1
+
+betas = vector("numeric", length = p)
+xmat = matrix(0, nrow = n, ncol = p)
+sigma = 2.25
+
+# Column for intercept
+xmat[,1] = 1
+
+# Generate the covariate data randomly:
+set.seed(5)
+xmat[,2] = rnorm(n, mean = 5, sd = 8)
+xmat[,3] = runif(n, min = 0, max = 20)
+xmat[,4] = rchisq(n, df = 50)
+xmat[,5] = rpois(n, lambda = 10)
+
+# Set the betas:
+betas[1] = 1.0
+betas[2] = 0.0
+betas[3] = -0.2
+betas[4] = 0.0
+betas[5] = 1.8
+
+# Calculate the observed 'y', adding residual error
+y = xmat %*% betas + rnorm(n, mean = 0, sd = sigma)
+
+par(mfrow=c(2,2))
+for(i in 2:p){
+    plot(y ~ xmat[,i],
+         xlab = paste("covariate ", i-1))
+}
+
+# Create a data.frame
+my_df = data.frame(y, xmat[,2:5])
+head(my_df)
+
+# Run the model, report the summary
+m1 = lm(y ~ 1 + X1 + X2 + X3 + X4, data = my_df)
+m1_summary = summary(m1)
+m1_summary
+```
+
+## Parsimony via model simplification
+
+We will successively simplify the model until we find a "minimally acceptable" model that explains the most variability in the outcome variable. 
+
+There are several built-in functions in R that can help us make quantitatively justified decisions about which input variables can be dropped from the full model to determine our minimally acceptable model. First, we can use the $F$-test as described in lecture. This can be implemented by the `anova()` function. 
+
+Based on the `summary()` output, we see that input variable 3 ($x_3$) has the least significant effect on $y$, so we will drop that first and proceed from there. 
+
+```{r}
+# The full model lives in object m1
+formula(m1)
+
+# Create a new model with the update() function
+# This function has a strange notation, but so it goes...
+m2 = update(m1, .~. -X3)
+formula(m2)
+
+summary(m2)
+
+# Use anova() to test if the drop of X3 is justified
+anova(m2, m1)
+```
+Remember that the hypothesis tested is:
+$$H_0:\text{simple model}$$
+$$H_A:\text{complex model}$$
+So if the $p \ge 0.05$, as usual, we cannot reject the null hypothesis. In this case, it means that the simple model is just as good as the more complex model. Therefore, we are justified in dropping $x_3$. From the data, we could not detect that $x_3$ has a statistically meaningful linear relationship with the outcome data $y$. 
+
+Let's manually calculate that $F$ test statistic and associated $p$-value to verify that we understand how the test works. 
+
+```{r}
+# Extract the residuals (errors)
+resid_null = m2$residuals
+resid_full = m1$residuals
+
+# Sum of Square Errors (SSE)
+sse_null = crossprod(resid_null)
+sse_full = crossprod(resid_full)
+
+# degrees of freedom
+df_null = n-(p-1) # we dropped one input variable
+df_full = n-p
+
+# Calculate F_stat
+f_test = ((sse_null - sse_full)/(df_null - df_full)) / (sse_full/df_full)
+
+# Degrees of freedom for the F distribution:
+df_numerator = df_null - df_full
+df_denominator = df_full
+
+p_m1vm2 = 1 - pf(f_test,
+                df1 = df_numerator,
+                df2 = df_denominator)
+
+# Compare to anova()
+f_test; p_m1vm2
+
+anova_m1vm2 = anova(m2,m1)
+anova_m1vm2$`F`; anova_m1vm2$`Pr(>F)`
+```
+
+Let's continue with the simplification process, using the `anova()` function.
+
+```{r}
+# model 2 is the current best.
+summary(m2)
+
+# Now, drop x1 and check
+m3 = update(m2, .~. -X1)
+
+# Check:
+anova(m3, m2)
+
+# The p-value is not significant, so we
+# can accept the null (simpler model)
+
+summary(m3)
+
+# Remove X2 and check
+m4 = update(m3, .~. -X2)
+anova(m4, m3)
+
+# Ok now the p-value is significant
+# We need to reject the null (simpler model)
+# We *cannot* reliably remove X2
+
+# Try X4 just in case:
+
+m5 = update(m3, .~. -X4)
+anova(m3, m5)
+# p-value is significant again
+# need to reject the null
+# we cannot drop X4
+
+# Therefore, m3 is most parsimonious
+summary(m3)
+```
+Therefore, model 3, is the minimum acceptable model:
+$$y_i = \beta_0 + \beta_2 x_{2,i} + \beta_4 x_{4,i} + \epsilon_i$$
+
+We could actually come to the same result, using a different, more automated function, `step()`. However, this function uses a different metric to test the null vs. full model hypothesis, the Akaike nformation criterion (AIC). We won't learn about the AIC in this class, but it is calculated as:
+$$\text{AIC} = 2k - 2ln(\text{Model Likelihood})$$
+And $k$ is the number of estimated parameters in the model. We can then compare the AIC values to decide which models are "best". 
+
+Let's use the `step()` function and verify it gives us the same final outcome.
+
+```{r}
+m1_step = step(m1)
+summary(m1_step)
+```
+We can see the selected model only includes $x_2$ and $x_4$, just like our decision based on the $F$-test. 
+
+

@@ -24,6 +24,7 @@ book:
     - ols.qmd
     - hypothesis.qmd
     - max-lik.qmd
+    - model-select.qmd
     - anova.qmd
     - bayesian.qmd
     - references.qmd
