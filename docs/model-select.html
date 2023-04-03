@@ -805,7 +805,7 @@ F-statistic: 3.621 on 2 and 37 DF,  p-value: 0.03662</code></pre>
 </div>
 <p>I’ll leave calculating the model-averaged standard error of the slopes as an exercise for you as a student.</p>
 <p>As I mentioned above, fortunately someone created a package to do this model averaging for us and remove a lot of the tedium.</p>
-<p>First, let’s load the <code>MuMIn</code> package and run all sub-models.</p>
+<p>First, run all sub-models using the <code>MuMIn::dredge()</code> function.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb60"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb60-1"><a href="#cb60-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Required for MuMIn::dredge functionality</span></span>
 <span id="cb60-2"><a href="#cb60-2" aria-hidden="true" tabindex="-1"></a><span class="fu">options</span>(<span class="at">na.action =</span> <span class="st">"na.fail"</span>)</span>
@@ -1549,7 +1549,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb79-340"><a href="#cb79-340" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb79-341"><a href="#cb79-341" aria-hidden="true" tabindex="-1"></a>As I mentioned above, fortunately someone created a package to do this model averaging for us and remove a lot of the tedium. </span>
 <span id="cb79-342"><a href="#cb79-342" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb79-343"><a href="#cb79-343" aria-hidden="true" tabindex="-1"></a>First, let's load the <span class="in">`MuMIn`</span> package and run all sub-models.</span>
+<span id="cb79-343"><a href="#cb79-343" aria-hidden="true" tabindex="-1"></a>First, run all sub-models using the <span class="in">`MuMIn::dredge()`</span> function.</span>
 <span id="cb79-346"><a href="#cb79-346" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
 <span id="cb79-347"><a href="#cb79-347" aria-hidden="true" tabindex="-1"></a><span class="co"># Required for MuMIn::dredge functionality</span></span>
 <span id="cb79-348"><a href="#cb79-348" aria-hidden="true" tabindex="-1"></a><span class="fu">options</span>(<span class="at">na.action =</span> <span class="st">"na.fail"</span>)</span>

@@ -316,7 +316,7 @@ I'll leave calculating the model-averaged standard error of the slopes as an exe
 
 As I mentioned above, fortunately someone created a package to do this model averaging for us and remove a lot of the tedium. 
 
-First, let's load the `MuMIn` package and run all sub-models.
+First, run all sub-models using the `MuMIn::dredge()` function.
 ```{r}
 # Required for MuMIn::dredge functionality
 options(na.action = "na.fail")
