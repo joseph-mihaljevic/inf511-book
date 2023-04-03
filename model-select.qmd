@@ -152,9 +152,9 @@ summary(m3)
 Therefore, model 3, is the minimum acceptable model:
 $$y_i = \beta_0 + \beta_2 x_{2,i} + \beta_4 x_{4,i} + \epsilon_i$$
 
-We could actually come to the same result, using a different, more automated function, `step()`. However, this function uses a different metric to test the null vs. full model hypothesis, the Akaike nformation criterion (AIC). We won't learn about the AIC in this class, but it is calculated as:
-$$\text{AIC} = 2k - 2ln(\text{Model Likelihood})$$
-And $k$ is the number of estimated parameters in the model. We can then compare the AIC values to decide which models are "best". 
+We could actually come to the same result, using a different, more automated function, `step()`. However, this function uses a different metric to test the null vs. full model hypothesis, the Akaike nformation criterion (AIC), which is calculated as:
+$$\text{AIC} = - 2ln(\text{Model Likelihood}) + 2k$$
+And $k$ is the number of estimated parameters in the model. We can then compare the AIC values to decide which models are "best". We will learn more about AIC later.
 
 Let's use the `step()` function and verify it gives us the same final outcome.
 
@@ -164,4 +164,251 @@ summary(m1_step)
 ```
 We can see the selected model only includes $x_2$ and $x_4$, just like our decision based on the $F$-test. 
 
+## Model averaging
+
+Recall from lecture that model averaging represents another philosophical approach to model selection and model comparison. In this case, the idea is that we cannot know with certainty which model of a nested sub-set of models is "true". Therefore, instead of reporting the slopes and intercepts from the single "best" model that based on parsimony, we should report "averaged" values of slopes and intercepts. These averages will take into account all of the possible nested subset of models in which those slopes and intercepts could have been calculated. This averaging procedure can produce slope and intercept estimates (as well as estimates of their uncertainty) that are less biased, and can perhaps yield better predictions of future data. 
+
+We will use the `MuMIn` package (Multimodel Inference) to do model averaging later, but first we will do it manually. 
+
+### Required calculations
+
+Recall that to come up with averaged estimates of model parameters (e.g., model-averaged slopes) we need to calculate weighted averages. These averages are weighted by how well sub-models explain the data. Following lecture, we will use the corrected $AIC$, noted as $AIC_c$, to calculate how well a model explains the data. 
+
+$$\text{AIC}_c = - 2ln(\text{Model Likelihood}) + 2k + \frac{2K(K+1)}{n-K-1}$$
+where $n$ is the number of data observations. Then, to calculate the weights we need to see how much each sub-model deviates from the best model. For this deviation we calculate, for sub-model $i$:
+
+$$\Delta \text{AIC}_{c,i} = \text{AIC}_{c,\text{best}} - \text{AIC}_{c,i}$$
+The weight of sub-model $i$ is:
+
+$$w_i = \frac{\text{exp}(-\Delta \text{AIC}_{c,i} / 2)}{\sum_{r=1}^{R} \text{exp}(-\Delta \text{AIC}_{c,r} / 2)} $$
+And $R$ is the number of submodels being examined. 
+
+We are now ready to calculate the weighted average of any parameter of interest in the full model, $\theta$:
+
+$$\hat{\bar{\theta}} = \sum_{r=1}^{R} w_r \hat{\theta}_{r}$$
+Here, $\hat{\bar{\theta}}$ is the model-averaged estimate of parameter $\theta$, $w_r$ is the weight of sub-model $r$, and $\hat{\theta}_r$ is the parameter estimate derived from sub-model $r$. 
+
+We can also calculate the new averaged uncertainty in the parameter estimate:
+
+$$\hat{\text{var}}(\hat{\bar{\theta}}) =  \sum_{r=1}^{R} w_r \left( \hat{\text{var}}(\hat{\theta})_r + (\hat{\theta} - \hat{\bar{\theta}})^2 \right) $$
+Here, $\hat{\text{var}}(\hat{\bar{\theta}})$ is the standard error of the averaged model parameter, whereas $\hat{\text{var}}(\hat{\theta})_r$ is the standard error of model parameter $\theta$ estimated from sub-model $r$. 
+
+
+### Manual calculation
+
+Let's see if we can manually calculate all of this from a less complex example model. Imagine our full model is a model that only has two input variables. We'll use our simulated data set from above. (Of course, we know this is a poor model, but we're just doing a case-study here.)
+
+```{r}
+# Full model:
+full_mod = lm(y~1+X1+X2, data = my_df)
+```
+
+If this full model has two inputs, then the number of sub-models is $2^2 = 4$, which iteratively drop one or both input variables. Now, run each sub-model. I know, this is tedious.
+
+```{r}
+sub_m2 = update(full_mod, .~. -X2)
+sub_m3 = update(full_mod, .~. -X1)
+sub_m4 = update(full_mod, .~. -X2-X1) # Intercept only
+
+# Store all models in a list for easy looping later:
+model_list = list(
+    full_mod, sub_m2, sub_m3, sub_m4
+)
+
+# how many models?
+n_mod = 4
+```
+
+To get the model-averaged slopes of inputs $x_1$ and $x_2$, we'll need to calculate $AIC_c$ values and model weights. We'll store calculations in arrays as much as possible, so we can loop through. 
+
+Let's start with $AIC_c$. Fortunately, there's a built-in function for this in the `MuMIn` package, but we'll do one manually first. 
+
+```{r}
+# Extract neg-log-likelihood from full model:
+nll_full = -1*logLik(full_mod)
+# This is in a weird format, so we'll convert:
+nll_full = as.numeric(nll_full)
+k_full = 4 # two slopes + 1 intercept + residual sigma
+
+# Calculate AIC_c
+aic_c_full = 2*nll_full + 2*k_full + (2*k_full*(k_full + 1))/(n - k_full - 1)
+aic_c_full
+
+# Check with built-in
+library(MuMIn)
+AICc(full_mod)
+
+# Now calculate all:
+AICc_vec = NULL
+for(i in 1:n_mod){
+    AICc_vec[i] = AICc(model_list[[i]])
+}
+AICc_vec
+```
+We can see that the 'best' model, according to $AIC_c$ is the `sub_m3`, which includes the intercept and only input $x_2$. This makes sense, because we know that the slope of $x_1$ was simulated as zero.
+
+Let's now calculate the $\Delta \text{AIC}_c$.
+
+```{r}
+# Best AICc
+AICc_best = min(AICc_vec)
+
+#\Delta AIC_c
+Delta_AICc_vec = AICc_vec - AICc_best
+Delta_AICc_vec
+```
+
+Now we can calculate the model weights (i.e., the value representing how "good" each model is, relative to the best model).
+
+```{r}
+# Calculate the denominator of the weight calculation
+weight_denom = 0
+for(i in 1:n_mod){
+    weight_denom = 
+        weight_denom +
+        exp( -Delta_AICc_vec[i] / 2 )
+}
+weight_denom
+
+# Now the individual weights:
+weight = NULL
+for(i in 1:n_mod){
+    weight[i] = 
+        exp( -Delta_AICc_vec[i] / 2) / weight_denom
+}
+weight
+
+# Sum to 1?
+sum(weight)
+```
+
+We can see the "better" models, based on $AIC_c$ have higher weights, and the `weight` vector should add to 1. 
+
+Let's calculate the model-averaged slope estimate for input $x_2$. To do this, we'll first need to extract the estimate from each sub-model. This is a little tedious, because we need to know which coefficient refers to $x_2$ in each sub-model object (or if the coefficient is absent and therefore equal to zero).
+
+```{r}
+coef_x2 = NULL
+coef_x2[1] = coef(model_list[[1]])[3]
+coef_x2[2] = 0 # Absent from this sub-model
+coef_x2[3] = coef(model_list[[3]])[2]
+coef_x2[4] = 0 # Absent from this sub-model
+coef_x2
+
+# Averaged, based on model weight:
+avg_coef_x2 = 0
+for(i in 1:n_mod){
+    avg_coef_x2 = 
+        avg_coef_x2 +
+        weight[i] * coef_x2[i]
+}
+
+avg_coef_x2
+```
+
+We can see the model-averaged slope estimate for input $x_2$ is slightly less than the estimate from the full model.
+
+```{r}
+summary(full_mod)
+coef(full_mod)[3]
+```
+
+I'll leave calculating the model-averaged standard error of the slopes as an exercise for you as a student. 
+
+As I mentioned above, fortunately someone created a package to do this model averaging for us and remove a lot of the tedium. 
+
+First, let's load the `MuMIn` package and run all sub-models.
+```{r}
+# Required for MuMIn::dredge functionality
+options(na.action = "na.fail")
+
+# Fit all sub-models:
+dredge_test = dredge(full_mod)
+dredge_test
+```
+
+See how this output has run all sub-models, calculated the likelihoods, the $AIC_c$, the $\Delta AIC_c$, and the model weights. 
+
+Now, we can average all of the models. 
+```{r}
+# Average the models:
+test_average = model.avg(dredge_test, fit = TRUE)
+summary(test_average)
+```
+This `summary()` statement shows the model-averaged values of slopes of $x_1$ and $x_2$, and the intercept. We care about the "full average". You can see the averaged estimate of the slope for $x_2$ matches our manual calculation. For emphasis:
+
+```{r}
+test_average$coefficients[1,2];
+avg_coef_x2
+```
+
+### Back to more complex model
+
+Ok, but our full model had four input variables, which means the number of sub-models is $4^2 = 16$. Let's not do that manually, but instead use the `MuMIn::model.avg()` function. 
+
+```{r}
+# Reminder, m1 was our full model:
+summary(m1)
+
+# Fit all sub-models:
+dredge_m1 = dredge(m1)
+
+# Average the models:
+m1_average = model.avg(dredge_m1, fit = TRUE)
+summary(m1_average)
+```
+
+Notice how we see the model with inputs $x_2$ and $x_4$ is the best, based on $AIC_c$ (note this is the model labeled as `24` meaning it inclues inputs 2 and 4).
+
+We can also plot the model parameter estimates with their confidence intervals:
+```{r}
+# Plot the coefficient estimates (from the averaged model)
+plot(m1_average)
+```
+
+Finally, we can use the `predict()` function as we have before to visualize the effect of each input variable on the outcome. Here, we will show the independent, model-averaged effect of $x_2$, when all other input variables are held at their average values. Then, we'll do the same for $x_4$.
+
+```{r}
+# Predict from the average model:
+# How does y change as a function of x2, while 
+# other inputs held at their average?
+new_df = data.frame(
+    X1 = rep(mean(my_df$X1), 100),
+    X2 = seq(0, 19, length.out = 100),
+    X3 = rep(mean(my_df$X3), 100),
+    X4 = rep(mean(my_df$X4), 100)
+)
+
+pred_m1_avg_x2 = 
+    predict(m1_average,
+            newdata = new_df,
+            se.fit = TRUE)
+
+plot(my_df$y ~ my_df$X2,
+     xlab = "input x2", ylab = "y", pch = 19)
+lines(pred_m1_avg_x2$fit ~ new_df$X2)
+lines(pred_m1_avg_x2$fit-2*pred_m1_avg_x2$se.fit ~ new_df$X2, lty = 2)
+lines(pred_m1_avg_x2$fit+2*pred_m1_avg_x2$se.fit ~ new_df$X2, lty = 2)
+
+
+# Predict from the average model:
+# How does y change as a function of x4, while 
+# other inputs held at their average?
+new_df = data.frame(
+    X1 = rep(mean(my_df$X1), 100),
+    X2 = rep(mean(my_df$X2), 100),
+    X3 = rep(mean(my_df$X3), 100),
+    X4 = seq(0, 19, length.out = 100)
+)
+
+pred_m1_avg_x4 = 
+    predict(m1_average,
+            newdata = new_df,
+            se.fit = TRUE)
+
+plot(my_df$y ~ my_df$X4,
+     xlab = "input x4", ylab = "y", pch = 19)
+lines(pred_m1_avg_x4$fit ~ new_df$X4)
+lines(pred_m1_avg_x4$fit-2*pred_m1_avg_x4$se.fit ~ new_df$X4, lty = 2)
+lines(pred_m1_avg_x4$fit+2*pred_m1_avg_x4$se.fit ~ new_df$X4, lty = 2)
+```
 

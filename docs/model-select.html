@@ -1,9 +1,12 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.2.269">
+<meta name="generator" content="quarto-1.2.335">
+
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
 <title>INF511: Modern Regression I - 7&nbsp; Model selection</title>
 <style>
 code{white-space: pre-wrap;}
@@ -82,6 +85,7 @@ code span.vs { color: #4070a0; } /* VerbatimString */
 code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
 </style>
 
+
 <script src="site_libs/quarto-nav/quarto-nav.js"></script>
 <script src="site_libs/quarto-nav/headroom.min.js"></script>
 <script src="site_libs/clipboard/clipboard.min.js"></script>
@@ -99,7 +103,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light"><script id="quarto-search-options" type="application/json">{
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
   "collapse-after": 3,
@@ -117,21 +122,31 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
     "search-detached-cancel-button-title": "Cancel",
     "search-submit-button-title": "Submit"
   }
-}</script><style>html{ scroll-behavior: smooth; }</style>
-<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+}</script>
+<style>html{ scroll-behavior: smooth; }</style>
+
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
 </head>
+
 <body class="nav-sidebar floating">
 
 <div id="quarto-search-results"></div>
-  <header id="quarto-header" class="headroom fixed-top"><nav class="quarto-secondary-nav" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }"><div class="container-fluid d-flex justify-content-between">
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+    <div class="container-fluid d-flex justify-content-between">
       <h1 class="quarto-secondary-nav-title"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Model selection</span></h1>
       <button type="button" class="quarto-btn-toggle btn" aria-label="Show secondary navigation">
         <i class="bi bi-chevron-right"></i>
       </button>
     </div>
-  </nav></header><!-- content --><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
 <!-- sidebar -->
-  <nav id="quarto-sidebar" class="sidebar collapse sidebar-navigation floating overflow-auto"><div class="pt-lg-2 mt-2 text-left sidebar-header">
+  <nav id="quarto-sidebar" class="sidebar collapse sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
     <div class="sidebar-title mb-0 py-0">
       <a href="./">INF511: Modern Regression I</a> 
         <div class="sidebar-tools-main">
@@ -146,7 +161,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
       </div>
     <div class="sidebar-menu-container"> 
     <ul class="list-unstyled mt-1">
-<li class="sidebar-item">
+        <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./index.html" class="sidebar-item-text sidebar-link">Preface</a>
   </div>
@@ -208,27 +223,40 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 ">
-<li class="sidebar-item">
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./syllabus.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">A</span>&nbsp; <span class="chapter-title">Syllabus</span></a>
   </div>
 </li>
       </ul>
-</li>
+  </li>
     </ul>
-</div>
-</nav><!-- margin-sidebar --><div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        <nav id="TOC" role="doc-toc" class="toc-active"><h2 id="toc-title">Table of contents</h2>
+    </div>
+</nav>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-<li><a href="#lecture-material" id="toc-lecture-material" class="nav-link active" data-scroll-target="#lecture-material"><span class="toc-section-number">7.1</span>  Lecture material</a></li>
+  <li><a href="#lecture-material" id="toc-lecture-material" class="nav-link active" data-scroll-target="#lecture-material"><span class="toc-section-number">7.1</span>  Lecture material</a></li>
   <li><a href="#sec-data" id="toc-sec-data" class="nav-link" data-scroll-target="#sec-data"><span class="toc-section-number">7.2</span>  Generate the data</a></li>
   <li><a href="#parsimony-via-model-simplification" id="toc-parsimony-via-model-simplification" class="nav-link" data-scroll-target="#parsimony-via-model-simplification"><span class="toc-section-number">7.3</span>  Parsimony via model simplification</a></li>
-  </ul><div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/joseph-mihaljevic/inf511-book/blob/main/model-select.qmd" class="toc-action">View source</a></p><p><a href="https://github.com/joseph-mihaljevic/inf511-book/issues/new" class="toc-action">Report an issue</a></p></div></div></nav>
+  <li><a href="#model-averaging" id="toc-model-averaging" class="nav-link" data-scroll-target="#model-averaging"><span class="toc-section-number">7.4</span>  Model averaging</a>
+  <ul class="collapse">
+  <li><a href="#required-calculations" id="toc-required-calculations" class="nav-link" data-scroll-target="#required-calculations"><span class="toc-section-number">7.4.1</span>  Required calculations</a></li>
+  <li><a href="#manual-calculation" id="toc-manual-calculation" class="nav-link" data-scroll-target="#manual-calculation"><span class="toc-section-number">7.4.2</span>  Manual calculation</a></li>
+  <li><a href="#back-to-more-complex-model" id="toc-back-to-more-complex-model" class="nav-link" data-scroll-target="#back-to-more-complex-model"><span class="toc-section-number">7.4.3</span>  Back to more complex model</a></li>
+  </ul></li>
+  </ul>
+<div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/joseph-mihaljevic/inf511-book/blob/main/model-select.qmd" class="toc-action">View source</a></p><p><a href="https://github.com/joseph-mihaljevic/inf511-book/issues/new" class="toc-action">Report an issue</a></p></div></div></nav>
     </div>
 <!-- main -->
-<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block default"><div class="quarto-title">
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
 <div class="quarto-title-block"><div><h1 class="title"><span id="sec-modelselect" class="quarto-section-identifier d-none d-lg-block"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Model selection</span></span></h1><button type="button" class="btn code-tools-button" id="quarto-code-tools-source"><i class="bi"></i> Code</button></div></div>
 </div>
 
@@ -242,52 +270,55 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   </div>
   
 
-</header><section id="lecture-material" class="level2" data-number="7.1"><h2 data-number="7.1" class="anchored" data-anchor-id="lecture-material">
-<span class="header-section-number">7.1</span> Lecture material</h2>
+</header>
+
+<section id="lecture-material" class="level2" data-number="7.1">
+<h2 data-number="7.1" class="anchored" data-anchor-id="lecture-material"><span class="header-section-number">7.1</span> Lecture material</h2>
 <p>Please download and print the lecture materials from <a href="https://bblearn.nau.edu/" target="_blank">Bblearn</a>. After lectures, the recordings will appear in the Bblearn Collaborate Ultra section.</p>
-</section><section id="sec-data" class="level2" data-number="7.2"><h2 data-number="7.2" class="anchored" data-anchor-id="sec-data">
-<span class="header-section-number">7.2</span> Generate the data</h2>
+</section>
+<section id="sec-data" class="level2" data-number="7.2">
+<h2 data-number="7.2" class="anchored" data-anchor-id="sec-data"><span class="header-section-number">7.2</span> Generate the data</h2>
 <p>Here we will demonstrate two approaches to model comparison. But first let’s generate data, in the same way we did for multiple linear regression in (<a href="ols.html"><span>Chapter&nbsp;4</span></a>). Note that in this case, we will specify that two of the input variables have zero slope (i.e., no linear association with the outcome variable).</p>
 <div class="cell">
-<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">n</span> <span class="op">=</span> <span class="fl">40</span></span>
-<span><span class="va">n_covariate</span> <span class="op">=</span> <span class="fl">4</span></span>
-<span><span class="va">p</span> <span class="op">=</span> <span class="va">n_covariate</span> <span class="op">+</span> <span class="fl">1</span></span>
-<span></span>
-<span><span class="va">betas</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/vector.html">vector</a></span><span class="op">(</span><span class="st">"numeric"</span>, length <span class="op">=</span> <span class="va">p</span><span class="op">)</span></span>
-<span><span class="va">xmat</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html">matrix</a></span><span class="op">(</span><span class="fl">0</span>, nrow <span class="op">=</span> <span class="va">n</span>, ncol <span class="op">=</span> <span class="va">p</span><span class="op">)</span></span>
-<span><span class="va">sigma</span> <span class="op">=</span> <span class="fl">2.25</span></span>
-<span></span>
-<span><span class="co"># Column for intercept</span></span>
-<span><span class="va">xmat</span><span class="op">[</span>,<span class="fl">1</span><span class="op">]</span> <span class="op">=</span> <span class="fl">1</span></span>
-<span></span>
-<span><span class="co"># Generate the covariate data randomly:</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">5</span><span class="op">)</span></span>
-<span><span class="va">xmat</span><span class="op">[</span>,<span class="fl">2</span><span class="op">]</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span><span class="op">(</span><span class="va">n</span>, mean <span class="op">=</span> <span class="fl">5</span>, sd <span class="op">=</span> <span class="fl">8</span><span class="op">)</span></span>
-<span><span class="va">xmat</span><span class="op">[</span>,<span class="fl">3</span><span class="op">]</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Uniform.html">runif</a></span><span class="op">(</span><span class="va">n</span>, min <span class="op">=</span> <span class="fl">0</span>, max <span class="op">=</span> <span class="fl">20</span><span class="op">)</span></span>
-<span><span class="va">xmat</span><span class="op">[</span>,<span class="fl">4</span><span class="op">]</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Chisquare.html">rchisq</a></span><span class="op">(</span><span class="va">n</span>, df <span class="op">=</span> <span class="fl">50</span><span class="op">)</span></span>
-<span><span class="va">xmat</span><span class="op">[</span>,<span class="fl">5</span><span class="op">]</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Poisson.html">rpois</a></span><span class="op">(</span><span class="va">n</span>, lambda <span class="op">=</span> <span class="fl">10</span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># Set the betas:</span></span>
-<span><span class="va">betas</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span> <span class="op">=</span> <span class="fl">1.0</span></span>
-<span><span class="va">betas</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span> <span class="op">=</span> <span class="fl">0.0</span></span>
-<span><span class="va">betas</span><span class="op">[</span><span class="fl">3</span><span class="op">]</span> <span class="op">=</span> <span class="op">-</span><span class="fl">0.2</span></span>
-<span><span class="va">betas</span><span class="op">[</span><span class="fl">4</span><span class="op">]</span> <span class="op">=</span> <span class="fl">0.0</span></span>
-<span><span class="va">betas</span><span class="op">[</span><span class="fl">5</span><span class="op">]</span> <span class="op">=</span> <span class="fl">1.8</span></span>
-<span></span>
-<span><span class="co"># Calculate the observed 'y', adding residual error</span></span>
-<span><span class="va">y</span> <span class="op">=</span> <span class="va">xmat</span> <span class="op"><a href="https://rdrr.io/r/base/matmult.html">%*%</a></span> <span class="va">betas</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span><span class="op">(</span><span class="va">n</span>, mean <span class="op">=</span> <span class="fl">0</span>, sd <span class="op">=</span> <span class="va">sigma</span><span class="op">)</span></span>
-<span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html">par</a></span><span class="op">(</span>mfrow<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">2</span>,<span class="fl">2</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="kw">for</span><span class="op">(</span><span class="va">i</span> <span class="kw">in</span> <span class="fl">2</span><span class="op">:</span><span class="va">p</span><span class="op">)</span><span class="op">{</span></span>
-<span>    <span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">y</span> <span class="op">~</span> <span class="va">xmat</span><span class="op">[</span>,<span class="va">i</span><span class="op">]</span>,</span>
-<span>         xlab <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste</a></span><span class="op">(</span><span class="st">"covariate "</span>, <span class="va">i</span><span class="op">-</span><span class="fl">1</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>n <span class="ot">=</span> <span class="dv">40</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>n_covariate <span class="ot">=</span> <span class="dv">4</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>p <span class="ot">=</span> n_covariate <span class="sc">+</span> <span class="dv">1</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>betas <span class="ot">=</span> <span class="fu">vector</span>(<span class="st">"numeric"</span>, <span class="at">length =</span> p)</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>xmat <span class="ot">=</span> <span class="fu">matrix</span>(<span class="dv">0</span>, <span class="at">nrow =</span> n, <span class="at">ncol =</span> p)</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>sigma <span class="ot">=</span> <span class="fl">2.25</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Column for intercept</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>xmat[,<span class="dv">1</span>] <span class="ot">=</span> <span class="dv">1</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Generate the covariate data randomly:</span></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">5</span>)</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>xmat[,<span class="dv">2</span>] <span class="ot">=</span> <span class="fu">rnorm</span>(n, <span class="at">mean =</span> <span class="dv">5</span>, <span class="at">sd =</span> <span class="dv">8</span>)</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>xmat[,<span class="dv">3</span>] <span class="ot">=</span> <span class="fu">runif</span>(n, <span class="at">min =</span> <span class="dv">0</span>, <span class="at">max =</span> <span class="dv">20</span>)</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>xmat[,<span class="dv">4</span>] <span class="ot">=</span> <span class="fu">rchisq</span>(n, <span class="at">df =</span> <span class="dv">50</span>)</span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>xmat[,<span class="dv">5</span>] <span class="ot">=</span> <span class="fu">rpois</span>(n, <span class="at">lambda =</span> <span class="dv">10</span>)</span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a><span class="co"># Set the betas:</span></span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>betas[<span class="dv">1</span>] <span class="ot">=</span> <span class="fl">1.0</span></span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>betas[<span class="dv">2</span>] <span class="ot">=</span> <span class="fl">0.0</span></span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>betas[<span class="dv">3</span>] <span class="ot">=</span> <span class="sc">-</span><span class="fl">0.2</span></span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>betas[<span class="dv">4</span>] <span class="ot">=</span> <span class="fl">0.0</span></span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>betas[<span class="dv">5</span>] <span class="ot">=</span> <span class="fl">1.8</span></span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate the observed 'y', adding residual error</span></span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a>y <span class="ot">=</span> xmat <span class="sc">%*%</span> betas <span class="sc">+</span> <span class="fu">rnorm</span>(n, <span class="at">mean =</span> <span class="dv">0</span>, <span class="at">sd =</span> sigma)</span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow=</span><span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">2</span>))</span>
+<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">2</span><span class="sc">:</span>p){</span>
+<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a>    <span class="fu">plot</span>(y <span class="sc">~</span> xmat[,i],</span>
+<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a>         <span class="at">xlab =</span> <span class="fu">paste</span>(<span class="st">"covariate "</span>, i<span class="dv">-1</span>))</span>
+<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="model-select_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid" width="672"></p>
+<p><img src="model-select_files/figure-html/unnamed-chunk-1-1.png" class="img-fluid" width="672"></p>
 </div>
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Create a data.frame</span></span>
-<span><span class="va">my_df</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span><span class="va">y</span>, <span class="va">xmat</span><span class="op">[</span>,<span class="fl">2</span><span class="op">:</span><span class="fl">5</span><span class="op">]</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">my_df</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a data.frame</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>my_df <span class="ot">=</span> <span class="fu">data.frame</span>(y, xmat[,<span class="dv">2</span><span class="sc">:</span><span class="dv">5</span>])</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(my_df)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>          y         X1        X2       X3 X4
 1 28.492690 -1.7268438 18.788730 38.39431 18
@@ -297,10 +328,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 5 18.874673 18.6915270  9.405498 40.26706 11
 6 17.706978  0.1767361  1.001228 46.05881 10</code></pre>
 </div>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Run the model, report the summary</span></span>
-<span><span class="va">m1</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span><span class="op">(</span><span class="va">y</span> <span class="op">~</span> <span class="fl">1</span> <span class="op">+</span> <span class="va">X1</span> <span class="op">+</span> <span class="va">X2</span> <span class="op">+</span> <span class="va">X3</span> <span class="op">+</span> <span class="va">X4</span>, data <span class="op">=</span> <span class="va">my_df</span><span class="op">)</span></span>
-<span><span class="va">m1_summary</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">m1</span><span class="op">)</span></span>
-<span><span class="va">m1_summary</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Run the model, report the summary</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>m1 <span class="ot">=</span> <span class="fu">lm</span>(y <span class="sc">~</span> <span class="dv">1</span> <span class="sc">+</span> X1 <span class="sc">+</span> X2 <span class="sc">+</span> X3 <span class="sc">+</span> X4, <span class="at">data =</span> my_df)</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>m1_summary <span class="ot">=</span> <span class="fu">summary</span>(m1)</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>m1_summary</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
 Call:
@@ -325,25 +356,26 @@ Multiple R-squared:  0.8901,    Adjusted R-squared:  0.8775
 F-statistic: 70.86 on 4 and 35 DF,  p-value: 2.741e-16</code></pre>
 </div>
 </div>
-</section><section id="parsimony-via-model-simplification" class="level2" data-number="7.3"><h2 data-number="7.3" class="anchored" data-anchor-id="parsimony-via-model-simplification">
-<span class="header-section-number">7.3</span> Parsimony via model simplification</h2>
+</section>
+<section id="parsimony-via-model-simplification" class="level2" data-number="7.3">
+<h2 data-number="7.3" class="anchored" data-anchor-id="parsimony-via-model-simplification"><span class="header-section-number">7.3</span> Parsimony via model simplification</h2>
 <p>We will successively simplify the model until we find a “minimally acceptable” model that explains the most variability in the outcome variable.</p>
-<p>There are several built-in functions in R that can help us make quantitatively justified decisions about which input variables can be dropped from the full model to determine our minimally acceptable model. First, we can use the <span class="math inline">\(F\)</span>-test as described in lecture. This can be implemented by the <code><a href="https://rdrr.io/r/stats/anova.html">anova()</a></code> function.</p>
-<p>Based on the <code><a href="https://rdrr.io/r/base/summary.html">summary()</a></code> output, we see that input variable 3 (<span class="math inline">\(x_3\)</span>) has the least significant effect on <span class="math inline">\(y\)</span>, so we will drop that first and proceed from there.</p>
+<p>There are several built-in functions in R that can help us make quantitatively justified decisions about which input variables can be dropped from the full model to determine our minimally acceptable model. First, we can use the <span class="math inline">\(F\)</span>-test as described in lecture. This can be implemented by the <code>anova()</code> function.</p>
+<p>Based on the <code>summary()</code> output, we see that input variable 3 (<span class="math inline">\(x_3\)</span>) has the least significant effect on <span class="math inline">\(y\)</span>, so we will drop that first and proceed from there.</p>
 <div class="cell">
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># The full model lives in object m1</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/stats/formula.html">formula</a></span><span class="op">(</span><span class="va">m1</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># The full model lives in object m1</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="fu">formula</span>(m1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>y ~ 1 + X1 + X2 + X3 + X4</code></pre>
 </div>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Create a new model with the update() function</span></span>
-<span><span class="co"># This function has a strange notation, but so it goes...</span></span>
-<span><span class="va">m2</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/update.html">update</a></span><span class="op">(</span><span class="va">m1</span>, <span class="va">.</span><span class="op">~</span><span class="va">.</span> <span class="op">-</span><span class="va">X3</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/stats/formula.html">formula</a></span><span class="op">(</span><span class="va">m2</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a new model with the update() function</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="co"># This function has a strange notation, but so it goes...</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>m2 <span class="ot">=</span> <span class="fu">update</span>(m1, .<span class="sc">~</span>. <span class="sc">-</span>X3)</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="fu">formula</span>(m2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>y ~ X1 + X2 + X4</code></pre>
 </div>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">m2</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(m2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
 Call:
@@ -366,8 +398,8 @@ Residual standard error: 1.921 on 36 degrees of freedom
 Multiple R-squared:  0.8891,    Adjusted R-squared:  0.8799 
 F-statistic: 96.22 on 3 and 36 DF,  p-value: &lt; 2.2e-16</code></pre>
 </div>
-<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Use anova() to test if the drop of X3 is justified</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/stats/anova.html">anova</a></span><span class="op">(</span><span class="va">m2</span>, <span class="va">m1</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Use anova() to test if the drop of X3 is justified</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(m2, m1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Analysis of Variance Table
 
@@ -381,31 +413,31 @@ Model 2: y ~ 1 + X1 + X2 + X3 + X4
 <p>Remember that the hypothesis tested is: <span class="math display">\[H_0:\text{simple model}\]</span> <span class="math display">\[H_A:\text{complex model}\]</span> So if the <span class="math inline">\(p \ge 0.05\)</span>, as usual, we cannot reject the null hypothesis. In this case, it means that the simple model is just as good as the more complex model. Therefore, we are justified in dropping <span class="math inline">\(x_3\)</span>. From the data, we could not detect that <span class="math inline">\(x_3\)</span> has a statistically meaningful linear relationship with the outcome data <span class="math inline">\(y\)</span>.</p>
 <p>Let’s manually calculate that <span class="math inline">\(F\)</span> test statistic and associated <span class="math inline">\(p\)</span>-value to verify that we understand how the test works.</p>
 <div class="cell">
-<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Extract the residuals (errors)</span></span>
-<span><span class="va">resid_null</span> <span class="op">=</span> <span class="va">m2</span><span class="op">$</span><span class="va">residuals</span></span>
-<span><span class="va">resid_full</span> <span class="op">=</span> <span class="va">m1</span><span class="op">$</span><span class="va">residuals</span></span>
-<span></span>
-<span><span class="co"># Sum of Square Errors (SSE)</span></span>
-<span><span class="va">sse_null</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/crossprod.html">crossprod</a></span><span class="op">(</span><span class="va">resid_null</span><span class="op">)</span></span>
-<span><span class="va">sse_full</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/crossprod.html">crossprod</a></span><span class="op">(</span><span class="va">resid_full</span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># degrees of freedom</span></span>
-<span><span class="va">df_null</span> <span class="op">=</span> <span class="va">n</span><span class="op">-</span><span class="op">(</span><span class="va">p</span><span class="op">-</span><span class="fl">1</span><span class="op">)</span> <span class="co"># we dropped one input variable</span></span>
-<span><span class="va">df_full</span> <span class="op">=</span> <span class="va">n</span><span class="op">-</span><span class="va">p</span></span>
-<span></span>
-<span><span class="co"># Calculate F_stat</span></span>
-<span><span class="va">f_test</span> <span class="op">=</span> <span class="op">(</span><span class="op">(</span><span class="va">sse_null</span> <span class="op">-</span> <span class="va">sse_full</span><span class="op">)</span><span class="op">/</span><span class="op">(</span><span class="va">df_null</span> <span class="op">-</span> <span class="va">df_full</span><span class="op">)</span><span class="op">)</span> <span class="op">/</span> <span class="op">(</span><span class="va">sse_full</span><span class="op">/</span><span class="va">df_full</span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># Degrees of freedom for the F distribution:</span></span>
-<span><span class="va">df_numerator</span> <span class="op">=</span> <span class="va">df_null</span> <span class="op">-</span> <span class="va">df_full</span></span>
-<span><span class="va">df_denominator</span> <span class="op">=</span> <span class="va">df_full</span></span>
-<span></span>
-<span><span class="va">p_m1vm2</span> <span class="op">=</span> <span class="fl">1</span> <span class="op">-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Fdist.html">pf</a></span><span class="op">(</span><span class="va">f_test</span>,</span>
-<span>                df1 <span class="op">=</span> <span class="va">df_numerator</span>,</span>
-<span>                df2 <span class="op">=</span> <span class="va">df_denominator</span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># Compare to anova()</span></span>
-<span><span class="va">f_test</span>; <span class="va">p_m1vm2</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Extract the residuals (errors)</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>resid_null <span class="ot">=</span> m2<span class="sc">$</span>residuals</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>resid_full <span class="ot">=</span> m1<span class="sc">$</span>residuals</span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Sum of Square Errors (SSE)</span></span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>sse_null <span class="ot">=</span> <span class="fu">crossprod</span>(resid_null)</span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>sse_full <span class="ot">=</span> <span class="fu">crossprod</span>(resid_full)</span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a><span class="co"># degrees of freedom</span></span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a>df_null <span class="ot">=</span> n<span class="sc">-</span>(p<span class="dv">-1</span>) <span class="co"># we dropped one input variable</span></span>
+<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a>df_full <span class="ot">=</span> n<span class="sc">-</span>p</span>
+<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate F_stat</span></span>
+<span id="cb14-14"><a href="#cb14-14" aria-hidden="true" tabindex="-1"></a>f_test <span class="ot">=</span> ((sse_null <span class="sc">-</span> sse_full)<span class="sc">/</span>(df_null <span class="sc">-</span> df_full)) <span class="sc">/</span> (sse_full<span class="sc">/</span>df_full)</span>
+<span id="cb14-15"><a href="#cb14-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-16"><a href="#cb14-16" aria-hidden="true" tabindex="-1"></a><span class="co"># Degrees of freedom for the F distribution:</span></span>
+<span id="cb14-17"><a href="#cb14-17" aria-hidden="true" tabindex="-1"></a>df_numerator <span class="ot">=</span> df_null <span class="sc">-</span> df_full</span>
+<span id="cb14-18"><a href="#cb14-18" aria-hidden="true" tabindex="-1"></a>df_denominator <span class="ot">=</span> df_full</span>
+<span id="cb14-19"><a href="#cb14-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-20"><a href="#cb14-20" aria-hidden="true" tabindex="-1"></a>p_m1vm2 <span class="ot">=</span> <span class="dv">1</span> <span class="sc">-</span> <span class="fu">pf</span>(f_test,</span>
+<span id="cb14-21"><a href="#cb14-21" aria-hidden="true" tabindex="-1"></a>                <span class="at">df1 =</span> df_numerator,</span>
+<span id="cb14-22"><a href="#cb14-22" aria-hidden="true" tabindex="-1"></a>                <span class="at">df2 =</span> df_denominator)</span>
+<span id="cb14-23"><a href="#cb14-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-24"><a href="#cb14-24" aria-hidden="true" tabindex="-1"></a><span class="co"># Compare to anova()</span></span>
+<span id="cb14-25"><a href="#cb14-25" aria-hidden="true" tabindex="-1"></a>f_test; p_m1vm2</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>          [,1]
 [1,] 0.3111883</code></pre>
@@ -414,8 +446,8 @@ Model 2: y ~ 1 + X1 + X2 + X3 + X4
 <pre><code>          [,1]
 [1,] 0.5805028</code></pre>
 </div>
-<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">anova_m1vm2</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/anova.html">anova</a></span><span class="op">(</span><span class="va">m2</span>,<span class="va">m1</span><span class="op">)</span></span>
-<span><span class="va">anova_m1vm2</span><span class="op">$</span><span class="va">`F`</span>; <span class="va">anova_m1vm2</span><span class="op">$</span><span class="va">`Pr(&gt;F)`</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>anova_m1vm2 <span class="ot">=</span> <span class="fu">anova</span>(m2,m1)</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>anova_m1vm2<span class="sc">$</span><span class="st">`</span><span class="at">F</span><span class="st">`</span>; anova_m1vm2<span class="sc">$</span><span class="st">`</span><span class="at">Pr(&gt;F)</span><span class="st">`</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1]        NA 0.3111883</code></pre>
 </div>
@@ -423,10 +455,10 @@ Model 2: y ~ 1 + X1 + X2 + X3 + X4
 <pre><code>[1]        NA 0.5805028</code></pre>
 </div>
 </div>
-<p>Let’s continue with the simplification process, using the <code><a href="https://rdrr.io/r/stats/anova.html">anova()</a></code> function.</p>
+<p>Let’s continue with the simplification process, using the <code>anova()</code> function.</p>
 <div class="cell">
-<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># model 2 is the current best.</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">m2</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="co"># model 2 is the current best.</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(m2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
 Call:
@@ -449,11 +481,11 @@ Residual standard error: 1.921 on 36 degrees of freedom
 Multiple R-squared:  0.8891,    Adjusted R-squared:  0.8799 
 F-statistic: 96.22 on 3 and 36 DF,  p-value: &lt; 2.2e-16</code></pre>
 </div>
-<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Now, drop x1 and check</span></span>
-<span><span class="va">m3</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/update.html">update</a></span><span class="op">(</span><span class="va">m2</span>, <span class="va">.</span><span class="op">~</span><span class="va">.</span> <span class="op">-</span><span class="va">X1</span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># Check:</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/stats/anova.html">anova</a></span><span class="op">(</span><span class="va">m3</span>, <span class="va">m2</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Now, drop x1 and check</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>m3 <span class="ot">=</span> <span class="fu">update</span>(m2, .<span class="sc">~</span>. <span class="sc">-</span>X1)</span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Check:</span></span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(m3, m2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Analysis of Variance Table
 
@@ -463,10 +495,10 @@ Model 2: y ~ X1 + X2 + X4
 1     37 135.10                           
 2     36 132.91  1    2.1969 0.5951 0.4455</code></pre>
 </div>
-<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># The p-value is not significant, so we</span></span>
-<span><span class="co"># can accept the null (simpler model)</span></span>
-<span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">m3</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="co"># The p-value is not significant, so we</span></span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a><span class="co"># can accept the null (simpler model)</span></span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(m3)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
 Call:
@@ -488,9 +520,9 @@ Residual standard error: 1.911 on 37 degrees of freedom
 Multiple R-squared:  0.8873,    Adjusted R-squared:  0.8812 
 F-statistic: 145.6 on 2 and 37 DF,  p-value: &lt; 2.2e-16</code></pre>
 </div>
-<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Remove X2 and check</span></span>
-<span><span class="va">m4</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/update.html">update</a></span><span class="op">(</span><span class="va">m3</span>, <span class="va">.</span><span class="op">~</span><span class="va">.</span> <span class="op">-</span><span class="va">X2</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/stats/anova.html">anova</a></span><span class="op">(</span><span class="va">m4</span>, <span class="va">m3</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Remove X2 and check</span></span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>m4 <span class="ot">=</span> <span class="fu">update</span>(m3, .<span class="sc">~</span>. <span class="sc">-</span>X2)</span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(m4, m3)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Analysis of Variance Table
 
@@ -502,14 +534,14 @@ Model 2: y ~ X2 + X4
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 </div>
-<div class="sourceCode" id="cb28"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Ok now the p-value is significant</span></span>
-<span><span class="co"># We need to reject the null (simpler model)</span></span>
-<span><span class="co"># We *cannot* reliably remove X2</span></span>
-<span></span>
-<span><span class="co"># Try X4 just in case:</span></span>
-<span></span>
-<span><span class="va">m5</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/update.html">update</a></span><span class="op">(</span><span class="va">m3</span>, <span class="va">.</span><span class="op">~</span><span class="va">.</span> <span class="op">-</span><span class="va">X4</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/stats/anova.html">anova</a></span><span class="op">(</span><span class="va">m3</span>, <span class="va">m5</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Ok now the p-value is significant</span></span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a><span class="co"># We need to reject the null (simpler model)</span></span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a><span class="co"># We *cannot* reliably remove X2</span></span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Try X4 just in case:</span></span>
+<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-7"><a href="#cb28-7" aria-hidden="true" tabindex="-1"></a>m5 <span class="ot">=</span> <span class="fu">update</span>(m3, .<span class="sc">~</span>. <span class="sc">-</span>X4)</span>
+<span id="cb28-8"><a href="#cb28-8" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(m3, m5)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Analysis of Variance Table
 
@@ -521,12 +553,12 @@ Model 2: y ~ X2
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 </div>
-<div class="sourceCode" id="cb30"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># p-value is significant again</span></span>
-<span><span class="co"># need to reject the null</span></span>
-<span><span class="co"># we cannot drop X4</span></span>
-<span></span>
-<span><span class="co"># Therefore, m3 is most parsimonious</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">m3</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="co"># p-value is significant again</span></span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a><span class="co"># need to reject the null</span></span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a><span class="co"># we cannot drop X4</span></span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Therefore, m3 is most parsimonious</span></span>
+<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(m3)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
 Call:
@@ -550,10 +582,10 @@ F-statistic: 145.6 on 2 and 37 DF,  p-value: &lt; 2.2e-16</code></pre>
 </div>
 </div>
 <p>Therefore, model 3, is the minimum acceptable model: <span class="math display">\[y_i = \beta_0 + \beta_2 x_{2,i} + \beta_4 x_{4,i} + \epsilon_i\]</span></p>
-<p>We could actually come to the same result, using a different, more automated function, <code><a href="https://rdrr.io/r/stats/step.html">step()</a></code>. However, this function uses a different metric to test the null vs.&nbsp;full model hypothesis, the Akaike nformation criterion (AIC). We won’t learn about the AIC in this class, but it is calculated as: <span class="math display">\[\text{AIC} = 2k - 2ln(\text{Model Likelihood})\]</span> And <span class="math inline">\(k\)</span> is the number of estimated parameters in the model. We can then compare the AIC values to decide which models are “best”.</p>
-<p>Let’s use the <code><a href="https://rdrr.io/r/stats/step.html">step()</a></code> function and verify it gives us the same final outcome.</p>
+<p>We could actually come to the same result, using a different, more automated function, <code>step()</code>. However, this function uses a different metric to test the null vs.&nbsp;full model hypothesis, the Akaike nformation criterion (AIC), which is calculated as: <span class="math display">\[\text{AIC} = - 2ln(\text{Model Likelihood}) + 2k\]</span> And <span class="math inline">\(k\)</span> is the number of estimated parameters in the model. We can then compare the AIC values to decide which models are “best”. We will learn more about AIC later.</p>
+<p>Let’s use the <code>step()</code> function and verify it gives us the same final outcome.</p>
 <div class="cell">
-<div class="sourceCode" id="cb32"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">m1_step</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/step.html">step</a></span><span class="op">(</span><span class="va">m1</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>m1_step <span class="ot">=</span> <span class="fu">step</span>(m1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Start:  AIC=57.68
 y ~ 1 + X1 + X2 + X3 + X4
@@ -582,7 +614,7 @@ y ~ X2 + X4
 - X2    1     48.48  183.58  64.951
 - X4    1    923.53 1058.63 135.034</code></pre>
 </div>
-<div class="sourceCode" id="cb34"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">m1_step</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(m1_step)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
 Call:
@@ -606,11 +638,404 @@ F-statistic: 145.6 on 2 and 37 DF,  p-value: &lt; 2.2e-16</code></pre>
 </div>
 </div>
 <p>We can see the selected model only includes <span class="math inline">\(x_2\)</span> and <span class="math inline">\(x_4\)</span>, just like our decision based on the <span class="math inline">\(F\)</span>-test.</p>
+</section>
+<section id="model-averaging" class="level2" data-number="7.4">
+<h2 data-number="7.4" class="anchored" data-anchor-id="model-averaging"><span class="header-section-number">7.4</span> Model averaging</h2>
+<p>Recall from lecture that model averaging represents another philosophical approach to model selection and model comparison. In this case, the idea is that we cannot know with certainty which model of a nested sub-set of models is “true”. Therefore, instead of reporting the slopes and intercepts from the single “best” model that based on parsimony, we should report “averaged” values of slopes and intercepts. These averages will take into account all of the possible nested subset of models in which those slopes and intercepts could have been calculated. This averaging procedure can produce slope and intercept estimates (as well as estimates of their uncertainty) that are less biased, and can perhaps yield better predictions of future data.</p>
+<p>We will use the <code>MuMIn</code> package (Multimodel Inference) to do model averaging later, but first we will do it manually.</p>
+<section id="required-calculations" class="level3" data-number="7.4.1">
+<h3 data-number="7.4.1" class="anchored" data-anchor-id="required-calculations"><span class="header-section-number">7.4.1</span> Required calculations</h3>
+<p>Recall that to come up with averaged estimates of model parameters (e.g., model-averaged slopes) we need to calculate weighted averages. These averages are weighted by how well sub-models explain the data. Following lecture, we will use the corrected <span class="math inline">\(AIC\)</span>, noted as <span class="math inline">\(AIC_c\)</span>, to calculate how well a model explains the data.</p>
+<p><span class="math display">\[\text{AIC}_c = - 2ln(\text{Model Likelihood}) + 2k + \frac{2K(K+1)}{n-K-1}\]</span> where <span class="math inline">\(n\)</span> is the number of data observations. Then, to calculate the weights we need to see how much each sub-model deviates from the best model. For this deviation we calculate, for sub-model <span class="math inline">\(i\)</span>:</p>
+<p><span class="math display">\[\Delta \text{AIC}_{c,i} = \text{AIC}_{c,\text{best}} - \text{AIC}_{c,i}\]</span> The weight of sub-model <span class="math inline">\(i\)</span> is:</p>
+<p><span class="math display">\[w_i = \frac{\text{exp}(-\Delta \text{AIC}_{c,i} / 2)}{\sum_{r=1}^{R} \text{exp}(-\Delta \text{AIC}_{c,r} / 2)} \]</span> And <span class="math inline">\(R\)</span> is the number of submodels being examined.</p>
+<p>We are now ready to calculate the weighted average of any parameter of interest in the full model, <span class="math inline">\(\theta\)</span>:</p>
+<p><span class="math display">\[\hat{\bar{\theta}} = \sum_{r=1}^{R} w_r \hat{\theta}_{r}\]</span> Here, <span class="math inline">\(\hat{\bar{\theta}}\)</span> is the model-averaged estimate of parameter <span class="math inline">\(\theta\)</span>, <span class="math inline">\(w_r\)</span> is the weight of sub-model <span class="math inline">\(r\)</span>, and <span class="math inline">\(\hat{\theta}_r\)</span> is the parameter estimate derived from sub-model <span class="math inline">\(r\)</span>.</p>
+<p>We can also calculate the new averaged uncertainty in the parameter estimate:</p>
+<p><span class="math display">\[\hat{\text{var}}(\hat{\bar{\theta}}) =  \sum_{r=1}^{R} w_r \left( \hat{\text{var}}(\hat{\theta})_r + (\hat{\theta} - \hat{\bar{\theta}})^2 \right) \]</span> Here, <span class="math inline">\(\hat{\text{var}}(\hat{\bar{\theta}})\)</span> is the standard error of the averaged model parameter, whereas <span class="math inline">\(\hat{\text{var}}(\hat{\theta})_r\)</span> is the standard error of model parameter <span class="math inline">\(\theta\)</span> estimated from sub-model <span class="math inline">\(r\)</span>.</p>
+</section>
+<section id="manual-calculation" class="level3" data-number="7.4.2">
+<h3 data-number="7.4.2" class="anchored" data-anchor-id="manual-calculation"><span class="header-section-number">7.4.2</span> Manual calculation</h3>
+<p>Let’s see if we can manually calculate all of this from a less complex example model. Imagine our full model is a model that only has two input variables. We’ll use our simulated data set from above. (Of course, we know this is a poor model, but we’re just doing a case-study here.)</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Full model:</span></span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>full_mod <span class="ot">=</span> <span class="fu">lm</span>(y<span class="sc">~</span><span class="dv">1</span><span class="sc">+</span>X1<span class="sc">+</span>X2, <span class="at">data =</span> my_df)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>If this full model has two inputs, then the number of sub-models is <span class="math inline">\(2^2 = 4\)</span>, which iteratively drop one or both input variables. Now, run each sub-model. I know, this is tedious.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>sub_m2 <span class="ot">=</span> <span class="fu">update</span>(full_mod, .<span class="sc">~</span>. <span class="sc">-</span>X2)</span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>sub_m3 <span class="ot">=</span> <span class="fu">update</span>(full_mod, .<span class="sc">~</span>. <span class="sc">-</span>X1)</span>
+<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a>sub_m4 <span class="ot">=</span> <span class="fu">update</span>(full_mod, .<span class="sc">~</span>. <span class="sc">-</span>X2<span class="sc">-</span>X1) <span class="co"># Intercept only</span></span>
+<span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-5"><a href="#cb37-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Store all models in a list for easy looping later:</span></span>
+<span id="cb37-6"><a href="#cb37-6" aria-hidden="true" tabindex="-1"></a>model_list <span class="ot">=</span> <span class="fu">list</span>(</span>
+<span id="cb37-7"><a href="#cb37-7" aria-hidden="true" tabindex="-1"></a>    full_mod, sub_m2, sub_m3, sub_m4</span>
+<span id="cb37-8"><a href="#cb37-8" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb37-9"><a href="#cb37-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-10"><a href="#cb37-10" aria-hidden="true" tabindex="-1"></a><span class="co"># how many models?</span></span>
+<span id="cb37-11"><a href="#cb37-11" aria-hidden="true" tabindex="-1"></a>n_mod <span class="ot">=</span> <span class="dv">4</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>To get the model-averaged slopes of inputs <span class="math inline">\(x_1\)</span> and <span class="math inline">\(x_2\)</span>, we’ll need to calculate <span class="math inline">\(AIC_c\)</span> values and model weights. We’ll store calculations in arrays as much as possible, so we can loop through.</p>
+<p>Let’s start with <span class="math inline">\(AIC_c\)</span>. Fortunately, there’s a built-in function for this in the <code>MuMIn</code> package, but we’ll do one manually first.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Extract neg-log-likelihood from full model:</span></span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>nll_full <span class="ot">=</span> <span class="sc">-</span><span class="dv">1</span><span class="sc">*</span><span class="fu">logLik</span>(full_mod)</span>
+<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a><span class="co"># This is in a weird format, so we'll convert:</span></span>
+<span id="cb38-4"><a href="#cb38-4" aria-hidden="true" tabindex="-1"></a>nll_full <span class="ot">=</span> <span class="fu">as.numeric</span>(nll_full)</span>
+<span id="cb38-5"><a href="#cb38-5" aria-hidden="true" tabindex="-1"></a>k_full <span class="ot">=</span> <span class="dv">4</span> <span class="co"># two slopes + 1 intercept + residual sigma</span></span>
+<span id="cb38-6"><a href="#cb38-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-7"><a href="#cb38-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate AIC_c</span></span>
+<span id="cb38-8"><a href="#cb38-8" aria-hidden="true" tabindex="-1"></a>aic_c_full <span class="ot">=</span> <span class="dv">2</span><span class="sc">*</span>nll_full <span class="sc">+</span> <span class="dv">2</span><span class="sc">*</span>k_full <span class="sc">+</span> (<span class="dv">2</span><span class="sc">*</span>k_full<span class="sc">*</span>(k_full <span class="sc">+</span> <span class="dv">1</span>))<span class="sc">/</span>(n <span class="sc">-</span> k_full <span class="sc">-</span> <span class="dv">1</span>)</span>
+<span id="cb38-9"><a href="#cb38-9" aria-hidden="true" tabindex="-1"></a>aic_c_full</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 251.5063</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Check with built-in</span></span>
+<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(MuMIn)</span>
+<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a><span class="fu">AICc</span>(full_mod)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 251.5063</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Now calculate all:</span></span>
+<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a>AICc_vec <span class="ot">=</span> <span class="cn">NULL</span></span>
+<span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>n_mod){</span>
+<span id="cb42-4"><a href="#cb42-4" aria-hidden="true" tabindex="-1"></a>    AICc_vec[i] <span class="ot">=</span> <span class="fu">AICc</span>(model_list[[i]])</span>
+<span id="cb42-5"><a href="#cb42-5" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb42-6"><a href="#cb42-6" aria-hidden="true" tabindex="-1"></a>AICc_vec</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 251.5063 252.3124 251.2157 253.8381</code></pre>
+</div>
+</div>
+<p>We can see that the ‘best’ model, according to <span class="math inline">\(AIC_c\)</span> is the <code>sub_m3</code>, which includes the intercept and only input <span class="math inline">\(x_2\)</span>. This makes sense, because we know that the slope of <span class="math inline">\(x_1\)</span> was simulated as zero.</p>
+<p>Let’s now calculate the <span class="math inline">\(\Delta \text{AIC}_c\)</span>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Best AICc</span></span>
+<span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a>AICc_best <span class="ot">=</span> <span class="fu">min</span>(AICc_vec)</span>
+<span id="cb44-3"><a href="#cb44-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-4"><a href="#cb44-4" aria-hidden="true" tabindex="-1"></a><span class="co">#\Delta AIC_c</span></span>
+<span id="cb44-5"><a href="#cb44-5" aria-hidden="true" tabindex="-1"></a>Delta_AICc_vec <span class="ot">=</span> AICc_vec <span class="sc">-</span> AICc_best</span>
+<span id="cb44-6"><a href="#cb44-6" aria-hidden="true" tabindex="-1"></a>Delta_AICc_vec</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.290611 1.096742 0.000000 2.622409</code></pre>
+</div>
+</div>
+<p>Now we can calculate the model weights (i.e., the value representing how “good” each model is, relative to the best model).</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate the denominator of the weight calculation</span></span>
+<span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a>weight_denom <span class="ot">=</span> <span class="dv">0</span></span>
+<span id="cb46-3"><a href="#cb46-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>n_mod){</span>
+<span id="cb46-4"><a href="#cb46-4" aria-hidden="true" tabindex="-1"></a>    weight_denom <span class="ot">=</span> </span>
+<span id="cb46-5"><a href="#cb46-5" aria-hidden="true" tabindex="-1"></a>        weight_denom <span class="sc">+</span></span>
+<span id="cb46-6"><a href="#cb46-6" aria-hidden="true" tabindex="-1"></a>        <span class="fu">exp</span>( <span class="sc">-</span>Delta_AICc_vec[i] <span class="sc">/</span> <span class="dv">2</span> )</span>
+<span id="cb46-7"><a href="#cb46-7" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb46-8"><a href="#cb46-8" aria-hidden="true" tabindex="-1"></a>weight_denom</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 2.712144</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb48"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Now the individual weights:</span></span>
+<span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a>weight <span class="ot">=</span> <span class="cn">NULL</span></span>
+<span id="cb48-3"><a href="#cb48-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>n_mod){</span>
+<span id="cb48-4"><a href="#cb48-4" aria-hidden="true" tabindex="-1"></a>    weight[i] <span class="ot">=</span> </span>
+<span id="cb48-5"><a href="#cb48-5" aria-hidden="true" tabindex="-1"></a>        <span class="fu">exp</span>( <span class="sc">-</span>Delta_AICc_vec[i] <span class="sc">/</span> <span class="dv">2</span>) <span class="sc">/</span> weight_denom</span>
+<span id="cb48-6"><a href="#cb48-6" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb48-7"><a href="#cb48-7" aria-hidden="true" tabindex="-1"></a>weight</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.31884668 0.21307516 0.36871201 0.09936614</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb50"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Sum to 1?</span></span>
+<span id="cb50-2"><a href="#cb50-2" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(weight)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 1</code></pre>
+</div>
+</div>
+<p>We can see the “better” models, based on <span class="math inline">\(AIC_c\)</span> have higher weights, and the <code>weight</code> vector should add to 1.</p>
+<p>Let’s calculate the model-averaged slope estimate for input <span class="math inline">\(x_2\)</span>. To do this, we’ll first need to extract the estimate from each sub-model. This is a little tedious, because we need to know which coefficient refers to <span class="math inline">\(x_2\)</span> in each sub-model object (or if the coefficient is absent and therefore equal to zero).</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb52"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a>coef_x2 <span class="ot">=</span> <span class="cn">NULL</span></span>
+<span id="cb52-2"><a href="#cb52-2" aria-hidden="true" tabindex="-1"></a>coef_x2[<span class="dv">1</span>] <span class="ot">=</span> <span class="fu">coef</span>(model_list[[<span class="dv">1</span>]])[<span class="dv">3</span>]</span>
+<span id="cb52-3"><a href="#cb52-3" aria-hidden="true" tabindex="-1"></a>coef_x2[<span class="dv">2</span>] <span class="ot">=</span> <span class="dv">0</span> <span class="co"># Absent from this sub-model</span></span>
+<span id="cb52-4"><a href="#cb52-4" aria-hidden="true" tabindex="-1"></a>coef_x2[<span class="dv">3</span>] <span class="ot">=</span> <span class="fu">coef</span>(model_list[[<span class="dv">3</span>]])[<span class="dv">2</span>]</span>
+<span id="cb52-5"><a href="#cb52-5" aria-hidden="true" tabindex="-1"></a>coef_x2[<span class="dv">4</span>] <span class="ot">=</span> <span class="dv">0</span> <span class="co"># Absent from this sub-model</span></span>
+<span id="cb52-6"><a href="#cb52-6" aria-hidden="true" tabindex="-1"></a>coef_x2</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.2975017 0.0000000 0.3649074 0.0000000</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb54"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Averaged, based on model weight:</span></span>
+<span id="cb54-2"><a href="#cb54-2" aria-hidden="true" tabindex="-1"></a>avg_coef_x2 <span class="ot">=</span> <span class="dv">0</span></span>
+<span id="cb54-3"><a href="#cb54-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>n_mod){</span>
+<span id="cb54-4"><a href="#cb54-4" aria-hidden="true" tabindex="-1"></a>    avg_coef_x2 <span class="ot">=</span> </span>
+<span id="cb54-5"><a href="#cb54-5" aria-hidden="true" tabindex="-1"></a>        avg_coef_x2 <span class="sc">+</span></span>
+<span id="cb54-6"><a href="#cb54-6" aria-hidden="true" tabindex="-1"></a>        weight[i] <span class="sc">*</span> coef_x2[i]</span>
+<span id="cb54-7"><a href="#cb54-7" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb54-8"><a href="#cb54-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb54-9"><a href="#cb54-9" aria-hidden="true" tabindex="-1"></a>avg_coef_x2</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.2294032</code></pre>
+</div>
+</div>
+<p>We can see the model-averaged slope estimate for input <span class="math inline">\(x_2\)</span> is slightly less than the estimate from the full model.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb56"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(full_mod)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+lm(formula = y ~ 1 + X1 + X2, data = my_df)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-9.9147 -3.6749  0.6359  3.4050 10.5608 
+
+Coefficients:
+            Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept) 12.58750    1.78926   7.035 2.55e-08 ***
+X1           0.14204    0.09854   1.441   0.1579    
+X2           0.29750    0.16725   1.779   0.0835 .  
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 5.205 on 37 degrees of freedom
+Multiple R-squared:  0.1637,    Adjusted R-squared:  0.1185 
+F-statistic: 3.621 on 2 and 37 DF,  p-value: 0.03662</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb58"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a><span class="fu">coef</span>(full_mod)[<span class="dv">3</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>       X2 
+0.2975017 </code></pre>
+</div>
+</div>
+<p>I’ll leave calculating the model-averaged standard error of the slopes as an exercise for you as a student.</p>
+<p>As I mentioned above, fortunately someone created a package to do this model averaging for us and remove a lot of the tedium.</p>
+<p>First, let’s load the <code>MuMIn</code> package and run all sub-models.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb60"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb60-1"><a href="#cb60-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Required for MuMIn::dredge functionality</span></span>
+<span id="cb60-2"><a href="#cb60-2" aria-hidden="true" tabindex="-1"></a><span class="fu">options</span>(<span class="at">na.action =</span> <span class="st">"na.fail"</span>)</span>
+<span id="cb60-3"><a href="#cb60-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb60-4"><a href="#cb60-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Fit all sub-models:</span></span>
+<span id="cb60-5"><a href="#cb60-5" aria-hidden="true" tabindex="-1"></a>dredge_test <span class="ot">=</span> <span class="fu">dredge</span>(full_mod)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Fixed term is "(Intercept)"</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb62"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb62-1"><a href="#cb62-1" aria-hidden="true" tabindex="-1"></a>dredge_test</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Global model call: lm(formula = y ~ 1 + X1 + X2, data = my_df)
+---
+Model selection table 
+  (Intrc)    X1     X2 df   logLik  AICc delta weight
+3   12.71       0.3649  3 -122.275 251.2  0.00  0.369
+4   12.59 0.142 0.2975  4 -121.182 251.5  0.29  0.319
+2   15.26 0.191         3 -122.823 252.3  1.10  0.213
+1   16.31               2 -124.757 253.8  2.62  0.099
+Models ranked by AICc(x) </code></pre>
+</div>
+</div>
+<p>See how this output has run all sub-models, calculated the likelihoods, the <span class="math inline">\(AIC_c\)</span>, the <span class="math inline">\(\Delta AIC_c\)</span>, and the model weights.</p>
+<p>Now, we can average all of the models.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb64"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb64-1"><a href="#cb64-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Average the models:</span></span>
+<span id="cb64-2"><a href="#cb64-2" aria-hidden="true" tabindex="-1"></a>test_average <span class="ot">=</span> <span class="fu">model.avg</span>(dredge_test, <span class="at">fit =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb64-3"><a href="#cb64-3" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(test_average)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+model.avg(object = get.models(object = dredge_test, subset = NA))
+
+Component model call: 
+lm(formula = y ~ &lt;4 unique rhs&gt;, data = my_df)
+
+Component models: 
+       df  logLik   AICc delta weight
+2       3 -122.27 251.22  0.00   0.37
+12      4 -121.18 251.51  0.29   0.32
+1       3 -122.82 252.31  1.10   0.21
+(Null)  2 -124.76 253.84  2.62   0.10
+
+Term codes: 
+X1 X2 
+ 1  2 
+
+Model-averaged coefficients:  
+(full average) 
+            Estimate Std. Error Adjusted SE z value Pr(&gt;|z|)    
+(Intercept)  13.5710     2.1113      2.1512   6.308   &lt;2e-16 ***
+X2            0.2294     0.2083      0.2113   1.086    0.278    
+X1            0.0860     0.1092      0.1108   0.776    0.438    
+ 
+(conditional average) 
+            Estimate Std. Error Adjusted SE z value Pr(&gt;|z|)    
+(Intercept)  13.5710     2.1113      2.1512   6.308   &lt;2e-16 ***
+X2            0.3336     0.1683      0.1737   1.921   0.0547 .  
+X1            0.1617     0.1009      0.1041   1.553   0.1205    
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
+</div>
+</div>
+<p>This <code>summary()</code> statement shows the model-averaged values of slopes of <span class="math inline">\(x_1\)</span> and <span class="math inline">\(x_2\)</span>, and the intercept. We care about the “full average”. You can see the averaged estimate of the slope for <span class="math inline">\(x_2\)</span> matches our manual calculation. For emphasis:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb66"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb66-1"><a href="#cb66-1" aria-hidden="true" tabindex="-1"></a>test_average<span class="sc">$</span>coefficients[<span class="dv">1</span>,<span class="dv">2</span>];</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.2294032</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb68"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb68-1"><a href="#cb68-1" aria-hidden="true" tabindex="-1"></a>avg_coef_x2</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.2294032</code></pre>
+</div>
+</div>
+</section>
+<section id="back-to-more-complex-model" class="level3" data-number="7.4.3">
+<h3 data-number="7.4.3" class="anchored" data-anchor-id="back-to-more-complex-model"><span class="header-section-number">7.4.3</span> Back to more complex model</h3>
+<p>Ok, but our full model had four input variables, which means the number of sub-models is <span class="math inline">\(4^2 = 16\)</span>. Let’s not do that manually, but instead use the <code>MuMIn::model.avg()</code> function.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb70"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb70-1"><a href="#cb70-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Reminder, m1 was our full model:</span></span>
+<span id="cb70-2"><a href="#cb70-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(m1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+lm(formula = y ~ 1 + X1 + X2 + X3 + X4, data = my_df)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-3.3257 -1.4053 -0.4331  1.3299  4.3178 
+
+Coefficients:
+            Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept)  3.41757    1.82632   1.871  0.06968 .  
+X1           0.03245    0.03810   0.852  0.40016    
+X2          -0.26989    0.07297  -3.698  0.00074 ***
+X3          -0.01823    0.03267  -0.558  0.58050    
+X4           1.68543    0.11083  15.207  &lt; 2e-16 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 1.94 on 35 degrees of freedom
+Multiple R-squared:  0.8901,    Adjusted R-squared:  0.8775 
+F-statistic: 70.86 on 4 and 35 DF,  p-value: 2.741e-16</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb72"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb72-1"><a href="#cb72-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Fit all sub-models:</span></span>
+<span id="cb72-2"><a href="#cb72-2" aria-hidden="true" tabindex="-1"></a>dredge_m1 <span class="ot">=</span> <span class="fu">dredge</span>(m1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Fixed term is "(Intercept)"</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb74"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb74-1"><a href="#cb74-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Average the models:</span></span>
+<span id="cb74-2"><a href="#cb74-2" aria-hidden="true" tabindex="-1"></a>m1_average <span class="ot">=</span> <span class="fu">model.avg</span>(dredge_m1, <span class="at">fit =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb74-3"><a href="#cb74-3" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(m1_average)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+model.avg(object = get.models(object = dredge_m1, subset = NA))
+
+Component model call: 
+lm(formula = y ~ &lt;16 unique rhs&gt;, data = my_df)
+
+Component models: 
+       df  logLik   AICc delta weight
+24      4  -81.10 171.34  0.00   0.56
+124     5  -80.77 173.31  1.97   0.21
+234     5  -81.01 173.78  2.43   0.17
+1234    6  -80.60 175.74  4.39   0.06
+4       3  -87.23 181.13  9.79   0.00
+14      4  -87.20 183.55 12.20   0.00
+34      4  -87.23 183.60 12.26   0.00
+134     5  -87.19 186.15 14.81   0.00
+2       3 -122.27 251.22 79.87   0.00
+12      4 -121.18 251.51 80.16   0.00
+1       3 -122.82 252.31 80.97   0.00
+23      4 -122.21 253.55 82.21   0.00
+(Null)  2 -124.76 253.84 82.49   0.00
+123     5 -121.18 254.12 82.78   0.00
+13      4 -122.82 254.78 83.44   0.00
+3       3 -124.73 256.12 84.77   0.00
+
+Term codes: 
+X1 X2 X3 X4 
+ 1  2  3  4 
+
+Model-averaged coefficients:  
+(full average) 
+             Estimate Std. Error Adjusted SE z value Pr(&gt;|z|)    
+(Intercept)  2.642223   1.219137    1.258700   2.099 0.035802 *  
+X2          -0.258803   0.074396    0.076727   3.373 0.000743 ***
+X4           1.693799   0.109648    0.113293  14.951  &lt; 2e-16 ***
+X1           0.007999   0.023509    0.024078   0.332 0.739716    
+X3          -0.003320   0.016617    0.017119   0.194 0.846219    
+ 
+(conditional average) 
+            Estimate Std. Error Adjusted SE z value Pr(&gt;|z|)    
+(Intercept)  2.64222    1.21914     1.25870   2.099 0.035802 *  
+X2          -0.26062    0.07141     0.07385   3.529 0.000417 ***
+X4           1.69380    0.10965     0.11329  14.951  &lt; 2e-16 ***
+X1           0.02940    0.03744     0.03875   0.759 0.448057    
+X3          -0.01452    0.03232     0.03345   0.434 0.664272    
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
+</div>
+</div>
+<p>Notice how we see the model with inputs <span class="math inline">\(x_2\)</span> and <span class="math inline">\(x_4\)</span> is the best, based on <span class="math inline">\(AIC_c\)</span> (note this is the model labeled as <code>24</code> meaning it inclues inputs 2 and 4).</p>
+<p>We can also plot the model parameter estimates with their confidence intervals:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb76"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb76-1"><a href="#cb76-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot the coefficient estimates (from the averaged model)</span></span>
+<span id="cb76-2"><a href="#cb76-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(m1_average)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="model-select_files/figure-html/unnamed-chunk-17-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Finally, we can use the <code>predict()</code> function as we have before to visualize the effect of each input variable on the outcome. Here, we will show the independent, model-averaged effect of <span class="math inline">\(x_2\)</span>, when all other input variables are held at their average values. Then, we’ll do the same for <span class="math inline">\(x_4\)</span>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb77"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb77-1"><a href="#cb77-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Predict from the average model:</span></span>
+<span id="cb77-2"><a href="#cb77-2" aria-hidden="true" tabindex="-1"></a><span class="co"># How does y change as a function of x2, while </span></span>
+<span id="cb77-3"><a href="#cb77-3" aria-hidden="true" tabindex="-1"></a><span class="co"># other inputs held at their average?</span></span>
+<span id="cb77-4"><a href="#cb77-4" aria-hidden="true" tabindex="-1"></a>new_df <span class="ot">=</span> <span class="fu">data.frame</span>(</span>
+<span id="cb77-5"><a href="#cb77-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">X1 =</span> <span class="fu">rep</span>(<span class="fu">mean</span>(my_df<span class="sc">$</span>X1), <span class="dv">100</span>),</span>
+<span id="cb77-6"><a href="#cb77-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">X2 =</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">19</span>, <span class="at">length.out =</span> <span class="dv">100</span>),</span>
+<span id="cb77-7"><a href="#cb77-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">X3 =</span> <span class="fu">rep</span>(<span class="fu">mean</span>(my_df<span class="sc">$</span>X3), <span class="dv">100</span>),</span>
+<span id="cb77-8"><a href="#cb77-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">X4 =</span> <span class="fu">rep</span>(<span class="fu">mean</span>(my_df<span class="sc">$</span>X4), <span class="dv">100</span>)</span>
+<span id="cb77-9"><a href="#cb77-9" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb77-10"><a href="#cb77-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb77-11"><a href="#cb77-11" aria-hidden="true" tabindex="-1"></a>pred_m1_avg_x2 <span class="ot">=</span> </span>
+<span id="cb77-12"><a href="#cb77-12" aria-hidden="true" tabindex="-1"></a>    <span class="fu">predict</span>(m1_average,</span>
+<span id="cb77-13"><a href="#cb77-13" aria-hidden="true" tabindex="-1"></a>            <span class="at">newdata =</span> new_df,</span>
+<span id="cb77-14"><a href="#cb77-14" aria-hidden="true" tabindex="-1"></a>            <span class="at">se.fit =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb77-15"><a href="#cb77-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb77-16"><a href="#cb77-16" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(my_df<span class="sc">$</span>y <span class="sc">~</span> my_df<span class="sc">$</span>X2,</span>
+<span id="cb77-17"><a href="#cb77-17" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">"input x2"</span>, <span class="at">ylab =</span> <span class="st">"y"</span>, <span class="at">pch =</span> <span class="dv">19</span>)</span>
+<span id="cb77-18"><a href="#cb77-18" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(pred_m1_avg_x2<span class="sc">$</span>fit <span class="sc">~</span> new_df<span class="sc">$</span>X2)</span>
+<span id="cb77-19"><a href="#cb77-19" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(pred_m1_avg_x2<span class="sc">$</span>fit<span class="dv">-2</span><span class="sc">*</span>pred_m1_avg_x2<span class="sc">$</span>se.fit <span class="sc">~</span> new_df<span class="sc">$</span>X2, <span class="at">lty =</span> <span class="dv">2</span>)</span>
+<span id="cb77-20"><a href="#cb77-20" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(pred_m1_avg_x2<span class="sc">$</span>fit<span class="sc">+</span><span class="dv">2</span><span class="sc">*</span>pred_m1_avg_x2<span class="sc">$</span>se.fit <span class="sc">~</span> new_df<span class="sc">$</span>X2, <span class="at">lty =</span> <span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="model-select_files/figure-html/unnamed-chunk-18-1.png" class="img-fluid" width="672"></p>
+</div>
+<div class="sourceCode cell-code" id="cb78"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb78-1"><a href="#cb78-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Predict from the average model:</span></span>
+<span id="cb78-2"><a href="#cb78-2" aria-hidden="true" tabindex="-1"></a><span class="co"># How does y change as a function of x4, while </span></span>
+<span id="cb78-3"><a href="#cb78-3" aria-hidden="true" tabindex="-1"></a><span class="co"># other inputs held at their average?</span></span>
+<span id="cb78-4"><a href="#cb78-4" aria-hidden="true" tabindex="-1"></a>new_df <span class="ot">=</span> <span class="fu">data.frame</span>(</span>
+<span id="cb78-5"><a href="#cb78-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">X1 =</span> <span class="fu">rep</span>(<span class="fu">mean</span>(my_df<span class="sc">$</span>X1), <span class="dv">100</span>),</span>
+<span id="cb78-6"><a href="#cb78-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">X2 =</span> <span class="fu">rep</span>(<span class="fu">mean</span>(my_df<span class="sc">$</span>X2), <span class="dv">100</span>),</span>
+<span id="cb78-7"><a href="#cb78-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">X3 =</span> <span class="fu">rep</span>(<span class="fu">mean</span>(my_df<span class="sc">$</span>X3), <span class="dv">100</span>),</span>
+<span id="cb78-8"><a href="#cb78-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">X4 =</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">19</span>, <span class="at">length.out =</span> <span class="dv">100</span>)</span>
+<span id="cb78-9"><a href="#cb78-9" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb78-10"><a href="#cb78-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb78-11"><a href="#cb78-11" aria-hidden="true" tabindex="-1"></a>pred_m1_avg_x4 <span class="ot">=</span> </span>
+<span id="cb78-12"><a href="#cb78-12" aria-hidden="true" tabindex="-1"></a>    <span class="fu">predict</span>(m1_average,</span>
+<span id="cb78-13"><a href="#cb78-13" aria-hidden="true" tabindex="-1"></a>            <span class="at">newdata =</span> new_df,</span>
+<span id="cb78-14"><a href="#cb78-14" aria-hidden="true" tabindex="-1"></a>            <span class="at">se.fit =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb78-15"><a href="#cb78-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb78-16"><a href="#cb78-16" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(my_df<span class="sc">$</span>y <span class="sc">~</span> my_df<span class="sc">$</span>X4,</span>
+<span id="cb78-17"><a href="#cb78-17" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">"input x4"</span>, <span class="at">ylab =</span> <span class="st">"y"</span>, <span class="at">pch =</span> <span class="dv">19</span>)</span>
+<span id="cb78-18"><a href="#cb78-18" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(pred_m1_avg_x4<span class="sc">$</span>fit <span class="sc">~</span> new_df<span class="sc">$</span>X4)</span>
+<span id="cb78-19"><a href="#cb78-19" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(pred_m1_avg_x4<span class="sc">$</span>fit<span class="dv">-2</span><span class="sc">*</span>pred_m1_avg_x4<span class="sc">$</span>se.fit <span class="sc">~</span> new_df<span class="sc">$</span>X4, <span class="at">lty =</span> <span class="dv">2</span>)</span>
+<span id="cb78-20"><a href="#cb78-20" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(pred_m1_avg_x4<span class="sc">$</span>fit<span class="sc">+</span><span class="dv">2</span><span class="sc">*</span>pred_m1_avg_x4<span class="sc">$</span>se.fit <span class="sc">~</span> new_df<span class="sc">$</span>X4, <span class="at">lty =</span> <span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="model-select_files/figure-html/unnamed-chunk-18-2.png" class="img-fluid" width="672"></p>
+</div>
+</div>
 
 
 <!-- -->
 
-</section></main><!-- /main --><script id="quarto-html-after-body" type="application/javascript">
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const toggleBodyColorMode = (bsSheetEl) => {
     const mode = bsSheetEl.getAttribute("data-mode");
@@ -793,7 +1218,9 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }
   }
 });
-</script><nav class="page-navigation"><div class="nav-page nav-page-previous">
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
       <a href="./max-lik.html" class="pagination-link">
         <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Maximum Likelihood</span></span>
       </a>          
@@ -804,172 +1231,419 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       </a>
   </div>
 </nav><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">Source Code</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="">
-<div class="sourceCode" id="cb36" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="fu"># Model selection {#sec-modelselect}</span></span>
-<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a><span class="fu">## Lecture material</span></span>
-<span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb36-5"><a href="#cb36-5" aria-hidden="true" tabindex="-1"></a>Please download and print the lecture materials from <span class="co">[</span><span class="ot">Bblearn</span><span class="co">](https://bblearn.nau.edu/)</span>{target="_blank"}. After lectures, the recordings will appear in the Bblearn Collaborate Ultra section.</span>
-<span id="cb36-6"><a href="#cb36-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb36-7"><a href="#cb36-7" aria-hidden="true" tabindex="-1"></a><span class="fu">## Generate the data {#sec-data}</span></span>
-<span id="cb36-8"><a href="#cb36-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb36-9"><a href="#cb36-9" aria-hidden="true" tabindex="-1"></a>Here we will demonstrate two approaches to model comparison. But first let's generate data, in the same way we did for multiple linear regression in (@sec-ols). Note that in this case, we will specify that two of the input variables have zero slope (i.e., no linear association with the outcome variable).</span>
-<span id="cb36-10"><a href="#cb36-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb36-13"><a href="#cb36-13" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb36-14"><a href="#cb36-14" aria-hidden="true" tabindex="-1"></a>n <span class="ot">=</span> <span class="dv">40</span></span>
-<span id="cb36-15"><a href="#cb36-15" aria-hidden="true" tabindex="-1"></a>n_covariate <span class="ot">=</span> <span class="dv">4</span></span>
-<span id="cb36-16"><a href="#cb36-16" aria-hidden="true" tabindex="-1"></a>p <span class="ot">=</span> n_covariate <span class="sc">+</span> <span class="dv">1</span></span>
-<span id="cb36-17"><a href="#cb36-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb36-18"><a href="#cb36-18" aria-hidden="true" tabindex="-1"></a>betas <span class="ot">=</span> <span class="fu">vector</span>(<span class="st">"numeric"</span>, <span class="at">length =</span> p)</span>
-<span id="cb36-19"><a href="#cb36-19" aria-hidden="true" tabindex="-1"></a>xmat <span class="ot">=</span> <span class="fu">matrix</span>(<span class="dv">0</span>, <span class="at">nrow =</span> n, <span class="at">ncol =</span> p)</span>
-<span id="cb36-20"><a href="#cb36-20" aria-hidden="true" tabindex="-1"></a>sigma <span class="ot">=</span> <span class="fl">2.25</span></span>
-<span id="cb36-21"><a href="#cb36-21" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb36-22"><a href="#cb36-22" aria-hidden="true" tabindex="-1"></a><span class="co"># Column for intercept</span></span>
-<span id="cb36-23"><a href="#cb36-23" aria-hidden="true" tabindex="-1"></a>xmat[,<span class="dv">1</span>] <span class="ot">=</span> <span class="dv">1</span></span>
-<span id="cb36-24"><a href="#cb36-24" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb36-25"><a href="#cb36-25" aria-hidden="true" tabindex="-1"></a><span class="co"># Generate the covariate data randomly:</span></span>
-<span id="cb36-26"><a href="#cb36-26" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">5</span>)</span>
-<span id="cb36-27"><a href="#cb36-27" aria-hidden="true" tabindex="-1"></a>xmat[,<span class="dv">2</span>] <span class="ot">=</span> <span class="fu">rnorm</span>(n, <span class="at">mean =</span> <span class="dv">5</span>, <span class="at">sd =</span> <span class="dv">8</span>)</span>
-<span id="cb36-28"><a href="#cb36-28" aria-hidden="true" tabindex="-1"></a>xmat[,<span class="dv">3</span>] <span class="ot">=</span> <span class="fu">runif</span>(n, <span class="at">min =</span> <span class="dv">0</span>, <span class="at">max =</span> <span class="dv">20</span>)</span>
-<span id="cb36-29"><a href="#cb36-29" aria-hidden="true" tabindex="-1"></a>xmat[,<span class="dv">4</span>] <span class="ot">=</span> <span class="fu">rchisq</span>(n, <span class="at">df =</span> <span class="dv">50</span>)</span>
-<span id="cb36-30"><a href="#cb36-30" aria-hidden="true" tabindex="-1"></a>xmat[,<span class="dv">5</span>] <span class="ot">=</span> <span class="fu">rpois</span>(n, <span class="at">lambda =</span> <span class="dv">10</span>)</span>
-<span id="cb36-31"><a href="#cb36-31" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb36-32"><a href="#cb36-32" aria-hidden="true" tabindex="-1"></a><span class="co"># Set the betas:</span></span>
-<span id="cb36-33"><a href="#cb36-33" aria-hidden="true" tabindex="-1"></a>betas[<span class="dv">1</span>] <span class="ot">=</span> <span class="fl">1.0</span></span>
-<span id="cb36-34"><a href="#cb36-34" aria-hidden="true" tabindex="-1"></a>betas[<span class="dv">2</span>] <span class="ot">=</span> <span class="fl">0.0</span></span>
-<span id="cb36-35"><a href="#cb36-35" aria-hidden="true" tabindex="-1"></a>betas[<span class="dv">3</span>] <span class="ot">=</span> <span class="sc">-</span><span class="fl">0.2</span></span>
-<span id="cb36-36"><a href="#cb36-36" aria-hidden="true" tabindex="-1"></a>betas[<span class="dv">4</span>] <span class="ot">=</span> <span class="fl">0.0</span></span>
-<span id="cb36-37"><a href="#cb36-37" aria-hidden="true" tabindex="-1"></a>betas[<span class="dv">5</span>] <span class="ot">=</span> <span class="fl">1.8</span></span>
-<span id="cb36-38"><a href="#cb36-38" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb36-39"><a href="#cb36-39" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate the observed 'y', adding residual error</span></span>
-<span id="cb36-40"><a href="#cb36-40" aria-hidden="true" tabindex="-1"></a>y <span class="ot">=</span> xmat <span class="sc">%*%</span> betas <span class="sc">+</span> <span class="fu">rnorm</span>(n, <span class="at">mean =</span> <span class="dv">0</span>, <span class="at">sd =</span> sigma)</span>
-<span id="cb36-41"><a href="#cb36-41" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb36-42"><a href="#cb36-42" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow=</span><span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">2</span>))</span>
-<span id="cb36-43"><a href="#cb36-43" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">2</span><span class="sc">:</span>p){</span>
-<span id="cb36-44"><a href="#cb36-44" aria-hidden="true" tabindex="-1"></a>    <span class="fu">plot</span>(y <span class="sc">~</span> xmat[,i],</span>
-<span id="cb36-45"><a href="#cb36-45" aria-hidden="true" tabindex="-1"></a>         <span class="at">xlab =</span> <span class="fu">paste</span>(<span class="st">"covariate "</span>, i<span class="dv">-1</span>))</span>
-<span id="cb36-46"><a href="#cb36-46" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb36-47"><a href="#cb36-47" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb36-48"><a href="#cb36-48" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a data.frame</span></span>
-<span id="cb36-49"><a href="#cb36-49" aria-hidden="true" tabindex="-1"></a>my_df <span class="ot">=</span> <span class="fu">data.frame</span>(y, xmat[,<span class="dv">2</span><span class="sc">:</span><span class="dv">5</span>])</span>
-<span id="cb36-50"><a href="#cb36-50" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(my_df)</span>
-<span id="cb36-51"><a href="#cb36-51" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb36-52"><a href="#cb36-52" aria-hidden="true" tabindex="-1"></a><span class="co"># Run the model, report the summary</span></span>
-<span id="cb36-53"><a href="#cb36-53" aria-hidden="true" tabindex="-1"></a>m1 <span class="ot">=</span> <span class="fu">lm</span>(y <span class="sc">~</span> <span class="dv">1</span> <span class="sc">+</span> X1 <span class="sc">+</span> X2 <span class="sc">+</span> X3 <span class="sc">+</span> X4, <span class="at">data =</span> my_df)</span>
-<span id="cb36-54"><a href="#cb36-54" aria-hidden="true" tabindex="-1"></a>m1_summary <span class="ot">=</span> <span class="fu">summary</span>(m1)</span>
-<span id="cb36-55"><a href="#cb36-55" aria-hidden="true" tabindex="-1"></a>m1_summary</span>
-<span id="cb36-56"><a href="#cb36-56" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb36-57"><a href="#cb36-57" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb36-58"><a href="#cb36-58" aria-hidden="true" tabindex="-1"></a><span class="fu">## Parsimony via model simplification</span></span>
-<span id="cb36-59"><a href="#cb36-59" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb36-60"><a href="#cb36-60" aria-hidden="true" tabindex="-1"></a>We will successively simplify the model until we find a "minimally acceptable" model that explains the most variability in the outcome variable. </span>
-<span id="cb36-61"><a href="#cb36-61" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb36-62"><a href="#cb36-62" aria-hidden="true" tabindex="-1"></a>There are several built-in functions in R that can help us make quantitatively justified decisions about which input variables can be dropped from the full model to determine our minimally acceptable model. First, we can use the $F$-test as described in lecture. This can be implemented by the <span class="in">`anova()`</span> function. </span>
-<span id="cb36-63"><a href="#cb36-63" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb36-64"><a href="#cb36-64" aria-hidden="true" tabindex="-1"></a>Based on the <span class="in">`summary()`</span> output, we see that input variable 3 ($x_3$) has the least significant effect on $y$, so we will drop that first and proceed from there. </span>
-<span id="cb36-65"><a href="#cb36-65" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb36-68"><a href="#cb36-68" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb36-69"><a href="#cb36-69" aria-hidden="true" tabindex="-1"></a><span class="co"># The full model lives in object m1</span></span>
-<span id="cb36-70"><a href="#cb36-70" aria-hidden="true" tabindex="-1"></a><span class="fu">formula</span>(m1)</span>
-<span id="cb36-71"><a href="#cb36-71" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb36-72"><a href="#cb36-72" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a new model with the update() function</span></span>
-<span id="cb36-73"><a href="#cb36-73" aria-hidden="true" tabindex="-1"></a><span class="co"># This function has a strange notation, but so it goes...</span></span>
-<span id="cb36-74"><a href="#cb36-74" aria-hidden="true" tabindex="-1"></a>m2 <span class="ot">=</span> <span class="fu">update</span>(m1, .<span class="sc">~</span>. <span class="sc">-</span>X3)</span>
-<span id="cb36-75"><a href="#cb36-75" aria-hidden="true" tabindex="-1"></a><span class="fu">formula</span>(m2)</span>
-<span id="cb36-76"><a href="#cb36-76" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb36-77"><a href="#cb36-77" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(m2)</span>
-<span id="cb36-78"><a href="#cb36-78" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb36-79"><a href="#cb36-79" aria-hidden="true" tabindex="-1"></a><span class="co"># Use anova() to test if the drop of X3 is justified</span></span>
-<span id="cb36-80"><a href="#cb36-80" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(m2, m1)</span>
-<span id="cb36-81"><a href="#cb36-81" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb36-82"><a href="#cb36-82" aria-hidden="true" tabindex="-1"></a>Remember that the hypothesis tested is:</span>
-<span id="cb36-83"><a href="#cb36-83" aria-hidden="true" tabindex="-1"></a>$$H_0:\text{simple model}$$</span>
-<span id="cb36-84"><a href="#cb36-84" aria-hidden="true" tabindex="-1"></a>$$H_A:\text{complex model}$$</span>
-<span id="cb36-85"><a href="#cb36-85" aria-hidden="true" tabindex="-1"></a>So if the $p \ge 0.05$, as usual, we cannot reject the null hypothesis. In this case, it means that the simple model is just as good as the more complex model. Therefore, we are justified in dropping $x_3$. From the data, we could not detect that $x_3$ has a statistically meaningful linear relationship with the outcome data $y$. </span>
-<span id="cb36-86"><a href="#cb36-86" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb36-87"><a href="#cb36-87" aria-hidden="true" tabindex="-1"></a>Let's manually calculate that $F$ test statistic and associated $p$-value to verify that we understand how the test works. </span>
-<span id="cb36-88"><a href="#cb36-88" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb36-91"><a href="#cb36-91" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb36-92"><a href="#cb36-92" aria-hidden="true" tabindex="-1"></a><span class="co"># Extract the residuals (errors)</span></span>
-<span id="cb36-93"><a href="#cb36-93" aria-hidden="true" tabindex="-1"></a>resid_null <span class="ot">=</span> m2<span class="sc">$</span>residuals</span>
-<span id="cb36-94"><a href="#cb36-94" aria-hidden="true" tabindex="-1"></a>resid_full <span class="ot">=</span> m1<span class="sc">$</span>residuals</span>
-<span id="cb36-95"><a href="#cb36-95" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb36-96"><a href="#cb36-96" aria-hidden="true" tabindex="-1"></a><span class="co"># Sum of Square Errors (SSE)</span></span>
-<span id="cb36-97"><a href="#cb36-97" aria-hidden="true" tabindex="-1"></a>sse_null <span class="ot">=</span> <span class="fu">crossprod</span>(resid_null)</span>
-<span id="cb36-98"><a href="#cb36-98" aria-hidden="true" tabindex="-1"></a>sse_full <span class="ot">=</span> <span class="fu">crossprod</span>(resid_full)</span>
-<span id="cb36-99"><a href="#cb36-99" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb36-100"><a href="#cb36-100" aria-hidden="true" tabindex="-1"></a><span class="co"># degrees of freedom</span></span>
-<span id="cb36-101"><a href="#cb36-101" aria-hidden="true" tabindex="-1"></a>df_null <span class="ot">=</span> n<span class="sc">-</span>(p<span class="dv">-1</span>) <span class="co"># we dropped one input variable</span></span>
-<span id="cb36-102"><a href="#cb36-102" aria-hidden="true" tabindex="-1"></a>df_full <span class="ot">=</span> n<span class="sc">-</span>p</span>
-<span id="cb36-103"><a href="#cb36-103" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb36-104"><a href="#cb36-104" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate F_stat</span></span>
-<span id="cb36-105"><a href="#cb36-105" aria-hidden="true" tabindex="-1"></a>f_test <span class="ot">=</span> ((sse_null <span class="sc">-</span> sse_full)<span class="sc">/</span>(df_null <span class="sc">-</span> df_full)) <span class="sc">/</span> (sse_full<span class="sc">/</span>df_full)</span>
-<span id="cb36-106"><a href="#cb36-106" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb36-107"><a href="#cb36-107" aria-hidden="true" tabindex="-1"></a><span class="co"># Degrees of freedom for the F distribution:</span></span>
-<span id="cb36-108"><a href="#cb36-108" aria-hidden="true" tabindex="-1"></a>df_numerator <span class="ot">=</span> df_null <span class="sc">-</span> df_full</span>
-<span id="cb36-109"><a href="#cb36-109" aria-hidden="true" tabindex="-1"></a>df_denominator <span class="ot">=</span> df_full</span>
-<span id="cb36-110"><a href="#cb36-110" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb36-111"><a href="#cb36-111" aria-hidden="true" tabindex="-1"></a>p_m1vm2 <span class="ot">=</span> <span class="dv">1</span> <span class="sc">-</span> <span class="fu">pf</span>(f_test,</span>
-<span id="cb36-112"><a href="#cb36-112" aria-hidden="true" tabindex="-1"></a>                <span class="at">df1 =</span> df_numerator,</span>
-<span id="cb36-113"><a href="#cb36-113" aria-hidden="true" tabindex="-1"></a>                <span class="at">df2 =</span> df_denominator)</span>
-<span id="cb36-114"><a href="#cb36-114" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb36-115"><a href="#cb36-115" aria-hidden="true" tabindex="-1"></a><span class="co"># Compare to anova()</span></span>
-<span id="cb36-116"><a href="#cb36-116" aria-hidden="true" tabindex="-1"></a>f_test; p_m1vm2</span>
-<span id="cb36-117"><a href="#cb36-117" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb36-118"><a href="#cb36-118" aria-hidden="true" tabindex="-1"></a>anova_m1vm2 <span class="ot">=</span> <span class="fu">anova</span>(m2,m1)</span>
-<span id="cb36-119"><a href="#cb36-119" aria-hidden="true" tabindex="-1"></a>anova_m1vm2<span class="sc">$</span><span class="st">`</span><span class="at">F</span><span class="st">`</span>; anova_m1vm2<span class="sc">$</span><span class="st">`</span><span class="at">Pr(&gt;F)</span><span class="st">`</span></span>
-<span id="cb36-120"><a href="#cb36-120" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb36-121"><a href="#cb36-121" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb36-122"><a href="#cb36-122" aria-hidden="true" tabindex="-1"></a>Let's continue with the simplification process, using the <span class="in">`anova()`</span> function.</span>
-<span id="cb36-123"><a href="#cb36-123" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb36-126"><a href="#cb36-126" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb36-127"><a href="#cb36-127" aria-hidden="true" tabindex="-1"></a><span class="co"># model 2 is the current best.</span></span>
-<span id="cb36-128"><a href="#cb36-128" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(m2)</span>
-<span id="cb36-129"><a href="#cb36-129" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb36-130"><a href="#cb36-130" aria-hidden="true" tabindex="-1"></a><span class="co"># Now, drop x1 and check</span></span>
-<span id="cb36-131"><a href="#cb36-131" aria-hidden="true" tabindex="-1"></a>m3 <span class="ot">=</span> <span class="fu">update</span>(m2, .<span class="sc">~</span>. <span class="sc">-</span>X1)</span>
-<span id="cb36-132"><a href="#cb36-132" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb36-133"><a href="#cb36-133" aria-hidden="true" tabindex="-1"></a><span class="co"># Check:</span></span>
-<span id="cb36-134"><a href="#cb36-134" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(m3, m2)</span>
-<span id="cb36-135"><a href="#cb36-135" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb36-136"><a href="#cb36-136" aria-hidden="true" tabindex="-1"></a><span class="co"># The p-value is not significant, so we</span></span>
-<span id="cb36-137"><a href="#cb36-137" aria-hidden="true" tabindex="-1"></a><span class="co"># can accept the null (simpler model)</span></span>
-<span id="cb36-138"><a href="#cb36-138" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb36-139"><a href="#cb36-139" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(m3)</span>
-<span id="cb36-140"><a href="#cb36-140" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb36-141"><a href="#cb36-141" aria-hidden="true" tabindex="-1"></a><span class="co"># Remove X2 and check</span></span>
-<span id="cb36-142"><a href="#cb36-142" aria-hidden="true" tabindex="-1"></a>m4 <span class="ot">=</span> <span class="fu">update</span>(m3, .<span class="sc">~</span>. <span class="sc">-</span>X2)</span>
-<span id="cb36-143"><a href="#cb36-143" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(m4, m3)</span>
-<span id="cb36-144"><a href="#cb36-144" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb36-145"><a href="#cb36-145" aria-hidden="true" tabindex="-1"></a><span class="co"># Ok now the p-value is significant</span></span>
-<span id="cb36-146"><a href="#cb36-146" aria-hidden="true" tabindex="-1"></a><span class="co"># We need to reject the null (simpler model)</span></span>
-<span id="cb36-147"><a href="#cb36-147" aria-hidden="true" tabindex="-1"></a><span class="co"># We *cannot* reliably remove X2</span></span>
-<span id="cb36-148"><a href="#cb36-148" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb36-149"><a href="#cb36-149" aria-hidden="true" tabindex="-1"></a><span class="co"># Try X4 just in case:</span></span>
-<span id="cb36-150"><a href="#cb36-150" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb36-151"><a href="#cb36-151" aria-hidden="true" tabindex="-1"></a>m5 <span class="ot">=</span> <span class="fu">update</span>(m3, .<span class="sc">~</span>. <span class="sc">-</span>X4)</span>
-<span id="cb36-152"><a href="#cb36-152" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(m3, m5)</span>
-<span id="cb36-153"><a href="#cb36-153" aria-hidden="true" tabindex="-1"></a><span class="co"># p-value is significant again</span></span>
-<span id="cb36-154"><a href="#cb36-154" aria-hidden="true" tabindex="-1"></a><span class="co"># need to reject the null</span></span>
-<span id="cb36-155"><a href="#cb36-155" aria-hidden="true" tabindex="-1"></a><span class="co"># we cannot drop X4</span></span>
-<span id="cb36-156"><a href="#cb36-156" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb36-157"><a href="#cb36-157" aria-hidden="true" tabindex="-1"></a><span class="co"># Therefore, m3 is most parsimonious</span></span>
-<span id="cb36-158"><a href="#cb36-158" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(m3)</span>
-<span id="cb36-159"><a href="#cb36-159" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb36-160"><a href="#cb36-160" aria-hidden="true" tabindex="-1"></a>Therefore, model 3, is the minimum acceptable model:</span>
-<span id="cb36-161"><a href="#cb36-161" aria-hidden="true" tabindex="-1"></a>$$y_i = \beta_0 + \beta_2 x_{2,i} + \beta_4 x_{4,i} + \epsilon_i$$</span>
-<span id="cb36-162"><a href="#cb36-162" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb36-163"><a href="#cb36-163" aria-hidden="true" tabindex="-1"></a>We could actually come to the same result, using a different, more automated function, <span class="in">`step()`</span>. However, this function uses a different metric to test the null vs. full model hypothesis, the Akaike nformation criterion (AIC). We won't learn about the AIC in this class, but it is calculated as:</span>
-<span id="cb36-164"><a href="#cb36-164" aria-hidden="true" tabindex="-1"></a>$$\text{AIC} = 2k - 2ln(\text{Model Likelihood})$$</span>
-<span id="cb36-165"><a href="#cb36-165" aria-hidden="true" tabindex="-1"></a>And $k$ is the number of estimated parameters in the model. We can then compare the AIC values to decide which models are "best". </span>
-<span id="cb36-166"><a href="#cb36-166" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb36-167"><a href="#cb36-167" aria-hidden="true" tabindex="-1"></a>Let's use the <span class="in">`step()`</span> function and verify it gives us the same final outcome.</span>
-<span id="cb36-168"><a href="#cb36-168" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb36-171"><a href="#cb36-171" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb36-172"><a href="#cb36-172" aria-hidden="true" tabindex="-1"></a>m1_step <span class="ot">=</span> <span class="fu">step</span>(m1)</span>
-<span id="cb36-173"><a href="#cb36-173" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(m1_step)</span>
-<span id="cb36-174"><a href="#cb36-174" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb36-175"><a href="#cb36-175" aria-hidden="true" tabindex="-1"></a>We can see the selected model only includes $x_2$ and $x_4$, just like our decision based on the $F$-test. </span>
-<span id="cb36-176"><a href="#cb36-176" aria-hidden="true" tabindex="-1"></a></span>
+<div class="sourceCode" id="cb79" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb79-1"><a href="#cb79-1" aria-hidden="true" tabindex="-1"></a><span class="fu"># Model selection {#sec-modelselect}</span></span>
+<span id="cb79-2"><a href="#cb79-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb79-3"><a href="#cb79-3" aria-hidden="true" tabindex="-1"></a><span class="fu">## Lecture material</span></span>
+<span id="cb79-4"><a href="#cb79-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb79-5"><a href="#cb79-5" aria-hidden="true" tabindex="-1"></a>Please download and print the lecture materials from <span class="co">[</span><span class="ot">Bblearn</span><span class="co">](https://bblearn.nau.edu/)</span>{target="_blank"}. After lectures, the recordings will appear in the Bblearn Collaborate Ultra section.</span>
+<span id="cb79-6"><a href="#cb79-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb79-7"><a href="#cb79-7" aria-hidden="true" tabindex="-1"></a><span class="fu">## Generate the data {#sec-data}</span></span>
+<span id="cb79-8"><a href="#cb79-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb79-9"><a href="#cb79-9" aria-hidden="true" tabindex="-1"></a>Here we will demonstrate two approaches to model comparison. But first let's generate data, in the same way we did for multiple linear regression in (@sec-ols). Note that in this case, we will specify that two of the input variables have zero slope (i.e., no linear association with the outcome variable).</span>
+<span id="cb79-10"><a href="#cb79-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb79-13"><a href="#cb79-13" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb79-14"><a href="#cb79-14" aria-hidden="true" tabindex="-1"></a>n <span class="ot">=</span> <span class="dv">40</span></span>
+<span id="cb79-15"><a href="#cb79-15" aria-hidden="true" tabindex="-1"></a>n_covariate <span class="ot">=</span> <span class="dv">4</span></span>
+<span id="cb79-16"><a href="#cb79-16" aria-hidden="true" tabindex="-1"></a>p <span class="ot">=</span> n_covariate <span class="sc">+</span> <span class="dv">1</span></span>
+<span id="cb79-17"><a href="#cb79-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb79-18"><a href="#cb79-18" aria-hidden="true" tabindex="-1"></a>betas <span class="ot">=</span> <span class="fu">vector</span>(<span class="st">"numeric"</span>, <span class="at">length =</span> p)</span>
+<span id="cb79-19"><a href="#cb79-19" aria-hidden="true" tabindex="-1"></a>xmat <span class="ot">=</span> <span class="fu">matrix</span>(<span class="dv">0</span>, <span class="at">nrow =</span> n, <span class="at">ncol =</span> p)</span>
+<span id="cb79-20"><a href="#cb79-20" aria-hidden="true" tabindex="-1"></a>sigma <span class="ot">=</span> <span class="fl">2.25</span></span>
+<span id="cb79-21"><a href="#cb79-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb79-22"><a href="#cb79-22" aria-hidden="true" tabindex="-1"></a><span class="co"># Column for intercept</span></span>
+<span id="cb79-23"><a href="#cb79-23" aria-hidden="true" tabindex="-1"></a>xmat[,<span class="dv">1</span>] <span class="ot">=</span> <span class="dv">1</span></span>
+<span id="cb79-24"><a href="#cb79-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb79-25"><a href="#cb79-25" aria-hidden="true" tabindex="-1"></a><span class="co"># Generate the covariate data randomly:</span></span>
+<span id="cb79-26"><a href="#cb79-26" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">5</span>)</span>
+<span id="cb79-27"><a href="#cb79-27" aria-hidden="true" tabindex="-1"></a>xmat[,<span class="dv">2</span>] <span class="ot">=</span> <span class="fu">rnorm</span>(n, <span class="at">mean =</span> <span class="dv">5</span>, <span class="at">sd =</span> <span class="dv">8</span>)</span>
+<span id="cb79-28"><a href="#cb79-28" aria-hidden="true" tabindex="-1"></a>xmat[,<span class="dv">3</span>] <span class="ot">=</span> <span class="fu">runif</span>(n, <span class="at">min =</span> <span class="dv">0</span>, <span class="at">max =</span> <span class="dv">20</span>)</span>
+<span id="cb79-29"><a href="#cb79-29" aria-hidden="true" tabindex="-1"></a>xmat[,<span class="dv">4</span>] <span class="ot">=</span> <span class="fu">rchisq</span>(n, <span class="at">df =</span> <span class="dv">50</span>)</span>
+<span id="cb79-30"><a href="#cb79-30" aria-hidden="true" tabindex="-1"></a>xmat[,<span class="dv">5</span>] <span class="ot">=</span> <span class="fu">rpois</span>(n, <span class="at">lambda =</span> <span class="dv">10</span>)</span>
+<span id="cb79-31"><a href="#cb79-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb79-32"><a href="#cb79-32" aria-hidden="true" tabindex="-1"></a><span class="co"># Set the betas:</span></span>
+<span id="cb79-33"><a href="#cb79-33" aria-hidden="true" tabindex="-1"></a>betas[<span class="dv">1</span>] <span class="ot">=</span> <span class="fl">1.0</span></span>
+<span id="cb79-34"><a href="#cb79-34" aria-hidden="true" tabindex="-1"></a>betas[<span class="dv">2</span>] <span class="ot">=</span> <span class="fl">0.0</span></span>
+<span id="cb79-35"><a href="#cb79-35" aria-hidden="true" tabindex="-1"></a>betas[<span class="dv">3</span>] <span class="ot">=</span> <span class="sc">-</span><span class="fl">0.2</span></span>
+<span id="cb79-36"><a href="#cb79-36" aria-hidden="true" tabindex="-1"></a>betas[<span class="dv">4</span>] <span class="ot">=</span> <span class="fl">0.0</span></span>
+<span id="cb79-37"><a href="#cb79-37" aria-hidden="true" tabindex="-1"></a>betas[<span class="dv">5</span>] <span class="ot">=</span> <span class="fl">1.8</span></span>
+<span id="cb79-38"><a href="#cb79-38" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb79-39"><a href="#cb79-39" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate the observed 'y', adding residual error</span></span>
+<span id="cb79-40"><a href="#cb79-40" aria-hidden="true" tabindex="-1"></a>y <span class="ot">=</span> xmat <span class="sc">%*%</span> betas <span class="sc">+</span> <span class="fu">rnorm</span>(n, <span class="at">mean =</span> <span class="dv">0</span>, <span class="at">sd =</span> sigma)</span>
+<span id="cb79-41"><a href="#cb79-41" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb79-42"><a href="#cb79-42" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow=</span><span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">2</span>))</span>
+<span id="cb79-43"><a href="#cb79-43" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">2</span><span class="sc">:</span>p){</span>
+<span id="cb79-44"><a href="#cb79-44" aria-hidden="true" tabindex="-1"></a>    <span class="fu">plot</span>(y <span class="sc">~</span> xmat[,i],</span>
+<span id="cb79-45"><a href="#cb79-45" aria-hidden="true" tabindex="-1"></a>         <span class="at">xlab =</span> <span class="fu">paste</span>(<span class="st">"covariate "</span>, i<span class="dv">-1</span>))</span>
+<span id="cb79-46"><a href="#cb79-46" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb79-47"><a href="#cb79-47" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb79-48"><a href="#cb79-48" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a data.frame</span></span>
+<span id="cb79-49"><a href="#cb79-49" aria-hidden="true" tabindex="-1"></a>my_df <span class="ot">=</span> <span class="fu">data.frame</span>(y, xmat[,<span class="dv">2</span><span class="sc">:</span><span class="dv">5</span>])</span>
+<span id="cb79-50"><a href="#cb79-50" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(my_df)</span>
+<span id="cb79-51"><a href="#cb79-51" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb79-52"><a href="#cb79-52" aria-hidden="true" tabindex="-1"></a><span class="co"># Run the model, report the summary</span></span>
+<span id="cb79-53"><a href="#cb79-53" aria-hidden="true" tabindex="-1"></a>m1 <span class="ot">=</span> <span class="fu">lm</span>(y <span class="sc">~</span> <span class="dv">1</span> <span class="sc">+</span> X1 <span class="sc">+</span> X2 <span class="sc">+</span> X3 <span class="sc">+</span> X4, <span class="at">data =</span> my_df)</span>
+<span id="cb79-54"><a href="#cb79-54" aria-hidden="true" tabindex="-1"></a>m1_summary <span class="ot">=</span> <span class="fu">summary</span>(m1)</span>
+<span id="cb79-55"><a href="#cb79-55" aria-hidden="true" tabindex="-1"></a>m1_summary</span>
+<span id="cb79-56"><a href="#cb79-56" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb79-57"><a href="#cb79-57" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb79-58"><a href="#cb79-58" aria-hidden="true" tabindex="-1"></a><span class="fu">## Parsimony via model simplification</span></span>
+<span id="cb79-59"><a href="#cb79-59" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb79-60"><a href="#cb79-60" aria-hidden="true" tabindex="-1"></a>We will successively simplify the model until we find a "minimally acceptable" model that explains the most variability in the outcome variable. </span>
+<span id="cb79-61"><a href="#cb79-61" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb79-62"><a href="#cb79-62" aria-hidden="true" tabindex="-1"></a>There are several built-in functions in R that can help us make quantitatively justified decisions about which input variables can be dropped from the full model to determine our minimally acceptable model. First, we can use the $F$-test as described in lecture. This can be implemented by the <span class="in">`anova()`</span> function. </span>
+<span id="cb79-63"><a href="#cb79-63" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb79-64"><a href="#cb79-64" aria-hidden="true" tabindex="-1"></a>Based on the <span class="in">`summary()`</span> output, we see that input variable 3 ($x_3$) has the least significant effect on $y$, so we will drop that first and proceed from there. </span>
+<span id="cb79-65"><a href="#cb79-65" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb79-68"><a href="#cb79-68" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb79-69"><a href="#cb79-69" aria-hidden="true" tabindex="-1"></a><span class="co"># The full model lives in object m1</span></span>
+<span id="cb79-70"><a href="#cb79-70" aria-hidden="true" tabindex="-1"></a><span class="fu">formula</span>(m1)</span>
+<span id="cb79-71"><a href="#cb79-71" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb79-72"><a href="#cb79-72" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a new model with the update() function</span></span>
+<span id="cb79-73"><a href="#cb79-73" aria-hidden="true" tabindex="-1"></a><span class="co"># This function has a strange notation, but so it goes...</span></span>
+<span id="cb79-74"><a href="#cb79-74" aria-hidden="true" tabindex="-1"></a>m2 <span class="ot">=</span> <span class="fu">update</span>(m1, .<span class="sc">~</span>. <span class="sc">-</span>X3)</span>
+<span id="cb79-75"><a href="#cb79-75" aria-hidden="true" tabindex="-1"></a><span class="fu">formula</span>(m2)</span>
+<span id="cb79-76"><a href="#cb79-76" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb79-77"><a href="#cb79-77" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(m2)</span>
+<span id="cb79-78"><a href="#cb79-78" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb79-79"><a href="#cb79-79" aria-hidden="true" tabindex="-1"></a><span class="co"># Use anova() to test if the drop of X3 is justified</span></span>
+<span id="cb79-80"><a href="#cb79-80" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(m2, m1)</span>
+<span id="cb79-81"><a href="#cb79-81" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb79-82"><a href="#cb79-82" aria-hidden="true" tabindex="-1"></a>Remember that the hypothesis tested is:</span>
+<span id="cb79-83"><a href="#cb79-83" aria-hidden="true" tabindex="-1"></a>$$H_0:\text{simple model}$$</span>
+<span id="cb79-84"><a href="#cb79-84" aria-hidden="true" tabindex="-1"></a>$$H_A:\text{complex model}$$</span>
+<span id="cb79-85"><a href="#cb79-85" aria-hidden="true" tabindex="-1"></a>So if the $p \ge 0.05$, as usual, we cannot reject the null hypothesis. In this case, it means that the simple model is just as good as the more complex model. Therefore, we are justified in dropping $x_3$. From the data, we could not detect that $x_3$ has a statistically meaningful linear relationship with the outcome data $y$. </span>
+<span id="cb79-86"><a href="#cb79-86" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb79-87"><a href="#cb79-87" aria-hidden="true" tabindex="-1"></a>Let's manually calculate that $F$ test statistic and associated $p$-value to verify that we understand how the test works. </span>
+<span id="cb79-88"><a href="#cb79-88" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb79-91"><a href="#cb79-91" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb79-92"><a href="#cb79-92" aria-hidden="true" tabindex="-1"></a><span class="co"># Extract the residuals (errors)</span></span>
+<span id="cb79-93"><a href="#cb79-93" aria-hidden="true" tabindex="-1"></a>resid_null <span class="ot">=</span> m2<span class="sc">$</span>residuals</span>
+<span id="cb79-94"><a href="#cb79-94" aria-hidden="true" tabindex="-1"></a>resid_full <span class="ot">=</span> m1<span class="sc">$</span>residuals</span>
+<span id="cb79-95"><a href="#cb79-95" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb79-96"><a href="#cb79-96" aria-hidden="true" tabindex="-1"></a><span class="co"># Sum of Square Errors (SSE)</span></span>
+<span id="cb79-97"><a href="#cb79-97" aria-hidden="true" tabindex="-1"></a>sse_null <span class="ot">=</span> <span class="fu">crossprod</span>(resid_null)</span>
+<span id="cb79-98"><a href="#cb79-98" aria-hidden="true" tabindex="-1"></a>sse_full <span class="ot">=</span> <span class="fu">crossprod</span>(resid_full)</span>
+<span id="cb79-99"><a href="#cb79-99" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb79-100"><a href="#cb79-100" aria-hidden="true" tabindex="-1"></a><span class="co"># degrees of freedom</span></span>
+<span id="cb79-101"><a href="#cb79-101" aria-hidden="true" tabindex="-1"></a>df_null <span class="ot">=</span> n<span class="sc">-</span>(p<span class="dv">-1</span>) <span class="co"># we dropped one input variable</span></span>
+<span id="cb79-102"><a href="#cb79-102" aria-hidden="true" tabindex="-1"></a>df_full <span class="ot">=</span> n<span class="sc">-</span>p</span>
+<span id="cb79-103"><a href="#cb79-103" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb79-104"><a href="#cb79-104" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate F_stat</span></span>
+<span id="cb79-105"><a href="#cb79-105" aria-hidden="true" tabindex="-1"></a>f_test <span class="ot">=</span> ((sse_null <span class="sc">-</span> sse_full)<span class="sc">/</span>(df_null <span class="sc">-</span> df_full)) <span class="sc">/</span> (sse_full<span class="sc">/</span>df_full)</span>
+<span id="cb79-106"><a href="#cb79-106" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb79-107"><a href="#cb79-107" aria-hidden="true" tabindex="-1"></a><span class="co"># Degrees of freedom for the F distribution:</span></span>
+<span id="cb79-108"><a href="#cb79-108" aria-hidden="true" tabindex="-1"></a>df_numerator <span class="ot">=</span> df_null <span class="sc">-</span> df_full</span>
+<span id="cb79-109"><a href="#cb79-109" aria-hidden="true" tabindex="-1"></a>df_denominator <span class="ot">=</span> df_full</span>
+<span id="cb79-110"><a href="#cb79-110" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb79-111"><a href="#cb79-111" aria-hidden="true" tabindex="-1"></a>p_m1vm2 <span class="ot">=</span> <span class="dv">1</span> <span class="sc">-</span> <span class="fu">pf</span>(f_test,</span>
+<span id="cb79-112"><a href="#cb79-112" aria-hidden="true" tabindex="-1"></a>                <span class="at">df1 =</span> df_numerator,</span>
+<span id="cb79-113"><a href="#cb79-113" aria-hidden="true" tabindex="-1"></a>                <span class="at">df2 =</span> df_denominator)</span>
+<span id="cb79-114"><a href="#cb79-114" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb79-115"><a href="#cb79-115" aria-hidden="true" tabindex="-1"></a><span class="co"># Compare to anova()</span></span>
+<span id="cb79-116"><a href="#cb79-116" aria-hidden="true" tabindex="-1"></a>f_test; p_m1vm2</span>
+<span id="cb79-117"><a href="#cb79-117" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb79-118"><a href="#cb79-118" aria-hidden="true" tabindex="-1"></a>anova_m1vm2 <span class="ot">=</span> <span class="fu">anova</span>(m2,m1)</span>
+<span id="cb79-119"><a href="#cb79-119" aria-hidden="true" tabindex="-1"></a>anova_m1vm2<span class="sc">$</span><span class="st">`</span><span class="at">F</span><span class="st">`</span>; anova_m1vm2<span class="sc">$</span><span class="st">`</span><span class="at">Pr(&gt;F)</span><span class="st">`</span></span>
+<span id="cb79-120"><a href="#cb79-120" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb79-121"><a href="#cb79-121" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb79-122"><a href="#cb79-122" aria-hidden="true" tabindex="-1"></a>Let's continue with the simplification process, using the <span class="in">`anova()`</span> function.</span>
+<span id="cb79-123"><a href="#cb79-123" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb79-126"><a href="#cb79-126" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb79-127"><a href="#cb79-127" aria-hidden="true" tabindex="-1"></a><span class="co"># model 2 is the current best.</span></span>
+<span id="cb79-128"><a href="#cb79-128" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(m2)</span>
+<span id="cb79-129"><a href="#cb79-129" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb79-130"><a href="#cb79-130" aria-hidden="true" tabindex="-1"></a><span class="co"># Now, drop x1 and check</span></span>
+<span id="cb79-131"><a href="#cb79-131" aria-hidden="true" tabindex="-1"></a>m3 <span class="ot">=</span> <span class="fu">update</span>(m2, .<span class="sc">~</span>. <span class="sc">-</span>X1)</span>
+<span id="cb79-132"><a href="#cb79-132" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb79-133"><a href="#cb79-133" aria-hidden="true" tabindex="-1"></a><span class="co"># Check:</span></span>
+<span id="cb79-134"><a href="#cb79-134" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(m3, m2)</span>
+<span id="cb79-135"><a href="#cb79-135" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb79-136"><a href="#cb79-136" aria-hidden="true" tabindex="-1"></a><span class="co"># The p-value is not significant, so we</span></span>
+<span id="cb79-137"><a href="#cb79-137" aria-hidden="true" tabindex="-1"></a><span class="co"># can accept the null (simpler model)</span></span>
+<span id="cb79-138"><a href="#cb79-138" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb79-139"><a href="#cb79-139" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(m3)</span>
+<span id="cb79-140"><a href="#cb79-140" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb79-141"><a href="#cb79-141" aria-hidden="true" tabindex="-1"></a><span class="co"># Remove X2 and check</span></span>
+<span id="cb79-142"><a href="#cb79-142" aria-hidden="true" tabindex="-1"></a>m4 <span class="ot">=</span> <span class="fu">update</span>(m3, .<span class="sc">~</span>. <span class="sc">-</span>X2)</span>
+<span id="cb79-143"><a href="#cb79-143" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(m4, m3)</span>
+<span id="cb79-144"><a href="#cb79-144" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb79-145"><a href="#cb79-145" aria-hidden="true" tabindex="-1"></a><span class="co"># Ok now the p-value is significant</span></span>
+<span id="cb79-146"><a href="#cb79-146" aria-hidden="true" tabindex="-1"></a><span class="co"># We need to reject the null (simpler model)</span></span>
+<span id="cb79-147"><a href="#cb79-147" aria-hidden="true" tabindex="-1"></a><span class="co"># We *cannot* reliably remove X2</span></span>
+<span id="cb79-148"><a href="#cb79-148" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb79-149"><a href="#cb79-149" aria-hidden="true" tabindex="-1"></a><span class="co"># Try X4 just in case:</span></span>
+<span id="cb79-150"><a href="#cb79-150" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb79-151"><a href="#cb79-151" aria-hidden="true" tabindex="-1"></a>m5 <span class="ot">=</span> <span class="fu">update</span>(m3, .<span class="sc">~</span>. <span class="sc">-</span>X4)</span>
+<span id="cb79-152"><a href="#cb79-152" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(m3, m5)</span>
+<span id="cb79-153"><a href="#cb79-153" aria-hidden="true" tabindex="-1"></a><span class="co"># p-value is significant again</span></span>
+<span id="cb79-154"><a href="#cb79-154" aria-hidden="true" tabindex="-1"></a><span class="co"># need to reject the null</span></span>
+<span id="cb79-155"><a href="#cb79-155" aria-hidden="true" tabindex="-1"></a><span class="co"># we cannot drop X4</span></span>
+<span id="cb79-156"><a href="#cb79-156" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb79-157"><a href="#cb79-157" aria-hidden="true" tabindex="-1"></a><span class="co"># Therefore, m3 is most parsimonious</span></span>
+<span id="cb79-158"><a href="#cb79-158" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(m3)</span>
+<span id="cb79-159"><a href="#cb79-159" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb79-160"><a href="#cb79-160" aria-hidden="true" tabindex="-1"></a>Therefore, model 3, is the minimum acceptable model:</span>
+<span id="cb79-161"><a href="#cb79-161" aria-hidden="true" tabindex="-1"></a>$$y_i = \beta_0 + \beta_2 x_{2,i} + \beta_4 x_{4,i} + \epsilon_i$$</span>
+<span id="cb79-162"><a href="#cb79-162" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb79-163"><a href="#cb79-163" aria-hidden="true" tabindex="-1"></a>We could actually come to the same result, using a different, more automated function, <span class="in">`step()`</span>. However, this function uses a different metric to test the null vs. full model hypothesis, the Akaike nformation criterion (AIC), which is calculated as:</span>
+<span id="cb79-164"><a href="#cb79-164" aria-hidden="true" tabindex="-1"></a>$$\text{AIC} = - 2ln(\text{Model Likelihood}) + 2k$$</span>
+<span id="cb79-165"><a href="#cb79-165" aria-hidden="true" tabindex="-1"></a>And $k$ is the number of estimated parameters in the model. We can then compare the AIC values to decide which models are "best". We will learn more about AIC later.</span>
+<span id="cb79-166"><a href="#cb79-166" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb79-167"><a href="#cb79-167" aria-hidden="true" tabindex="-1"></a>Let's use the <span class="in">`step()`</span> function and verify it gives us the same final outcome.</span>
+<span id="cb79-168"><a href="#cb79-168" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb79-171"><a href="#cb79-171" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb79-172"><a href="#cb79-172" aria-hidden="true" tabindex="-1"></a>m1_step <span class="ot">=</span> <span class="fu">step</span>(m1)</span>
+<span id="cb79-173"><a href="#cb79-173" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(m1_step)</span>
+<span id="cb79-174"><a href="#cb79-174" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb79-175"><a href="#cb79-175" aria-hidden="true" tabindex="-1"></a>We can see the selected model only includes $x_2$ and $x_4$, just like our decision based on the $F$-test. </span>
+<span id="cb79-176"><a href="#cb79-176" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb79-177"><a href="#cb79-177" aria-hidden="true" tabindex="-1"></a><span class="fu">## Model averaging</span></span>
+<span id="cb79-178"><a href="#cb79-178" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb79-179"><a href="#cb79-179" aria-hidden="true" tabindex="-1"></a>Recall from lecture that model averaging represents another philosophical approach to model selection and model comparison. In this case, the idea is that we cannot know with certainty which model of a nested sub-set of models is "true". Therefore, instead of reporting the slopes and intercepts from the single "best" model that based on parsimony, we should report "averaged" values of slopes and intercepts. These averages will take into account all of the possible nested subset of models in which those slopes and intercepts could have been calculated. This averaging procedure can produce slope and intercept estimates (as well as estimates of their uncertainty) that are less biased, and can perhaps yield better predictions of future data. </span>
+<span id="cb79-180"><a href="#cb79-180" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb79-181"><a href="#cb79-181" aria-hidden="true" tabindex="-1"></a>We will use the <span class="in">`MuMIn`</span> package (Multimodel Inference) to do model averaging later, but first we will do it manually. </span>
+<span id="cb79-182"><a href="#cb79-182" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb79-183"><a href="#cb79-183" aria-hidden="true" tabindex="-1"></a><span class="fu">### Required calculations</span></span>
+<span id="cb79-184"><a href="#cb79-184" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb79-185"><a href="#cb79-185" aria-hidden="true" tabindex="-1"></a>Recall that to come up with averaged estimates of model parameters (e.g., model-averaged slopes) we need to calculate weighted averages. These averages are weighted by how well sub-models explain the data. Following lecture, we will use the corrected $AIC$, noted as $AIC_c$, to calculate how well a model explains the data. </span>
+<span id="cb79-186"><a href="#cb79-186" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb79-187"><a href="#cb79-187" aria-hidden="true" tabindex="-1"></a>$$\text{AIC}_c = - 2ln(\text{Model Likelihood}) + 2k + \frac{2K(K+1)}{n-K-1}$$</span>
+<span id="cb79-188"><a href="#cb79-188" aria-hidden="true" tabindex="-1"></a>where $n$ is the number of data observations. Then, to calculate the weights we need to see how much each sub-model deviates from the best model. For this deviation we calculate, for sub-model $i$:</span>
+<span id="cb79-189"><a href="#cb79-189" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb79-190"><a href="#cb79-190" aria-hidden="true" tabindex="-1"></a>$$\Delta \text{AIC}_{c,i} = \text{AIC}_{c,\text{best}} - \text{AIC}_{c,i}$$</span>
+<span id="cb79-191"><a href="#cb79-191" aria-hidden="true" tabindex="-1"></a>The weight of sub-model $i$ is:</span>
+<span id="cb79-192"><a href="#cb79-192" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb79-193"><a href="#cb79-193" aria-hidden="true" tabindex="-1"></a>$$w_i = \frac{\text{exp}(-\Delta \text{AIC}_{c,i} / 2)}{\sum_{r=1}^{R} \text{exp}(-\Delta \text{AIC}_{c,r} / 2)} $$</span>
+<span id="cb79-194"><a href="#cb79-194" aria-hidden="true" tabindex="-1"></a>And $R$ is the number of submodels being examined. </span>
+<span id="cb79-195"><a href="#cb79-195" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb79-196"><a href="#cb79-196" aria-hidden="true" tabindex="-1"></a>We are now ready to calculate the weighted average of any parameter of interest in the full model, $\theta$:</span>
+<span id="cb79-197"><a href="#cb79-197" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb79-198"><a href="#cb79-198" aria-hidden="true" tabindex="-1"></a>$$\hat{\bar{\theta}} = \sum_{r=1}^{R} w_r \hat{\theta}_{r}$$</span>
+<span id="cb79-199"><a href="#cb79-199" aria-hidden="true" tabindex="-1"></a>Here, $\hat{\bar{\theta}}$ is the model-averaged estimate of parameter $\theta$, $w_r$ is the weight of sub-model $r$, and $\hat{\theta}_r$ is the parameter estimate derived from sub-model $r$. </span>
+<span id="cb79-200"><a href="#cb79-200" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb79-201"><a href="#cb79-201" aria-hidden="true" tabindex="-1"></a>We can also calculate the new averaged uncertainty in the parameter estimate:</span>
+<span id="cb79-202"><a href="#cb79-202" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb79-203"><a href="#cb79-203" aria-hidden="true" tabindex="-1"></a>$$\hat{\text{var}}(\hat{\bar{\theta}}) =  \sum_{r=1}^{R} w_r \left( \hat{\text{var}}(\hat{\theta})_r + (\hat{\theta} - \hat{\bar{\theta}})^2 \right) $$</span>
+<span id="cb79-204"><a href="#cb79-204" aria-hidden="true" tabindex="-1"></a>Here, $\hat{\text{var}}(\hat{\bar{\theta}})$ is the standard error of the averaged model parameter, whereas $\hat{\text{var}}(\hat{\theta})_r$ is the standard error of model parameter $\theta$ estimated from sub-model $r$. </span>
+<span id="cb79-205"><a href="#cb79-205" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb79-206"><a href="#cb79-206" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb79-207"><a href="#cb79-207" aria-hidden="true" tabindex="-1"></a><span class="fu">### Manual calculation</span></span>
+<span id="cb79-208"><a href="#cb79-208" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb79-209"><a href="#cb79-209" aria-hidden="true" tabindex="-1"></a>Let's see if we can manually calculate all of this from a less complex example model. Imagine our full model is a model that only has two input variables. We'll use our simulated data set from above. (Of course, we know this is a poor model, but we're just doing a case-study here.)</span>
+<span id="cb79-210"><a href="#cb79-210" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb79-213"><a href="#cb79-213" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb79-214"><a href="#cb79-214" aria-hidden="true" tabindex="-1"></a><span class="co"># Full model:</span></span>
+<span id="cb79-215"><a href="#cb79-215" aria-hidden="true" tabindex="-1"></a>full_mod <span class="ot">=</span> <span class="fu">lm</span>(y<span class="sc">~</span><span class="dv">1</span><span class="sc">+</span>X1<span class="sc">+</span>X2, <span class="at">data =</span> my_df)</span>
+<span id="cb79-216"><a href="#cb79-216" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb79-217"><a href="#cb79-217" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb79-218"><a href="#cb79-218" aria-hidden="true" tabindex="-1"></a>If this full model has two inputs, then the number of sub-models is $2^2 = 4$, which iteratively drop one or both input variables. Now, run each sub-model. I know, this is tedious.</span>
+<span id="cb79-219"><a href="#cb79-219" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb79-222"><a href="#cb79-222" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb79-223"><a href="#cb79-223" aria-hidden="true" tabindex="-1"></a>sub_m2 <span class="ot">=</span> <span class="fu">update</span>(full_mod, .<span class="sc">~</span>. <span class="sc">-</span>X2)</span>
+<span id="cb79-224"><a href="#cb79-224" aria-hidden="true" tabindex="-1"></a>sub_m3 <span class="ot">=</span> <span class="fu">update</span>(full_mod, .<span class="sc">~</span>. <span class="sc">-</span>X1)</span>
+<span id="cb79-225"><a href="#cb79-225" aria-hidden="true" tabindex="-1"></a>sub_m4 <span class="ot">=</span> <span class="fu">update</span>(full_mod, .<span class="sc">~</span>. <span class="sc">-</span>X2<span class="sc">-</span>X1) <span class="co"># Intercept only</span></span>
+<span id="cb79-226"><a href="#cb79-226" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb79-227"><a href="#cb79-227" aria-hidden="true" tabindex="-1"></a><span class="co"># Store all models in a list for easy looping later:</span></span>
+<span id="cb79-228"><a href="#cb79-228" aria-hidden="true" tabindex="-1"></a>model_list <span class="ot">=</span> <span class="fu">list</span>(</span>
+<span id="cb79-229"><a href="#cb79-229" aria-hidden="true" tabindex="-1"></a>    full_mod, sub_m2, sub_m3, sub_m4</span>
+<span id="cb79-230"><a href="#cb79-230" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb79-231"><a href="#cb79-231" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb79-232"><a href="#cb79-232" aria-hidden="true" tabindex="-1"></a><span class="co"># how many models?</span></span>
+<span id="cb79-233"><a href="#cb79-233" aria-hidden="true" tabindex="-1"></a>n_mod <span class="ot">=</span> <span class="dv">4</span></span>
+<span id="cb79-234"><a href="#cb79-234" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb79-235"><a href="#cb79-235" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb79-236"><a href="#cb79-236" aria-hidden="true" tabindex="-1"></a>To get the model-averaged slopes of inputs $x_1$ and $x_2$, we'll need to calculate $AIC_c$ values and model weights. We'll store calculations in arrays as much as possible, so we can loop through. </span>
+<span id="cb79-237"><a href="#cb79-237" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb79-238"><a href="#cb79-238" aria-hidden="true" tabindex="-1"></a>Let's start with $AIC_c$. Fortunately, there's a built-in function for this in the <span class="in">`MuMIn`</span> package, but we'll do one manually first. </span>
+<span id="cb79-239"><a href="#cb79-239" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb79-242"><a href="#cb79-242" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb79-243"><a href="#cb79-243" aria-hidden="true" tabindex="-1"></a><span class="co"># Extract neg-log-likelihood from full model:</span></span>
+<span id="cb79-244"><a href="#cb79-244" aria-hidden="true" tabindex="-1"></a>nll_full <span class="ot">=</span> <span class="sc">-</span><span class="dv">1</span><span class="sc">*</span><span class="fu">logLik</span>(full_mod)</span>
+<span id="cb79-245"><a href="#cb79-245" aria-hidden="true" tabindex="-1"></a><span class="co"># This is in a weird format, so we'll convert:</span></span>
+<span id="cb79-246"><a href="#cb79-246" aria-hidden="true" tabindex="-1"></a>nll_full <span class="ot">=</span> <span class="fu">as.numeric</span>(nll_full)</span>
+<span id="cb79-247"><a href="#cb79-247" aria-hidden="true" tabindex="-1"></a>k_full <span class="ot">=</span> <span class="dv">4</span> <span class="co"># two slopes + 1 intercept + residual sigma</span></span>
+<span id="cb79-248"><a href="#cb79-248" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb79-249"><a href="#cb79-249" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate AIC_c</span></span>
+<span id="cb79-250"><a href="#cb79-250" aria-hidden="true" tabindex="-1"></a>aic_c_full <span class="ot">=</span> <span class="dv">2</span><span class="sc">*</span>nll_full <span class="sc">+</span> <span class="dv">2</span><span class="sc">*</span>k_full <span class="sc">+</span> (<span class="dv">2</span><span class="sc">*</span>k_full<span class="sc">*</span>(k_full <span class="sc">+</span> <span class="dv">1</span>))<span class="sc">/</span>(n <span class="sc">-</span> k_full <span class="sc">-</span> <span class="dv">1</span>)</span>
+<span id="cb79-251"><a href="#cb79-251" aria-hidden="true" tabindex="-1"></a>aic_c_full</span>
+<span id="cb79-252"><a href="#cb79-252" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb79-253"><a href="#cb79-253" aria-hidden="true" tabindex="-1"></a><span class="co"># Check with built-in</span></span>
+<span id="cb79-254"><a href="#cb79-254" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(MuMIn)</span>
+<span id="cb79-255"><a href="#cb79-255" aria-hidden="true" tabindex="-1"></a><span class="fu">AICc</span>(full_mod)</span>
+<span id="cb79-256"><a href="#cb79-256" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb79-257"><a href="#cb79-257" aria-hidden="true" tabindex="-1"></a><span class="co"># Now calculate all:</span></span>
+<span id="cb79-258"><a href="#cb79-258" aria-hidden="true" tabindex="-1"></a>AICc_vec <span class="ot">=</span> <span class="cn">NULL</span></span>
+<span id="cb79-259"><a href="#cb79-259" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>n_mod){</span>
+<span id="cb79-260"><a href="#cb79-260" aria-hidden="true" tabindex="-1"></a>    AICc_vec[i] <span class="ot">=</span> <span class="fu">AICc</span>(model_list[[i]])</span>
+<span id="cb79-261"><a href="#cb79-261" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb79-262"><a href="#cb79-262" aria-hidden="true" tabindex="-1"></a>AICc_vec</span>
+<span id="cb79-263"><a href="#cb79-263" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb79-264"><a href="#cb79-264" aria-hidden="true" tabindex="-1"></a>We can see that the 'best' model, according to $AIC_c$ is the <span class="in">`sub_m3`</span>, which includes the intercept and only input $x_2$. This makes sense, because we know that the slope of $x_1$ was simulated as zero.</span>
+<span id="cb79-265"><a href="#cb79-265" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb79-266"><a href="#cb79-266" aria-hidden="true" tabindex="-1"></a>Let's now calculate the $\Delta \text{AIC}_c$.</span>
+<span id="cb79-267"><a href="#cb79-267" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb79-270"><a href="#cb79-270" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb79-271"><a href="#cb79-271" aria-hidden="true" tabindex="-1"></a><span class="co"># Best AICc</span></span>
+<span id="cb79-272"><a href="#cb79-272" aria-hidden="true" tabindex="-1"></a>AICc_best <span class="ot">=</span> <span class="fu">min</span>(AICc_vec)</span>
+<span id="cb79-273"><a href="#cb79-273" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb79-274"><a href="#cb79-274" aria-hidden="true" tabindex="-1"></a><span class="co">#\Delta AIC_c</span></span>
+<span id="cb79-275"><a href="#cb79-275" aria-hidden="true" tabindex="-1"></a>Delta_AICc_vec <span class="ot">=</span> AICc_vec <span class="sc">-</span> AICc_best</span>
+<span id="cb79-276"><a href="#cb79-276" aria-hidden="true" tabindex="-1"></a>Delta_AICc_vec</span>
+<span id="cb79-277"><a href="#cb79-277" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb79-278"><a href="#cb79-278" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb79-279"><a href="#cb79-279" aria-hidden="true" tabindex="-1"></a>Now we can calculate the model weights (i.e., the value representing how "good" each model is, relative to the best model).</span>
+<span id="cb79-280"><a href="#cb79-280" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb79-283"><a href="#cb79-283" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb79-284"><a href="#cb79-284" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate the denominator of the weight calculation</span></span>
+<span id="cb79-285"><a href="#cb79-285" aria-hidden="true" tabindex="-1"></a>weight_denom <span class="ot">=</span> <span class="dv">0</span></span>
+<span id="cb79-286"><a href="#cb79-286" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>n_mod){</span>
+<span id="cb79-287"><a href="#cb79-287" aria-hidden="true" tabindex="-1"></a>    weight_denom <span class="ot">=</span> </span>
+<span id="cb79-288"><a href="#cb79-288" aria-hidden="true" tabindex="-1"></a>        weight_denom <span class="sc">+</span></span>
+<span id="cb79-289"><a href="#cb79-289" aria-hidden="true" tabindex="-1"></a>        <span class="fu">exp</span>( <span class="sc">-</span>Delta_AICc_vec[i] <span class="sc">/</span> <span class="dv">2</span> )</span>
+<span id="cb79-290"><a href="#cb79-290" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb79-291"><a href="#cb79-291" aria-hidden="true" tabindex="-1"></a>weight_denom</span>
+<span id="cb79-292"><a href="#cb79-292" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb79-293"><a href="#cb79-293" aria-hidden="true" tabindex="-1"></a><span class="co"># Now the individual weights:</span></span>
+<span id="cb79-294"><a href="#cb79-294" aria-hidden="true" tabindex="-1"></a>weight <span class="ot">=</span> <span class="cn">NULL</span></span>
+<span id="cb79-295"><a href="#cb79-295" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>n_mod){</span>
+<span id="cb79-296"><a href="#cb79-296" aria-hidden="true" tabindex="-1"></a>    weight[i] <span class="ot">=</span> </span>
+<span id="cb79-297"><a href="#cb79-297" aria-hidden="true" tabindex="-1"></a>        <span class="fu">exp</span>( <span class="sc">-</span>Delta_AICc_vec[i] <span class="sc">/</span> <span class="dv">2</span>) <span class="sc">/</span> weight_denom</span>
+<span id="cb79-298"><a href="#cb79-298" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb79-299"><a href="#cb79-299" aria-hidden="true" tabindex="-1"></a>weight</span>
+<span id="cb79-300"><a href="#cb79-300" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb79-301"><a href="#cb79-301" aria-hidden="true" tabindex="-1"></a><span class="co"># Sum to 1?</span></span>
+<span id="cb79-302"><a href="#cb79-302" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(weight)</span>
+<span id="cb79-303"><a href="#cb79-303" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb79-304"><a href="#cb79-304" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb79-305"><a href="#cb79-305" aria-hidden="true" tabindex="-1"></a>We can see the "better" models, based on $AIC_c$ have higher weights, and the <span class="in">`weight`</span> vector should add to 1. </span>
+<span id="cb79-306"><a href="#cb79-306" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb79-307"><a href="#cb79-307" aria-hidden="true" tabindex="-1"></a>Let's calculate the model-averaged slope estimate for input $x_2$. To do this, we'll first need to extract the estimate from each sub-model. This is a little tedious, because we need to know which coefficient refers to $x_2$ in each sub-model object (or if the coefficient is absent and therefore equal to zero).</span>
+<span id="cb79-308"><a href="#cb79-308" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb79-311"><a href="#cb79-311" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb79-312"><a href="#cb79-312" aria-hidden="true" tabindex="-1"></a>coef_x2 <span class="ot">=</span> <span class="cn">NULL</span></span>
+<span id="cb79-313"><a href="#cb79-313" aria-hidden="true" tabindex="-1"></a>coef_x2[<span class="dv">1</span>] <span class="ot">=</span> <span class="fu">coef</span>(model_list[[<span class="dv">1</span>]])[<span class="dv">3</span>]</span>
+<span id="cb79-314"><a href="#cb79-314" aria-hidden="true" tabindex="-1"></a>coef_x2[<span class="dv">2</span>] <span class="ot">=</span> <span class="dv">0</span> <span class="co"># Absent from this sub-model</span></span>
+<span id="cb79-315"><a href="#cb79-315" aria-hidden="true" tabindex="-1"></a>coef_x2[<span class="dv">3</span>] <span class="ot">=</span> <span class="fu">coef</span>(model_list[[<span class="dv">3</span>]])[<span class="dv">2</span>]</span>
+<span id="cb79-316"><a href="#cb79-316" aria-hidden="true" tabindex="-1"></a>coef_x2[<span class="dv">4</span>] <span class="ot">=</span> <span class="dv">0</span> <span class="co"># Absent from this sub-model</span></span>
+<span id="cb79-317"><a href="#cb79-317" aria-hidden="true" tabindex="-1"></a>coef_x2</span>
+<span id="cb79-318"><a href="#cb79-318" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb79-319"><a href="#cb79-319" aria-hidden="true" tabindex="-1"></a><span class="co"># Averaged, based on model weight:</span></span>
+<span id="cb79-320"><a href="#cb79-320" aria-hidden="true" tabindex="-1"></a>avg_coef_x2 <span class="ot">=</span> <span class="dv">0</span></span>
+<span id="cb79-321"><a href="#cb79-321" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>n_mod){</span>
+<span id="cb79-322"><a href="#cb79-322" aria-hidden="true" tabindex="-1"></a>    avg_coef_x2 <span class="ot">=</span> </span>
+<span id="cb79-323"><a href="#cb79-323" aria-hidden="true" tabindex="-1"></a>        avg_coef_x2 <span class="sc">+</span></span>
+<span id="cb79-324"><a href="#cb79-324" aria-hidden="true" tabindex="-1"></a>        weight[i] <span class="sc">*</span> coef_x2[i]</span>
+<span id="cb79-325"><a href="#cb79-325" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb79-326"><a href="#cb79-326" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb79-327"><a href="#cb79-327" aria-hidden="true" tabindex="-1"></a>avg_coef_x2</span>
+<span id="cb79-328"><a href="#cb79-328" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb79-329"><a href="#cb79-329" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb79-330"><a href="#cb79-330" aria-hidden="true" tabindex="-1"></a>We can see the model-averaged slope estimate for input $x_2$ is slightly less than the estimate from the full model.</span>
+<span id="cb79-331"><a href="#cb79-331" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb79-334"><a href="#cb79-334" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb79-335"><a href="#cb79-335" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(full_mod)</span>
+<span id="cb79-336"><a href="#cb79-336" aria-hidden="true" tabindex="-1"></a><span class="fu">coef</span>(full_mod)[<span class="dv">3</span>]</span>
+<span id="cb79-337"><a href="#cb79-337" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb79-338"><a href="#cb79-338" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb79-339"><a href="#cb79-339" aria-hidden="true" tabindex="-1"></a>I'll leave calculating the model-averaged standard error of the slopes as an exercise for you as a student. </span>
+<span id="cb79-340"><a href="#cb79-340" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb79-341"><a href="#cb79-341" aria-hidden="true" tabindex="-1"></a>As I mentioned above, fortunately someone created a package to do this model averaging for us and remove a lot of the tedium. </span>
+<span id="cb79-342"><a href="#cb79-342" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb79-343"><a href="#cb79-343" aria-hidden="true" tabindex="-1"></a>First, let's load the <span class="in">`MuMIn`</span> package and run all sub-models.</span>
+<span id="cb79-346"><a href="#cb79-346" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb79-347"><a href="#cb79-347" aria-hidden="true" tabindex="-1"></a><span class="co"># Required for MuMIn::dredge functionality</span></span>
+<span id="cb79-348"><a href="#cb79-348" aria-hidden="true" tabindex="-1"></a><span class="fu">options</span>(<span class="at">na.action =</span> <span class="st">"na.fail"</span>)</span>
+<span id="cb79-349"><a href="#cb79-349" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb79-350"><a href="#cb79-350" aria-hidden="true" tabindex="-1"></a><span class="co"># Fit all sub-models:</span></span>
+<span id="cb79-351"><a href="#cb79-351" aria-hidden="true" tabindex="-1"></a>dredge_test <span class="ot">=</span> <span class="fu">dredge</span>(full_mod)</span>
+<span id="cb79-352"><a href="#cb79-352" aria-hidden="true" tabindex="-1"></a>dredge_test</span>
+<span id="cb79-353"><a href="#cb79-353" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb79-354"><a href="#cb79-354" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb79-355"><a href="#cb79-355" aria-hidden="true" tabindex="-1"></a>See how this output has run all sub-models, calculated the likelihoods, the $AIC_c$, the $\Delta AIC_c$, and the model weights. </span>
+<span id="cb79-356"><a href="#cb79-356" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb79-357"><a href="#cb79-357" aria-hidden="true" tabindex="-1"></a>Now, we can average all of the models. </span>
+<span id="cb79-360"><a href="#cb79-360" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb79-361"><a href="#cb79-361" aria-hidden="true" tabindex="-1"></a><span class="co"># Average the models:</span></span>
+<span id="cb79-362"><a href="#cb79-362" aria-hidden="true" tabindex="-1"></a>test_average <span class="ot">=</span> <span class="fu">model.avg</span>(dredge_test, <span class="at">fit =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb79-363"><a href="#cb79-363" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(test_average)</span>
+<span id="cb79-364"><a href="#cb79-364" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb79-365"><a href="#cb79-365" aria-hidden="true" tabindex="-1"></a>This <span class="in">`summary()`</span> statement shows the model-averaged values of slopes of $x_1$ and $x_2$, and the intercept. We care about the "full average". You can see the averaged estimate of the slope for $x_2$ matches our manual calculation. For emphasis:</span>
+<span id="cb79-366"><a href="#cb79-366" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb79-369"><a href="#cb79-369" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb79-370"><a href="#cb79-370" aria-hidden="true" tabindex="-1"></a>test_average<span class="sc">$</span>coefficients[<span class="dv">1</span>,<span class="dv">2</span>];</span>
+<span id="cb79-371"><a href="#cb79-371" aria-hidden="true" tabindex="-1"></a>avg_coef_x2</span>
+<span id="cb79-372"><a href="#cb79-372" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb79-373"><a href="#cb79-373" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb79-374"><a href="#cb79-374" aria-hidden="true" tabindex="-1"></a><span class="fu">### Back to more complex model</span></span>
+<span id="cb79-375"><a href="#cb79-375" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb79-376"><a href="#cb79-376" aria-hidden="true" tabindex="-1"></a>Ok, but our full model had four input variables, which means the number of sub-models is $4^2 = 16$. Let's not do that manually, but instead use the <span class="in">`MuMIn::model.avg()`</span> function. </span>
+<span id="cb79-377"><a href="#cb79-377" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb79-380"><a href="#cb79-380" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb79-381"><a href="#cb79-381" aria-hidden="true" tabindex="-1"></a><span class="co"># Reminder, m1 was our full model:</span></span>
+<span id="cb79-382"><a href="#cb79-382" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(m1)</span>
+<span id="cb79-383"><a href="#cb79-383" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb79-384"><a href="#cb79-384" aria-hidden="true" tabindex="-1"></a><span class="co"># Fit all sub-models:</span></span>
+<span id="cb79-385"><a href="#cb79-385" aria-hidden="true" tabindex="-1"></a>dredge_m1 <span class="ot">=</span> <span class="fu">dredge</span>(m1)</span>
+<span id="cb79-386"><a href="#cb79-386" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb79-387"><a href="#cb79-387" aria-hidden="true" tabindex="-1"></a><span class="co"># Average the models:</span></span>
+<span id="cb79-388"><a href="#cb79-388" aria-hidden="true" tabindex="-1"></a>m1_average <span class="ot">=</span> <span class="fu">model.avg</span>(dredge_m1, <span class="at">fit =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb79-389"><a href="#cb79-389" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(m1_average)</span>
+<span id="cb79-390"><a href="#cb79-390" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb79-391"><a href="#cb79-391" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb79-392"><a href="#cb79-392" aria-hidden="true" tabindex="-1"></a>Notice how we see the model with inputs $x_2$ and $x_4$ is the best, based on $AIC_c$ (note this is the model labeled as <span class="in">`24`</span> meaning it inclues inputs 2 and 4).</span>
+<span id="cb79-393"><a href="#cb79-393" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb79-394"><a href="#cb79-394" aria-hidden="true" tabindex="-1"></a>We can also plot the model parameter estimates with their confidence intervals:</span>
+<span id="cb79-397"><a href="#cb79-397" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb79-398"><a href="#cb79-398" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot the coefficient estimates (from the averaged model)</span></span>
+<span id="cb79-399"><a href="#cb79-399" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(m1_average)</span>
+<span id="cb79-400"><a href="#cb79-400" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb79-401"><a href="#cb79-401" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb79-402"><a href="#cb79-402" aria-hidden="true" tabindex="-1"></a>Finally, we can use the <span class="in">`predict()`</span> function as we have before to visualize the effect of each input variable on the outcome. Here, we will show the independent, model-averaged effect of $x_2$, when all other input variables are held at their average values. Then, we'll do the same for $x_4$.</span>
+<span id="cb79-403"><a href="#cb79-403" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb79-406"><a href="#cb79-406" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb79-407"><a href="#cb79-407" aria-hidden="true" tabindex="-1"></a><span class="co"># Predict from the average model:</span></span>
+<span id="cb79-408"><a href="#cb79-408" aria-hidden="true" tabindex="-1"></a><span class="co"># How does y change as a function of x2, while </span></span>
+<span id="cb79-409"><a href="#cb79-409" aria-hidden="true" tabindex="-1"></a><span class="co"># other inputs held at their average?</span></span>
+<span id="cb79-410"><a href="#cb79-410" aria-hidden="true" tabindex="-1"></a>new_df <span class="ot">=</span> <span class="fu">data.frame</span>(</span>
+<span id="cb79-411"><a href="#cb79-411" aria-hidden="true" tabindex="-1"></a>    <span class="at">X1 =</span> <span class="fu">rep</span>(<span class="fu">mean</span>(my_df<span class="sc">$</span>X1), <span class="dv">100</span>),</span>
+<span id="cb79-412"><a href="#cb79-412" aria-hidden="true" tabindex="-1"></a>    <span class="at">X2 =</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">19</span>, <span class="at">length.out =</span> <span class="dv">100</span>),</span>
+<span id="cb79-413"><a href="#cb79-413" aria-hidden="true" tabindex="-1"></a>    <span class="at">X3 =</span> <span class="fu">rep</span>(<span class="fu">mean</span>(my_df<span class="sc">$</span>X3), <span class="dv">100</span>),</span>
+<span id="cb79-414"><a href="#cb79-414" aria-hidden="true" tabindex="-1"></a>    <span class="at">X4 =</span> <span class="fu">rep</span>(<span class="fu">mean</span>(my_df<span class="sc">$</span>X4), <span class="dv">100</span>)</span>
+<span id="cb79-415"><a href="#cb79-415" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb79-416"><a href="#cb79-416" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb79-417"><a href="#cb79-417" aria-hidden="true" tabindex="-1"></a>pred_m1_avg_x2 <span class="ot">=</span> </span>
+<span id="cb79-418"><a href="#cb79-418" aria-hidden="true" tabindex="-1"></a>    <span class="fu">predict</span>(m1_average,</span>
+<span id="cb79-419"><a href="#cb79-419" aria-hidden="true" tabindex="-1"></a>            <span class="at">newdata =</span> new_df,</span>
+<span id="cb79-420"><a href="#cb79-420" aria-hidden="true" tabindex="-1"></a>            <span class="at">se.fit =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb79-421"><a href="#cb79-421" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb79-422"><a href="#cb79-422" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(my_df<span class="sc">$</span>y <span class="sc">~</span> my_df<span class="sc">$</span>X2,</span>
+<span id="cb79-423"><a href="#cb79-423" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">"input x2"</span>, <span class="at">ylab =</span> <span class="st">"y"</span>, <span class="at">pch =</span> <span class="dv">19</span>)</span>
+<span id="cb79-424"><a href="#cb79-424" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(pred_m1_avg_x2<span class="sc">$</span>fit <span class="sc">~</span> new_df<span class="sc">$</span>X2)</span>
+<span id="cb79-425"><a href="#cb79-425" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(pred_m1_avg_x2<span class="sc">$</span>fit<span class="dv">-2</span><span class="sc">*</span>pred_m1_avg_x2<span class="sc">$</span>se.fit <span class="sc">~</span> new_df<span class="sc">$</span>X2, <span class="at">lty =</span> <span class="dv">2</span>)</span>
+<span id="cb79-426"><a href="#cb79-426" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(pred_m1_avg_x2<span class="sc">$</span>fit<span class="sc">+</span><span class="dv">2</span><span class="sc">*</span>pred_m1_avg_x2<span class="sc">$</span>se.fit <span class="sc">~</span> new_df<span class="sc">$</span>X2, <span class="at">lty =</span> <span class="dv">2</span>)</span>
+<span id="cb79-427"><a href="#cb79-427" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb79-428"><a href="#cb79-428" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb79-429"><a href="#cb79-429" aria-hidden="true" tabindex="-1"></a><span class="co"># Predict from the average model:</span></span>
+<span id="cb79-430"><a href="#cb79-430" aria-hidden="true" tabindex="-1"></a><span class="co"># How does y change as a function of x4, while </span></span>
+<span id="cb79-431"><a href="#cb79-431" aria-hidden="true" tabindex="-1"></a><span class="co"># other inputs held at their average?</span></span>
+<span id="cb79-432"><a href="#cb79-432" aria-hidden="true" tabindex="-1"></a>new_df <span class="ot">=</span> <span class="fu">data.frame</span>(</span>
+<span id="cb79-433"><a href="#cb79-433" aria-hidden="true" tabindex="-1"></a>    <span class="at">X1 =</span> <span class="fu">rep</span>(<span class="fu">mean</span>(my_df<span class="sc">$</span>X1), <span class="dv">100</span>),</span>
+<span id="cb79-434"><a href="#cb79-434" aria-hidden="true" tabindex="-1"></a>    <span class="at">X2 =</span> <span class="fu">rep</span>(<span class="fu">mean</span>(my_df<span class="sc">$</span>X2), <span class="dv">100</span>),</span>
+<span id="cb79-435"><a href="#cb79-435" aria-hidden="true" tabindex="-1"></a>    <span class="at">X3 =</span> <span class="fu">rep</span>(<span class="fu">mean</span>(my_df<span class="sc">$</span>X3), <span class="dv">100</span>),</span>
+<span id="cb79-436"><a href="#cb79-436" aria-hidden="true" tabindex="-1"></a>    <span class="at">X4 =</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">19</span>, <span class="at">length.out =</span> <span class="dv">100</span>)</span>
+<span id="cb79-437"><a href="#cb79-437" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb79-438"><a href="#cb79-438" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb79-439"><a href="#cb79-439" aria-hidden="true" tabindex="-1"></a>pred_m1_avg_x4 <span class="ot">=</span> </span>
+<span id="cb79-440"><a href="#cb79-440" aria-hidden="true" tabindex="-1"></a>    <span class="fu">predict</span>(m1_average,</span>
+<span id="cb79-441"><a href="#cb79-441" aria-hidden="true" tabindex="-1"></a>            <span class="at">newdata =</span> new_df,</span>
+<span id="cb79-442"><a href="#cb79-442" aria-hidden="true" tabindex="-1"></a>            <span class="at">se.fit =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb79-443"><a href="#cb79-443" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb79-444"><a href="#cb79-444" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(my_df<span class="sc">$</span>y <span class="sc">~</span> my_df<span class="sc">$</span>X4,</span>
+<span id="cb79-445"><a href="#cb79-445" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">"input x4"</span>, <span class="at">ylab =</span> <span class="st">"y"</span>, <span class="at">pch =</span> <span class="dv">19</span>)</span>
+<span id="cb79-446"><a href="#cb79-446" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(pred_m1_avg_x4<span class="sc">$</span>fit <span class="sc">~</span> new_df<span class="sc">$</span>X4)</span>
+<span id="cb79-447"><a href="#cb79-447" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(pred_m1_avg_x4<span class="sc">$</span>fit<span class="dv">-2</span><span class="sc">*</span>pred_m1_avg_x4<span class="sc">$</span>se.fit <span class="sc">~</span> new_df<span class="sc">$</span>X4, <span class="at">lty =</span> <span class="dv">2</span>)</span>
+<span id="cb79-448"><a href="#cb79-448" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(pred_m1_avg_x4<span class="sc">$</span>fit<span class="sc">+</span><span class="dv">2</span><span class="sc">*</span>pred_m1_avg_x4<span class="sc">$</span>se.fit <span class="sc">~</span> new_df<span class="sc">$</span>X4, <span class="at">lty =</span> <span class="dv">2</span>)</span>
+<span id="cb79-449"><a href="#cb79-449" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 </code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div></div></div></div></div>
 </div> <!-- /content -->
