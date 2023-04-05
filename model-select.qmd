@@ -412,3 +412,18 @@ lines(pred_m1_avg_x4$fit-2*pred_m1_avg_x4$se.fit ~ new_df$X4, lty = 2)
 lines(pred_m1_avg_x4$fit+2*pred_m1_avg_x4$se.fit ~ new_df$X4, lty = 2)
 ```
 
+Another, perhaps simpler way to vizualize how well a model matches the data is to plot the model predictions of the data versus the observed data. We can even compare this to the non-averaged model.
+
+```{r}
+raw_predict_avg = predict(m1_average)
+raw_predict_nonavg = predict(m1)
+
+plot(my_df$y ~ raw_predict_avg,
+     xlab = "Model Prediction", ylab = "Data, y", pch = 19, col = "red")
+points(my_df$y ~ raw_predict_nonavg, pch = 19, col = "black")
+# 1-to-1 line
+abline(a = 0, b = 1)
+```
+
+It is hard to see, and likely not significant in this case, but the red points (model-averaged) tend to be closer to the 1:1 line, meaning the averaged model makes slightly better predictions of the observed data. 
+

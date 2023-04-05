@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.2.335">
+<meta name="generator" content="quarto-1.2.269">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -1027,6 +1027,21 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 <p><img src="model-select_files/figure-html/unnamed-chunk-18-2.png" class="img-fluid" width="672"></p>
 </div>
 </div>
+<p>Another, perhaps simpler way to vizualize how well a model matches the data is to plot the model predictions of the data versus the observed data. We can even compare this to the non-averaged model.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb79"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb79-1"><a href="#cb79-1" aria-hidden="true" tabindex="-1"></a>raw_predict_avg <span class="ot">=</span> <span class="fu">predict</span>(m1_average)</span>
+<span id="cb79-2"><a href="#cb79-2" aria-hidden="true" tabindex="-1"></a>raw_predict_nonavg <span class="ot">=</span> <span class="fu">predict</span>(m1)</span>
+<span id="cb79-3"><a href="#cb79-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb79-4"><a href="#cb79-4" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(my_df<span class="sc">$</span>y <span class="sc">~</span> raw_predict_avg,</span>
+<span id="cb79-5"><a href="#cb79-5" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">"Model Prediction"</span>, <span class="at">ylab =</span> <span class="st">"Data, y"</span>, <span class="at">pch =</span> <span class="dv">19</span>, <span class="at">col =</span> <span class="st">"red"</span>)</span>
+<span id="cb79-6"><a href="#cb79-6" aria-hidden="true" tabindex="-1"></a><span class="fu">points</span>(my_df<span class="sc">$</span>y <span class="sc">~</span> raw_predict_nonavg, <span class="at">pch =</span> <span class="dv">19</span>, <span class="at">col =</span> <span class="st">"black"</span>)</span>
+<span id="cb79-7"><a href="#cb79-7" aria-hidden="true" tabindex="-1"></a><span class="co"># 1-to-1 line</span></span>
+<span id="cb79-8"><a href="#cb79-8" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">a =</span> <span class="dv">0</span>, <span class="at">b =</span> <span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="model-select_files/figure-html/unnamed-chunk-19-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>It is hard to see, and likely not significant in this case, but the red points (model-averaged) tend to be closer to the 1:1 line, meaning the averaged model makes slightly better predictions of the observed data.</p>
 
 
 <!-- -->
@@ -1231,419 +1246,434 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       </a>
   </div>
 </nav><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">Source Code</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="">
-<div class="sourceCode" id="cb79" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb79-1"><a href="#cb79-1" aria-hidden="true" tabindex="-1"></a><span class="fu"># Model selection {#sec-modelselect}</span></span>
-<span id="cb79-2"><a href="#cb79-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb79-3"><a href="#cb79-3" aria-hidden="true" tabindex="-1"></a><span class="fu">## Lecture material</span></span>
-<span id="cb79-4"><a href="#cb79-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb79-5"><a href="#cb79-5" aria-hidden="true" tabindex="-1"></a>Please download and print the lecture materials from <span class="co">[</span><span class="ot">Bblearn</span><span class="co">](https://bblearn.nau.edu/)</span>{target="_blank"}. After lectures, the recordings will appear in the Bblearn Collaborate Ultra section.</span>
-<span id="cb79-6"><a href="#cb79-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb79-7"><a href="#cb79-7" aria-hidden="true" tabindex="-1"></a><span class="fu">## Generate the data {#sec-data}</span></span>
-<span id="cb79-8"><a href="#cb79-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb79-9"><a href="#cb79-9" aria-hidden="true" tabindex="-1"></a>Here we will demonstrate two approaches to model comparison. But first let's generate data, in the same way we did for multiple linear regression in (@sec-ols). Note that in this case, we will specify that two of the input variables have zero slope (i.e., no linear association with the outcome variable).</span>
-<span id="cb79-10"><a href="#cb79-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb79-13"><a href="#cb79-13" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb79-14"><a href="#cb79-14" aria-hidden="true" tabindex="-1"></a>n <span class="ot">=</span> <span class="dv">40</span></span>
-<span id="cb79-15"><a href="#cb79-15" aria-hidden="true" tabindex="-1"></a>n_covariate <span class="ot">=</span> <span class="dv">4</span></span>
-<span id="cb79-16"><a href="#cb79-16" aria-hidden="true" tabindex="-1"></a>p <span class="ot">=</span> n_covariate <span class="sc">+</span> <span class="dv">1</span></span>
-<span id="cb79-17"><a href="#cb79-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb79-18"><a href="#cb79-18" aria-hidden="true" tabindex="-1"></a>betas <span class="ot">=</span> <span class="fu">vector</span>(<span class="st">"numeric"</span>, <span class="at">length =</span> p)</span>
-<span id="cb79-19"><a href="#cb79-19" aria-hidden="true" tabindex="-1"></a>xmat <span class="ot">=</span> <span class="fu">matrix</span>(<span class="dv">0</span>, <span class="at">nrow =</span> n, <span class="at">ncol =</span> p)</span>
-<span id="cb79-20"><a href="#cb79-20" aria-hidden="true" tabindex="-1"></a>sigma <span class="ot">=</span> <span class="fl">2.25</span></span>
-<span id="cb79-21"><a href="#cb79-21" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb79-22"><a href="#cb79-22" aria-hidden="true" tabindex="-1"></a><span class="co"># Column for intercept</span></span>
-<span id="cb79-23"><a href="#cb79-23" aria-hidden="true" tabindex="-1"></a>xmat[,<span class="dv">1</span>] <span class="ot">=</span> <span class="dv">1</span></span>
-<span id="cb79-24"><a href="#cb79-24" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb79-25"><a href="#cb79-25" aria-hidden="true" tabindex="-1"></a><span class="co"># Generate the covariate data randomly:</span></span>
-<span id="cb79-26"><a href="#cb79-26" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">5</span>)</span>
-<span id="cb79-27"><a href="#cb79-27" aria-hidden="true" tabindex="-1"></a>xmat[,<span class="dv">2</span>] <span class="ot">=</span> <span class="fu">rnorm</span>(n, <span class="at">mean =</span> <span class="dv">5</span>, <span class="at">sd =</span> <span class="dv">8</span>)</span>
-<span id="cb79-28"><a href="#cb79-28" aria-hidden="true" tabindex="-1"></a>xmat[,<span class="dv">3</span>] <span class="ot">=</span> <span class="fu">runif</span>(n, <span class="at">min =</span> <span class="dv">0</span>, <span class="at">max =</span> <span class="dv">20</span>)</span>
-<span id="cb79-29"><a href="#cb79-29" aria-hidden="true" tabindex="-1"></a>xmat[,<span class="dv">4</span>] <span class="ot">=</span> <span class="fu">rchisq</span>(n, <span class="at">df =</span> <span class="dv">50</span>)</span>
-<span id="cb79-30"><a href="#cb79-30" aria-hidden="true" tabindex="-1"></a>xmat[,<span class="dv">5</span>] <span class="ot">=</span> <span class="fu">rpois</span>(n, <span class="at">lambda =</span> <span class="dv">10</span>)</span>
-<span id="cb79-31"><a href="#cb79-31" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb79-32"><a href="#cb79-32" aria-hidden="true" tabindex="-1"></a><span class="co"># Set the betas:</span></span>
-<span id="cb79-33"><a href="#cb79-33" aria-hidden="true" tabindex="-1"></a>betas[<span class="dv">1</span>] <span class="ot">=</span> <span class="fl">1.0</span></span>
-<span id="cb79-34"><a href="#cb79-34" aria-hidden="true" tabindex="-1"></a>betas[<span class="dv">2</span>] <span class="ot">=</span> <span class="fl">0.0</span></span>
-<span id="cb79-35"><a href="#cb79-35" aria-hidden="true" tabindex="-1"></a>betas[<span class="dv">3</span>] <span class="ot">=</span> <span class="sc">-</span><span class="fl">0.2</span></span>
-<span id="cb79-36"><a href="#cb79-36" aria-hidden="true" tabindex="-1"></a>betas[<span class="dv">4</span>] <span class="ot">=</span> <span class="fl">0.0</span></span>
-<span id="cb79-37"><a href="#cb79-37" aria-hidden="true" tabindex="-1"></a>betas[<span class="dv">5</span>] <span class="ot">=</span> <span class="fl">1.8</span></span>
-<span id="cb79-38"><a href="#cb79-38" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb79-39"><a href="#cb79-39" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate the observed 'y', adding residual error</span></span>
-<span id="cb79-40"><a href="#cb79-40" aria-hidden="true" tabindex="-1"></a>y <span class="ot">=</span> xmat <span class="sc">%*%</span> betas <span class="sc">+</span> <span class="fu">rnorm</span>(n, <span class="at">mean =</span> <span class="dv">0</span>, <span class="at">sd =</span> sigma)</span>
-<span id="cb79-41"><a href="#cb79-41" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb79-42"><a href="#cb79-42" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow=</span><span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">2</span>))</span>
-<span id="cb79-43"><a href="#cb79-43" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">2</span><span class="sc">:</span>p){</span>
-<span id="cb79-44"><a href="#cb79-44" aria-hidden="true" tabindex="-1"></a>    <span class="fu">plot</span>(y <span class="sc">~</span> xmat[,i],</span>
-<span id="cb79-45"><a href="#cb79-45" aria-hidden="true" tabindex="-1"></a>         <span class="at">xlab =</span> <span class="fu">paste</span>(<span class="st">"covariate "</span>, i<span class="dv">-1</span>))</span>
-<span id="cb79-46"><a href="#cb79-46" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb79-47"><a href="#cb79-47" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb79-48"><a href="#cb79-48" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a data.frame</span></span>
-<span id="cb79-49"><a href="#cb79-49" aria-hidden="true" tabindex="-1"></a>my_df <span class="ot">=</span> <span class="fu">data.frame</span>(y, xmat[,<span class="dv">2</span><span class="sc">:</span><span class="dv">5</span>])</span>
-<span id="cb79-50"><a href="#cb79-50" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(my_df)</span>
-<span id="cb79-51"><a href="#cb79-51" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb79-52"><a href="#cb79-52" aria-hidden="true" tabindex="-1"></a><span class="co"># Run the model, report the summary</span></span>
-<span id="cb79-53"><a href="#cb79-53" aria-hidden="true" tabindex="-1"></a>m1 <span class="ot">=</span> <span class="fu">lm</span>(y <span class="sc">~</span> <span class="dv">1</span> <span class="sc">+</span> X1 <span class="sc">+</span> X2 <span class="sc">+</span> X3 <span class="sc">+</span> X4, <span class="at">data =</span> my_df)</span>
-<span id="cb79-54"><a href="#cb79-54" aria-hidden="true" tabindex="-1"></a>m1_summary <span class="ot">=</span> <span class="fu">summary</span>(m1)</span>
-<span id="cb79-55"><a href="#cb79-55" aria-hidden="true" tabindex="-1"></a>m1_summary</span>
-<span id="cb79-56"><a href="#cb79-56" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb79-57"><a href="#cb79-57" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb79-58"><a href="#cb79-58" aria-hidden="true" tabindex="-1"></a><span class="fu">## Parsimony via model simplification</span></span>
-<span id="cb79-59"><a href="#cb79-59" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb79-60"><a href="#cb79-60" aria-hidden="true" tabindex="-1"></a>We will successively simplify the model until we find a "minimally acceptable" model that explains the most variability in the outcome variable. </span>
-<span id="cb79-61"><a href="#cb79-61" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb79-62"><a href="#cb79-62" aria-hidden="true" tabindex="-1"></a>There are several built-in functions in R that can help us make quantitatively justified decisions about which input variables can be dropped from the full model to determine our minimally acceptable model. First, we can use the $F$-test as described in lecture. This can be implemented by the <span class="in">`anova()`</span> function. </span>
-<span id="cb79-63"><a href="#cb79-63" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb79-64"><a href="#cb79-64" aria-hidden="true" tabindex="-1"></a>Based on the <span class="in">`summary()`</span> output, we see that input variable 3 ($x_3$) has the least significant effect on $y$, so we will drop that first and proceed from there. </span>
-<span id="cb79-65"><a href="#cb79-65" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb79-68"><a href="#cb79-68" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb79-69"><a href="#cb79-69" aria-hidden="true" tabindex="-1"></a><span class="co"># The full model lives in object m1</span></span>
-<span id="cb79-70"><a href="#cb79-70" aria-hidden="true" tabindex="-1"></a><span class="fu">formula</span>(m1)</span>
-<span id="cb79-71"><a href="#cb79-71" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb79-72"><a href="#cb79-72" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a new model with the update() function</span></span>
-<span id="cb79-73"><a href="#cb79-73" aria-hidden="true" tabindex="-1"></a><span class="co"># This function has a strange notation, but so it goes...</span></span>
-<span id="cb79-74"><a href="#cb79-74" aria-hidden="true" tabindex="-1"></a>m2 <span class="ot">=</span> <span class="fu">update</span>(m1, .<span class="sc">~</span>. <span class="sc">-</span>X3)</span>
-<span id="cb79-75"><a href="#cb79-75" aria-hidden="true" tabindex="-1"></a><span class="fu">formula</span>(m2)</span>
-<span id="cb79-76"><a href="#cb79-76" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb79-77"><a href="#cb79-77" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(m2)</span>
-<span id="cb79-78"><a href="#cb79-78" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb79-79"><a href="#cb79-79" aria-hidden="true" tabindex="-1"></a><span class="co"># Use anova() to test if the drop of X3 is justified</span></span>
-<span id="cb79-80"><a href="#cb79-80" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(m2, m1)</span>
-<span id="cb79-81"><a href="#cb79-81" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb79-82"><a href="#cb79-82" aria-hidden="true" tabindex="-1"></a>Remember that the hypothesis tested is:</span>
-<span id="cb79-83"><a href="#cb79-83" aria-hidden="true" tabindex="-1"></a>$$H_0:\text{simple model}$$</span>
-<span id="cb79-84"><a href="#cb79-84" aria-hidden="true" tabindex="-1"></a>$$H_A:\text{complex model}$$</span>
-<span id="cb79-85"><a href="#cb79-85" aria-hidden="true" tabindex="-1"></a>So if the $p \ge 0.05$, as usual, we cannot reject the null hypothesis. In this case, it means that the simple model is just as good as the more complex model. Therefore, we are justified in dropping $x_3$. From the data, we could not detect that $x_3$ has a statistically meaningful linear relationship with the outcome data $y$. </span>
-<span id="cb79-86"><a href="#cb79-86" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb79-87"><a href="#cb79-87" aria-hidden="true" tabindex="-1"></a>Let's manually calculate that $F$ test statistic and associated $p$-value to verify that we understand how the test works. </span>
-<span id="cb79-88"><a href="#cb79-88" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb79-91"><a href="#cb79-91" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb79-92"><a href="#cb79-92" aria-hidden="true" tabindex="-1"></a><span class="co"># Extract the residuals (errors)</span></span>
-<span id="cb79-93"><a href="#cb79-93" aria-hidden="true" tabindex="-1"></a>resid_null <span class="ot">=</span> m2<span class="sc">$</span>residuals</span>
-<span id="cb79-94"><a href="#cb79-94" aria-hidden="true" tabindex="-1"></a>resid_full <span class="ot">=</span> m1<span class="sc">$</span>residuals</span>
-<span id="cb79-95"><a href="#cb79-95" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb79-96"><a href="#cb79-96" aria-hidden="true" tabindex="-1"></a><span class="co"># Sum of Square Errors (SSE)</span></span>
-<span id="cb79-97"><a href="#cb79-97" aria-hidden="true" tabindex="-1"></a>sse_null <span class="ot">=</span> <span class="fu">crossprod</span>(resid_null)</span>
-<span id="cb79-98"><a href="#cb79-98" aria-hidden="true" tabindex="-1"></a>sse_full <span class="ot">=</span> <span class="fu">crossprod</span>(resid_full)</span>
-<span id="cb79-99"><a href="#cb79-99" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb79-100"><a href="#cb79-100" aria-hidden="true" tabindex="-1"></a><span class="co"># degrees of freedom</span></span>
-<span id="cb79-101"><a href="#cb79-101" aria-hidden="true" tabindex="-1"></a>df_null <span class="ot">=</span> n<span class="sc">-</span>(p<span class="dv">-1</span>) <span class="co"># we dropped one input variable</span></span>
-<span id="cb79-102"><a href="#cb79-102" aria-hidden="true" tabindex="-1"></a>df_full <span class="ot">=</span> n<span class="sc">-</span>p</span>
-<span id="cb79-103"><a href="#cb79-103" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb79-104"><a href="#cb79-104" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate F_stat</span></span>
-<span id="cb79-105"><a href="#cb79-105" aria-hidden="true" tabindex="-1"></a>f_test <span class="ot">=</span> ((sse_null <span class="sc">-</span> sse_full)<span class="sc">/</span>(df_null <span class="sc">-</span> df_full)) <span class="sc">/</span> (sse_full<span class="sc">/</span>df_full)</span>
-<span id="cb79-106"><a href="#cb79-106" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb79-107"><a href="#cb79-107" aria-hidden="true" tabindex="-1"></a><span class="co"># Degrees of freedom for the F distribution:</span></span>
-<span id="cb79-108"><a href="#cb79-108" aria-hidden="true" tabindex="-1"></a>df_numerator <span class="ot">=</span> df_null <span class="sc">-</span> df_full</span>
-<span id="cb79-109"><a href="#cb79-109" aria-hidden="true" tabindex="-1"></a>df_denominator <span class="ot">=</span> df_full</span>
-<span id="cb79-110"><a href="#cb79-110" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb79-111"><a href="#cb79-111" aria-hidden="true" tabindex="-1"></a>p_m1vm2 <span class="ot">=</span> <span class="dv">1</span> <span class="sc">-</span> <span class="fu">pf</span>(f_test,</span>
-<span id="cb79-112"><a href="#cb79-112" aria-hidden="true" tabindex="-1"></a>                <span class="at">df1 =</span> df_numerator,</span>
-<span id="cb79-113"><a href="#cb79-113" aria-hidden="true" tabindex="-1"></a>                <span class="at">df2 =</span> df_denominator)</span>
-<span id="cb79-114"><a href="#cb79-114" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb79-115"><a href="#cb79-115" aria-hidden="true" tabindex="-1"></a><span class="co"># Compare to anova()</span></span>
-<span id="cb79-116"><a href="#cb79-116" aria-hidden="true" tabindex="-1"></a>f_test; p_m1vm2</span>
-<span id="cb79-117"><a href="#cb79-117" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb79-118"><a href="#cb79-118" aria-hidden="true" tabindex="-1"></a>anova_m1vm2 <span class="ot">=</span> <span class="fu">anova</span>(m2,m1)</span>
-<span id="cb79-119"><a href="#cb79-119" aria-hidden="true" tabindex="-1"></a>anova_m1vm2<span class="sc">$</span><span class="st">`</span><span class="at">F</span><span class="st">`</span>; anova_m1vm2<span class="sc">$</span><span class="st">`</span><span class="at">Pr(&gt;F)</span><span class="st">`</span></span>
-<span id="cb79-120"><a href="#cb79-120" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb79-121"><a href="#cb79-121" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb79-122"><a href="#cb79-122" aria-hidden="true" tabindex="-1"></a>Let's continue with the simplification process, using the <span class="in">`anova()`</span> function.</span>
-<span id="cb79-123"><a href="#cb79-123" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb79-126"><a href="#cb79-126" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb79-127"><a href="#cb79-127" aria-hidden="true" tabindex="-1"></a><span class="co"># model 2 is the current best.</span></span>
-<span id="cb79-128"><a href="#cb79-128" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(m2)</span>
-<span id="cb79-129"><a href="#cb79-129" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb79-130"><a href="#cb79-130" aria-hidden="true" tabindex="-1"></a><span class="co"># Now, drop x1 and check</span></span>
-<span id="cb79-131"><a href="#cb79-131" aria-hidden="true" tabindex="-1"></a>m3 <span class="ot">=</span> <span class="fu">update</span>(m2, .<span class="sc">~</span>. <span class="sc">-</span>X1)</span>
-<span id="cb79-132"><a href="#cb79-132" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb79-133"><a href="#cb79-133" aria-hidden="true" tabindex="-1"></a><span class="co"># Check:</span></span>
-<span id="cb79-134"><a href="#cb79-134" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(m3, m2)</span>
-<span id="cb79-135"><a href="#cb79-135" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb79-136"><a href="#cb79-136" aria-hidden="true" tabindex="-1"></a><span class="co"># The p-value is not significant, so we</span></span>
-<span id="cb79-137"><a href="#cb79-137" aria-hidden="true" tabindex="-1"></a><span class="co"># can accept the null (simpler model)</span></span>
-<span id="cb79-138"><a href="#cb79-138" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb79-139"><a href="#cb79-139" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(m3)</span>
-<span id="cb79-140"><a href="#cb79-140" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb79-141"><a href="#cb79-141" aria-hidden="true" tabindex="-1"></a><span class="co"># Remove X2 and check</span></span>
-<span id="cb79-142"><a href="#cb79-142" aria-hidden="true" tabindex="-1"></a>m4 <span class="ot">=</span> <span class="fu">update</span>(m3, .<span class="sc">~</span>. <span class="sc">-</span>X2)</span>
-<span id="cb79-143"><a href="#cb79-143" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(m4, m3)</span>
-<span id="cb79-144"><a href="#cb79-144" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb79-145"><a href="#cb79-145" aria-hidden="true" tabindex="-1"></a><span class="co"># Ok now the p-value is significant</span></span>
-<span id="cb79-146"><a href="#cb79-146" aria-hidden="true" tabindex="-1"></a><span class="co"># We need to reject the null (simpler model)</span></span>
-<span id="cb79-147"><a href="#cb79-147" aria-hidden="true" tabindex="-1"></a><span class="co"># We *cannot* reliably remove X2</span></span>
-<span id="cb79-148"><a href="#cb79-148" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb79-149"><a href="#cb79-149" aria-hidden="true" tabindex="-1"></a><span class="co"># Try X4 just in case:</span></span>
-<span id="cb79-150"><a href="#cb79-150" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb79-151"><a href="#cb79-151" aria-hidden="true" tabindex="-1"></a>m5 <span class="ot">=</span> <span class="fu">update</span>(m3, .<span class="sc">~</span>. <span class="sc">-</span>X4)</span>
-<span id="cb79-152"><a href="#cb79-152" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(m3, m5)</span>
-<span id="cb79-153"><a href="#cb79-153" aria-hidden="true" tabindex="-1"></a><span class="co"># p-value is significant again</span></span>
-<span id="cb79-154"><a href="#cb79-154" aria-hidden="true" tabindex="-1"></a><span class="co"># need to reject the null</span></span>
-<span id="cb79-155"><a href="#cb79-155" aria-hidden="true" tabindex="-1"></a><span class="co"># we cannot drop X4</span></span>
-<span id="cb79-156"><a href="#cb79-156" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb79-157"><a href="#cb79-157" aria-hidden="true" tabindex="-1"></a><span class="co"># Therefore, m3 is most parsimonious</span></span>
-<span id="cb79-158"><a href="#cb79-158" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(m3)</span>
-<span id="cb79-159"><a href="#cb79-159" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb79-160"><a href="#cb79-160" aria-hidden="true" tabindex="-1"></a>Therefore, model 3, is the minimum acceptable model:</span>
-<span id="cb79-161"><a href="#cb79-161" aria-hidden="true" tabindex="-1"></a>$$y_i = \beta_0 + \beta_2 x_{2,i} + \beta_4 x_{4,i} + \epsilon_i$$</span>
-<span id="cb79-162"><a href="#cb79-162" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb79-163"><a href="#cb79-163" aria-hidden="true" tabindex="-1"></a>We could actually come to the same result, using a different, more automated function, <span class="in">`step()`</span>. However, this function uses a different metric to test the null vs. full model hypothesis, the Akaike nformation criterion (AIC), which is calculated as:</span>
-<span id="cb79-164"><a href="#cb79-164" aria-hidden="true" tabindex="-1"></a>$$\text{AIC} = - 2ln(\text{Model Likelihood}) + 2k$$</span>
-<span id="cb79-165"><a href="#cb79-165" aria-hidden="true" tabindex="-1"></a>And $k$ is the number of estimated parameters in the model. We can then compare the AIC values to decide which models are "best". We will learn more about AIC later.</span>
-<span id="cb79-166"><a href="#cb79-166" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb79-167"><a href="#cb79-167" aria-hidden="true" tabindex="-1"></a>Let's use the <span class="in">`step()`</span> function and verify it gives us the same final outcome.</span>
-<span id="cb79-168"><a href="#cb79-168" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb79-171"><a href="#cb79-171" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb79-172"><a href="#cb79-172" aria-hidden="true" tabindex="-1"></a>m1_step <span class="ot">=</span> <span class="fu">step</span>(m1)</span>
-<span id="cb79-173"><a href="#cb79-173" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(m1_step)</span>
-<span id="cb79-174"><a href="#cb79-174" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb79-175"><a href="#cb79-175" aria-hidden="true" tabindex="-1"></a>We can see the selected model only includes $x_2$ and $x_4$, just like our decision based on the $F$-test. </span>
-<span id="cb79-176"><a href="#cb79-176" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb79-177"><a href="#cb79-177" aria-hidden="true" tabindex="-1"></a><span class="fu">## Model averaging</span></span>
-<span id="cb79-178"><a href="#cb79-178" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb79-179"><a href="#cb79-179" aria-hidden="true" tabindex="-1"></a>Recall from lecture that model averaging represents another philosophical approach to model selection and model comparison. In this case, the idea is that we cannot know with certainty which model of a nested sub-set of models is "true". Therefore, instead of reporting the slopes and intercepts from the single "best" model that based on parsimony, we should report "averaged" values of slopes and intercepts. These averages will take into account all of the possible nested subset of models in which those slopes and intercepts could have been calculated. This averaging procedure can produce slope and intercept estimates (as well as estimates of their uncertainty) that are less biased, and can perhaps yield better predictions of future data. </span>
-<span id="cb79-180"><a href="#cb79-180" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb79-181"><a href="#cb79-181" aria-hidden="true" tabindex="-1"></a>We will use the <span class="in">`MuMIn`</span> package (Multimodel Inference) to do model averaging later, but first we will do it manually. </span>
-<span id="cb79-182"><a href="#cb79-182" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb79-183"><a href="#cb79-183" aria-hidden="true" tabindex="-1"></a><span class="fu">### Required calculations</span></span>
-<span id="cb79-184"><a href="#cb79-184" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb79-185"><a href="#cb79-185" aria-hidden="true" tabindex="-1"></a>Recall that to come up with averaged estimates of model parameters (e.g., model-averaged slopes) we need to calculate weighted averages. These averages are weighted by how well sub-models explain the data. Following lecture, we will use the corrected $AIC$, noted as $AIC_c$, to calculate how well a model explains the data. </span>
-<span id="cb79-186"><a href="#cb79-186" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb79-187"><a href="#cb79-187" aria-hidden="true" tabindex="-1"></a>$$\text{AIC}_c = - 2ln(\text{Model Likelihood}) + 2k + \frac{2K(K+1)}{n-K-1}$$</span>
-<span id="cb79-188"><a href="#cb79-188" aria-hidden="true" tabindex="-1"></a>where $n$ is the number of data observations. Then, to calculate the weights we need to see how much each sub-model deviates from the best model. For this deviation we calculate, for sub-model $i$:</span>
-<span id="cb79-189"><a href="#cb79-189" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb79-190"><a href="#cb79-190" aria-hidden="true" tabindex="-1"></a>$$\Delta \text{AIC}_{c,i} = \text{AIC}_{c,\text{best}} - \text{AIC}_{c,i}$$</span>
-<span id="cb79-191"><a href="#cb79-191" aria-hidden="true" tabindex="-1"></a>The weight of sub-model $i$ is:</span>
-<span id="cb79-192"><a href="#cb79-192" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb79-193"><a href="#cb79-193" aria-hidden="true" tabindex="-1"></a>$$w_i = \frac{\text{exp}(-\Delta \text{AIC}_{c,i} / 2)}{\sum_{r=1}^{R} \text{exp}(-\Delta \text{AIC}_{c,r} / 2)} $$</span>
-<span id="cb79-194"><a href="#cb79-194" aria-hidden="true" tabindex="-1"></a>And $R$ is the number of submodels being examined. </span>
-<span id="cb79-195"><a href="#cb79-195" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb79-196"><a href="#cb79-196" aria-hidden="true" tabindex="-1"></a>We are now ready to calculate the weighted average of any parameter of interest in the full model, $\theta$:</span>
-<span id="cb79-197"><a href="#cb79-197" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb79-198"><a href="#cb79-198" aria-hidden="true" tabindex="-1"></a>$$\hat{\bar{\theta}} = \sum_{r=1}^{R} w_r \hat{\theta}_{r}$$</span>
-<span id="cb79-199"><a href="#cb79-199" aria-hidden="true" tabindex="-1"></a>Here, $\hat{\bar{\theta}}$ is the model-averaged estimate of parameter $\theta$, $w_r$ is the weight of sub-model $r$, and $\hat{\theta}_r$ is the parameter estimate derived from sub-model $r$. </span>
-<span id="cb79-200"><a href="#cb79-200" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb79-201"><a href="#cb79-201" aria-hidden="true" tabindex="-1"></a>We can also calculate the new averaged uncertainty in the parameter estimate:</span>
-<span id="cb79-202"><a href="#cb79-202" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb79-203"><a href="#cb79-203" aria-hidden="true" tabindex="-1"></a>$$\hat{\text{var}}(\hat{\bar{\theta}}) =  \sum_{r=1}^{R} w_r \left( \hat{\text{var}}(\hat{\theta})_r + (\hat{\theta} - \hat{\bar{\theta}})^2 \right) $$</span>
-<span id="cb79-204"><a href="#cb79-204" aria-hidden="true" tabindex="-1"></a>Here, $\hat{\text{var}}(\hat{\bar{\theta}})$ is the standard error of the averaged model parameter, whereas $\hat{\text{var}}(\hat{\theta})_r$ is the standard error of model parameter $\theta$ estimated from sub-model $r$. </span>
-<span id="cb79-205"><a href="#cb79-205" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb79-206"><a href="#cb79-206" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb79-207"><a href="#cb79-207" aria-hidden="true" tabindex="-1"></a><span class="fu">### Manual calculation</span></span>
-<span id="cb79-208"><a href="#cb79-208" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb79-209"><a href="#cb79-209" aria-hidden="true" tabindex="-1"></a>Let's see if we can manually calculate all of this from a less complex example model. Imagine our full model is a model that only has two input variables. We'll use our simulated data set from above. (Of course, we know this is a poor model, but we're just doing a case-study here.)</span>
-<span id="cb79-210"><a href="#cb79-210" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb79-213"><a href="#cb79-213" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb79-214"><a href="#cb79-214" aria-hidden="true" tabindex="-1"></a><span class="co"># Full model:</span></span>
-<span id="cb79-215"><a href="#cb79-215" aria-hidden="true" tabindex="-1"></a>full_mod <span class="ot">=</span> <span class="fu">lm</span>(y<span class="sc">~</span><span class="dv">1</span><span class="sc">+</span>X1<span class="sc">+</span>X2, <span class="at">data =</span> my_df)</span>
-<span id="cb79-216"><a href="#cb79-216" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb79-217"><a href="#cb79-217" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb79-218"><a href="#cb79-218" aria-hidden="true" tabindex="-1"></a>If this full model has two inputs, then the number of sub-models is $2^2 = 4$, which iteratively drop one or both input variables. Now, run each sub-model. I know, this is tedious.</span>
-<span id="cb79-219"><a href="#cb79-219" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb79-222"><a href="#cb79-222" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb79-223"><a href="#cb79-223" aria-hidden="true" tabindex="-1"></a>sub_m2 <span class="ot">=</span> <span class="fu">update</span>(full_mod, .<span class="sc">~</span>. <span class="sc">-</span>X2)</span>
-<span id="cb79-224"><a href="#cb79-224" aria-hidden="true" tabindex="-1"></a>sub_m3 <span class="ot">=</span> <span class="fu">update</span>(full_mod, .<span class="sc">~</span>. <span class="sc">-</span>X1)</span>
-<span id="cb79-225"><a href="#cb79-225" aria-hidden="true" tabindex="-1"></a>sub_m4 <span class="ot">=</span> <span class="fu">update</span>(full_mod, .<span class="sc">~</span>. <span class="sc">-</span>X2<span class="sc">-</span>X1) <span class="co"># Intercept only</span></span>
-<span id="cb79-226"><a href="#cb79-226" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb79-227"><a href="#cb79-227" aria-hidden="true" tabindex="-1"></a><span class="co"># Store all models in a list for easy looping later:</span></span>
-<span id="cb79-228"><a href="#cb79-228" aria-hidden="true" tabindex="-1"></a>model_list <span class="ot">=</span> <span class="fu">list</span>(</span>
-<span id="cb79-229"><a href="#cb79-229" aria-hidden="true" tabindex="-1"></a>    full_mod, sub_m2, sub_m3, sub_m4</span>
-<span id="cb79-230"><a href="#cb79-230" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb79-231"><a href="#cb79-231" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb79-232"><a href="#cb79-232" aria-hidden="true" tabindex="-1"></a><span class="co"># how many models?</span></span>
-<span id="cb79-233"><a href="#cb79-233" aria-hidden="true" tabindex="-1"></a>n_mod <span class="ot">=</span> <span class="dv">4</span></span>
-<span id="cb79-234"><a href="#cb79-234" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb79-235"><a href="#cb79-235" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb79-236"><a href="#cb79-236" aria-hidden="true" tabindex="-1"></a>To get the model-averaged slopes of inputs $x_1$ and $x_2$, we'll need to calculate $AIC_c$ values and model weights. We'll store calculations in arrays as much as possible, so we can loop through. </span>
-<span id="cb79-237"><a href="#cb79-237" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb79-238"><a href="#cb79-238" aria-hidden="true" tabindex="-1"></a>Let's start with $AIC_c$. Fortunately, there's a built-in function for this in the <span class="in">`MuMIn`</span> package, but we'll do one manually first. </span>
-<span id="cb79-239"><a href="#cb79-239" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb79-242"><a href="#cb79-242" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb79-243"><a href="#cb79-243" aria-hidden="true" tabindex="-1"></a><span class="co"># Extract neg-log-likelihood from full model:</span></span>
-<span id="cb79-244"><a href="#cb79-244" aria-hidden="true" tabindex="-1"></a>nll_full <span class="ot">=</span> <span class="sc">-</span><span class="dv">1</span><span class="sc">*</span><span class="fu">logLik</span>(full_mod)</span>
-<span id="cb79-245"><a href="#cb79-245" aria-hidden="true" tabindex="-1"></a><span class="co"># This is in a weird format, so we'll convert:</span></span>
-<span id="cb79-246"><a href="#cb79-246" aria-hidden="true" tabindex="-1"></a>nll_full <span class="ot">=</span> <span class="fu">as.numeric</span>(nll_full)</span>
-<span id="cb79-247"><a href="#cb79-247" aria-hidden="true" tabindex="-1"></a>k_full <span class="ot">=</span> <span class="dv">4</span> <span class="co"># two slopes + 1 intercept + residual sigma</span></span>
-<span id="cb79-248"><a href="#cb79-248" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb79-249"><a href="#cb79-249" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate AIC_c</span></span>
-<span id="cb79-250"><a href="#cb79-250" aria-hidden="true" tabindex="-1"></a>aic_c_full <span class="ot">=</span> <span class="dv">2</span><span class="sc">*</span>nll_full <span class="sc">+</span> <span class="dv">2</span><span class="sc">*</span>k_full <span class="sc">+</span> (<span class="dv">2</span><span class="sc">*</span>k_full<span class="sc">*</span>(k_full <span class="sc">+</span> <span class="dv">1</span>))<span class="sc">/</span>(n <span class="sc">-</span> k_full <span class="sc">-</span> <span class="dv">1</span>)</span>
-<span id="cb79-251"><a href="#cb79-251" aria-hidden="true" tabindex="-1"></a>aic_c_full</span>
-<span id="cb79-252"><a href="#cb79-252" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb79-253"><a href="#cb79-253" aria-hidden="true" tabindex="-1"></a><span class="co"># Check with built-in</span></span>
-<span id="cb79-254"><a href="#cb79-254" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(MuMIn)</span>
-<span id="cb79-255"><a href="#cb79-255" aria-hidden="true" tabindex="-1"></a><span class="fu">AICc</span>(full_mod)</span>
-<span id="cb79-256"><a href="#cb79-256" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb79-257"><a href="#cb79-257" aria-hidden="true" tabindex="-1"></a><span class="co"># Now calculate all:</span></span>
-<span id="cb79-258"><a href="#cb79-258" aria-hidden="true" tabindex="-1"></a>AICc_vec <span class="ot">=</span> <span class="cn">NULL</span></span>
-<span id="cb79-259"><a href="#cb79-259" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>n_mod){</span>
-<span id="cb79-260"><a href="#cb79-260" aria-hidden="true" tabindex="-1"></a>    AICc_vec[i] <span class="ot">=</span> <span class="fu">AICc</span>(model_list[[i]])</span>
-<span id="cb79-261"><a href="#cb79-261" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb79-262"><a href="#cb79-262" aria-hidden="true" tabindex="-1"></a>AICc_vec</span>
-<span id="cb79-263"><a href="#cb79-263" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb79-264"><a href="#cb79-264" aria-hidden="true" tabindex="-1"></a>We can see that the 'best' model, according to $AIC_c$ is the <span class="in">`sub_m3`</span>, which includes the intercept and only input $x_2$. This makes sense, because we know that the slope of $x_1$ was simulated as zero.</span>
-<span id="cb79-265"><a href="#cb79-265" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb79-266"><a href="#cb79-266" aria-hidden="true" tabindex="-1"></a>Let's now calculate the $\Delta \text{AIC}_c$.</span>
-<span id="cb79-267"><a href="#cb79-267" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb79-270"><a href="#cb79-270" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb79-271"><a href="#cb79-271" aria-hidden="true" tabindex="-1"></a><span class="co"># Best AICc</span></span>
-<span id="cb79-272"><a href="#cb79-272" aria-hidden="true" tabindex="-1"></a>AICc_best <span class="ot">=</span> <span class="fu">min</span>(AICc_vec)</span>
-<span id="cb79-273"><a href="#cb79-273" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb79-274"><a href="#cb79-274" aria-hidden="true" tabindex="-1"></a><span class="co">#\Delta AIC_c</span></span>
-<span id="cb79-275"><a href="#cb79-275" aria-hidden="true" tabindex="-1"></a>Delta_AICc_vec <span class="ot">=</span> AICc_vec <span class="sc">-</span> AICc_best</span>
-<span id="cb79-276"><a href="#cb79-276" aria-hidden="true" tabindex="-1"></a>Delta_AICc_vec</span>
-<span id="cb79-277"><a href="#cb79-277" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb79-278"><a href="#cb79-278" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb79-279"><a href="#cb79-279" aria-hidden="true" tabindex="-1"></a>Now we can calculate the model weights (i.e., the value representing how "good" each model is, relative to the best model).</span>
-<span id="cb79-280"><a href="#cb79-280" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb79-283"><a href="#cb79-283" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb79-284"><a href="#cb79-284" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate the denominator of the weight calculation</span></span>
-<span id="cb79-285"><a href="#cb79-285" aria-hidden="true" tabindex="-1"></a>weight_denom <span class="ot">=</span> <span class="dv">0</span></span>
-<span id="cb79-286"><a href="#cb79-286" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>n_mod){</span>
-<span id="cb79-287"><a href="#cb79-287" aria-hidden="true" tabindex="-1"></a>    weight_denom <span class="ot">=</span> </span>
-<span id="cb79-288"><a href="#cb79-288" aria-hidden="true" tabindex="-1"></a>        weight_denom <span class="sc">+</span></span>
-<span id="cb79-289"><a href="#cb79-289" aria-hidden="true" tabindex="-1"></a>        <span class="fu">exp</span>( <span class="sc">-</span>Delta_AICc_vec[i] <span class="sc">/</span> <span class="dv">2</span> )</span>
-<span id="cb79-290"><a href="#cb79-290" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb79-291"><a href="#cb79-291" aria-hidden="true" tabindex="-1"></a>weight_denom</span>
-<span id="cb79-292"><a href="#cb79-292" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb79-293"><a href="#cb79-293" aria-hidden="true" tabindex="-1"></a><span class="co"># Now the individual weights:</span></span>
-<span id="cb79-294"><a href="#cb79-294" aria-hidden="true" tabindex="-1"></a>weight <span class="ot">=</span> <span class="cn">NULL</span></span>
-<span id="cb79-295"><a href="#cb79-295" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>n_mod){</span>
-<span id="cb79-296"><a href="#cb79-296" aria-hidden="true" tabindex="-1"></a>    weight[i] <span class="ot">=</span> </span>
-<span id="cb79-297"><a href="#cb79-297" aria-hidden="true" tabindex="-1"></a>        <span class="fu">exp</span>( <span class="sc">-</span>Delta_AICc_vec[i] <span class="sc">/</span> <span class="dv">2</span>) <span class="sc">/</span> weight_denom</span>
-<span id="cb79-298"><a href="#cb79-298" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb79-299"><a href="#cb79-299" aria-hidden="true" tabindex="-1"></a>weight</span>
-<span id="cb79-300"><a href="#cb79-300" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb79-301"><a href="#cb79-301" aria-hidden="true" tabindex="-1"></a><span class="co"># Sum to 1?</span></span>
-<span id="cb79-302"><a href="#cb79-302" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(weight)</span>
-<span id="cb79-303"><a href="#cb79-303" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb79-304"><a href="#cb79-304" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb79-305"><a href="#cb79-305" aria-hidden="true" tabindex="-1"></a>We can see the "better" models, based on $AIC_c$ have higher weights, and the <span class="in">`weight`</span> vector should add to 1. </span>
-<span id="cb79-306"><a href="#cb79-306" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb79-307"><a href="#cb79-307" aria-hidden="true" tabindex="-1"></a>Let's calculate the model-averaged slope estimate for input $x_2$. To do this, we'll first need to extract the estimate from each sub-model. This is a little tedious, because we need to know which coefficient refers to $x_2$ in each sub-model object (or if the coefficient is absent and therefore equal to zero).</span>
-<span id="cb79-308"><a href="#cb79-308" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb79-311"><a href="#cb79-311" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb79-312"><a href="#cb79-312" aria-hidden="true" tabindex="-1"></a>coef_x2 <span class="ot">=</span> <span class="cn">NULL</span></span>
-<span id="cb79-313"><a href="#cb79-313" aria-hidden="true" tabindex="-1"></a>coef_x2[<span class="dv">1</span>] <span class="ot">=</span> <span class="fu">coef</span>(model_list[[<span class="dv">1</span>]])[<span class="dv">3</span>]</span>
-<span id="cb79-314"><a href="#cb79-314" aria-hidden="true" tabindex="-1"></a>coef_x2[<span class="dv">2</span>] <span class="ot">=</span> <span class="dv">0</span> <span class="co"># Absent from this sub-model</span></span>
-<span id="cb79-315"><a href="#cb79-315" aria-hidden="true" tabindex="-1"></a>coef_x2[<span class="dv">3</span>] <span class="ot">=</span> <span class="fu">coef</span>(model_list[[<span class="dv">3</span>]])[<span class="dv">2</span>]</span>
-<span id="cb79-316"><a href="#cb79-316" aria-hidden="true" tabindex="-1"></a>coef_x2[<span class="dv">4</span>] <span class="ot">=</span> <span class="dv">0</span> <span class="co"># Absent from this sub-model</span></span>
-<span id="cb79-317"><a href="#cb79-317" aria-hidden="true" tabindex="-1"></a>coef_x2</span>
-<span id="cb79-318"><a href="#cb79-318" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb79-319"><a href="#cb79-319" aria-hidden="true" tabindex="-1"></a><span class="co"># Averaged, based on model weight:</span></span>
-<span id="cb79-320"><a href="#cb79-320" aria-hidden="true" tabindex="-1"></a>avg_coef_x2 <span class="ot">=</span> <span class="dv">0</span></span>
-<span id="cb79-321"><a href="#cb79-321" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>n_mod){</span>
-<span id="cb79-322"><a href="#cb79-322" aria-hidden="true" tabindex="-1"></a>    avg_coef_x2 <span class="ot">=</span> </span>
-<span id="cb79-323"><a href="#cb79-323" aria-hidden="true" tabindex="-1"></a>        avg_coef_x2 <span class="sc">+</span></span>
-<span id="cb79-324"><a href="#cb79-324" aria-hidden="true" tabindex="-1"></a>        weight[i] <span class="sc">*</span> coef_x2[i]</span>
-<span id="cb79-325"><a href="#cb79-325" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb79-326"><a href="#cb79-326" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb79-327"><a href="#cb79-327" aria-hidden="true" tabindex="-1"></a>avg_coef_x2</span>
-<span id="cb79-328"><a href="#cb79-328" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb79-329"><a href="#cb79-329" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb79-330"><a href="#cb79-330" aria-hidden="true" tabindex="-1"></a>We can see the model-averaged slope estimate for input $x_2$ is slightly less than the estimate from the full model.</span>
-<span id="cb79-331"><a href="#cb79-331" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb79-334"><a href="#cb79-334" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb79-335"><a href="#cb79-335" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(full_mod)</span>
-<span id="cb79-336"><a href="#cb79-336" aria-hidden="true" tabindex="-1"></a><span class="fu">coef</span>(full_mod)[<span class="dv">3</span>]</span>
-<span id="cb79-337"><a href="#cb79-337" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb79-338"><a href="#cb79-338" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb79-339"><a href="#cb79-339" aria-hidden="true" tabindex="-1"></a>I'll leave calculating the model-averaged standard error of the slopes as an exercise for you as a student. </span>
-<span id="cb79-340"><a href="#cb79-340" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb79-341"><a href="#cb79-341" aria-hidden="true" tabindex="-1"></a>As I mentioned above, fortunately someone created a package to do this model averaging for us and remove a lot of the tedium. </span>
-<span id="cb79-342"><a href="#cb79-342" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb79-343"><a href="#cb79-343" aria-hidden="true" tabindex="-1"></a>First, run all sub-models using the <span class="in">`MuMIn::dredge()`</span> function.</span>
-<span id="cb79-346"><a href="#cb79-346" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb79-347"><a href="#cb79-347" aria-hidden="true" tabindex="-1"></a><span class="co"># Required for MuMIn::dredge functionality</span></span>
-<span id="cb79-348"><a href="#cb79-348" aria-hidden="true" tabindex="-1"></a><span class="fu">options</span>(<span class="at">na.action =</span> <span class="st">"na.fail"</span>)</span>
-<span id="cb79-349"><a href="#cb79-349" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb79-350"><a href="#cb79-350" aria-hidden="true" tabindex="-1"></a><span class="co"># Fit all sub-models:</span></span>
-<span id="cb79-351"><a href="#cb79-351" aria-hidden="true" tabindex="-1"></a>dredge_test <span class="ot">=</span> <span class="fu">dredge</span>(full_mod)</span>
-<span id="cb79-352"><a href="#cb79-352" aria-hidden="true" tabindex="-1"></a>dredge_test</span>
-<span id="cb79-353"><a href="#cb79-353" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb79-354"><a href="#cb79-354" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb79-355"><a href="#cb79-355" aria-hidden="true" tabindex="-1"></a>See how this output has run all sub-models, calculated the likelihoods, the $AIC_c$, the $\Delta AIC_c$, and the model weights. </span>
-<span id="cb79-356"><a href="#cb79-356" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb79-357"><a href="#cb79-357" aria-hidden="true" tabindex="-1"></a>Now, we can average all of the models. </span>
-<span id="cb79-360"><a href="#cb79-360" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb79-361"><a href="#cb79-361" aria-hidden="true" tabindex="-1"></a><span class="co"># Average the models:</span></span>
-<span id="cb79-362"><a href="#cb79-362" aria-hidden="true" tabindex="-1"></a>test_average <span class="ot">=</span> <span class="fu">model.avg</span>(dredge_test, <span class="at">fit =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb79-363"><a href="#cb79-363" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(test_average)</span>
-<span id="cb79-364"><a href="#cb79-364" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb79-365"><a href="#cb79-365" aria-hidden="true" tabindex="-1"></a>This <span class="in">`summary()`</span> statement shows the model-averaged values of slopes of $x_1$ and $x_2$, and the intercept. We care about the "full average". You can see the averaged estimate of the slope for $x_2$ matches our manual calculation. For emphasis:</span>
-<span id="cb79-366"><a href="#cb79-366" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb79-369"><a href="#cb79-369" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb79-370"><a href="#cb79-370" aria-hidden="true" tabindex="-1"></a>test_average<span class="sc">$</span>coefficients[<span class="dv">1</span>,<span class="dv">2</span>];</span>
-<span id="cb79-371"><a href="#cb79-371" aria-hidden="true" tabindex="-1"></a>avg_coef_x2</span>
-<span id="cb79-372"><a href="#cb79-372" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb79-373"><a href="#cb79-373" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb79-374"><a href="#cb79-374" aria-hidden="true" tabindex="-1"></a><span class="fu">### Back to more complex model</span></span>
-<span id="cb79-375"><a href="#cb79-375" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb79-376"><a href="#cb79-376" aria-hidden="true" tabindex="-1"></a>Ok, but our full model had four input variables, which means the number of sub-models is $4^2 = 16$. Let's not do that manually, but instead use the <span class="in">`MuMIn::model.avg()`</span> function. </span>
-<span id="cb79-377"><a href="#cb79-377" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb79-380"><a href="#cb79-380" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb79-381"><a href="#cb79-381" aria-hidden="true" tabindex="-1"></a><span class="co"># Reminder, m1 was our full model:</span></span>
-<span id="cb79-382"><a href="#cb79-382" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(m1)</span>
-<span id="cb79-383"><a href="#cb79-383" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb79-384"><a href="#cb79-384" aria-hidden="true" tabindex="-1"></a><span class="co"># Fit all sub-models:</span></span>
-<span id="cb79-385"><a href="#cb79-385" aria-hidden="true" tabindex="-1"></a>dredge_m1 <span class="ot">=</span> <span class="fu">dredge</span>(m1)</span>
-<span id="cb79-386"><a href="#cb79-386" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb79-387"><a href="#cb79-387" aria-hidden="true" tabindex="-1"></a><span class="co"># Average the models:</span></span>
-<span id="cb79-388"><a href="#cb79-388" aria-hidden="true" tabindex="-1"></a>m1_average <span class="ot">=</span> <span class="fu">model.avg</span>(dredge_m1, <span class="at">fit =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb79-389"><a href="#cb79-389" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(m1_average)</span>
-<span id="cb79-390"><a href="#cb79-390" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb79-391"><a href="#cb79-391" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb79-392"><a href="#cb79-392" aria-hidden="true" tabindex="-1"></a>Notice how we see the model with inputs $x_2$ and $x_4$ is the best, based on $AIC_c$ (note this is the model labeled as <span class="in">`24`</span> meaning it inclues inputs 2 and 4).</span>
-<span id="cb79-393"><a href="#cb79-393" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb79-394"><a href="#cb79-394" aria-hidden="true" tabindex="-1"></a>We can also plot the model parameter estimates with their confidence intervals:</span>
-<span id="cb79-397"><a href="#cb79-397" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb79-398"><a href="#cb79-398" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot the coefficient estimates (from the averaged model)</span></span>
-<span id="cb79-399"><a href="#cb79-399" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(m1_average)</span>
-<span id="cb79-400"><a href="#cb79-400" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb79-401"><a href="#cb79-401" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb79-402"><a href="#cb79-402" aria-hidden="true" tabindex="-1"></a>Finally, we can use the <span class="in">`predict()`</span> function as we have before to visualize the effect of each input variable on the outcome. Here, we will show the independent, model-averaged effect of $x_2$, when all other input variables are held at their average values. Then, we'll do the same for $x_4$.</span>
-<span id="cb79-403"><a href="#cb79-403" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb79-406"><a href="#cb79-406" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb79-407"><a href="#cb79-407" aria-hidden="true" tabindex="-1"></a><span class="co"># Predict from the average model:</span></span>
-<span id="cb79-408"><a href="#cb79-408" aria-hidden="true" tabindex="-1"></a><span class="co"># How does y change as a function of x2, while </span></span>
-<span id="cb79-409"><a href="#cb79-409" aria-hidden="true" tabindex="-1"></a><span class="co"># other inputs held at their average?</span></span>
-<span id="cb79-410"><a href="#cb79-410" aria-hidden="true" tabindex="-1"></a>new_df <span class="ot">=</span> <span class="fu">data.frame</span>(</span>
-<span id="cb79-411"><a href="#cb79-411" aria-hidden="true" tabindex="-1"></a>    <span class="at">X1 =</span> <span class="fu">rep</span>(<span class="fu">mean</span>(my_df<span class="sc">$</span>X1), <span class="dv">100</span>),</span>
-<span id="cb79-412"><a href="#cb79-412" aria-hidden="true" tabindex="-1"></a>    <span class="at">X2 =</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">19</span>, <span class="at">length.out =</span> <span class="dv">100</span>),</span>
-<span id="cb79-413"><a href="#cb79-413" aria-hidden="true" tabindex="-1"></a>    <span class="at">X3 =</span> <span class="fu">rep</span>(<span class="fu">mean</span>(my_df<span class="sc">$</span>X3), <span class="dv">100</span>),</span>
-<span id="cb79-414"><a href="#cb79-414" aria-hidden="true" tabindex="-1"></a>    <span class="at">X4 =</span> <span class="fu">rep</span>(<span class="fu">mean</span>(my_df<span class="sc">$</span>X4), <span class="dv">100</span>)</span>
-<span id="cb79-415"><a href="#cb79-415" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb79-416"><a href="#cb79-416" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb79-417"><a href="#cb79-417" aria-hidden="true" tabindex="-1"></a>pred_m1_avg_x2 <span class="ot">=</span> </span>
-<span id="cb79-418"><a href="#cb79-418" aria-hidden="true" tabindex="-1"></a>    <span class="fu">predict</span>(m1_average,</span>
-<span id="cb79-419"><a href="#cb79-419" aria-hidden="true" tabindex="-1"></a>            <span class="at">newdata =</span> new_df,</span>
-<span id="cb79-420"><a href="#cb79-420" aria-hidden="true" tabindex="-1"></a>            <span class="at">se.fit =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb79-421"><a href="#cb79-421" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb79-422"><a href="#cb79-422" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(my_df<span class="sc">$</span>y <span class="sc">~</span> my_df<span class="sc">$</span>X2,</span>
-<span id="cb79-423"><a href="#cb79-423" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">"input x2"</span>, <span class="at">ylab =</span> <span class="st">"y"</span>, <span class="at">pch =</span> <span class="dv">19</span>)</span>
-<span id="cb79-424"><a href="#cb79-424" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(pred_m1_avg_x2<span class="sc">$</span>fit <span class="sc">~</span> new_df<span class="sc">$</span>X2)</span>
-<span id="cb79-425"><a href="#cb79-425" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(pred_m1_avg_x2<span class="sc">$</span>fit<span class="dv">-2</span><span class="sc">*</span>pred_m1_avg_x2<span class="sc">$</span>se.fit <span class="sc">~</span> new_df<span class="sc">$</span>X2, <span class="at">lty =</span> <span class="dv">2</span>)</span>
-<span id="cb79-426"><a href="#cb79-426" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(pred_m1_avg_x2<span class="sc">$</span>fit<span class="sc">+</span><span class="dv">2</span><span class="sc">*</span>pred_m1_avg_x2<span class="sc">$</span>se.fit <span class="sc">~</span> new_df<span class="sc">$</span>X2, <span class="at">lty =</span> <span class="dv">2</span>)</span>
-<span id="cb79-427"><a href="#cb79-427" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb79-428"><a href="#cb79-428" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb79-429"><a href="#cb79-429" aria-hidden="true" tabindex="-1"></a><span class="co"># Predict from the average model:</span></span>
-<span id="cb79-430"><a href="#cb79-430" aria-hidden="true" tabindex="-1"></a><span class="co"># How does y change as a function of x4, while </span></span>
-<span id="cb79-431"><a href="#cb79-431" aria-hidden="true" tabindex="-1"></a><span class="co"># other inputs held at their average?</span></span>
-<span id="cb79-432"><a href="#cb79-432" aria-hidden="true" tabindex="-1"></a>new_df <span class="ot">=</span> <span class="fu">data.frame</span>(</span>
-<span id="cb79-433"><a href="#cb79-433" aria-hidden="true" tabindex="-1"></a>    <span class="at">X1 =</span> <span class="fu">rep</span>(<span class="fu">mean</span>(my_df<span class="sc">$</span>X1), <span class="dv">100</span>),</span>
-<span id="cb79-434"><a href="#cb79-434" aria-hidden="true" tabindex="-1"></a>    <span class="at">X2 =</span> <span class="fu">rep</span>(<span class="fu">mean</span>(my_df<span class="sc">$</span>X2), <span class="dv">100</span>),</span>
-<span id="cb79-435"><a href="#cb79-435" aria-hidden="true" tabindex="-1"></a>    <span class="at">X3 =</span> <span class="fu">rep</span>(<span class="fu">mean</span>(my_df<span class="sc">$</span>X3), <span class="dv">100</span>),</span>
-<span id="cb79-436"><a href="#cb79-436" aria-hidden="true" tabindex="-1"></a>    <span class="at">X4 =</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">19</span>, <span class="at">length.out =</span> <span class="dv">100</span>)</span>
-<span id="cb79-437"><a href="#cb79-437" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb79-438"><a href="#cb79-438" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb79-439"><a href="#cb79-439" aria-hidden="true" tabindex="-1"></a>pred_m1_avg_x4 <span class="ot">=</span> </span>
-<span id="cb79-440"><a href="#cb79-440" aria-hidden="true" tabindex="-1"></a>    <span class="fu">predict</span>(m1_average,</span>
-<span id="cb79-441"><a href="#cb79-441" aria-hidden="true" tabindex="-1"></a>            <span class="at">newdata =</span> new_df,</span>
-<span id="cb79-442"><a href="#cb79-442" aria-hidden="true" tabindex="-1"></a>            <span class="at">se.fit =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb79-443"><a href="#cb79-443" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb79-444"><a href="#cb79-444" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(my_df<span class="sc">$</span>y <span class="sc">~</span> my_df<span class="sc">$</span>X4,</span>
-<span id="cb79-445"><a href="#cb79-445" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">"input x4"</span>, <span class="at">ylab =</span> <span class="st">"y"</span>, <span class="at">pch =</span> <span class="dv">19</span>)</span>
-<span id="cb79-446"><a href="#cb79-446" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(pred_m1_avg_x4<span class="sc">$</span>fit <span class="sc">~</span> new_df<span class="sc">$</span>X4)</span>
-<span id="cb79-447"><a href="#cb79-447" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(pred_m1_avg_x4<span class="sc">$</span>fit<span class="dv">-2</span><span class="sc">*</span>pred_m1_avg_x4<span class="sc">$</span>se.fit <span class="sc">~</span> new_df<span class="sc">$</span>X4, <span class="at">lty =</span> <span class="dv">2</span>)</span>
-<span id="cb79-448"><a href="#cb79-448" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(pred_m1_avg_x4<span class="sc">$</span>fit<span class="sc">+</span><span class="dv">2</span><span class="sc">*</span>pred_m1_avg_x4<span class="sc">$</span>se.fit <span class="sc">~</span> new_df<span class="sc">$</span>X4, <span class="at">lty =</span> <span class="dv">2</span>)</span>
-<span id="cb79-449"><a href="#cb79-449" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<div class="sourceCode" id="cb80" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb80-1"><a href="#cb80-1" aria-hidden="true" tabindex="-1"></a><span class="fu"># Model selection {#sec-modelselect}</span></span>
+<span id="cb80-2"><a href="#cb80-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb80-3"><a href="#cb80-3" aria-hidden="true" tabindex="-1"></a><span class="fu">## Lecture material</span></span>
+<span id="cb80-4"><a href="#cb80-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb80-5"><a href="#cb80-5" aria-hidden="true" tabindex="-1"></a>Please download and print the lecture materials from <span class="co">[</span><span class="ot">Bblearn</span><span class="co">](https://bblearn.nau.edu/)</span>{target="_blank"}. After lectures, the recordings will appear in the Bblearn Collaborate Ultra section.</span>
+<span id="cb80-6"><a href="#cb80-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb80-7"><a href="#cb80-7" aria-hidden="true" tabindex="-1"></a><span class="fu">## Generate the data {#sec-data}</span></span>
+<span id="cb80-8"><a href="#cb80-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb80-9"><a href="#cb80-9" aria-hidden="true" tabindex="-1"></a>Here we will demonstrate two approaches to model comparison. But first let's generate data, in the same way we did for multiple linear regression in (@sec-ols). Note that in this case, we will specify that two of the input variables have zero slope (i.e., no linear association with the outcome variable).</span>
+<span id="cb80-10"><a href="#cb80-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb80-13"><a href="#cb80-13" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb80-14"><a href="#cb80-14" aria-hidden="true" tabindex="-1"></a>n <span class="ot">=</span> <span class="dv">40</span></span>
+<span id="cb80-15"><a href="#cb80-15" aria-hidden="true" tabindex="-1"></a>n_covariate <span class="ot">=</span> <span class="dv">4</span></span>
+<span id="cb80-16"><a href="#cb80-16" aria-hidden="true" tabindex="-1"></a>p <span class="ot">=</span> n_covariate <span class="sc">+</span> <span class="dv">1</span></span>
+<span id="cb80-17"><a href="#cb80-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb80-18"><a href="#cb80-18" aria-hidden="true" tabindex="-1"></a>betas <span class="ot">=</span> <span class="fu">vector</span>(<span class="st">"numeric"</span>, <span class="at">length =</span> p)</span>
+<span id="cb80-19"><a href="#cb80-19" aria-hidden="true" tabindex="-1"></a>xmat <span class="ot">=</span> <span class="fu">matrix</span>(<span class="dv">0</span>, <span class="at">nrow =</span> n, <span class="at">ncol =</span> p)</span>
+<span id="cb80-20"><a href="#cb80-20" aria-hidden="true" tabindex="-1"></a>sigma <span class="ot">=</span> <span class="fl">2.25</span></span>
+<span id="cb80-21"><a href="#cb80-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb80-22"><a href="#cb80-22" aria-hidden="true" tabindex="-1"></a><span class="co"># Column for intercept</span></span>
+<span id="cb80-23"><a href="#cb80-23" aria-hidden="true" tabindex="-1"></a>xmat[,<span class="dv">1</span>] <span class="ot">=</span> <span class="dv">1</span></span>
+<span id="cb80-24"><a href="#cb80-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb80-25"><a href="#cb80-25" aria-hidden="true" tabindex="-1"></a><span class="co"># Generate the covariate data randomly:</span></span>
+<span id="cb80-26"><a href="#cb80-26" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">5</span>)</span>
+<span id="cb80-27"><a href="#cb80-27" aria-hidden="true" tabindex="-1"></a>xmat[,<span class="dv">2</span>] <span class="ot">=</span> <span class="fu">rnorm</span>(n, <span class="at">mean =</span> <span class="dv">5</span>, <span class="at">sd =</span> <span class="dv">8</span>)</span>
+<span id="cb80-28"><a href="#cb80-28" aria-hidden="true" tabindex="-1"></a>xmat[,<span class="dv">3</span>] <span class="ot">=</span> <span class="fu">runif</span>(n, <span class="at">min =</span> <span class="dv">0</span>, <span class="at">max =</span> <span class="dv">20</span>)</span>
+<span id="cb80-29"><a href="#cb80-29" aria-hidden="true" tabindex="-1"></a>xmat[,<span class="dv">4</span>] <span class="ot">=</span> <span class="fu">rchisq</span>(n, <span class="at">df =</span> <span class="dv">50</span>)</span>
+<span id="cb80-30"><a href="#cb80-30" aria-hidden="true" tabindex="-1"></a>xmat[,<span class="dv">5</span>] <span class="ot">=</span> <span class="fu">rpois</span>(n, <span class="at">lambda =</span> <span class="dv">10</span>)</span>
+<span id="cb80-31"><a href="#cb80-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb80-32"><a href="#cb80-32" aria-hidden="true" tabindex="-1"></a><span class="co"># Set the betas:</span></span>
+<span id="cb80-33"><a href="#cb80-33" aria-hidden="true" tabindex="-1"></a>betas[<span class="dv">1</span>] <span class="ot">=</span> <span class="fl">1.0</span></span>
+<span id="cb80-34"><a href="#cb80-34" aria-hidden="true" tabindex="-1"></a>betas[<span class="dv">2</span>] <span class="ot">=</span> <span class="fl">0.0</span></span>
+<span id="cb80-35"><a href="#cb80-35" aria-hidden="true" tabindex="-1"></a>betas[<span class="dv">3</span>] <span class="ot">=</span> <span class="sc">-</span><span class="fl">0.2</span></span>
+<span id="cb80-36"><a href="#cb80-36" aria-hidden="true" tabindex="-1"></a>betas[<span class="dv">4</span>] <span class="ot">=</span> <span class="fl">0.0</span></span>
+<span id="cb80-37"><a href="#cb80-37" aria-hidden="true" tabindex="-1"></a>betas[<span class="dv">5</span>] <span class="ot">=</span> <span class="fl">1.8</span></span>
+<span id="cb80-38"><a href="#cb80-38" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb80-39"><a href="#cb80-39" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate the observed 'y', adding residual error</span></span>
+<span id="cb80-40"><a href="#cb80-40" aria-hidden="true" tabindex="-1"></a>y <span class="ot">=</span> xmat <span class="sc">%*%</span> betas <span class="sc">+</span> <span class="fu">rnorm</span>(n, <span class="at">mean =</span> <span class="dv">0</span>, <span class="at">sd =</span> sigma)</span>
+<span id="cb80-41"><a href="#cb80-41" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb80-42"><a href="#cb80-42" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow=</span><span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">2</span>))</span>
+<span id="cb80-43"><a href="#cb80-43" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">2</span><span class="sc">:</span>p){</span>
+<span id="cb80-44"><a href="#cb80-44" aria-hidden="true" tabindex="-1"></a>    <span class="fu">plot</span>(y <span class="sc">~</span> xmat[,i],</span>
+<span id="cb80-45"><a href="#cb80-45" aria-hidden="true" tabindex="-1"></a>         <span class="at">xlab =</span> <span class="fu">paste</span>(<span class="st">"covariate "</span>, i<span class="dv">-1</span>))</span>
+<span id="cb80-46"><a href="#cb80-46" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb80-47"><a href="#cb80-47" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb80-48"><a href="#cb80-48" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a data.frame</span></span>
+<span id="cb80-49"><a href="#cb80-49" aria-hidden="true" tabindex="-1"></a>my_df <span class="ot">=</span> <span class="fu">data.frame</span>(y, xmat[,<span class="dv">2</span><span class="sc">:</span><span class="dv">5</span>])</span>
+<span id="cb80-50"><a href="#cb80-50" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(my_df)</span>
+<span id="cb80-51"><a href="#cb80-51" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb80-52"><a href="#cb80-52" aria-hidden="true" tabindex="-1"></a><span class="co"># Run the model, report the summary</span></span>
+<span id="cb80-53"><a href="#cb80-53" aria-hidden="true" tabindex="-1"></a>m1 <span class="ot">=</span> <span class="fu">lm</span>(y <span class="sc">~</span> <span class="dv">1</span> <span class="sc">+</span> X1 <span class="sc">+</span> X2 <span class="sc">+</span> X3 <span class="sc">+</span> X4, <span class="at">data =</span> my_df)</span>
+<span id="cb80-54"><a href="#cb80-54" aria-hidden="true" tabindex="-1"></a>m1_summary <span class="ot">=</span> <span class="fu">summary</span>(m1)</span>
+<span id="cb80-55"><a href="#cb80-55" aria-hidden="true" tabindex="-1"></a>m1_summary</span>
+<span id="cb80-56"><a href="#cb80-56" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb80-57"><a href="#cb80-57" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb80-58"><a href="#cb80-58" aria-hidden="true" tabindex="-1"></a><span class="fu">## Parsimony via model simplification</span></span>
+<span id="cb80-59"><a href="#cb80-59" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb80-60"><a href="#cb80-60" aria-hidden="true" tabindex="-1"></a>We will successively simplify the model until we find a "minimally acceptable" model that explains the most variability in the outcome variable. </span>
+<span id="cb80-61"><a href="#cb80-61" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb80-62"><a href="#cb80-62" aria-hidden="true" tabindex="-1"></a>There are several built-in functions in R that can help us make quantitatively justified decisions about which input variables can be dropped from the full model to determine our minimally acceptable model. First, we can use the $F$-test as described in lecture. This can be implemented by the <span class="in">`anova()`</span> function. </span>
+<span id="cb80-63"><a href="#cb80-63" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb80-64"><a href="#cb80-64" aria-hidden="true" tabindex="-1"></a>Based on the <span class="in">`summary()`</span> output, we see that input variable 3 ($x_3$) has the least significant effect on $y$, so we will drop that first and proceed from there. </span>
+<span id="cb80-65"><a href="#cb80-65" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb80-68"><a href="#cb80-68" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb80-69"><a href="#cb80-69" aria-hidden="true" tabindex="-1"></a><span class="co"># The full model lives in object m1</span></span>
+<span id="cb80-70"><a href="#cb80-70" aria-hidden="true" tabindex="-1"></a><span class="fu">formula</span>(m1)</span>
+<span id="cb80-71"><a href="#cb80-71" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb80-72"><a href="#cb80-72" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a new model with the update() function</span></span>
+<span id="cb80-73"><a href="#cb80-73" aria-hidden="true" tabindex="-1"></a><span class="co"># This function has a strange notation, but so it goes...</span></span>
+<span id="cb80-74"><a href="#cb80-74" aria-hidden="true" tabindex="-1"></a>m2 <span class="ot">=</span> <span class="fu">update</span>(m1, .<span class="sc">~</span>. <span class="sc">-</span>X3)</span>
+<span id="cb80-75"><a href="#cb80-75" aria-hidden="true" tabindex="-1"></a><span class="fu">formula</span>(m2)</span>
+<span id="cb80-76"><a href="#cb80-76" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb80-77"><a href="#cb80-77" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(m2)</span>
+<span id="cb80-78"><a href="#cb80-78" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb80-79"><a href="#cb80-79" aria-hidden="true" tabindex="-1"></a><span class="co"># Use anova() to test if the drop of X3 is justified</span></span>
+<span id="cb80-80"><a href="#cb80-80" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(m2, m1)</span>
+<span id="cb80-81"><a href="#cb80-81" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb80-82"><a href="#cb80-82" aria-hidden="true" tabindex="-1"></a>Remember that the hypothesis tested is:</span>
+<span id="cb80-83"><a href="#cb80-83" aria-hidden="true" tabindex="-1"></a>$$H_0:\text{simple model}$$</span>
+<span id="cb80-84"><a href="#cb80-84" aria-hidden="true" tabindex="-1"></a>$$H_A:\text{complex model}$$</span>
+<span id="cb80-85"><a href="#cb80-85" aria-hidden="true" tabindex="-1"></a>So if the $p \ge 0.05$, as usual, we cannot reject the null hypothesis. In this case, it means that the simple model is just as good as the more complex model. Therefore, we are justified in dropping $x_3$. From the data, we could not detect that $x_3$ has a statistically meaningful linear relationship with the outcome data $y$. </span>
+<span id="cb80-86"><a href="#cb80-86" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb80-87"><a href="#cb80-87" aria-hidden="true" tabindex="-1"></a>Let's manually calculate that $F$ test statistic and associated $p$-value to verify that we understand how the test works. </span>
+<span id="cb80-88"><a href="#cb80-88" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb80-91"><a href="#cb80-91" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb80-92"><a href="#cb80-92" aria-hidden="true" tabindex="-1"></a><span class="co"># Extract the residuals (errors)</span></span>
+<span id="cb80-93"><a href="#cb80-93" aria-hidden="true" tabindex="-1"></a>resid_null <span class="ot">=</span> m2<span class="sc">$</span>residuals</span>
+<span id="cb80-94"><a href="#cb80-94" aria-hidden="true" tabindex="-1"></a>resid_full <span class="ot">=</span> m1<span class="sc">$</span>residuals</span>
+<span id="cb80-95"><a href="#cb80-95" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb80-96"><a href="#cb80-96" aria-hidden="true" tabindex="-1"></a><span class="co"># Sum of Square Errors (SSE)</span></span>
+<span id="cb80-97"><a href="#cb80-97" aria-hidden="true" tabindex="-1"></a>sse_null <span class="ot">=</span> <span class="fu">crossprod</span>(resid_null)</span>
+<span id="cb80-98"><a href="#cb80-98" aria-hidden="true" tabindex="-1"></a>sse_full <span class="ot">=</span> <span class="fu">crossprod</span>(resid_full)</span>
+<span id="cb80-99"><a href="#cb80-99" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb80-100"><a href="#cb80-100" aria-hidden="true" tabindex="-1"></a><span class="co"># degrees of freedom</span></span>
+<span id="cb80-101"><a href="#cb80-101" aria-hidden="true" tabindex="-1"></a>df_null <span class="ot">=</span> n<span class="sc">-</span>(p<span class="dv">-1</span>) <span class="co"># we dropped one input variable</span></span>
+<span id="cb80-102"><a href="#cb80-102" aria-hidden="true" tabindex="-1"></a>df_full <span class="ot">=</span> n<span class="sc">-</span>p</span>
+<span id="cb80-103"><a href="#cb80-103" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb80-104"><a href="#cb80-104" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate F_stat</span></span>
+<span id="cb80-105"><a href="#cb80-105" aria-hidden="true" tabindex="-1"></a>f_test <span class="ot">=</span> ((sse_null <span class="sc">-</span> sse_full)<span class="sc">/</span>(df_null <span class="sc">-</span> df_full)) <span class="sc">/</span> (sse_full<span class="sc">/</span>df_full)</span>
+<span id="cb80-106"><a href="#cb80-106" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb80-107"><a href="#cb80-107" aria-hidden="true" tabindex="-1"></a><span class="co"># Degrees of freedom for the F distribution:</span></span>
+<span id="cb80-108"><a href="#cb80-108" aria-hidden="true" tabindex="-1"></a>df_numerator <span class="ot">=</span> df_null <span class="sc">-</span> df_full</span>
+<span id="cb80-109"><a href="#cb80-109" aria-hidden="true" tabindex="-1"></a>df_denominator <span class="ot">=</span> df_full</span>
+<span id="cb80-110"><a href="#cb80-110" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb80-111"><a href="#cb80-111" aria-hidden="true" tabindex="-1"></a>p_m1vm2 <span class="ot">=</span> <span class="dv">1</span> <span class="sc">-</span> <span class="fu">pf</span>(f_test,</span>
+<span id="cb80-112"><a href="#cb80-112" aria-hidden="true" tabindex="-1"></a>                <span class="at">df1 =</span> df_numerator,</span>
+<span id="cb80-113"><a href="#cb80-113" aria-hidden="true" tabindex="-1"></a>                <span class="at">df2 =</span> df_denominator)</span>
+<span id="cb80-114"><a href="#cb80-114" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb80-115"><a href="#cb80-115" aria-hidden="true" tabindex="-1"></a><span class="co"># Compare to anova()</span></span>
+<span id="cb80-116"><a href="#cb80-116" aria-hidden="true" tabindex="-1"></a>f_test; p_m1vm2</span>
+<span id="cb80-117"><a href="#cb80-117" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb80-118"><a href="#cb80-118" aria-hidden="true" tabindex="-1"></a>anova_m1vm2 <span class="ot">=</span> <span class="fu">anova</span>(m2,m1)</span>
+<span id="cb80-119"><a href="#cb80-119" aria-hidden="true" tabindex="-1"></a>anova_m1vm2<span class="sc">$</span><span class="st">`</span><span class="at">F</span><span class="st">`</span>; anova_m1vm2<span class="sc">$</span><span class="st">`</span><span class="at">Pr(&gt;F)</span><span class="st">`</span></span>
+<span id="cb80-120"><a href="#cb80-120" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb80-121"><a href="#cb80-121" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb80-122"><a href="#cb80-122" aria-hidden="true" tabindex="-1"></a>Let's continue with the simplification process, using the <span class="in">`anova()`</span> function.</span>
+<span id="cb80-123"><a href="#cb80-123" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb80-126"><a href="#cb80-126" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb80-127"><a href="#cb80-127" aria-hidden="true" tabindex="-1"></a><span class="co"># model 2 is the current best.</span></span>
+<span id="cb80-128"><a href="#cb80-128" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(m2)</span>
+<span id="cb80-129"><a href="#cb80-129" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb80-130"><a href="#cb80-130" aria-hidden="true" tabindex="-1"></a><span class="co"># Now, drop x1 and check</span></span>
+<span id="cb80-131"><a href="#cb80-131" aria-hidden="true" tabindex="-1"></a>m3 <span class="ot">=</span> <span class="fu">update</span>(m2, .<span class="sc">~</span>. <span class="sc">-</span>X1)</span>
+<span id="cb80-132"><a href="#cb80-132" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb80-133"><a href="#cb80-133" aria-hidden="true" tabindex="-1"></a><span class="co"># Check:</span></span>
+<span id="cb80-134"><a href="#cb80-134" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(m3, m2)</span>
+<span id="cb80-135"><a href="#cb80-135" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb80-136"><a href="#cb80-136" aria-hidden="true" tabindex="-1"></a><span class="co"># The p-value is not significant, so we</span></span>
+<span id="cb80-137"><a href="#cb80-137" aria-hidden="true" tabindex="-1"></a><span class="co"># can accept the null (simpler model)</span></span>
+<span id="cb80-138"><a href="#cb80-138" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb80-139"><a href="#cb80-139" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(m3)</span>
+<span id="cb80-140"><a href="#cb80-140" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb80-141"><a href="#cb80-141" aria-hidden="true" tabindex="-1"></a><span class="co"># Remove X2 and check</span></span>
+<span id="cb80-142"><a href="#cb80-142" aria-hidden="true" tabindex="-1"></a>m4 <span class="ot">=</span> <span class="fu">update</span>(m3, .<span class="sc">~</span>. <span class="sc">-</span>X2)</span>
+<span id="cb80-143"><a href="#cb80-143" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(m4, m3)</span>
+<span id="cb80-144"><a href="#cb80-144" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb80-145"><a href="#cb80-145" aria-hidden="true" tabindex="-1"></a><span class="co"># Ok now the p-value is significant</span></span>
+<span id="cb80-146"><a href="#cb80-146" aria-hidden="true" tabindex="-1"></a><span class="co"># We need to reject the null (simpler model)</span></span>
+<span id="cb80-147"><a href="#cb80-147" aria-hidden="true" tabindex="-1"></a><span class="co"># We *cannot* reliably remove X2</span></span>
+<span id="cb80-148"><a href="#cb80-148" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb80-149"><a href="#cb80-149" aria-hidden="true" tabindex="-1"></a><span class="co"># Try X4 just in case:</span></span>
+<span id="cb80-150"><a href="#cb80-150" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb80-151"><a href="#cb80-151" aria-hidden="true" tabindex="-1"></a>m5 <span class="ot">=</span> <span class="fu">update</span>(m3, .<span class="sc">~</span>. <span class="sc">-</span>X4)</span>
+<span id="cb80-152"><a href="#cb80-152" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(m3, m5)</span>
+<span id="cb80-153"><a href="#cb80-153" aria-hidden="true" tabindex="-1"></a><span class="co"># p-value is significant again</span></span>
+<span id="cb80-154"><a href="#cb80-154" aria-hidden="true" tabindex="-1"></a><span class="co"># need to reject the null</span></span>
+<span id="cb80-155"><a href="#cb80-155" aria-hidden="true" tabindex="-1"></a><span class="co"># we cannot drop X4</span></span>
+<span id="cb80-156"><a href="#cb80-156" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb80-157"><a href="#cb80-157" aria-hidden="true" tabindex="-1"></a><span class="co"># Therefore, m3 is most parsimonious</span></span>
+<span id="cb80-158"><a href="#cb80-158" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(m3)</span>
+<span id="cb80-159"><a href="#cb80-159" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb80-160"><a href="#cb80-160" aria-hidden="true" tabindex="-1"></a>Therefore, model 3, is the minimum acceptable model:</span>
+<span id="cb80-161"><a href="#cb80-161" aria-hidden="true" tabindex="-1"></a>$$y_i = \beta_0 + \beta_2 x_{2,i} + \beta_4 x_{4,i} + \epsilon_i$$</span>
+<span id="cb80-162"><a href="#cb80-162" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb80-163"><a href="#cb80-163" aria-hidden="true" tabindex="-1"></a>We could actually come to the same result, using a different, more automated function, <span class="in">`step()`</span>. However, this function uses a different metric to test the null vs. full model hypothesis, the Akaike nformation criterion (AIC), which is calculated as:</span>
+<span id="cb80-164"><a href="#cb80-164" aria-hidden="true" tabindex="-1"></a>$$\text{AIC} = - 2ln(\text{Model Likelihood}) + 2k$$</span>
+<span id="cb80-165"><a href="#cb80-165" aria-hidden="true" tabindex="-1"></a>And $k$ is the number of estimated parameters in the model. We can then compare the AIC values to decide which models are "best". We will learn more about AIC later.</span>
+<span id="cb80-166"><a href="#cb80-166" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb80-167"><a href="#cb80-167" aria-hidden="true" tabindex="-1"></a>Let's use the <span class="in">`step()`</span> function and verify it gives us the same final outcome.</span>
+<span id="cb80-168"><a href="#cb80-168" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb80-171"><a href="#cb80-171" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb80-172"><a href="#cb80-172" aria-hidden="true" tabindex="-1"></a>m1_step <span class="ot">=</span> <span class="fu">step</span>(m1)</span>
+<span id="cb80-173"><a href="#cb80-173" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(m1_step)</span>
+<span id="cb80-174"><a href="#cb80-174" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb80-175"><a href="#cb80-175" aria-hidden="true" tabindex="-1"></a>We can see the selected model only includes $x_2$ and $x_4$, just like our decision based on the $F$-test. </span>
+<span id="cb80-176"><a href="#cb80-176" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb80-177"><a href="#cb80-177" aria-hidden="true" tabindex="-1"></a><span class="fu">## Model averaging</span></span>
+<span id="cb80-178"><a href="#cb80-178" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb80-179"><a href="#cb80-179" aria-hidden="true" tabindex="-1"></a>Recall from lecture that model averaging represents another philosophical approach to model selection and model comparison. In this case, the idea is that we cannot know with certainty which model of a nested sub-set of models is "true". Therefore, instead of reporting the slopes and intercepts from the single "best" model that based on parsimony, we should report "averaged" values of slopes and intercepts. These averages will take into account all of the possible nested subset of models in which those slopes and intercepts could have been calculated. This averaging procedure can produce slope and intercept estimates (as well as estimates of their uncertainty) that are less biased, and can perhaps yield better predictions of future data. </span>
+<span id="cb80-180"><a href="#cb80-180" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb80-181"><a href="#cb80-181" aria-hidden="true" tabindex="-1"></a>We will use the <span class="in">`MuMIn`</span> package (Multimodel Inference) to do model averaging later, but first we will do it manually. </span>
+<span id="cb80-182"><a href="#cb80-182" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb80-183"><a href="#cb80-183" aria-hidden="true" tabindex="-1"></a><span class="fu">### Required calculations</span></span>
+<span id="cb80-184"><a href="#cb80-184" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb80-185"><a href="#cb80-185" aria-hidden="true" tabindex="-1"></a>Recall that to come up with averaged estimates of model parameters (e.g., model-averaged slopes) we need to calculate weighted averages. These averages are weighted by how well sub-models explain the data. Following lecture, we will use the corrected $AIC$, noted as $AIC_c$, to calculate how well a model explains the data. </span>
+<span id="cb80-186"><a href="#cb80-186" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb80-187"><a href="#cb80-187" aria-hidden="true" tabindex="-1"></a>$$\text{AIC}_c = - 2ln(\text{Model Likelihood}) + 2k + \frac{2K(K+1)}{n-K-1}$$</span>
+<span id="cb80-188"><a href="#cb80-188" aria-hidden="true" tabindex="-1"></a>where $n$ is the number of data observations. Then, to calculate the weights we need to see how much each sub-model deviates from the best model. For this deviation we calculate, for sub-model $i$:</span>
+<span id="cb80-189"><a href="#cb80-189" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb80-190"><a href="#cb80-190" aria-hidden="true" tabindex="-1"></a>$$\Delta \text{AIC}_{c,i} = \text{AIC}_{c,\text{best}} - \text{AIC}_{c,i}$$</span>
+<span id="cb80-191"><a href="#cb80-191" aria-hidden="true" tabindex="-1"></a>The weight of sub-model $i$ is:</span>
+<span id="cb80-192"><a href="#cb80-192" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb80-193"><a href="#cb80-193" aria-hidden="true" tabindex="-1"></a>$$w_i = \frac{\text{exp}(-\Delta \text{AIC}_{c,i} / 2)}{\sum_{r=1}^{R} \text{exp}(-\Delta \text{AIC}_{c,r} / 2)} $$</span>
+<span id="cb80-194"><a href="#cb80-194" aria-hidden="true" tabindex="-1"></a>And $R$ is the number of submodels being examined. </span>
+<span id="cb80-195"><a href="#cb80-195" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb80-196"><a href="#cb80-196" aria-hidden="true" tabindex="-1"></a>We are now ready to calculate the weighted average of any parameter of interest in the full model, $\theta$:</span>
+<span id="cb80-197"><a href="#cb80-197" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb80-198"><a href="#cb80-198" aria-hidden="true" tabindex="-1"></a>$$\hat{\bar{\theta}} = \sum_{r=1}^{R} w_r \hat{\theta}_{r}$$</span>
+<span id="cb80-199"><a href="#cb80-199" aria-hidden="true" tabindex="-1"></a>Here, $\hat{\bar{\theta}}$ is the model-averaged estimate of parameter $\theta$, $w_r$ is the weight of sub-model $r$, and $\hat{\theta}_r$ is the parameter estimate derived from sub-model $r$. </span>
+<span id="cb80-200"><a href="#cb80-200" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb80-201"><a href="#cb80-201" aria-hidden="true" tabindex="-1"></a>We can also calculate the new averaged uncertainty in the parameter estimate:</span>
+<span id="cb80-202"><a href="#cb80-202" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb80-203"><a href="#cb80-203" aria-hidden="true" tabindex="-1"></a>$$\hat{\text{var}}(\hat{\bar{\theta}}) =  \sum_{r=1}^{R} w_r \left( \hat{\text{var}}(\hat{\theta})_r + (\hat{\theta} - \hat{\bar{\theta}})^2 \right) $$</span>
+<span id="cb80-204"><a href="#cb80-204" aria-hidden="true" tabindex="-1"></a>Here, $\hat{\text{var}}(\hat{\bar{\theta}})$ is the standard error of the averaged model parameter, whereas $\hat{\text{var}}(\hat{\theta})_r$ is the standard error of model parameter $\theta$ estimated from sub-model $r$. </span>
+<span id="cb80-205"><a href="#cb80-205" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb80-206"><a href="#cb80-206" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb80-207"><a href="#cb80-207" aria-hidden="true" tabindex="-1"></a><span class="fu">### Manual calculation</span></span>
+<span id="cb80-208"><a href="#cb80-208" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb80-209"><a href="#cb80-209" aria-hidden="true" tabindex="-1"></a>Let's see if we can manually calculate all of this from a less complex example model. Imagine our full model is a model that only has two input variables. We'll use our simulated data set from above. (Of course, we know this is a poor model, but we're just doing a case-study here.)</span>
+<span id="cb80-210"><a href="#cb80-210" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb80-213"><a href="#cb80-213" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb80-214"><a href="#cb80-214" aria-hidden="true" tabindex="-1"></a><span class="co"># Full model:</span></span>
+<span id="cb80-215"><a href="#cb80-215" aria-hidden="true" tabindex="-1"></a>full_mod <span class="ot">=</span> <span class="fu">lm</span>(y<span class="sc">~</span><span class="dv">1</span><span class="sc">+</span>X1<span class="sc">+</span>X2, <span class="at">data =</span> my_df)</span>
+<span id="cb80-216"><a href="#cb80-216" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb80-217"><a href="#cb80-217" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb80-218"><a href="#cb80-218" aria-hidden="true" tabindex="-1"></a>If this full model has two inputs, then the number of sub-models is $2^2 = 4$, which iteratively drop one or both input variables. Now, run each sub-model. I know, this is tedious.</span>
+<span id="cb80-219"><a href="#cb80-219" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb80-222"><a href="#cb80-222" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb80-223"><a href="#cb80-223" aria-hidden="true" tabindex="-1"></a>sub_m2 <span class="ot">=</span> <span class="fu">update</span>(full_mod, .<span class="sc">~</span>. <span class="sc">-</span>X2)</span>
+<span id="cb80-224"><a href="#cb80-224" aria-hidden="true" tabindex="-1"></a>sub_m3 <span class="ot">=</span> <span class="fu">update</span>(full_mod, .<span class="sc">~</span>. <span class="sc">-</span>X1)</span>
+<span id="cb80-225"><a href="#cb80-225" aria-hidden="true" tabindex="-1"></a>sub_m4 <span class="ot">=</span> <span class="fu">update</span>(full_mod, .<span class="sc">~</span>. <span class="sc">-</span>X2<span class="sc">-</span>X1) <span class="co"># Intercept only</span></span>
+<span id="cb80-226"><a href="#cb80-226" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb80-227"><a href="#cb80-227" aria-hidden="true" tabindex="-1"></a><span class="co"># Store all models in a list for easy looping later:</span></span>
+<span id="cb80-228"><a href="#cb80-228" aria-hidden="true" tabindex="-1"></a>model_list <span class="ot">=</span> <span class="fu">list</span>(</span>
+<span id="cb80-229"><a href="#cb80-229" aria-hidden="true" tabindex="-1"></a>    full_mod, sub_m2, sub_m3, sub_m4</span>
+<span id="cb80-230"><a href="#cb80-230" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb80-231"><a href="#cb80-231" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb80-232"><a href="#cb80-232" aria-hidden="true" tabindex="-1"></a><span class="co"># how many models?</span></span>
+<span id="cb80-233"><a href="#cb80-233" aria-hidden="true" tabindex="-1"></a>n_mod <span class="ot">=</span> <span class="dv">4</span></span>
+<span id="cb80-234"><a href="#cb80-234" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb80-235"><a href="#cb80-235" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb80-236"><a href="#cb80-236" aria-hidden="true" tabindex="-1"></a>To get the model-averaged slopes of inputs $x_1$ and $x_2$, we'll need to calculate $AIC_c$ values and model weights. We'll store calculations in arrays as much as possible, so we can loop through. </span>
+<span id="cb80-237"><a href="#cb80-237" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb80-238"><a href="#cb80-238" aria-hidden="true" tabindex="-1"></a>Let's start with $AIC_c$. Fortunately, there's a built-in function for this in the <span class="in">`MuMIn`</span> package, but we'll do one manually first. </span>
+<span id="cb80-239"><a href="#cb80-239" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb80-242"><a href="#cb80-242" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb80-243"><a href="#cb80-243" aria-hidden="true" tabindex="-1"></a><span class="co"># Extract neg-log-likelihood from full model:</span></span>
+<span id="cb80-244"><a href="#cb80-244" aria-hidden="true" tabindex="-1"></a>nll_full <span class="ot">=</span> <span class="sc">-</span><span class="dv">1</span><span class="sc">*</span><span class="fu">logLik</span>(full_mod)</span>
+<span id="cb80-245"><a href="#cb80-245" aria-hidden="true" tabindex="-1"></a><span class="co"># This is in a weird format, so we'll convert:</span></span>
+<span id="cb80-246"><a href="#cb80-246" aria-hidden="true" tabindex="-1"></a>nll_full <span class="ot">=</span> <span class="fu">as.numeric</span>(nll_full)</span>
+<span id="cb80-247"><a href="#cb80-247" aria-hidden="true" tabindex="-1"></a>k_full <span class="ot">=</span> <span class="dv">4</span> <span class="co"># two slopes + 1 intercept + residual sigma</span></span>
+<span id="cb80-248"><a href="#cb80-248" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb80-249"><a href="#cb80-249" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate AIC_c</span></span>
+<span id="cb80-250"><a href="#cb80-250" aria-hidden="true" tabindex="-1"></a>aic_c_full <span class="ot">=</span> <span class="dv">2</span><span class="sc">*</span>nll_full <span class="sc">+</span> <span class="dv">2</span><span class="sc">*</span>k_full <span class="sc">+</span> (<span class="dv">2</span><span class="sc">*</span>k_full<span class="sc">*</span>(k_full <span class="sc">+</span> <span class="dv">1</span>))<span class="sc">/</span>(n <span class="sc">-</span> k_full <span class="sc">-</span> <span class="dv">1</span>)</span>
+<span id="cb80-251"><a href="#cb80-251" aria-hidden="true" tabindex="-1"></a>aic_c_full</span>
+<span id="cb80-252"><a href="#cb80-252" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb80-253"><a href="#cb80-253" aria-hidden="true" tabindex="-1"></a><span class="co"># Check with built-in</span></span>
+<span id="cb80-254"><a href="#cb80-254" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(MuMIn)</span>
+<span id="cb80-255"><a href="#cb80-255" aria-hidden="true" tabindex="-1"></a><span class="fu">AICc</span>(full_mod)</span>
+<span id="cb80-256"><a href="#cb80-256" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb80-257"><a href="#cb80-257" aria-hidden="true" tabindex="-1"></a><span class="co"># Now calculate all:</span></span>
+<span id="cb80-258"><a href="#cb80-258" aria-hidden="true" tabindex="-1"></a>AICc_vec <span class="ot">=</span> <span class="cn">NULL</span></span>
+<span id="cb80-259"><a href="#cb80-259" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>n_mod){</span>
+<span id="cb80-260"><a href="#cb80-260" aria-hidden="true" tabindex="-1"></a>    AICc_vec[i] <span class="ot">=</span> <span class="fu">AICc</span>(model_list[[i]])</span>
+<span id="cb80-261"><a href="#cb80-261" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb80-262"><a href="#cb80-262" aria-hidden="true" tabindex="-1"></a>AICc_vec</span>
+<span id="cb80-263"><a href="#cb80-263" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb80-264"><a href="#cb80-264" aria-hidden="true" tabindex="-1"></a>We can see that the 'best' model, according to $AIC_c$ is the <span class="in">`sub_m3`</span>, which includes the intercept and only input $x_2$. This makes sense, because we know that the slope of $x_1$ was simulated as zero.</span>
+<span id="cb80-265"><a href="#cb80-265" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb80-266"><a href="#cb80-266" aria-hidden="true" tabindex="-1"></a>Let's now calculate the $\Delta \text{AIC}_c$.</span>
+<span id="cb80-267"><a href="#cb80-267" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb80-270"><a href="#cb80-270" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb80-271"><a href="#cb80-271" aria-hidden="true" tabindex="-1"></a><span class="co"># Best AICc</span></span>
+<span id="cb80-272"><a href="#cb80-272" aria-hidden="true" tabindex="-1"></a>AICc_best <span class="ot">=</span> <span class="fu">min</span>(AICc_vec)</span>
+<span id="cb80-273"><a href="#cb80-273" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb80-274"><a href="#cb80-274" aria-hidden="true" tabindex="-1"></a><span class="co">#\Delta AIC_c</span></span>
+<span id="cb80-275"><a href="#cb80-275" aria-hidden="true" tabindex="-1"></a>Delta_AICc_vec <span class="ot">=</span> AICc_vec <span class="sc">-</span> AICc_best</span>
+<span id="cb80-276"><a href="#cb80-276" aria-hidden="true" tabindex="-1"></a>Delta_AICc_vec</span>
+<span id="cb80-277"><a href="#cb80-277" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb80-278"><a href="#cb80-278" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb80-279"><a href="#cb80-279" aria-hidden="true" tabindex="-1"></a>Now we can calculate the model weights (i.e., the value representing how "good" each model is, relative to the best model).</span>
+<span id="cb80-280"><a href="#cb80-280" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb80-283"><a href="#cb80-283" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb80-284"><a href="#cb80-284" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate the denominator of the weight calculation</span></span>
+<span id="cb80-285"><a href="#cb80-285" aria-hidden="true" tabindex="-1"></a>weight_denom <span class="ot">=</span> <span class="dv">0</span></span>
+<span id="cb80-286"><a href="#cb80-286" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>n_mod){</span>
+<span id="cb80-287"><a href="#cb80-287" aria-hidden="true" tabindex="-1"></a>    weight_denom <span class="ot">=</span> </span>
+<span id="cb80-288"><a href="#cb80-288" aria-hidden="true" tabindex="-1"></a>        weight_denom <span class="sc">+</span></span>
+<span id="cb80-289"><a href="#cb80-289" aria-hidden="true" tabindex="-1"></a>        <span class="fu">exp</span>( <span class="sc">-</span>Delta_AICc_vec[i] <span class="sc">/</span> <span class="dv">2</span> )</span>
+<span id="cb80-290"><a href="#cb80-290" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb80-291"><a href="#cb80-291" aria-hidden="true" tabindex="-1"></a>weight_denom</span>
+<span id="cb80-292"><a href="#cb80-292" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb80-293"><a href="#cb80-293" aria-hidden="true" tabindex="-1"></a><span class="co"># Now the individual weights:</span></span>
+<span id="cb80-294"><a href="#cb80-294" aria-hidden="true" tabindex="-1"></a>weight <span class="ot">=</span> <span class="cn">NULL</span></span>
+<span id="cb80-295"><a href="#cb80-295" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>n_mod){</span>
+<span id="cb80-296"><a href="#cb80-296" aria-hidden="true" tabindex="-1"></a>    weight[i] <span class="ot">=</span> </span>
+<span id="cb80-297"><a href="#cb80-297" aria-hidden="true" tabindex="-1"></a>        <span class="fu">exp</span>( <span class="sc">-</span>Delta_AICc_vec[i] <span class="sc">/</span> <span class="dv">2</span>) <span class="sc">/</span> weight_denom</span>
+<span id="cb80-298"><a href="#cb80-298" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb80-299"><a href="#cb80-299" aria-hidden="true" tabindex="-1"></a>weight</span>
+<span id="cb80-300"><a href="#cb80-300" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb80-301"><a href="#cb80-301" aria-hidden="true" tabindex="-1"></a><span class="co"># Sum to 1?</span></span>
+<span id="cb80-302"><a href="#cb80-302" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(weight)</span>
+<span id="cb80-303"><a href="#cb80-303" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb80-304"><a href="#cb80-304" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb80-305"><a href="#cb80-305" aria-hidden="true" tabindex="-1"></a>We can see the "better" models, based on $AIC_c$ have higher weights, and the <span class="in">`weight`</span> vector should add to 1. </span>
+<span id="cb80-306"><a href="#cb80-306" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb80-307"><a href="#cb80-307" aria-hidden="true" tabindex="-1"></a>Let's calculate the model-averaged slope estimate for input $x_2$. To do this, we'll first need to extract the estimate from each sub-model. This is a little tedious, because we need to know which coefficient refers to $x_2$ in each sub-model object (or if the coefficient is absent and therefore equal to zero).</span>
+<span id="cb80-308"><a href="#cb80-308" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb80-311"><a href="#cb80-311" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb80-312"><a href="#cb80-312" aria-hidden="true" tabindex="-1"></a>coef_x2 <span class="ot">=</span> <span class="cn">NULL</span></span>
+<span id="cb80-313"><a href="#cb80-313" aria-hidden="true" tabindex="-1"></a>coef_x2[<span class="dv">1</span>] <span class="ot">=</span> <span class="fu">coef</span>(model_list[[<span class="dv">1</span>]])[<span class="dv">3</span>]</span>
+<span id="cb80-314"><a href="#cb80-314" aria-hidden="true" tabindex="-1"></a>coef_x2[<span class="dv">2</span>] <span class="ot">=</span> <span class="dv">0</span> <span class="co"># Absent from this sub-model</span></span>
+<span id="cb80-315"><a href="#cb80-315" aria-hidden="true" tabindex="-1"></a>coef_x2[<span class="dv">3</span>] <span class="ot">=</span> <span class="fu">coef</span>(model_list[[<span class="dv">3</span>]])[<span class="dv">2</span>]</span>
+<span id="cb80-316"><a href="#cb80-316" aria-hidden="true" tabindex="-1"></a>coef_x2[<span class="dv">4</span>] <span class="ot">=</span> <span class="dv">0</span> <span class="co"># Absent from this sub-model</span></span>
+<span id="cb80-317"><a href="#cb80-317" aria-hidden="true" tabindex="-1"></a>coef_x2</span>
+<span id="cb80-318"><a href="#cb80-318" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb80-319"><a href="#cb80-319" aria-hidden="true" tabindex="-1"></a><span class="co"># Averaged, based on model weight:</span></span>
+<span id="cb80-320"><a href="#cb80-320" aria-hidden="true" tabindex="-1"></a>avg_coef_x2 <span class="ot">=</span> <span class="dv">0</span></span>
+<span id="cb80-321"><a href="#cb80-321" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>n_mod){</span>
+<span id="cb80-322"><a href="#cb80-322" aria-hidden="true" tabindex="-1"></a>    avg_coef_x2 <span class="ot">=</span> </span>
+<span id="cb80-323"><a href="#cb80-323" aria-hidden="true" tabindex="-1"></a>        avg_coef_x2 <span class="sc">+</span></span>
+<span id="cb80-324"><a href="#cb80-324" aria-hidden="true" tabindex="-1"></a>        weight[i] <span class="sc">*</span> coef_x2[i]</span>
+<span id="cb80-325"><a href="#cb80-325" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb80-326"><a href="#cb80-326" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb80-327"><a href="#cb80-327" aria-hidden="true" tabindex="-1"></a>avg_coef_x2</span>
+<span id="cb80-328"><a href="#cb80-328" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb80-329"><a href="#cb80-329" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb80-330"><a href="#cb80-330" aria-hidden="true" tabindex="-1"></a>We can see the model-averaged slope estimate for input $x_2$ is slightly less than the estimate from the full model.</span>
+<span id="cb80-331"><a href="#cb80-331" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb80-334"><a href="#cb80-334" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb80-335"><a href="#cb80-335" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(full_mod)</span>
+<span id="cb80-336"><a href="#cb80-336" aria-hidden="true" tabindex="-1"></a><span class="fu">coef</span>(full_mod)[<span class="dv">3</span>]</span>
+<span id="cb80-337"><a href="#cb80-337" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb80-338"><a href="#cb80-338" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb80-339"><a href="#cb80-339" aria-hidden="true" tabindex="-1"></a>I'll leave calculating the model-averaged standard error of the slopes as an exercise for you as a student. </span>
+<span id="cb80-340"><a href="#cb80-340" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb80-341"><a href="#cb80-341" aria-hidden="true" tabindex="-1"></a>As I mentioned above, fortunately someone created a package to do this model averaging for us and remove a lot of the tedium. </span>
+<span id="cb80-342"><a href="#cb80-342" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb80-343"><a href="#cb80-343" aria-hidden="true" tabindex="-1"></a>First, run all sub-models using the <span class="in">`MuMIn::dredge()`</span> function.</span>
+<span id="cb80-346"><a href="#cb80-346" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb80-347"><a href="#cb80-347" aria-hidden="true" tabindex="-1"></a><span class="co"># Required for MuMIn::dredge functionality</span></span>
+<span id="cb80-348"><a href="#cb80-348" aria-hidden="true" tabindex="-1"></a><span class="fu">options</span>(<span class="at">na.action =</span> <span class="st">"na.fail"</span>)</span>
+<span id="cb80-349"><a href="#cb80-349" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb80-350"><a href="#cb80-350" aria-hidden="true" tabindex="-1"></a><span class="co"># Fit all sub-models:</span></span>
+<span id="cb80-351"><a href="#cb80-351" aria-hidden="true" tabindex="-1"></a>dredge_test <span class="ot">=</span> <span class="fu">dredge</span>(full_mod)</span>
+<span id="cb80-352"><a href="#cb80-352" aria-hidden="true" tabindex="-1"></a>dredge_test</span>
+<span id="cb80-353"><a href="#cb80-353" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb80-354"><a href="#cb80-354" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb80-355"><a href="#cb80-355" aria-hidden="true" tabindex="-1"></a>See how this output has run all sub-models, calculated the likelihoods, the $AIC_c$, the $\Delta AIC_c$, and the model weights. </span>
+<span id="cb80-356"><a href="#cb80-356" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb80-357"><a href="#cb80-357" aria-hidden="true" tabindex="-1"></a>Now, we can average all of the models. </span>
+<span id="cb80-360"><a href="#cb80-360" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb80-361"><a href="#cb80-361" aria-hidden="true" tabindex="-1"></a><span class="co"># Average the models:</span></span>
+<span id="cb80-362"><a href="#cb80-362" aria-hidden="true" tabindex="-1"></a>test_average <span class="ot">=</span> <span class="fu">model.avg</span>(dredge_test, <span class="at">fit =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb80-363"><a href="#cb80-363" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(test_average)</span>
+<span id="cb80-364"><a href="#cb80-364" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb80-365"><a href="#cb80-365" aria-hidden="true" tabindex="-1"></a>This <span class="in">`summary()`</span> statement shows the model-averaged values of slopes of $x_1$ and $x_2$, and the intercept. We care about the "full average". You can see the averaged estimate of the slope for $x_2$ matches our manual calculation. For emphasis:</span>
+<span id="cb80-366"><a href="#cb80-366" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb80-369"><a href="#cb80-369" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb80-370"><a href="#cb80-370" aria-hidden="true" tabindex="-1"></a>test_average<span class="sc">$</span>coefficients[<span class="dv">1</span>,<span class="dv">2</span>];</span>
+<span id="cb80-371"><a href="#cb80-371" aria-hidden="true" tabindex="-1"></a>avg_coef_x2</span>
+<span id="cb80-372"><a href="#cb80-372" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb80-373"><a href="#cb80-373" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb80-374"><a href="#cb80-374" aria-hidden="true" tabindex="-1"></a><span class="fu">### Back to more complex model</span></span>
+<span id="cb80-375"><a href="#cb80-375" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb80-376"><a href="#cb80-376" aria-hidden="true" tabindex="-1"></a>Ok, but our full model had four input variables, which means the number of sub-models is $4^2 = 16$. Let's not do that manually, but instead use the <span class="in">`MuMIn::model.avg()`</span> function. </span>
+<span id="cb80-377"><a href="#cb80-377" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb80-380"><a href="#cb80-380" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb80-381"><a href="#cb80-381" aria-hidden="true" tabindex="-1"></a><span class="co"># Reminder, m1 was our full model:</span></span>
+<span id="cb80-382"><a href="#cb80-382" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(m1)</span>
+<span id="cb80-383"><a href="#cb80-383" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb80-384"><a href="#cb80-384" aria-hidden="true" tabindex="-1"></a><span class="co"># Fit all sub-models:</span></span>
+<span id="cb80-385"><a href="#cb80-385" aria-hidden="true" tabindex="-1"></a>dredge_m1 <span class="ot">=</span> <span class="fu">dredge</span>(m1)</span>
+<span id="cb80-386"><a href="#cb80-386" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb80-387"><a href="#cb80-387" aria-hidden="true" tabindex="-1"></a><span class="co"># Average the models:</span></span>
+<span id="cb80-388"><a href="#cb80-388" aria-hidden="true" tabindex="-1"></a>m1_average <span class="ot">=</span> <span class="fu">model.avg</span>(dredge_m1, <span class="at">fit =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb80-389"><a href="#cb80-389" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(m1_average)</span>
+<span id="cb80-390"><a href="#cb80-390" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb80-391"><a href="#cb80-391" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb80-392"><a href="#cb80-392" aria-hidden="true" tabindex="-1"></a>Notice how we see the model with inputs $x_2$ and $x_4$ is the best, based on $AIC_c$ (note this is the model labeled as <span class="in">`24`</span> meaning it inclues inputs 2 and 4).</span>
+<span id="cb80-393"><a href="#cb80-393" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb80-394"><a href="#cb80-394" aria-hidden="true" tabindex="-1"></a>We can also plot the model parameter estimates with their confidence intervals:</span>
+<span id="cb80-397"><a href="#cb80-397" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb80-398"><a href="#cb80-398" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot the coefficient estimates (from the averaged model)</span></span>
+<span id="cb80-399"><a href="#cb80-399" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(m1_average)</span>
+<span id="cb80-400"><a href="#cb80-400" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb80-401"><a href="#cb80-401" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb80-402"><a href="#cb80-402" aria-hidden="true" tabindex="-1"></a>Finally, we can use the <span class="in">`predict()`</span> function as we have before to visualize the effect of each input variable on the outcome. Here, we will show the independent, model-averaged effect of $x_2$, when all other input variables are held at their average values. Then, we'll do the same for $x_4$.</span>
+<span id="cb80-403"><a href="#cb80-403" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb80-406"><a href="#cb80-406" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb80-407"><a href="#cb80-407" aria-hidden="true" tabindex="-1"></a><span class="co"># Predict from the average model:</span></span>
+<span id="cb80-408"><a href="#cb80-408" aria-hidden="true" tabindex="-1"></a><span class="co"># How does y change as a function of x2, while </span></span>
+<span id="cb80-409"><a href="#cb80-409" aria-hidden="true" tabindex="-1"></a><span class="co"># other inputs held at their average?</span></span>
+<span id="cb80-410"><a href="#cb80-410" aria-hidden="true" tabindex="-1"></a>new_df <span class="ot">=</span> <span class="fu">data.frame</span>(</span>
+<span id="cb80-411"><a href="#cb80-411" aria-hidden="true" tabindex="-1"></a>    <span class="at">X1 =</span> <span class="fu">rep</span>(<span class="fu">mean</span>(my_df<span class="sc">$</span>X1), <span class="dv">100</span>),</span>
+<span id="cb80-412"><a href="#cb80-412" aria-hidden="true" tabindex="-1"></a>    <span class="at">X2 =</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">19</span>, <span class="at">length.out =</span> <span class="dv">100</span>),</span>
+<span id="cb80-413"><a href="#cb80-413" aria-hidden="true" tabindex="-1"></a>    <span class="at">X3 =</span> <span class="fu">rep</span>(<span class="fu">mean</span>(my_df<span class="sc">$</span>X3), <span class="dv">100</span>),</span>
+<span id="cb80-414"><a href="#cb80-414" aria-hidden="true" tabindex="-1"></a>    <span class="at">X4 =</span> <span class="fu">rep</span>(<span class="fu">mean</span>(my_df<span class="sc">$</span>X4), <span class="dv">100</span>)</span>
+<span id="cb80-415"><a href="#cb80-415" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb80-416"><a href="#cb80-416" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb80-417"><a href="#cb80-417" aria-hidden="true" tabindex="-1"></a>pred_m1_avg_x2 <span class="ot">=</span> </span>
+<span id="cb80-418"><a href="#cb80-418" aria-hidden="true" tabindex="-1"></a>    <span class="fu">predict</span>(m1_average,</span>
+<span id="cb80-419"><a href="#cb80-419" aria-hidden="true" tabindex="-1"></a>            <span class="at">newdata =</span> new_df,</span>
+<span id="cb80-420"><a href="#cb80-420" aria-hidden="true" tabindex="-1"></a>            <span class="at">se.fit =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb80-421"><a href="#cb80-421" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb80-422"><a href="#cb80-422" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(my_df<span class="sc">$</span>y <span class="sc">~</span> my_df<span class="sc">$</span>X2,</span>
+<span id="cb80-423"><a href="#cb80-423" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">"input x2"</span>, <span class="at">ylab =</span> <span class="st">"y"</span>, <span class="at">pch =</span> <span class="dv">19</span>)</span>
+<span id="cb80-424"><a href="#cb80-424" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(pred_m1_avg_x2<span class="sc">$</span>fit <span class="sc">~</span> new_df<span class="sc">$</span>X2)</span>
+<span id="cb80-425"><a href="#cb80-425" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(pred_m1_avg_x2<span class="sc">$</span>fit<span class="dv">-2</span><span class="sc">*</span>pred_m1_avg_x2<span class="sc">$</span>se.fit <span class="sc">~</span> new_df<span class="sc">$</span>X2, <span class="at">lty =</span> <span class="dv">2</span>)</span>
+<span id="cb80-426"><a href="#cb80-426" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(pred_m1_avg_x2<span class="sc">$</span>fit<span class="sc">+</span><span class="dv">2</span><span class="sc">*</span>pred_m1_avg_x2<span class="sc">$</span>se.fit <span class="sc">~</span> new_df<span class="sc">$</span>X2, <span class="at">lty =</span> <span class="dv">2</span>)</span>
+<span id="cb80-427"><a href="#cb80-427" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb80-428"><a href="#cb80-428" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb80-429"><a href="#cb80-429" aria-hidden="true" tabindex="-1"></a><span class="co"># Predict from the average model:</span></span>
+<span id="cb80-430"><a href="#cb80-430" aria-hidden="true" tabindex="-1"></a><span class="co"># How does y change as a function of x4, while </span></span>
+<span id="cb80-431"><a href="#cb80-431" aria-hidden="true" tabindex="-1"></a><span class="co"># other inputs held at their average?</span></span>
+<span id="cb80-432"><a href="#cb80-432" aria-hidden="true" tabindex="-1"></a>new_df <span class="ot">=</span> <span class="fu">data.frame</span>(</span>
+<span id="cb80-433"><a href="#cb80-433" aria-hidden="true" tabindex="-1"></a>    <span class="at">X1 =</span> <span class="fu">rep</span>(<span class="fu">mean</span>(my_df<span class="sc">$</span>X1), <span class="dv">100</span>),</span>
+<span id="cb80-434"><a href="#cb80-434" aria-hidden="true" tabindex="-1"></a>    <span class="at">X2 =</span> <span class="fu">rep</span>(<span class="fu">mean</span>(my_df<span class="sc">$</span>X2), <span class="dv">100</span>),</span>
+<span id="cb80-435"><a href="#cb80-435" aria-hidden="true" tabindex="-1"></a>    <span class="at">X3 =</span> <span class="fu">rep</span>(<span class="fu">mean</span>(my_df<span class="sc">$</span>X3), <span class="dv">100</span>),</span>
+<span id="cb80-436"><a href="#cb80-436" aria-hidden="true" tabindex="-1"></a>    <span class="at">X4 =</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">19</span>, <span class="at">length.out =</span> <span class="dv">100</span>)</span>
+<span id="cb80-437"><a href="#cb80-437" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb80-438"><a href="#cb80-438" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb80-439"><a href="#cb80-439" aria-hidden="true" tabindex="-1"></a>pred_m1_avg_x4 <span class="ot">=</span> </span>
+<span id="cb80-440"><a href="#cb80-440" aria-hidden="true" tabindex="-1"></a>    <span class="fu">predict</span>(m1_average,</span>
+<span id="cb80-441"><a href="#cb80-441" aria-hidden="true" tabindex="-1"></a>            <span class="at">newdata =</span> new_df,</span>
+<span id="cb80-442"><a href="#cb80-442" aria-hidden="true" tabindex="-1"></a>            <span class="at">se.fit =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb80-443"><a href="#cb80-443" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb80-444"><a href="#cb80-444" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(my_df<span class="sc">$</span>y <span class="sc">~</span> my_df<span class="sc">$</span>X4,</span>
+<span id="cb80-445"><a href="#cb80-445" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">"input x4"</span>, <span class="at">ylab =</span> <span class="st">"y"</span>, <span class="at">pch =</span> <span class="dv">19</span>)</span>
+<span id="cb80-446"><a href="#cb80-446" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(pred_m1_avg_x4<span class="sc">$</span>fit <span class="sc">~</span> new_df<span class="sc">$</span>X4)</span>
+<span id="cb80-447"><a href="#cb80-447" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(pred_m1_avg_x4<span class="sc">$</span>fit<span class="dv">-2</span><span class="sc">*</span>pred_m1_avg_x4<span class="sc">$</span>se.fit <span class="sc">~</span> new_df<span class="sc">$</span>X4, <span class="at">lty =</span> <span class="dv">2</span>)</span>
+<span id="cb80-448"><a href="#cb80-448" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(pred_m1_avg_x4<span class="sc">$</span>fit<span class="sc">+</span><span class="dv">2</span><span class="sc">*</span>pred_m1_avg_x4<span class="sc">$</span>se.fit <span class="sc">~</span> new_df<span class="sc">$</span>X4, <span class="at">lty =</span> <span class="dv">2</span>)</span>
+<span id="cb80-449"><a href="#cb80-449" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb80-450"><a href="#cb80-450" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb80-451"><a href="#cb80-451" aria-hidden="true" tabindex="-1"></a>Another, perhaps simpler way to vizualize how well a model matches the data is to plot the model predictions of the data versus the observed data. We can even compare this to the non-averaged model.</span>
+<span id="cb80-452"><a href="#cb80-452" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb80-455"><a href="#cb80-455" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb80-456"><a href="#cb80-456" aria-hidden="true" tabindex="-1"></a>raw_predict_avg <span class="ot">=</span> <span class="fu">predict</span>(m1_average)</span>
+<span id="cb80-457"><a href="#cb80-457" aria-hidden="true" tabindex="-1"></a>raw_predict_nonavg <span class="ot">=</span> <span class="fu">predict</span>(m1)</span>
+<span id="cb80-458"><a href="#cb80-458" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb80-459"><a href="#cb80-459" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(my_df<span class="sc">$</span>y <span class="sc">~</span> raw_predict_avg,</span>
+<span id="cb80-460"><a href="#cb80-460" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">"Model Prediction"</span>, <span class="at">ylab =</span> <span class="st">"Data, y"</span>, <span class="at">pch =</span> <span class="dv">19</span>, <span class="at">col =</span> <span class="st">"red"</span>)</span>
+<span id="cb80-461"><a href="#cb80-461" aria-hidden="true" tabindex="-1"></a><span class="fu">points</span>(my_df<span class="sc">$</span>y <span class="sc">~</span> raw_predict_nonavg, <span class="at">pch =</span> <span class="dv">19</span>, <span class="at">col =</span> <span class="st">"black"</span>)</span>
+<span id="cb80-462"><a href="#cb80-462" aria-hidden="true" tabindex="-1"></a><span class="co"># 1-to-1 line</span></span>
+<span id="cb80-463"><a href="#cb80-463" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">a =</span> <span class="dv">0</span>, <span class="at">b =</span> <span class="dv">1</span>)</span>
+<span id="cb80-464"><a href="#cb80-464" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb80-465"><a href="#cb80-465" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb80-466"><a href="#cb80-466" aria-hidden="true" tabindex="-1"></a>It is hard to see, and likely not significant in this case, but the red points (model-averaged) tend to be closer to the 1:1 line, meaning the averaged model makes slightly better predictions of the observed data. </span>
 </code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div></div></div></div></div>
 </div> <!-- /content -->
