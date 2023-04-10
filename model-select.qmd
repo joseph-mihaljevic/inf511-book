@@ -417,13 +417,15 @@ Another, perhaps simpler way to vizualize how well a model matches the data is t
 ```{r}
 raw_predict_avg = predict(m1_average)
 raw_predict_nonavg = predict(m1)
+raw_predict_bad = predict(sub_m2)
 
 plot(my_df$y ~ raw_predict_avg,
      xlab = "Model Prediction", ylab = "Data, y", pch = 19, col = "red")
 points(my_df$y ~ raw_predict_nonavg, pch = 19, col = "black")
+points(my_df$y ~ raw_predict_bad, pch = 19, col = "orange")
 # 1-to-1 line
 abline(a = 0, b = 1)
 ```
 
-It is hard to see, and likely not significant in this case, but the red points (model-averaged) tend to be closer to the 1:1 line, meaning the averaged model makes slightly better predictions of the observed data. 
+It is hard to see, and likely not significant in this case, but the red points (model-averaged) tend to be closer to the 1:1 line, compared to the black points, meaning the averaged model makes slightly better predictions of the observed data. What is more clear, is that the "bad" model (which only included covariate $x_1$), does not match the 1:1 line at all; it's more of a shot-gun of points. Therefore, this clearly indicates the model is not predictive of the $y$ data. This is a good visualization of how well your models' within-sample prediction (i.e., how close the model predictions of observed data match the observed data).
 

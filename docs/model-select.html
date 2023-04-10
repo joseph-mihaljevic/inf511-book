@@ -1031,17 +1031,19 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb79"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb79-1"><a href="#cb79-1" aria-hidden="true" tabindex="-1"></a>raw_predict_avg <span class="ot">=</span> <span class="fu">predict</span>(m1_average)</span>
 <span id="cb79-2"><a href="#cb79-2" aria-hidden="true" tabindex="-1"></a>raw_predict_nonavg <span class="ot">=</span> <span class="fu">predict</span>(m1)</span>
-<span id="cb79-3"><a href="#cb79-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb79-4"><a href="#cb79-4" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(my_df<span class="sc">$</span>y <span class="sc">~</span> raw_predict_avg,</span>
-<span id="cb79-5"><a href="#cb79-5" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">"Model Prediction"</span>, <span class="at">ylab =</span> <span class="st">"Data, y"</span>, <span class="at">pch =</span> <span class="dv">19</span>, <span class="at">col =</span> <span class="st">"red"</span>)</span>
-<span id="cb79-6"><a href="#cb79-6" aria-hidden="true" tabindex="-1"></a><span class="fu">points</span>(my_df<span class="sc">$</span>y <span class="sc">~</span> raw_predict_nonavg, <span class="at">pch =</span> <span class="dv">19</span>, <span class="at">col =</span> <span class="st">"black"</span>)</span>
-<span id="cb79-7"><a href="#cb79-7" aria-hidden="true" tabindex="-1"></a><span class="co"># 1-to-1 line</span></span>
-<span id="cb79-8"><a href="#cb79-8" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">a =</span> <span class="dv">0</span>, <span class="at">b =</span> <span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb79-3"><a href="#cb79-3" aria-hidden="true" tabindex="-1"></a>raw_predict_bad <span class="ot">=</span> <span class="fu">predict</span>(sub_m2)</span>
+<span id="cb79-4"><a href="#cb79-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb79-5"><a href="#cb79-5" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(my_df<span class="sc">$</span>y <span class="sc">~</span> raw_predict_avg,</span>
+<span id="cb79-6"><a href="#cb79-6" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">"Model Prediction"</span>, <span class="at">ylab =</span> <span class="st">"Data, y"</span>, <span class="at">pch =</span> <span class="dv">19</span>, <span class="at">col =</span> <span class="st">"red"</span>)</span>
+<span id="cb79-7"><a href="#cb79-7" aria-hidden="true" tabindex="-1"></a><span class="fu">points</span>(my_df<span class="sc">$</span>y <span class="sc">~</span> raw_predict_nonavg, <span class="at">pch =</span> <span class="dv">19</span>, <span class="at">col =</span> <span class="st">"black"</span>)</span>
+<span id="cb79-8"><a href="#cb79-8" aria-hidden="true" tabindex="-1"></a><span class="fu">points</span>(my_df<span class="sc">$</span>y <span class="sc">~</span> raw_predict_bad, <span class="at">pch =</span> <span class="dv">19</span>, <span class="at">col =</span> <span class="st">"orange"</span>)</span>
+<span id="cb79-9"><a href="#cb79-9" aria-hidden="true" tabindex="-1"></a><span class="co"># 1-to-1 line</span></span>
+<span id="cb79-10"><a href="#cb79-10" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">a =</span> <span class="dv">0</span>, <span class="at">b =</span> <span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <p><img src="model-select_files/figure-html/unnamed-chunk-19-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
-<p>It is hard to see, and likely not significant in this case, but the red points (model-averaged) tend to be closer to the 1:1 line, meaning the averaged model makes slightly better predictions of the observed data.</p>
+<p>It is hard to see, and likely not significant in this case, but the red points (model-averaged) tend to be closer to the 1:1 line, compared to the black points, meaning the averaged model makes slightly better predictions of the observed data. What is more clear, is that the “bad” model (which only included covariate <span class="math inline">\(x_1\)</span>), does not match the 1:1 line at all; it’s more of a shot-gun of points. Therefore, this clearly indicates the model is not predictive of the <span class="math inline">\(y\)</span> data. This is a good visualization of how well your models’ within-sample prediction (i.e., how close the model predictions of observed data match the observed data).</p>
 
 
 <!-- -->
@@ -1665,15 +1667,17 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb80-455"><a href="#cb80-455" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
 <span id="cb80-456"><a href="#cb80-456" aria-hidden="true" tabindex="-1"></a>raw_predict_avg <span class="ot">=</span> <span class="fu">predict</span>(m1_average)</span>
 <span id="cb80-457"><a href="#cb80-457" aria-hidden="true" tabindex="-1"></a>raw_predict_nonavg <span class="ot">=</span> <span class="fu">predict</span>(m1)</span>
-<span id="cb80-458"><a href="#cb80-458" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb80-459"><a href="#cb80-459" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(my_df<span class="sc">$</span>y <span class="sc">~</span> raw_predict_avg,</span>
-<span id="cb80-460"><a href="#cb80-460" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">"Model Prediction"</span>, <span class="at">ylab =</span> <span class="st">"Data, y"</span>, <span class="at">pch =</span> <span class="dv">19</span>, <span class="at">col =</span> <span class="st">"red"</span>)</span>
-<span id="cb80-461"><a href="#cb80-461" aria-hidden="true" tabindex="-1"></a><span class="fu">points</span>(my_df<span class="sc">$</span>y <span class="sc">~</span> raw_predict_nonavg, <span class="at">pch =</span> <span class="dv">19</span>, <span class="at">col =</span> <span class="st">"black"</span>)</span>
-<span id="cb80-462"><a href="#cb80-462" aria-hidden="true" tabindex="-1"></a><span class="co"># 1-to-1 line</span></span>
-<span id="cb80-463"><a href="#cb80-463" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">a =</span> <span class="dv">0</span>, <span class="at">b =</span> <span class="dv">1</span>)</span>
-<span id="cb80-464"><a href="#cb80-464" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb80-465"><a href="#cb80-465" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb80-466"><a href="#cb80-466" aria-hidden="true" tabindex="-1"></a>It is hard to see, and likely not significant in this case, but the red points (model-averaged) tend to be closer to the 1:1 line, meaning the averaged model makes slightly better predictions of the observed data. </span>
+<span id="cb80-458"><a href="#cb80-458" aria-hidden="true" tabindex="-1"></a>raw_predict_bad <span class="ot">=</span> <span class="fu">predict</span>(sub_m2)</span>
+<span id="cb80-459"><a href="#cb80-459" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb80-460"><a href="#cb80-460" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(my_df<span class="sc">$</span>y <span class="sc">~</span> raw_predict_avg,</span>
+<span id="cb80-461"><a href="#cb80-461" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">"Model Prediction"</span>, <span class="at">ylab =</span> <span class="st">"Data, y"</span>, <span class="at">pch =</span> <span class="dv">19</span>, <span class="at">col =</span> <span class="st">"red"</span>)</span>
+<span id="cb80-462"><a href="#cb80-462" aria-hidden="true" tabindex="-1"></a><span class="fu">points</span>(my_df<span class="sc">$</span>y <span class="sc">~</span> raw_predict_nonavg, <span class="at">pch =</span> <span class="dv">19</span>, <span class="at">col =</span> <span class="st">"black"</span>)</span>
+<span id="cb80-463"><a href="#cb80-463" aria-hidden="true" tabindex="-1"></a><span class="fu">points</span>(my_df<span class="sc">$</span>y <span class="sc">~</span> raw_predict_bad, <span class="at">pch =</span> <span class="dv">19</span>, <span class="at">col =</span> <span class="st">"orange"</span>)</span>
+<span id="cb80-464"><a href="#cb80-464" aria-hidden="true" tabindex="-1"></a><span class="co"># 1-to-1 line</span></span>
+<span id="cb80-465"><a href="#cb80-465" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">a =</span> <span class="dv">0</span>, <span class="at">b =</span> <span class="dv">1</span>)</span>
+<span id="cb80-466"><a href="#cb80-466" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb80-467"><a href="#cb80-467" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb80-468"><a href="#cb80-468" aria-hidden="true" tabindex="-1"></a>It is hard to see, and likely not significant in this case, but the red points (model-averaged) tend to be closer to the 1:1 line, compared to the black points, meaning the averaged model makes slightly better predictions of the observed data. What is more clear, is that the "bad" model (which only included covariate $x_1$), does not match the 1:1 line at all; it's more of a shot-gun of points. Therefore, this clearly indicates the model is not predictive of the $y$ data. This is a good visualization of how well your models' within-sample prediction (i.e., how close the model predictions of observed data match the observed data).</span>
 </code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div></div></div></div></div>
 </div> <!-- /content -->
