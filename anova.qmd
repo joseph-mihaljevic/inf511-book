@@ -184,7 +184,6 @@ Moisture = c(
 # Simulate different effects:
 set.seed(8)
 # Just main effect
-temp = NULL; moist = NULL 
 global = 5
 beta_t = -1.25
 beta_m = 0
