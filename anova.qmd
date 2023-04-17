@@ -269,4 +269,242 @@ TukeyHSD(aov_intx)
 
 The important part of the out put is `$'Temp:Moisture'`, which shows the pairwise tests of the interactive effects. See if you can understand which differences are statistically significant, after accounting for multiple comparisons. 
 
+## ANCOVA
+
+ANCOVA is a variant of ANOVA, which stands for "Analysis of **Co**variance". For one-way ANCOVA, we are analyzing the effect of one discrete (i.e., categorical) input variable, plus one continuous input variable. The "covariance" part refers to the fact that we're trying to understand if the slope of the continuous input variable is the same or different between the levels of the discrete input variable.
+
+For one-way ANCOVA, we have a single discrete input variable, and let's assume the levels are 0 or 1. The model for one-way ANCOVA can then be written as:
+$$y_i = \mu_0 + \alpha_1 X_i + \beta_1 Z_i + \beta_2 X_i Z_i + \epsilon_i$$
+Here, $\beta_1$ is the slope of $Z$ when $X=0$, but $\beta_1 + \beta_2$ is the slope of $Z$ when $X=1$. If there is no interaction (i.e., $\beta_2=0$), then the slope of $Z$ is the same for the two levels of $X$. 
+
+Let's continue with our example from two-way ANOVA, where we have Temperature and soil Moisture. However, for ANCOVA, we will assume that Temperature is a *continuous* input variable, rather than a discrete one. 
+
+### Create data set and model function
+
+We are going to explore all four possible outcomes of the simple one-way ANCOVA. We will therefore create a static data set, as well as a function to simulate the outcome variable $Y$, depending on the model parameters.
+
+```{r}
+library(ggplot2)
+set.seed(7)
+n_rep = 35
+# Dry, Wet (0, 1)
+Moisture = rep(0:1, each = n_rep)
+# Continuous Temperature
+Temp = c(
+    runif(n_rep, min = 5, max = 25),
+    runif(n_rep, min = 5, max = 25)
+)
+
+# Function to simulate observed data
+
+calc_y_func = function(
+        mu_0 = 0,
+        alpha_1 = 0,
+        beta_1 = 0,
+        beta_2 = 0,
+        sigma = 1.0){
+    y = NULL
+    for(i in 1:length(Temp)){
+        y[i] = mu_0 + 
+            alpha_1 * Moisture[i] +
+            beta_1 * Temp[i] +
+            beta_2 * Temp[i] * Moisture[i] +
+            rnorm(1, mean = 0, sd = sigma)
+    }
+    
+    return(y)
+}
+```
+
+### Main effect of Temperature
+
+First, we'll see what the data look like when we only have an effect of the continuous input variable, in this case Temperature. 
+```{r}
+set.seed(2)
+# 1. Only slope effect
+mu_0 = 5
+alpha_1 = 0
+beta_1 = 0.75
+beta_2 = 0
+sigma = 2.25
+
+y1 = calc_y_func(
+    mu_0,alpha_1,beta_1,
+    beta_2,sigma
+)
+
+# Store as data frame
+ancova_df1 = data.frame(
+    Growth = y1,
+    Temp = Temp,
+    Moisture = factor(Moisture, levels = c(0,1), labels = c("Dry", "Wet"))
+)
+
+ggplot(ancova_df1) +
+    geom_point(aes(x = Temp, y = Growth, 
+                   shape = Moisture, color = Moisture))
+```
+
+We can see that while there is clearly a linear effect of Temperature on plant Growth, there is no obvious difference between Dry and Wet soil Moisture. 
+
+Now, let's use model simplification to statistically validate our visual interpretation of the data. 
+
+```{r}
+m1 = aov(Growth ~ Temp + Moisture + Temp*Moisture, data = ancova_df1)
+summary(m1)
+# We can try dropping the interaction
+m2 = update(m1, .~. -Temp:Moisture)
+anova(m1, m2)
+# Notice how this F and p-value is the same from
+# the summary() table of m1. 
+m3 = update(m2, .~. -Moisture)
+summary(m3)
+# Check the slope and intercept
+m3$coefficients
+```
+The model simplification validates that there is only an effect of Temperature, and the estimated slope matches our simulated value pretty closely. 
+
+### Main effect of Moisture
+
+Now, let's assume there is no effect of Temperature, but there is a difference in the levels of Moisture. 
+
+```{r}
+set.seed(5)
+# 2. Only factor effect
+mu_0 = 5
+alpha_1 = 4
+beta_1 = 0
+beta_2 = 0
+sigma = 2.0
+
+y2 = calc_y_func(
+    mu_0,alpha_1,beta_1,
+    beta_2,sigma
+)
+
+# Store as data frame
+ancova_df2 = ancova_df1
+ancova_df2$Growth = y2
+
+ggplot(ancova_df2) +
+    geom_point(aes(x = Temp, y = Growth, 
+                   shape = Moisture, color = Moisture))
+```
+We can see the difference in the means of Moisture levels, but no clear, linear Temperature effect. We will validate this with model simplification. 
+```{r}
+m1 = aov(Growth ~ Temp + Moisture + Temp*Moisture, data = ancova_df2)
+summary(m1)
+m2 = update(m1, .~. - Temp:Moisture)
+summary(m2)
+m3 = update(m2, .~. - Temp)
+summary(m3)
+```
+
+
+Indeed, the model with only Moisture is best. We can then use Tukey HSD to validate the specific differences in the Moisture levels. 
+
+```{r}
+TukeyHSD(m3)
+```
+The test shows that Wet soil leads to an approximately 3.2 value increase in plant Growth over dry soil, and this is a statistically significant difference (p-value is very low, near zero).
+
+We can use `ggplot2` to help us visualize this differnce more clearly. 
+```{r}
+ggplot(ancova_df2, aes(x = Temp, y = Growth, 
+                       color = Moisture)) +
+    geom_point() +
+    geom_smooth(method = "lm")
+```
+
+### Main effects of Temperature and Moisture
+
+Now, let's assume there is a linear effect of Temperature, and there is a difference in the levels of Moisture. But, there is still no interaction.
+
+```{r}
+set.seed(1)
+# 3. Factor and Slope effect
+mu_0 = 3
+alpha_1 = 5 
+beta_1 = 0.5
+beta_2 = 0
+sigma = 2.0
+
+y3 = calc_y_func(
+    mu_0,alpha_1,beta_1,
+    beta_2,sigma
+)
+
+# Store as data frame
+ancova_df3 = ancova_df1
+ancova_df3$Growth = y3
+
+ggplot(ancova_df3) +
+    geom_point(aes(x = Temp, y = Growth, 
+                   shape = Moisture, color = Moisture))
+```
+We can see the difference in the means of Moisture levels, and an obvious linear Temperature effect. Again, we will validate this with model simplification. 
+```{r}
+m1 = aov(Growth ~ Temp + Moisture + Temp*Moisture, 
+         data = ancova_df3)
+summary(m1)
+m2 = update(m1, .~. - Temp:Moisture)
+summary(m2)
+# m2 is best
+m2$coefficients
+```
+The test shows that Wet soil leads to an approximately 5.3 value increase in plant Growth over dry soil, and that Temperature has a similar positive, linear effect on plant Growth for both wet and dry soil. 
+
+We can use `ggplot2` to help us visualize this difference more clearly. 
+```{r}
+ggplot(ancova_df3, aes(x = Temp, y = Growth, 
+                       color = Moisture)) +
+    geom_point() +
+    geom_smooth(method = "lm")
+```
+### Interaction between Temperature and Moisture
+
+Finally, let's assume there is an interaction between Moisture and Temperature. 
+
+```{r}
+########################
+set.seed(1)
+# 4. Positive interaction
+mu_0 = 15
+alpha_1 = 0
+beta_1 = -0.45
+beta_2 = 0.75
+sigma = 2.0
+
+y4 = calc_y_func(
+    mu_0,alpha_1,beta_1,
+    beta_2,sigma
+)
+
+# Store as data frame
+ancova_df4 = ancova_df1
+ancova_df4$Growth = y4
+
+ggplot(ancova_df4) +
+    geom_point(aes(x = Temp, y = Growth, 
+                   shape = Moisture, color = Moisture))
+```
+We can visually notice how the slope of Temperature depends on whether soil Moisture is Wet or Dry. But we need to conduct model simplification to validate this. 
+```{r}
+m1 = aov(Growth ~ Temp + Moisture + Temp*Moisture, 
+         data = ancova_df4)
+summary(m1)
+# cannot drop interaction
+# full model is best
+
+m1$coefficients
+```
+We see the model coefficients match well to our simulated values. Specifically, there is a positive interaction: the slope of Temperature when soil is Dry is negative ($-0.49$), but when the soil is Wet, the slope of temperature increases and becomes positive ($-0.49 + 0.77 = 0.28$). 
+
+Let's visualize this more clearly with `ggplot2`.
+```{r}
+ggplot(ancova_df4, aes(x = Temp, y = Growth, 
+                       color = Moisture)) +
+    geom_point() +
+    geom_smooth(method = "lm")
+```
 
