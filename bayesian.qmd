@@ -1,3 +1,131 @@
 # Bayesian inference {#sec-bayesian}
 
-TBA
+## Lecture material
+
+Please download and print the lecture materials from [Bblearn](https://bblearn.nau.edu/){target="_blank"}. After lectures, the recordings will appear in the Bblearn Collaborate Ultra section.
+
+## Priors and Posteriors
+
+As a reminder, suppose we are estimating a single parameter in a model, $\theta$. In Bayesian inference, we have:
+
+$$P(\theta | \text{Data}) \propto P(\theta)P(\text{Data}|\theta)$$
+In words, this means that the posterior probability distribution of the parameter, $P(\Theta | \text{Data})$, is proportional to the prior probability distribution of the parameter, $P(\theta)$, multiplied by the likelihood of the data, given the parameter, $P(\text{Data}|\theta)$. 
+
+The prior probability distribution of the parameter quantifies what we believe the parameter's true value may be, prior to collecting data. Remember that this prior probability distribution can be "vague," meaning that we don't have high confidence in what the parameter value is prior to collecting data. Or, the prior can be "informative," meaning that we have some level of certainty in what values are most likely for the parameter. 
+
+The likelihood is the same quantity that we discussed in the sections on Maximum Likelihood. The data likelihood represents how well a model matches the data, given a particular parameter value.
+
+Finally, the posterior probability distribution represents a type of weighted likelihood - the likelihood weighted by our prior knowledge of what the parameter value might be.
+
+### Estimating the mean of a sample
+
+Here is an example of how we can visualize the relationship between the prior, the likelihood, and the posterior of a parameter. Imagine that we collect a sample of data, $y$, from the population $Y$. Our goal is to estimate the mean of that population, $Y$. Obviously this can be done by calculating the mean outright, but here we want to quantify the posterior probability distribution of the mean, so that we can simultaneously understand the central estimate as well as the uncertainty around that estimate. To do this, we must specify the likelihood of the data. We'll assume that:
+$$y_i \sim N(\mu, \sigma)$$
+We'll assume we know $\simga$ with certainty. Our goal then is to estimate the posterior of $\mu$, $P(\mu | y)$. 
+
+First we'll generate data points $y$ from a "known" distribution.
+```{r}
+set.seed(3)
+n_obs = 15
+mu_known = 8.2
+sigma_fixed = 2.5
+y = rnorm(n_obs, mean = mu_known, sd = sigma_fixed)
+
+hist(y)
+```
+Obviously in this easy example we could calculate a point estimate of the mean of $Y$ using the mean of sample $y$:
+```{r}
+mean(y)
+```
+But, this estimate leads to no understanding of the certainty in our estimate of the true mean of population $Y$. Instead, let's use Bayesian inference. For instance, we know that the true mean of $Y$ is $8.2$, which we simulated. So this estimate of $\mu$ has error, especially because of low sample size. 
+
+First, let's specify a vague prior probability distribution for $\mu$. We'll assume:
+$$\mu \sim N(0, 50)$$
+We can visualize this prior probability density function.
+```{r}
+mu_guess = seq(0, 20, length.out = 200)
+# Prior prob distribution
+mu_prior = dnorm(mu_guess, 0, 50, log = TRUE)
+
+plot(exp(mu_prior) ~ mu_guess,
+     type = "l",
+     xlab = expression(mu),
+     ylab = expression("P("~mu~")"))
+```
+
+Notice that because we made the prior so "vague", all of the possible values of $\mu$ that we plotted (ranging from 0 to 20), all have very low probabilities, because basically all possible values of $\mu$ (ranging negative to positive infinity) have equally low probability with this vauge prior. I'm exaggerating a little bit to make a point. 
+
+Now, we need to create a function to calculate the likelihood of any particular "guess" of $\mu$. 
+
+```{r}
+mu_likelihood = function(this_mu, data){
+    
+    log_lhood = 
+        sum(
+            dnorm(data, 
+                  mean = this_mu,
+                  sd = sigma_fixed,
+                  log = TRUE)
+        )
+    return(log_lhood)
+}
+```
+We've seen these sorts of functions before. Now, let's calculate the likelihood for each of our "guesses" of $\mu$. 
+
+```{r}
+# Store the likelihoods:
+mu_lhood = NULL
+for(i in 1:length(mu_guess)){
+    mu_lhood[i] = mu_likelihood(mu_guess[i], y)
+}
+
+# Plot on ln scale:
+plot(exp(mu_lhood) ~ mu_guess,
+     type = "l",
+     xlab = expression(mu),
+     ylab = expression("P("~y~"|"~mu~")"))
+```
+Now we can calculate the posterior as the product of the prior and the likelihood (or the sum of the log-scale values of these distributions). 
+
+```{r}
+mu_posterior = mu_prior + mu_lhood
+
+plot(exp(mu_posterior) ~ mu_guess,
+     type = "l",
+     xlab = expression(mu),
+     ylab = expression("P("~mu~"|"~y~")"))
+abline(v = mu_known, lty = 1)
+abline(v = mean(y), lty = 2)
+```
+What we see here is that with the vague prior, the posterior basically reflects the data likelihood. The prior gave no additional information to the analysis. 
+
+Now let's see how the posterior might change with a more informative prior that is actually biased to the incorrect value of $\mu$, such as $\mu \sim N(2, 0.75)$.
+
+```{r}
+# Prior prob distribution
+mu_prior = dnorm(mu_guess, 2, 0.75, log = TRUE)
+
+plot(exp(mu_prior) ~ mu_guess,
+     type = "l",
+     xlab = expression(mu),
+     ylab = expression("P("~mu~")"))
+
+mu_posterior = mu_prior + mu_lhood
+
+plot(exp(mu_posterior) ~ mu_guess,
+     type = "l",
+     xlab = expression(mu),
+     ylab = expression("P("~mu~"|"~y~")"))
+abline(v = mu_known, lty = 1)
+abline(v = mean(y), lty = 2)
+```
+Now what we see more clearly is that the posterior is the data likelihood *weighted* by the prior. In this case, because we have very few data points, the posterior is particularly sensitive to the prior of $\mu$. 
+
+### Using Monte Carlo sampling
+
+In reality, we are estimating more than one parameter in a model. Therefore, estimating the posterior of the model means estimating the joint posterior of the model parameters, so that we can quantify the marginal posterior estimate of each model parameter. 
+
+Therefore we use an algorithm to "sample from" the joint posterior. We don't have enough time to explain the available algorithms in detail (see INF626: Applied Bayesian Modeling). However, these algorithms typically employ a variant of Monte Carlo sampling (e.g., Markov chain Monte Carlo (MCMC) or Hamiltonian Monte Carlo (HMC)). The statistical programming language `Stan` uses HMC, and we will employ `Stan` via the R package `rstan`. 
+
+We'll demonstrate `rstan` in class, because it is difficult to run on the website code here. 
+
