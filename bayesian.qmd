@@ -4,7 +4,7 @@
 
 Please download and print the lecture materials from [Bblearn](https://bblearn.nau.edu/){target="_blank"}. After lectures, the recordings will appear in the Bblearn Collaborate Ultra section.
 
-## Priors and Posteriors
+## Background
 
 As a reminder, suppose we are estimating a single parameter in a model, $\theta$. In Bayesian inference, we have:
 
@@ -17,7 +17,7 @@ The likelihood is the same quantity that we discussed in the sections on Maximum
 
 Finally, the posterior probability distribution represents a type of weighted likelihood - the likelihood weighted by our prior knowledge of what the parameter value might be.
 
-### Estimating the mean of a sample
+## Estimating the mean of a sample
 
 Here is an example of how we can visualize the relationship between the prior, the likelihood, and the posterior of a parameter. Imagine that we collect a sample of data, $y$, from the population $Y$. Our goal is to estimate the mean of that population, $Y$. Obviously this can be done by calculating the mean outright, but here we want to quantify the posterior probability distribution of the mean, so that we can simultaneously understand the central estimate as well as the uncertainty around that estimate. To do this, we must specify the likelihood of the data. We'll assume that:
 $$y_i \sim N(\mu, \sigma)$$
@@ -121,11 +121,139 @@ abline(v = mean(y), lty = 2)
 ```
 Now what we see more clearly is that the posterior is the data likelihood *weighted* by the prior. In this case, because we have very few data points, the posterior is particularly sensitive to the prior of $\mu$. 
 
-### Using Monte Carlo sampling
+## Using Monte Carlo sampling
 
 In reality, we are estimating more than one parameter in a model. Therefore, estimating the posterior of the model means estimating the joint posterior of the model parameters, so that we can quantify the marginal posterior estimate of each model parameter. 
 
 Therefore we use an algorithm to "sample from" the joint posterior. We don't have enough time to explain the available algorithms in detail (see INF626: Applied Bayesian Modeling). However, these algorithms typically employ a variant of Monte Carlo sampling (e.g., Markov chain Monte Carlo (MCMC) or Hamiltonian Monte Carlo (HMC)). The statistical programming language `Stan` uses HMC, and we will employ `Stan` via the R package `rstan`. 
 
-We'll demonstrate `rstan` in class, because it is difficult to run on the website code here. 
+Note that because we are using Quarto documents, we need to set up the `Stan` model in a very particular way, to get it to work with code chunks. Usually, when using a `.R` file, we create a separate `.stan` file, and then we run the `rstan::stan()` function in the `.R` file, while referencing the `.stan` file that should be saved in our working directory. Here, we will create and compile the `.stan` file in one place (in the Quarto document). I will put an example set of `.R` and `.stan` files on BBLearn that compliment the following examples. 
+
+### Estimating the mean of a sample using Stan
+
+First, we will load `rstan` and set some required options.
+```{r}
+library(rstan)
+options(mc.cores = parallel::detectCores())
+rstan_options(auto_write = TRUE)
+```
+
+Next, we will create a `.stan` model that allows us to estimate the mean only.
+
+```{stan output.var = "estimate_mu"}
+// The input data is a vector 'y' of length 'N'.
+data {
+  int<lower=0> N;
+  vector[N] y;
+  real<lower=0> sigma_fixed;
+}
+
+// The parameters accepted by the model. 
+parameters {
+  real mu;
+}
+
+// The model to be estimated.
+model {
+  // priors
+  mu ~ normal(0, 50.0);
+  
+  // likelihood
+  y ~ normal(mu, sigma_fixed);
+}
+
+```
+
+When the chunk above is run, it compiles the `Stan` model into `C++` code that gets run in the background. Next, we will use `R` code to set up and run the `Stan` model to estimate the parameter $\mu$.
+
+```{r}
+
+# create a list for stan
+mu_fit_data = list(
+    N = length(y),
+    y = y,
+    sigma_fixed = sigma_fixed
+)
+
+# Fit the compiled model using stan defaults
+fit = sampling(estimate_mu, # this is generated from the previous code-chunk
+               data = mu_fit_data)
+
+# Summarize the output
+print(fit)
+```
+
+This `print()` format shows us the mean and median (`50%`) estimates of $\mu$. The output also shows various levels of the "credible intervals". For instance, the `2.5%` and `97.5%` would give us the ends of the "95% credible interval", whereas the `25%` and `75%` would give us the ends of the "50% credible interval". 
+
+We can also generate various summary visualizations. 
+```{r}
+plot(fit)
+plot(fit, show_density = TRUE)
+plot(fit, plotfun = "hist")
+```
+
+These three plots summarize the posterior estimate of $\mu$ in various ways. 
+
+Next, we can observe the "traceplot" which shows the outcome of the 4 HMC chains that sample from the posterior. 
+```{r}
+plot(fit, plotfun = "trace")
+```
+
+### Estimating the mean and the standard deviation using Stan
+
+Now let's assume the more likely case in which we do not know the mean nor the standard deviation of the sample, so we need to estimate $\mu$ and $\sigma$ of the normal distribution. 
+
+
+```{stan output.var = "estimate_mu_sigma"}
+// The input data is a vector 'y' of length 'N'.
+data {
+  int<lower=0> N;
+  vector[N] y;
+}
+
+// The parameters accepted by the model. 
+parameters {
+  real mu;
+  real<lower=0> sigma;
+}
+
+// The model to be estimated.
+model {
+  // priors
+  mu ~ normal(0, 50.0);
+  sigma ~ cauchy(0, 1);
+  
+  // likelihood
+  y ~ normal(mu, sigma);
+}
+
+```
+
+Notice how now we have two parameters in the `parameters` code block. We also are specifying two prior distributions, one for $\mu$ and one for $\sigma$. We are using the `cauchy` probability distribution for $\sigma$, which is useful in part because this distribution ensures that $\sigma > 0$. 
+
+Next, we will use `R` code to set up and run the `Stan` model.
+```{r}
+# create a list for stan
+mu_sigma_fit_data = list(
+    N = length(y),
+    y = y
+)
+
+# Fit the "model" using stan defaults
+fit2 = sampling(estimate_mu_sigma, 
+                data = mu_sigma_fit_data)
+
+# Summarize the output
+print(fit2)
+```
+
+Now the `print()` statement shows the output for both $\mu$ and $\sigma$. And we can see that the true values of both parameters lie within the 95% credible interval of the posterior. 
+
+We can also generate various summary visualizations. 
+```{r}
+plot(fit2, plotfun = "hist")
+plot(fit2, show_density = TRUE)
+plot(fit2, plotfun = "trace")
+```
+
 

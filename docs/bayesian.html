@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.2.335">
+<meta name="generator" content="quarto-1.2.269">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 <title>INF511: Modern Regression I - 9&nbsp; Bayesian inference</title>
 <style>
@@ -223,11 +223,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
    
   <ul>
 <li><a href="#lecture-material" id="toc-lecture-material" class="nav-link active" data-scroll-target="#lecture-material"><span class="toc-section-number">9.1</span>  Lecture material</a></li>
+  <li><a href="#background" id="toc-background" class="nav-link" data-scroll-target="#background"><span class="toc-section-number">9.2</span>  Background</a></li>
+  <li><a href="#estimating-the-mean-of-a-sample" id="toc-estimating-the-mean-of-a-sample" class="nav-link" data-scroll-target="#estimating-the-mean-of-a-sample"><span class="toc-section-number">9.3</span>  Estimating the mean of a sample</a></li>
   <li>
-<a href="#priors-and-posteriors" id="toc-priors-and-posteriors" class="nav-link" data-scroll-target="#priors-and-posteriors"><span class="toc-section-number">9.2</span>  Priors and Posteriors</a>
+<a href="#using-monte-carlo-sampling" id="toc-using-monte-carlo-sampling" class="nav-link" data-scroll-target="#using-monte-carlo-sampling"><span class="toc-section-number">9.4</span>  Using Monte Carlo sampling</a>
   <ul class="collapse">
-<li><a href="#estimating-the-mean-of-a-sample" id="toc-estimating-the-mean-of-a-sample" class="nav-link" data-scroll-target="#estimating-the-mean-of-a-sample"><span class="toc-section-number">9.2.1</span>  Estimating the mean of a sample</a></li>
-  <li><a href="#using-monte-carlo-sampling" id="toc-using-monte-carlo-sampling" class="nav-link" data-scroll-target="#using-monte-carlo-sampling"><span class="toc-section-number">9.2.2</span>  Using Monte Carlo sampling</a></li>
+<li><a href="#estimating-the-mean-of-a-sample-using-stan" id="toc-estimating-the-mean-of-a-sample-using-stan" class="nav-link" data-scroll-target="#estimating-the-mean-of-a-sample-using-stan"><span class="toc-section-number">9.4.1</span>  Estimating the mean of a sample using Stan</a></li>
+  <li><a href="#estimating-the-mean-and-the-standard-deviation-using-stan" id="toc-estimating-the-mean-and-the-standard-deviation-using-stan" class="nav-link" data-scroll-target="#estimating-the-mean-and-the-standard-deviation-using-stan"><span class="toc-section-number">9.4.2</span>  Estimating the mean and the standard deviation using Stan</a></li>
   </ul>
 </li>
   </ul><div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/joseph-mihaljevic/inf511-book/blob/main/bayesian.qmd" class="toc-action">View source</a></p><p><a href="https://github.com/joseph-mihaljevic/inf511-book/issues/new" class="toc-action">Report an issue</a></p></div></div></nav>
@@ -250,15 +252,15 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </header><section id="lecture-material" class="level2" data-number="9.1"><h2 data-number="9.1" class="anchored" data-anchor-id="lecture-material">
 <span class="header-section-number">9.1</span> Lecture material</h2>
 <p>Please download and print the lecture materials from <a href="https://bblearn.nau.edu/" target="_blank">Bblearn</a>. After lectures, the recordings will appear in the Bblearn Collaborate Ultra section.</p>
-</section><section id="priors-and-posteriors" class="level2" data-number="9.2"><h2 data-number="9.2" class="anchored" data-anchor-id="priors-and-posteriors">
-<span class="header-section-number">9.2</span> Priors and Posteriors</h2>
+</section><section id="background" class="level2" data-number="9.2"><h2 data-number="9.2" class="anchored" data-anchor-id="background">
+<span class="header-section-number">9.2</span> Background</h2>
 <p>As a reminder, suppose we are estimating a single parameter in a model, <span class="math inline">\(\theta\)</span>. In Bayesian inference, we have:</p>
 <p><span class="math display">\[P(\theta | \text{Data}) \propto P(\theta)P(\text{Data}|\theta)\]</span> In words, this means that the posterior probability distribution of the parameter, <span class="math inline">\(P(\theta | \text{Data})\)</span>, is proportional to the prior probability distribution of the parameter, <span class="math inline">\(P(\theta)\)</span>, multiplied by the likelihood of the data, given the parameter, <span class="math inline">\(P(\text{Data}|\theta)\)</span>.</p>
 <p>The prior probability distribution of the parameter quantifies what we believe the parameter’s true value may be, prior to collecting data. Remember that this prior probability distribution can be “vague,” meaning that we don’t have high confidence in what the parameter value is prior to collecting data. Or, the prior can be “informative,” meaning that we have some level of certainty in what values are most likely for the parameter.</p>
 <p>The likelihood is the same quantity that we discussed in the sections on Maximum Likelihood. The data likelihood represents how well a model matches the data, given a particular parameter value.</p>
 <p>Finally, the posterior probability distribution represents a type of weighted likelihood - the likelihood weighted by our prior knowledge of what the parameter value might be.</p>
-<section id="estimating-the-mean-of-a-sample" class="level3" data-number="9.2.1"><h3 data-number="9.2.1" class="anchored" data-anchor-id="estimating-the-mean-of-a-sample">
-<span class="header-section-number">9.2.1</span> Estimating the mean of a sample</h3>
+</section><section id="estimating-the-mean-of-a-sample" class="level2" data-number="9.3"><h2 data-number="9.3" class="anchored" data-anchor-id="estimating-the-mean-of-a-sample">
+<span class="header-section-number">9.3</span> Estimating the mean of a sample</h2>
 <p>Here is an example of how we can visualize the relationship between the prior, the likelihood, and the posterior of a parameter. Imagine that we collect a sample of data, <span class="math inline">\(y\)</span>, from the population <span class="math inline">\(Y\)</span>. Our goal is to estimate the mean of that population, <span class="math inline">\(Y\)</span>. Obviously this can be done by calculating the mean outright, but here we want to quantify the posterior probability distribution of the mean, so that we can simultaneously understand the central estimate as well as the uncertainty around that estimate. To do this, we must specify the likelihood of the data. We’ll assume that: <span class="math display">\[y_i \sim N(\mu, \sigma)\]</span> We’ll assume we know <span class="math inline">\(\sigma\)</span> with certainty. Our goal then is to estimate the posterior of <span class="math inline">\(\mu\)</span>, <span class="math inline">\(P(\mu | y)\)</span>.</p>
 <p>First we’ll generate data points <span class="math inline">\(y\)</span> from a “known” distribution.</p>
 <div class="cell">
@@ -367,11 +369,210 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 </div>
 <p>Now what we see more clearly is that the posterior is the data likelihood <em>weighted</em> by the prior. In this case, because we have very few data points, the posterior is particularly sensitive to the prior of <span class="math inline">\(\mu\)</span>.</p>
-</section><section id="using-monte-carlo-sampling" class="level3" data-number="9.2.2"><h3 data-number="9.2.2" class="anchored" data-anchor-id="using-monte-carlo-sampling">
-<span class="header-section-number">9.2.2</span> Using Monte Carlo sampling</h3>
+</section><section id="using-monte-carlo-sampling" class="level2" data-number="9.4"><h2 data-number="9.4" class="anchored" data-anchor-id="using-monte-carlo-sampling">
+<span class="header-section-number">9.4</span> Using Monte Carlo sampling</h2>
 <p>In reality, we are estimating more than one parameter in a model. Therefore, estimating the posterior of the model means estimating the joint posterior of the model parameters, so that we can quantify the marginal posterior estimate of each model parameter.</p>
 <p>Therefore we use an algorithm to “sample from” the joint posterior. We don’t have enough time to explain the available algorithms in detail (see INF626: Applied Bayesian Modeling). However, these algorithms typically employ a variant of Monte Carlo sampling (e.g., Markov chain Monte Carlo (MCMC) or Hamiltonian Monte Carlo (HMC)). The statistical programming language <code>Stan</code> uses HMC, and we will employ <code>Stan</code> via the R package <code>rstan</code>.</p>
-<p>We’ll demonstrate <code>rstan</code> in class, because it is difficult to run on the website code here.</p>
+<p>Note that because we are using Quarto documents, we need to set up the <code>Stan</code> model in a very particular way, to get it to work with code chunks. Usually, when using a <code>.R</code> file, we create a separate <code>.stan</code> file, and then we run the <code><a href="https://mc-stan.org/rstan/reference/stan.html">rstan::stan()</a></code> function in the <code>.R</code> file, while referencing the <code>.stan</code> file that should be saved in our working directory. Here, we will create and compile the <code>.stan</code> file in one place (in the Quarto document). I will put an example set of <code>.R</code> and <code>.stan</code> files on BBLearn that compliment the following examples.</p>
+<section id="estimating-the-mean-of-a-sample-using-stan" class="level3" data-number="9.4.1"><h3 data-number="9.4.1" class="anchored" data-anchor-id="estimating-the-mean-of-a-sample-using-stan">
+<span class="header-section-number">9.4.1</span> Estimating the mean of a sample using Stan</h3>
+<p>First, we will load <code>rstan</code> and set some required options.</p>
+<div class="cell">
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://mc-stan.org/rstan/">rstan</a></span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Loading required package: StanHeaders</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Loading required package: ggplot2</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>rstan (Version 2.21.8, GitRev: 2e1f913d3ca3)</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>For execution on a local, multicore CPU with excess RAM we recommend calling
+options(mc.cores = parallel::detectCores()).
+To avoid recompilation of unchanged Stan programs, we recommend calling
+rstan_options(auto_write = TRUE)</code></pre>
+</div>
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/options.html">options</a></span><span class="op">(</span>mc.cores <span class="op">=</span> <span class="fu">parallel</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/parallel/detectCores.html">detectCores</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://mc-stan.org/rstan/reference/rstan_options.html">rstan_options</a></span><span class="op">(</span>auto_write <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Next, we will create a <code>.stan</code> model that allows us to estimate the mean only.</p>
+<div class="cell" data-output.var="estimate_mu">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode stan code-with-copy"><code class="sourceCode stan"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co">// The input data is a vector 'y' of length 'N'.</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="kw">data</span> {</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">int</span>&lt;<span class="kw">lower</span>=<span class="dv">0</span>&gt; N;</span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>  <span class="dt">vector</span>[N] y;</span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>  <span class="dt">real</span>&lt;<span class="kw">lower</span>=<span class="dv">0</span>&gt; sigma_fixed;</span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a><span class="co">// The parameters accepted by the model. </span></span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a><span class="kw">parameters</span> {</span>
+<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a>  <span class="dt">real</span> mu;</span>
+<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-13"><a href="#cb16-13" aria-hidden="true" tabindex="-1"></a><span class="co">// The model to be estimated.</span></span>
+<span id="cb16-14"><a href="#cb16-14" aria-hidden="true" tabindex="-1"></a><span class="kw">model</span> {</span>
+<span id="cb16-15"><a href="#cb16-15" aria-hidden="true" tabindex="-1"></a>  <span class="co">// priors</span></span>
+<span id="cb16-16"><a href="#cb16-16" aria-hidden="true" tabindex="-1"></a>  mu ~ normal(<span class="dv">0</span>, <span class="fl">50.0</span>);</span>
+<span id="cb16-17"><a href="#cb16-17" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb16-18"><a href="#cb16-18" aria-hidden="true" tabindex="-1"></a>  <span class="co">// likelihood</span></span>
+<span id="cb16-19"><a href="#cb16-19" aria-hidden="true" tabindex="-1"></a>  y ~ normal(mu, sigma_fixed);</span>
+<span id="cb16-20"><a href="#cb16-20" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>When the chunk above is run, it compiles the <code>Stan</code> model into <code>C++</code> code that gets run in the background. Next, we will use <code>R</code> code to set up and run the <code>Stan</code> model to estimate the parameter <span class="math inline">\(\mu\)</span>.</p>
+<div class="cell">
+<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># create a list for stan</span></span>
+<span><span class="va">mu_fit_data</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span></span>
+<span>    N <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/length.html">length</a></span><span class="op">(</span><span class="va">y</span><span class="op">)</span>,</span>
+<span>    y <span class="op">=</span> <span class="va">y</span>,</span>
+<span>    sigma_fixed <span class="op">=</span> <span class="va">sigma_fixed</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Fit the compiled model using stan defaults</span></span>
+<span><span class="va">fit</span> <span class="op">=</span> <span class="fu"><a href="https://mc-stan.org/rstan/reference/stanmodel-method-sampling.html">sampling</a></span><span class="op">(</span><span class="va">estimate_mu</span>, <span class="co"># this is generated from the previous code-chunk</span></span>
+<span>               data <span class="op">=</span> <span class="va">mu_fit_data</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Summarize the output</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="va">fit</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Inference for Stan model: 191072567d922448f8d714298d1d145a.
+4 chains, each with iter=2000; warmup=1000; thin=1; 
+post-warmup draws per chain=1000, total post-warmup draws=4000.
+
+      mean se_mean   sd  2.5%   25%   50%   75% 97.5% n_eff Rhat
+mu    7.71    0.02 0.64  6.46  7.28  7.72  8.13  8.98  1407    1
+lp__ -4.84    0.02 0.68 -6.77 -5.01 -4.57 -4.40 -4.35  1714    1
+
+Samples were drawn using NUTS(diag_e) at Mon Apr 24 10:54:52 2023.
+For each parameter, n_eff is a crude measure of effective sample size,
+and Rhat is the potential scale reduction factor on split chains (at 
+convergence, Rhat=1).</code></pre>
+</div>
+</div>
+<p>This <code><a href="https://rdrr.io/r/base/print.html">print()</a></code> format shows us the mean and median (<code>50%</code>) estimates of <span class="math inline">\(\mu\)</span>. The output also shows various levels of the “credible intervals”. For instance, the <code>2.5%</code> and <code>97.5%</code> would give us the ends of the “95% credible interval”, whereas the <code>25%</code> and <code>75%</code> would give us the ends of the “50% credible interval”.</p>
+<p>We can also generate various summary visualizations.</p>
+<div class="cell">
+<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">fit</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>ci_level: 0.8 (80% intervals)</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>outer_level: 0.95 (95% intervals)</code></pre>
+</div>
+<div class="cell-output-display">
+<p><img src="bayesian_files/figure-html/unnamed-chunk-11-1.png" class="img-fluid" width="672"></p>
+</div>
+<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">fit</span>, show_density <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>ci_level: 0.8 (80% intervals)
+outer_level: 0.95 (95% intervals)</code></pre>
+</div>
+<div class="cell-output-display">
+<p><img src="bayesian_files/figure-html/unnamed-chunk-11-2.png" class="img-fluid" width="672"></p>
+</div>
+<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">fit</span>, plotfun <span class="op">=</span> <span class="st">"hist"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: The dot-dot notation (`..density..`) was deprecated in ggplot2 3.4.0.
+ℹ Please use `after_stat(density)` instead.
+ℹ The deprecated feature was likely used in the rstan package.
+  Please report the issue at &lt;https://github.com/stan-dev/rstan/issues/&gt;.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>`stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
+</div>
+<div class="cell-output-display">
+<p><img src="bayesian_files/figure-html/unnamed-chunk-11-3.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>These three plots summarize the posterior estimate of <span class="math inline">\(\mu\)</span> in various ways.</p>
+<p>Next, we can observe the “traceplot” which shows the outcome of the 4 HMC chains that sample from the posterior.</p>
+<div class="cell">
+<div class="sourceCode" id="cb27"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">fit</span>, plotfun <span class="op">=</span> <span class="st">"trace"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="bayesian_files/figure-html/unnamed-chunk-12-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section><section id="estimating-the-mean-and-the-standard-deviation-using-stan" class="level3" data-number="9.4.2"><h3 data-number="9.4.2" class="anchored" data-anchor-id="estimating-the-mean-and-the-standard-deviation-using-stan">
+<span class="header-section-number">9.4.2</span> Estimating the mean and the standard deviation using Stan</h3>
+<p>Now let’s assume the more likely case in which we do not know the mean nor the standard deviation of the sample, so we need to estimate <span class="math inline">\(\mu\)</span> and <span class="math inline">\(\sigma\)</span> of the normal distribution.</p>
+<div class="cell" data-output.var="estimate_mu_sigma">
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode stan code-with-copy"><code class="sourceCode stan"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="co">// The input data is a vector 'y' of length 'N'.</span></span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a><span class="kw">data</span> {</span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">int</span>&lt;<span class="kw">lower</span>=<span class="dv">0</span>&gt; N;</span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>  <span class="dt">vector</span>[N] y;</span>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-7"><a href="#cb28-7" aria-hidden="true" tabindex="-1"></a><span class="co">// The parameters accepted by the model. </span></span>
+<span id="cb28-8"><a href="#cb28-8" aria-hidden="true" tabindex="-1"></a><span class="kw">parameters</span> {</span>
+<span id="cb28-9"><a href="#cb28-9" aria-hidden="true" tabindex="-1"></a>  <span class="dt">real</span> mu;</span>
+<span id="cb28-10"><a href="#cb28-10" aria-hidden="true" tabindex="-1"></a>  <span class="dt">real</span>&lt;<span class="kw">lower</span>=<span class="dv">0</span>&gt; sigma;</span>
+<span id="cb28-11"><a href="#cb28-11" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb28-12"><a href="#cb28-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-13"><a href="#cb28-13" aria-hidden="true" tabindex="-1"></a><span class="co">// The model to be estimated.</span></span>
+<span id="cb28-14"><a href="#cb28-14" aria-hidden="true" tabindex="-1"></a><span class="kw">model</span> {</span>
+<span id="cb28-15"><a href="#cb28-15" aria-hidden="true" tabindex="-1"></a>  <span class="co">// priors</span></span>
+<span id="cb28-16"><a href="#cb28-16" aria-hidden="true" tabindex="-1"></a>  mu ~ normal(<span class="dv">0</span>, <span class="fl">50.0</span>);</span>
+<span id="cb28-17"><a href="#cb28-17" aria-hidden="true" tabindex="-1"></a>  sigma ~ cauchy(<span class="dv">0</span>, <span class="dv">1</span>);</span>
+<span id="cb28-18"><a href="#cb28-18" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb28-19"><a href="#cb28-19" aria-hidden="true" tabindex="-1"></a>  <span class="co">// likelihood</span></span>
+<span id="cb28-20"><a href="#cb28-20" aria-hidden="true" tabindex="-1"></a>  y ~ normal(mu, sigma);</span>
+<span id="cb28-21"><a href="#cb28-21" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Notice how now we have two parameters in the <code>parameters</code> code block. We also are specifying two prior distributions, one for <span class="math inline">\(\mu\)</span> and one for <span class="math inline">\(\sigma\)</span>. We are using the <code>cauchy</code> probability distribution for <span class="math inline">\(\sigma\)</span>, which is useful in part because this distribution ensures that <span class="math inline">\(\sigma &gt; 0\)</span>.</p>
+<p>Next, we will use <code>R</code> code to set up and run the <code>Stan</code> model.</p>
+<div class="cell">
+<div class="sourceCode" id="cb29"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># create a list for stan</span></span>
+<span><span class="va">mu_sigma_fit_data</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span></span>
+<span>    N <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/length.html">length</a></span><span class="op">(</span><span class="va">y</span><span class="op">)</span>,</span>
+<span>    y <span class="op">=</span> <span class="va">y</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Fit the "model" using stan defaults</span></span>
+<span><span class="va">fit2</span> <span class="op">=</span> <span class="fu"><a href="https://mc-stan.org/rstan/reference/stanmodel-method-sampling.html">sampling</a></span><span class="op">(</span><span class="va">estimate_mu_sigma</span>, </span>
+<span>                data <span class="op">=</span> <span class="va">mu_sigma_fit_data</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Summarize the output</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="va">fit2</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Inference for Stan model: a0d26ace7e7eb0b5ed98f9c25c9b94f0.
+4 chains, each with iter=2000; warmup=1000; thin=1; 
+post-warmup draws per chain=1000, total post-warmup draws=4000.
+
+        mean se_mean   sd   2.5%    25%    50%    75%  97.5% n_eff Rhat
+mu      7.71    0.01 0.53   6.64   7.38   7.72   8.05   8.77  2508    1
+sigma   2.04    0.01 0.41   1.43   1.76   1.98   2.27   3.00  2301    1
+lp__  -19.10    0.03 1.03 -21.86 -19.52 -18.81 -18.35 -18.06  1351    1
+
+Samples were drawn using NUTS(diag_e) at Mon Apr 24 10:55:13 2023.
+For each parameter, n_eff is a crude measure of effective sample size,
+and Rhat is the potential scale reduction factor on split chains (at 
+convergence, Rhat=1).</code></pre>
+</div>
+</div>
+<p>Now the <code><a href="https://rdrr.io/r/base/print.html">print()</a></code> statement shows the output for both <span class="math inline">\(\mu\)</span> and <span class="math inline">\(\sigma\)</span>. And we can see that the true values of both parameters lie within the 95% credible interval of the posterior.</p>
+<p>We can also generate various summary visualizations.</p>
+<div class="cell">
+<div class="sourceCode" id="cb31"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">fit2</span>, plotfun <span class="op">=</span> <span class="st">"hist"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>`stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
+</div>
+<div class="cell-output-display">
+<p><img src="bayesian_files/figure-html/unnamed-chunk-15-1.png" class="img-fluid" width="672"></p>
+</div>
+<div class="sourceCode" id="cb33"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">fit2</span>, show_density <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>ci_level: 0.8 (80% intervals)
+outer_level: 0.95 (95% intervals)</code></pre>
+</div>
+<div class="cell-output-display">
+<p><img src="bayesian_files/figure-html/unnamed-chunk-15-2.png" class="img-fluid" width="672"></p>
+</div>
+<div class="sourceCode" id="cb35"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">fit2</span>, plotfun <span class="op">=</span> <span class="st">"trace"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="bayesian_files/figure-html/unnamed-chunk-15-3.png" class="img-fluid" width="672"></p>
+</div>
+</div>
 
 
 <!-- -->
@@ -570,136 +771,263 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       </a>
   </div>
 </nav><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">Source Code</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="">
-<div class="sourceCode" id="cb10" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu"># Bayesian inference {#sec-bayesian}</span></span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="fu">## Lecture material</span></span>
-<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>Please download and print the lecture materials from <span class="co">[</span><span class="ot">Bblearn</span><span class="co">](https://bblearn.nau.edu/)</span>{target="_blank"}. After lectures, the recordings will appear in the Bblearn Collaborate Ultra section.</span>
-<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a><span class="fu">## Priors and Posteriors</span></span>
-<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>As a reminder, suppose we are estimating a single parameter in a model, $\theta$. In Bayesian inference, we have:</span>
-<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>$$P(\theta | \text{Data}) \propto P(\theta)P(\text{Data}|\theta)$$</span>
-<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>In words, this means that the posterior probability distribution of the parameter, $P(\theta | \text{Data})$, is proportional to the prior probability distribution of the parameter, $P(\theta)$, multiplied by the likelihood of the data, given the parameter, $P(\text{Data}|\theta)$. </span>
-<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a>The prior probability distribution of the parameter quantifies what we believe the parameter's true value may be, prior to collecting data. Remember that this prior probability distribution can be "vague," meaning that we don't have high confidence in what the parameter value is prior to collecting data. Or, the prior can be "informative," meaning that we have some level of certainty in what values are most likely for the parameter. </span>
-<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a>The likelihood is the same quantity that we discussed in the sections on Maximum Likelihood. The data likelihood represents how well a model matches the data, given a particular parameter value.</span>
-<span id="cb10-17"><a href="#cb10-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-18"><a href="#cb10-18" aria-hidden="true" tabindex="-1"></a>Finally, the posterior probability distribution represents a type of weighted likelihood - the likelihood weighted by our prior knowledge of what the parameter value might be.</span>
-<span id="cb10-19"><a href="#cb10-19" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-20"><a href="#cb10-20" aria-hidden="true" tabindex="-1"></a><span class="fu">### Estimating the mean of a sample</span></span>
-<span id="cb10-21"><a href="#cb10-21" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-22"><a href="#cb10-22" aria-hidden="true" tabindex="-1"></a>Here is an example of how we can visualize the relationship between the prior, the likelihood, and the posterior of a parameter. Imagine that we collect a sample of data, $y$, from the population $Y$. Our goal is to estimate the mean of that population, $Y$. Obviously this can be done by calculating the mean outright, but here we want to quantify the posterior probability distribution of the mean, so that we can simultaneously understand the central estimate as well as the uncertainty around that estimate. To do this, we must specify the likelihood of the data. We'll assume that:</span>
-<span id="cb10-23"><a href="#cb10-23" aria-hidden="true" tabindex="-1"></a>$$y_i \sim N(\mu, \sigma)$$</span>
-<span id="cb10-24"><a href="#cb10-24" aria-hidden="true" tabindex="-1"></a>We'll assume we know $\sigma$ with certainty. Our goal then is to estimate the posterior of $\mu$, $P(\mu | y)$. </span>
-<span id="cb10-25"><a href="#cb10-25" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-26"><a href="#cb10-26" aria-hidden="true" tabindex="-1"></a>First we'll generate data points $y$ from a "known" distribution.</span>
-<span id="cb10-29"><a href="#cb10-29" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb10-30"><a href="#cb10-30" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">3</span>)</span>
-<span id="cb10-31"><a href="#cb10-31" aria-hidden="true" tabindex="-1"></a>n_obs <span class="ot">=</span> <span class="dv">15</span></span>
-<span id="cb10-32"><a href="#cb10-32" aria-hidden="true" tabindex="-1"></a>mu_known <span class="ot">=</span> <span class="fl">8.2</span></span>
-<span id="cb10-33"><a href="#cb10-33" aria-hidden="true" tabindex="-1"></a>sigma_fixed <span class="ot">=</span> <span class="fl">2.5</span></span>
-<span id="cb10-34"><a href="#cb10-34" aria-hidden="true" tabindex="-1"></a>y <span class="ot">=</span> <span class="fu">rnorm</span>(n_obs, <span class="at">mean =</span> mu_known, <span class="at">sd =</span> sigma_fixed)</span>
-<span id="cb10-35"><a href="#cb10-35" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-36"><a href="#cb10-36" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(y)</span>
-<span id="cb10-37"><a href="#cb10-37" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb10-38"><a href="#cb10-38" aria-hidden="true" tabindex="-1"></a>Obviously in this easy example we could calculate a point estimate of the mean of $Y$ using the mean of sample $y$:</span>
-<span id="cb10-41"><a href="#cb10-41" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb10-42"><a href="#cb10-42" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(y)</span>
-<span id="cb10-43"><a href="#cb10-43" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb10-44"><a href="#cb10-44" aria-hidden="true" tabindex="-1"></a>But, this estimate leads to no understanding of the certainty in our estimate of the true mean of population $Y$. Instead, let's use Bayesian inference. For instance, we know that the true mean of $Y$ is $8.2$, which we simulated. So this estimate of $\mu$ has error, especially because of low sample size. </span>
-<span id="cb10-45"><a href="#cb10-45" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-46"><a href="#cb10-46" aria-hidden="true" tabindex="-1"></a>First, let's specify a vague prior probability distribution for $\mu$. We'll assume:</span>
-<span id="cb10-47"><a href="#cb10-47" aria-hidden="true" tabindex="-1"></a>$$\mu \sim N(0, 50)$$</span>
-<span id="cb10-48"><a href="#cb10-48" aria-hidden="true" tabindex="-1"></a>We can visualize this prior probability density function.</span>
-<span id="cb10-51"><a href="#cb10-51" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb10-52"><a href="#cb10-52" aria-hidden="true" tabindex="-1"></a>mu_guess <span class="ot">=</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">20</span>, <span class="at">length.out =</span> <span class="dv">200</span>)</span>
-<span id="cb10-53"><a href="#cb10-53" aria-hidden="true" tabindex="-1"></a><span class="co"># Prior prob distribution</span></span>
-<span id="cb10-54"><a href="#cb10-54" aria-hidden="true" tabindex="-1"></a>mu_prior <span class="ot">=</span> <span class="fu">dnorm</span>(mu_guess, <span class="dv">0</span>, <span class="dv">50</span>, <span class="at">log =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb10-55"><a href="#cb10-55" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-56"><a href="#cb10-56" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">exp</span>(mu_prior) <span class="sc">~</span> mu_guess,</span>
-<span id="cb10-57"><a href="#cb10-57" aria-hidden="true" tabindex="-1"></a>     <span class="at">type =</span> <span class="st">"l"</span>,</span>
-<span id="cb10-58"><a href="#cb10-58" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="fu">expression</span>(mu),</span>
-<span id="cb10-59"><a href="#cb10-59" aria-hidden="true" tabindex="-1"></a>     <span class="at">ylab =</span> <span class="fu">expression</span>(<span class="st">"P("</span><span class="sc">~</span>mu<span class="sc">~</span><span class="st">")"</span>))</span>
-<span id="cb10-60"><a href="#cb10-60" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb10-61"><a href="#cb10-61" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-62"><a href="#cb10-62" aria-hidden="true" tabindex="-1"></a>Notice that because we made the prior so "vague", all of the possible values of $\mu$ that we plotted (ranging from 0 to 20), all have very low probabilities, because basically all possible values of $\mu$ (ranging negative to positive infinity) have equally low probability with this vauge prior. I'm exaggerating a little bit to make a point. </span>
-<span id="cb10-63"><a href="#cb10-63" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-64"><a href="#cb10-64" aria-hidden="true" tabindex="-1"></a>Now, we need to create a function to calculate the likelihood of any particular "guess" of $\mu$. </span>
-<span id="cb10-65"><a href="#cb10-65" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-68"><a href="#cb10-68" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb10-69"><a href="#cb10-69" aria-hidden="true" tabindex="-1"></a>mu_likelihood <span class="ot">=</span> <span class="cf">function</span>(this_mu, data){</span>
-<span id="cb10-70"><a href="#cb10-70" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb10-71"><a href="#cb10-71" aria-hidden="true" tabindex="-1"></a>    log_lhood <span class="ot">=</span> </span>
-<span id="cb10-72"><a href="#cb10-72" aria-hidden="true" tabindex="-1"></a>        <span class="fu">sum</span>(</span>
-<span id="cb10-73"><a href="#cb10-73" aria-hidden="true" tabindex="-1"></a>            <span class="fu">dnorm</span>(data, </span>
-<span id="cb10-74"><a href="#cb10-74" aria-hidden="true" tabindex="-1"></a>                  <span class="at">mean =</span> this_mu,</span>
-<span id="cb10-75"><a href="#cb10-75" aria-hidden="true" tabindex="-1"></a>                  <span class="at">sd =</span> sigma_fixed,</span>
-<span id="cb10-76"><a href="#cb10-76" aria-hidden="true" tabindex="-1"></a>                  <span class="at">log =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb10-77"><a href="#cb10-77" aria-hidden="true" tabindex="-1"></a>        )</span>
-<span id="cb10-78"><a href="#cb10-78" aria-hidden="true" tabindex="-1"></a>    <span class="fu">return</span>(log_lhood)</span>
-<span id="cb10-79"><a href="#cb10-79" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb10-80"><a href="#cb10-80" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb10-81"><a href="#cb10-81" aria-hidden="true" tabindex="-1"></a>We've seen these sorts of functions before. Now, let's calculate the likelihood for each of our "guesses" of $\mu$. </span>
-<span id="cb10-82"><a href="#cb10-82" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-85"><a href="#cb10-85" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb10-86"><a href="#cb10-86" aria-hidden="true" tabindex="-1"></a><span class="co"># Store the likelihoods:</span></span>
-<span id="cb10-87"><a href="#cb10-87" aria-hidden="true" tabindex="-1"></a>mu_lhood <span class="ot">=</span> <span class="cn">NULL</span></span>
-<span id="cb10-88"><a href="#cb10-88" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(mu_guess)){</span>
-<span id="cb10-89"><a href="#cb10-89" aria-hidden="true" tabindex="-1"></a>    mu_lhood[i] <span class="ot">=</span> <span class="fu">mu_likelihood</span>(mu_guess[i], y)</span>
-<span id="cb10-90"><a href="#cb10-90" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb10-91"><a href="#cb10-91" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-92"><a href="#cb10-92" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot on ln scale:</span></span>
-<span id="cb10-93"><a href="#cb10-93" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">exp</span>(mu_lhood) <span class="sc">~</span> mu_guess,</span>
-<span id="cb10-94"><a href="#cb10-94" aria-hidden="true" tabindex="-1"></a>     <span class="at">type =</span> <span class="st">"l"</span>,</span>
-<span id="cb10-95"><a href="#cb10-95" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="fu">expression</span>(mu),</span>
-<span id="cb10-96"><a href="#cb10-96" aria-hidden="true" tabindex="-1"></a>     <span class="at">ylab =</span> <span class="fu">expression</span>(<span class="st">"P("</span><span class="sc">~</span>y<span class="sc">~</span><span class="st">"|"</span><span class="sc">~</span>mu<span class="sc">~</span><span class="st">")"</span>))</span>
-<span id="cb10-97"><a href="#cb10-97" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb10-98"><a href="#cb10-98" aria-hidden="true" tabindex="-1"></a>Now we can calculate the posterior as the product of the prior and the likelihood (or the sum of the log-scale values of these distributions). </span>
-<span id="cb10-99"><a href="#cb10-99" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-102"><a href="#cb10-102" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb10-103"><a href="#cb10-103" aria-hidden="true" tabindex="-1"></a>mu_posterior <span class="ot">=</span> mu_prior <span class="sc">+</span> mu_lhood</span>
-<span id="cb10-104"><a href="#cb10-104" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-105"><a href="#cb10-105" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">exp</span>(mu_posterior) <span class="sc">~</span> mu_guess,</span>
-<span id="cb10-106"><a href="#cb10-106" aria-hidden="true" tabindex="-1"></a>     <span class="at">type =</span> <span class="st">"l"</span>,</span>
-<span id="cb10-107"><a href="#cb10-107" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="fu">expression</span>(mu),</span>
-<span id="cb10-108"><a href="#cb10-108" aria-hidden="true" tabindex="-1"></a>     <span class="at">ylab =</span> <span class="fu">expression</span>(<span class="st">"P("</span><span class="sc">~</span>mu<span class="sc">~</span><span class="st">"|"</span><span class="sc">~</span>y<span class="sc">~</span><span class="st">")"</span>))</span>
-<span id="cb10-109"><a href="#cb10-109" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">v =</span> mu_known, <span class="at">lty =</span> <span class="dv">1</span>)</span>
-<span id="cb10-110"><a href="#cb10-110" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">v =</span> <span class="fu">mean</span>(y), <span class="at">lty =</span> <span class="dv">2</span>)</span>
-<span id="cb10-111"><a href="#cb10-111" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb10-112"><a href="#cb10-112" aria-hidden="true" tabindex="-1"></a>What we see here is that with the vague prior, the posterior basically reflects the data likelihood. The prior gave no additional information to the analysis. </span>
-<span id="cb10-113"><a href="#cb10-113" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-114"><a href="#cb10-114" aria-hidden="true" tabindex="-1"></a>Now let's see how the posterior might change with a more informative prior that is actually biased to the incorrect value of $\mu$, such as $\mu \sim N(2, 0.75)$.</span>
-<span id="cb10-115"><a href="#cb10-115" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-118"><a href="#cb10-118" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb10-119"><a href="#cb10-119" aria-hidden="true" tabindex="-1"></a><span class="co"># Prior prob distribution</span></span>
-<span id="cb10-120"><a href="#cb10-120" aria-hidden="true" tabindex="-1"></a>mu_prior <span class="ot">=</span> <span class="fu">dnorm</span>(mu_guess, <span class="dv">2</span>, <span class="fl">0.75</span>, <span class="at">log =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb10-121"><a href="#cb10-121" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-122"><a href="#cb10-122" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">exp</span>(mu_prior) <span class="sc">~</span> mu_guess,</span>
-<span id="cb10-123"><a href="#cb10-123" aria-hidden="true" tabindex="-1"></a>     <span class="at">type =</span> <span class="st">"l"</span>,</span>
-<span id="cb10-124"><a href="#cb10-124" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="fu">expression</span>(mu),</span>
-<span id="cb10-125"><a href="#cb10-125" aria-hidden="true" tabindex="-1"></a>     <span class="at">ylab =</span> <span class="fu">expression</span>(<span class="st">"P("</span><span class="sc">~</span>mu<span class="sc">~</span><span class="st">")"</span>))</span>
-<span id="cb10-126"><a href="#cb10-126" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-127"><a href="#cb10-127" aria-hidden="true" tabindex="-1"></a>mu_posterior <span class="ot">=</span> mu_prior <span class="sc">+</span> mu_lhood</span>
-<span id="cb10-128"><a href="#cb10-128" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-129"><a href="#cb10-129" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">exp</span>(mu_posterior) <span class="sc">~</span> mu_guess,</span>
-<span id="cb10-130"><a href="#cb10-130" aria-hidden="true" tabindex="-1"></a>     <span class="at">type =</span> <span class="st">"l"</span>,</span>
-<span id="cb10-131"><a href="#cb10-131" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="fu">expression</span>(mu),</span>
-<span id="cb10-132"><a href="#cb10-132" aria-hidden="true" tabindex="-1"></a>     <span class="at">ylab =</span> <span class="fu">expression</span>(<span class="st">"P("</span><span class="sc">~</span>mu<span class="sc">~</span><span class="st">"|"</span><span class="sc">~</span>y<span class="sc">~</span><span class="st">")"</span>))</span>
-<span id="cb10-133"><a href="#cb10-133" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">v =</span> mu_known, <span class="at">lty =</span> <span class="dv">1</span>)</span>
-<span id="cb10-134"><a href="#cb10-134" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">v =</span> <span class="fu">mean</span>(y), <span class="at">lty =</span> <span class="dv">2</span>)</span>
-<span id="cb10-135"><a href="#cb10-135" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb10-136"><a href="#cb10-136" aria-hidden="true" tabindex="-1"></a>Now what we see more clearly is that the posterior is the data likelihood *weighted* by the prior. In this case, because we have very few data points, the posterior is particularly sensitive to the prior of $\mu$. </span>
-<span id="cb10-137"><a href="#cb10-137" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-138"><a href="#cb10-138" aria-hidden="true" tabindex="-1"></a><span class="fu">### Using Monte Carlo sampling</span></span>
-<span id="cb10-139"><a href="#cb10-139" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-140"><a href="#cb10-140" aria-hidden="true" tabindex="-1"></a>In reality, we are estimating more than one parameter in a model. Therefore, estimating the posterior of the model means estimating the joint posterior of the model parameters, so that we can quantify the marginal posterior estimate of each model parameter. </span>
-<span id="cb10-141"><a href="#cb10-141" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-142"><a href="#cb10-142" aria-hidden="true" tabindex="-1"></a>Therefore we use an algorithm to "sample from" the joint posterior. We don't have enough time to explain the available algorithms in detail (see INF626: Applied Bayesian Modeling). However, these algorithms typically employ a variant of Monte Carlo sampling (e.g., Markov chain Monte Carlo (MCMC) or Hamiltonian Monte Carlo (HMC)). The statistical programming language <span class="in">`Stan`</span> uses HMC, and we will employ <span class="in">`Stan`</span> via the R package <span class="in">`rstan`</span>. </span>
-<span id="cb10-143"><a href="#cb10-143" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-144"><a href="#cb10-144" aria-hidden="true" tabindex="-1"></a>We'll demonstrate <span class="in">`rstan`</span> in class, because it is difficult to run on the website code here. </span>
+<div class="sourceCode" id="cb36" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="fu"># Bayesian inference {#sec-bayesian}</span></span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a><span class="fu">## Lecture material</span></span>
+<span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-5"><a href="#cb36-5" aria-hidden="true" tabindex="-1"></a>Please download and print the lecture materials from <span class="co">[</span><span class="ot">Bblearn</span><span class="co">](https://bblearn.nau.edu/)</span>{target="_blank"}. After lectures, the recordings will appear in the Bblearn Collaborate Ultra section.</span>
+<span id="cb36-6"><a href="#cb36-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-7"><a href="#cb36-7" aria-hidden="true" tabindex="-1"></a><span class="fu">## Background</span></span>
+<span id="cb36-8"><a href="#cb36-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-9"><a href="#cb36-9" aria-hidden="true" tabindex="-1"></a>As a reminder, suppose we are estimating a single parameter in a model, $\theta$. In Bayesian inference, we have:</span>
+<span id="cb36-10"><a href="#cb36-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-11"><a href="#cb36-11" aria-hidden="true" tabindex="-1"></a>$$P(\theta | \text{Data}) \propto P(\theta)P(\text{Data}|\theta)$$</span>
+<span id="cb36-12"><a href="#cb36-12" aria-hidden="true" tabindex="-1"></a>In words, this means that the posterior probability distribution of the parameter, $P(\theta | \text{Data})$, is proportional to the prior probability distribution of the parameter, $P(\theta)$, multiplied by the likelihood of the data, given the parameter, $P(\text{Data}|\theta)$. </span>
+<span id="cb36-13"><a href="#cb36-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-14"><a href="#cb36-14" aria-hidden="true" tabindex="-1"></a>The prior probability distribution of the parameter quantifies what we believe the parameter's true value may be, prior to collecting data. Remember that this prior probability distribution can be "vague," meaning that we don't have high confidence in what the parameter value is prior to collecting data. Or, the prior can be "informative," meaning that we have some level of certainty in what values are most likely for the parameter. </span>
+<span id="cb36-15"><a href="#cb36-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-16"><a href="#cb36-16" aria-hidden="true" tabindex="-1"></a>The likelihood is the same quantity that we discussed in the sections on Maximum Likelihood. The data likelihood represents how well a model matches the data, given a particular parameter value.</span>
+<span id="cb36-17"><a href="#cb36-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-18"><a href="#cb36-18" aria-hidden="true" tabindex="-1"></a>Finally, the posterior probability distribution represents a type of weighted likelihood - the likelihood weighted by our prior knowledge of what the parameter value might be.</span>
+<span id="cb36-19"><a href="#cb36-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-20"><a href="#cb36-20" aria-hidden="true" tabindex="-1"></a><span class="fu">## Estimating the mean of a sample</span></span>
+<span id="cb36-21"><a href="#cb36-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-22"><a href="#cb36-22" aria-hidden="true" tabindex="-1"></a>Here is an example of how we can visualize the relationship between the prior, the likelihood, and the posterior of a parameter. Imagine that we collect a sample of data, $y$, from the population $Y$. Our goal is to estimate the mean of that population, $Y$. Obviously this can be done by calculating the mean outright, but here we want to quantify the posterior probability distribution of the mean, so that we can simultaneously understand the central estimate as well as the uncertainty around that estimate. To do this, we must specify the likelihood of the data. We'll assume that:</span>
+<span id="cb36-23"><a href="#cb36-23" aria-hidden="true" tabindex="-1"></a>$$y_i \sim N(\mu, \sigma)$$</span>
+<span id="cb36-24"><a href="#cb36-24" aria-hidden="true" tabindex="-1"></a>We'll assume we know $\sigma$ with certainty. Our goal then is to estimate the posterior of $\mu$, $P(\mu | y)$. </span>
+<span id="cb36-25"><a href="#cb36-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-26"><a href="#cb36-26" aria-hidden="true" tabindex="-1"></a>First we'll generate data points $y$ from a "known" distribution.</span>
+<span id="cb36-29"><a href="#cb36-29" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb36-30"><a href="#cb36-30" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">3</span>)</span>
+<span id="cb36-31"><a href="#cb36-31" aria-hidden="true" tabindex="-1"></a>n_obs <span class="ot">=</span> <span class="dv">15</span></span>
+<span id="cb36-32"><a href="#cb36-32" aria-hidden="true" tabindex="-1"></a>mu_known <span class="ot">=</span> <span class="fl">8.2</span></span>
+<span id="cb36-33"><a href="#cb36-33" aria-hidden="true" tabindex="-1"></a>sigma_fixed <span class="ot">=</span> <span class="fl">2.5</span></span>
+<span id="cb36-34"><a href="#cb36-34" aria-hidden="true" tabindex="-1"></a>y <span class="ot">=</span> <span class="fu">rnorm</span>(n_obs, <span class="at">mean =</span> mu_known, <span class="at">sd =</span> sigma_fixed)</span>
+<span id="cb36-35"><a href="#cb36-35" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-36"><a href="#cb36-36" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(y)</span>
+<span id="cb36-37"><a href="#cb36-37" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb36-38"><a href="#cb36-38" aria-hidden="true" tabindex="-1"></a>Obviously in this easy example we could calculate a point estimate of the mean of $Y$ using the mean of sample $y$:</span>
+<span id="cb36-41"><a href="#cb36-41" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb36-42"><a href="#cb36-42" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(y)</span>
+<span id="cb36-43"><a href="#cb36-43" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb36-44"><a href="#cb36-44" aria-hidden="true" tabindex="-1"></a>But, this estimate leads to no understanding of the certainty in our estimate of the true mean of population $Y$. Instead, let's use Bayesian inference. For instance, we know that the true mean of $Y$ is $8.2$, which we simulated. So this estimate of $\mu$ has error, especially because of low sample size. </span>
+<span id="cb36-45"><a href="#cb36-45" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-46"><a href="#cb36-46" aria-hidden="true" tabindex="-1"></a>First, let's specify a vague prior probability distribution for $\mu$. We'll assume:</span>
+<span id="cb36-47"><a href="#cb36-47" aria-hidden="true" tabindex="-1"></a>$$\mu \sim N(0, 50)$$</span>
+<span id="cb36-48"><a href="#cb36-48" aria-hidden="true" tabindex="-1"></a>We can visualize this prior probability density function.</span>
+<span id="cb36-51"><a href="#cb36-51" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb36-52"><a href="#cb36-52" aria-hidden="true" tabindex="-1"></a>mu_guess <span class="ot">=</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">20</span>, <span class="at">length.out =</span> <span class="dv">200</span>)</span>
+<span id="cb36-53"><a href="#cb36-53" aria-hidden="true" tabindex="-1"></a><span class="co"># Prior prob distribution</span></span>
+<span id="cb36-54"><a href="#cb36-54" aria-hidden="true" tabindex="-1"></a>mu_prior <span class="ot">=</span> <span class="fu">dnorm</span>(mu_guess, <span class="dv">0</span>, <span class="dv">50</span>, <span class="at">log =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb36-55"><a href="#cb36-55" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-56"><a href="#cb36-56" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">exp</span>(mu_prior) <span class="sc">~</span> mu_guess,</span>
+<span id="cb36-57"><a href="#cb36-57" aria-hidden="true" tabindex="-1"></a>     <span class="at">type =</span> <span class="st">"l"</span>,</span>
+<span id="cb36-58"><a href="#cb36-58" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="fu">expression</span>(mu),</span>
+<span id="cb36-59"><a href="#cb36-59" aria-hidden="true" tabindex="-1"></a>     <span class="at">ylab =</span> <span class="fu">expression</span>(<span class="st">"P("</span><span class="sc">~</span>mu<span class="sc">~</span><span class="st">")"</span>))</span>
+<span id="cb36-60"><a href="#cb36-60" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb36-61"><a href="#cb36-61" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-62"><a href="#cb36-62" aria-hidden="true" tabindex="-1"></a>Notice that because we made the prior so "vague", all of the possible values of $\mu$ that we plotted (ranging from 0 to 20), all have very low probabilities, because basically all possible values of $\mu$ (ranging negative to positive infinity) have equally low probability with this vauge prior. I'm exaggerating a little bit to make a point. </span>
+<span id="cb36-63"><a href="#cb36-63" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-64"><a href="#cb36-64" aria-hidden="true" tabindex="-1"></a>Now, we need to create a function to calculate the likelihood of any particular "guess" of $\mu$. </span>
+<span id="cb36-65"><a href="#cb36-65" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-68"><a href="#cb36-68" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb36-69"><a href="#cb36-69" aria-hidden="true" tabindex="-1"></a>mu_likelihood <span class="ot">=</span> <span class="cf">function</span>(this_mu, data){</span>
+<span id="cb36-70"><a href="#cb36-70" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb36-71"><a href="#cb36-71" aria-hidden="true" tabindex="-1"></a>    log_lhood <span class="ot">=</span> </span>
+<span id="cb36-72"><a href="#cb36-72" aria-hidden="true" tabindex="-1"></a>        <span class="fu">sum</span>(</span>
+<span id="cb36-73"><a href="#cb36-73" aria-hidden="true" tabindex="-1"></a>            <span class="fu">dnorm</span>(data, </span>
+<span id="cb36-74"><a href="#cb36-74" aria-hidden="true" tabindex="-1"></a>                  <span class="at">mean =</span> this_mu,</span>
+<span id="cb36-75"><a href="#cb36-75" aria-hidden="true" tabindex="-1"></a>                  <span class="at">sd =</span> sigma_fixed,</span>
+<span id="cb36-76"><a href="#cb36-76" aria-hidden="true" tabindex="-1"></a>                  <span class="at">log =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb36-77"><a href="#cb36-77" aria-hidden="true" tabindex="-1"></a>        )</span>
+<span id="cb36-78"><a href="#cb36-78" aria-hidden="true" tabindex="-1"></a>    <span class="fu">return</span>(log_lhood)</span>
+<span id="cb36-79"><a href="#cb36-79" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb36-80"><a href="#cb36-80" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb36-81"><a href="#cb36-81" aria-hidden="true" tabindex="-1"></a>We've seen these sorts of functions before. Now, let's calculate the likelihood for each of our "guesses" of $\mu$. </span>
+<span id="cb36-82"><a href="#cb36-82" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-85"><a href="#cb36-85" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb36-86"><a href="#cb36-86" aria-hidden="true" tabindex="-1"></a><span class="co"># Store the likelihoods:</span></span>
+<span id="cb36-87"><a href="#cb36-87" aria-hidden="true" tabindex="-1"></a>mu_lhood <span class="ot">=</span> <span class="cn">NULL</span></span>
+<span id="cb36-88"><a href="#cb36-88" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(mu_guess)){</span>
+<span id="cb36-89"><a href="#cb36-89" aria-hidden="true" tabindex="-1"></a>    mu_lhood[i] <span class="ot">=</span> <span class="fu">mu_likelihood</span>(mu_guess[i], y)</span>
+<span id="cb36-90"><a href="#cb36-90" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb36-91"><a href="#cb36-91" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-92"><a href="#cb36-92" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot on ln scale:</span></span>
+<span id="cb36-93"><a href="#cb36-93" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">exp</span>(mu_lhood) <span class="sc">~</span> mu_guess,</span>
+<span id="cb36-94"><a href="#cb36-94" aria-hidden="true" tabindex="-1"></a>     <span class="at">type =</span> <span class="st">"l"</span>,</span>
+<span id="cb36-95"><a href="#cb36-95" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="fu">expression</span>(mu),</span>
+<span id="cb36-96"><a href="#cb36-96" aria-hidden="true" tabindex="-1"></a>     <span class="at">ylab =</span> <span class="fu">expression</span>(<span class="st">"P("</span><span class="sc">~</span>y<span class="sc">~</span><span class="st">"|"</span><span class="sc">~</span>mu<span class="sc">~</span><span class="st">")"</span>))</span>
+<span id="cb36-97"><a href="#cb36-97" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb36-98"><a href="#cb36-98" aria-hidden="true" tabindex="-1"></a>Now we can calculate the posterior as the product of the prior and the likelihood (or the sum of the log-scale values of these distributions). </span>
+<span id="cb36-99"><a href="#cb36-99" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-102"><a href="#cb36-102" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb36-103"><a href="#cb36-103" aria-hidden="true" tabindex="-1"></a>mu_posterior <span class="ot">=</span> mu_prior <span class="sc">+</span> mu_lhood</span>
+<span id="cb36-104"><a href="#cb36-104" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-105"><a href="#cb36-105" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">exp</span>(mu_posterior) <span class="sc">~</span> mu_guess,</span>
+<span id="cb36-106"><a href="#cb36-106" aria-hidden="true" tabindex="-1"></a>     <span class="at">type =</span> <span class="st">"l"</span>,</span>
+<span id="cb36-107"><a href="#cb36-107" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="fu">expression</span>(mu),</span>
+<span id="cb36-108"><a href="#cb36-108" aria-hidden="true" tabindex="-1"></a>     <span class="at">ylab =</span> <span class="fu">expression</span>(<span class="st">"P("</span><span class="sc">~</span>mu<span class="sc">~</span><span class="st">"|"</span><span class="sc">~</span>y<span class="sc">~</span><span class="st">")"</span>))</span>
+<span id="cb36-109"><a href="#cb36-109" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">v =</span> mu_known, <span class="at">lty =</span> <span class="dv">1</span>)</span>
+<span id="cb36-110"><a href="#cb36-110" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">v =</span> <span class="fu">mean</span>(y), <span class="at">lty =</span> <span class="dv">2</span>)</span>
+<span id="cb36-111"><a href="#cb36-111" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb36-112"><a href="#cb36-112" aria-hidden="true" tabindex="-1"></a>What we see here is that with the vague prior, the posterior basically reflects the data likelihood. The prior gave no additional information to the analysis. </span>
+<span id="cb36-113"><a href="#cb36-113" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-114"><a href="#cb36-114" aria-hidden="true" tabindex="-1"></a>Now let's see how the posterior might change with a more informative prior that is actually biased to the incorrect value of $\mu$, such as $\mu \sim N(2, 0.75)$.</span>
+<span id="cb36-115"><a href="#cb36-115" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-118"><a href="#cb36-118" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb36-119"><a href="#cb36-119" aria-hidden="true" tabindex="-1"></a><span class="co"># Prior prob distribution</span></span>
+<span id="cb36-120"><a href="#cb36-120" aria-hidden="true" tabindex="-1"></a>mu_prior <span class="ot">=</span> <span class="fu">dnorm</span>(mu_guess, <span class="dv">2</span>, <span class="fl">0.75</span>, <span class="at">log =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb36-121"><a href="#cb36-121" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-122"><a href="#cb36-122" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">exp</span>(mu_prior) <span class="sc">~</span> mu_guess,</span>
+<span id="cb36-123"><a href="#cb36-123" aria-hidden="true" tabindex="-1"></a>     <span class="at">type =</span> <span class="st">"l"</span>,</span>
+<span id="cb36-124"><a href="#cb36-124" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="fu">expression</span>(mu),</span>
+<span id="cb36-125"><a href="#cb36-125" aria-hidden="true" tabindex="-1"></a>     <span class="at">ylab =</span> <span class="fu">expression</span>(<span class="st">"P("</span><span class="sc">~</span>mu<span class="sc">~</span><span class="st">")"</span>))</span>
+<span id="cb36-126"><a href="#cb36-126" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-127"><a href="#cb36-127" aria-hidden="true" tabindex="-1"></a>mu_posterior <span class="ot">=</span> mu_prior <span class="sc">+</span> mu_lhood</span>
+<span id="cb36-128"><a href="#cb36-128" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-129"><a href="#cb36-129" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">exp</span>(mu_posterior) <span class="sc">~</span> mu_guess,</span>
+<span id="cb36-130"><a href="#cb36-130" aria-hidden="true" tabindex="-1"></a>     <span class="at">type =</span> <span class="st">"l"</span>,</span>
+<span id="cb36-131"><a href="#cb36-131" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="fu">expression</span>(mu),</span>
+<span id="cb36-132"><a href="#cb36-132" aria-hidden="true" tabindex="-1"></a>     <span class="at">ylab =</span> <span class="fu">expression</span>(<span class="st">"P("</span><span class="sc">~</span>mu<span class="sc">~</span><span class="st">"|"</span><span class="sc">~</span>y<span class="sc">~</span><span class="st">")"</span>))</span>
+<span id="cb36-133"><a href="#cb36-133" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">v =</span> mu_known, <span class="at">lty =</span> <span class="dv">1</span>)</span>
+<span id="cb36-134"><a href="#cb36-134" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">v =</span> <span class="fu">mean</span>(y), <span class="at">lty =</span> <span class="dv">2</span>)</span>
+<span id="cb36-135"><a href="#cb36-135" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb36-136"><a href="#cb36-136" aria-hidden="true" tabindex="-1"></a>Now what we see more clearly is that the posterior is the data likelihood *weighted* by the prior. In this case, because we have very few data points, the posterior is particularly sensitive to the prior of $\mu$. </span>
+<span id="cb36-137"><a href="#cb36-137" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-138"><a href="#cb36-138" aria-hidden="true" tabindex="-1"></a><span class="fu">## Using Monte Carlo sampling</span></span>
+<span id="cb36-139"><a href="#cb36-139" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-140"><a href="#cb36-140" aria-hidden="true" tabindex="-1"></a>In reality, we are estimating more than one parameter in a model. Therefore, estimating the posterior of the model means estimating the joint posterior of the model parameters, so that we can quantify the marginal posterior estimate of each model parameter. </span>
+<span id="cb36-141"><a href="#cb36-141" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-142"><a href="#cb36-142" aria-hidden="true" tabindex="-1"></a>Therefore we use an algorithm to "sample from" the joint posterior. We don't have enough time to explain the available algorithms in detail (see INF626: Applied Bayesian Modeling). However, these algorithms typically employ a variant of Monte Carlo sampling (e.g., Markov chain Monte Carlo (MCMC) or Hamiltonian Monte Carlo (HMC)). The statistical programming language <span class="in">`Stan`</span> uses HMC, and we will employ <span class="in">`Stan`</span> via the R package <span class="in">`rstan`</span>. </span>
+<span id="cb36-143"><a href="#cb36-143" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-144"><a href="#cb36-144" aria-hidden="true" tabindex="-1"></a>Note that because we are using Quarto documents, we need to set up the <span class="in">`Stan`</span> model in a very particular way, to get it to work with code chunks. Usually, when using a <span class="in">`.R`</span> file, we create a separate <span class="in">`.stan`</span> file, and then we run the <span class="in">`rstan::stan()`</span> function in the <span class="in">`.R`</span> file, while referencing the <span class="in">`.stan`</span> file that should be saved in our working directory. Here, we will create and compile the <span class="in">`.stan`</span> file in one place (in the Quarto document). I will put an example set of <span class="in">`.R`</span> and <span class="in">`.stan`</span> files on BBLearn that compliment the following examples. </span>
+<span id="cb36-145"><a href="#cb36-145" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-146"><a href="#cb36-146" aria-hidden="true" tabindex="-1"></a><span class="fu">### Estimating the mean of a sample using Stan</span></span>
+<span id="cb36-147"><a href="#cb36-147" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-148"><a href="#cb36-148" aria-hidden="true" tabindex="-1"></a>First, we will load <span class="in">`rstan`</span> and set some required options.</span>
+<span id="cb36-151"><a href="#cb36-151" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb36-152"><a href="#cb36-152" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rstan)</span>
+<span id="cb36-153"><a href="#cb36-153" aria-hidden="true" tabindex="-1"></a><span class="fu">options</span>(<span class="at">mc.cores =</span> parallel<span class="sc">::</span><span class="fu">detectCores</span>())</span>
+<span id="cb36-154"><a href="#cb36-154" aria-hidden="true" tabindex="-1"></a><span class="fu">rstan_options</span>(<span class="at">auto_write =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb36-155"><a href="#cb36-155" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb36-156"><a href="#cb36-156" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-157"><a href="#cb36-157" aria-hidden="true" tabindex="-1"></a>Next, we will create a <span class="in">`.stan`</span> model that allows us to estimate the mean only.</span>
+<span id="cb36-158"><a href="#cb36-158" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-159"><a href="#cb36-159" aria-hidden="true" tabindex="-1"></a><span class="in">```{stan output.var = "estimate_mu"}</span></span>
+<span id="cb36-160"><a href="#cb36-160" aria-hidden="true" tabindex="-1"></a><span class="in">// The input data is a vector 'y' of length 'N'.</span></span>
+<span id="cb36-161"><a href="#cb36-161" aria-hidden="true" tabindex="-1"></a><span class="in">data {</span></span>
+<span id="cb36-162"><a href="#cb36-162" aria-hidden="true" tabindex="-1"></a><span class="in">  int&lt;lower=0&gt; N;</span></span>
+<span id="cb36-163"><a href="#cb36-163" aria-hidden="true" tabindex="-1"></a><span class="in">  vector[N] y;</span></span>
+<span id="cb36-164"><a href="#cb36-164" aria-hidden="true" tabindex="-1"></a><span class="in">  real&lt;lower=0&gt; sigma_fixed;</span></span>
+<span id="cb36-165"><a href="#cb36-165" aria-hidden="true" tabindex="-1"></a><span class="in">}</span></span>
+<span id="cb36-166"><a href="#cb36-166" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-167"><a href="#cb36-167" aria-hidden="true" tabindex="-1"></a><span class="in">// The parameters accepted by the model. </span></span>
+<span id="cb36-168"><a href="#cb36-168" aria-hidden="true" tabindex="-1"></a><span class="in">parameters {</span></span>
+<span id="cb36-169"><a href="#cb36-169" aria-hidden="true" tabindex="-1"></a><span class="in">  real mu;</span></span>
+<span id="cb36-170"><a href="#cb36-170" aria-hidden="true" tabindex="-1"></a><span class="in">}</span></span>
+<span id="cb36-171"><a href="#cb36-171" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-172"><a href="#cb36-172" aria-hidden="true" tabindex="-1"></a><span class="in">// The model to be estimated.</span></span>
+<span id="cb36-173"><a href="#cb36-173" aria-hidden="true" tabindex="-1"></a><span class="in">model {</span></span>
+<span id="cb36-174"><a href="#cb36-174" aria-hidden="true" tabindex="-1"></a><span class="in">  // priors</span></span>
+<span id="cb36-175"><a href="#cb36-175" aria-hidden="true" tabindex="-1"></a><span class="in">  mu ~ normal(0, 50.0);</span></span>
+<span id="cb36-176"><a href="#cb36-176" aria-hidden="true" tabindex="-1"></a><span class="in">  </span></span>
+<span id="cb36-177"><a href="#cb36-177" aria-hidden="true" tabindex="-1"></a><span class="in">  // likelihood</span></span>
+<span id="cb36-178"><a href="#cb36-178" aria-hidden="true" tabindex="-1"></a><span class="in">  y ~ normal(mu, sigma_fixed);</span></span>
+<span id="cb36-179"><a href="#cb36-179" aria-hidden="true" tabindex="-1"></a><span class="in">}</span></span>
+<span id="cb36-180"><a href="#cb36-180" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-181"><a href="#cb36-181" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb36-182"><a href="#cb36-182" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-183"><a href="#cb36-183" aria-hidden="true" tabindex="-1"></a>When the chunk above is run, it compiles the <span class="in">`Stan`</span> model into <span class="in">`C++`</span> code that gets run in the background. Next, we will use <span class="in">`R`</span> code to set up and run the <span class="in">`Stan`</span> model to estimate the parameter $\mu$.</span>
+<span id="cb36-184"><a href="#cb36-184" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-187"><a href="#cb36-187" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb36-188"><a href="#cb36-188" aria-hidden="true" tabindex="-1"></a><span class="co"># create a list for stan</span></span>
+<span id="cb36-189"><a href="#cb36-189" aria-hidden="true" tabindex="-1"></a>mu_fit_data <span class="ot">=</span> <span class="fu">list</span>(</span>
+<span id="cb36-190"><a href="#cb36-190" aria-hidden="true" tabindex="-1"></a>    <span class="at">N =</span> <span class="fu">length</span>(y),</span>
+<span id="cb36-191"><a href="#cb36-191" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> y,</span>
+<span id="cb36-192"><a href="#cb36-192" aria-hidden="true" tabindex="-1"></a>    <span class="at">sigma_fixed =</span> sigma_fixed</span>
+<span id="cb36-193"><a href="#cb36-193" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb36-194"><a href="#cb36-194" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-195"><a href="#cb36-195" aria-hidden="true" tabindex="-1"></a><span class="co"># Fit the compiled model using stan defaults</span></span>
+<span id="cb36-196"><a href="#cb36-196" aria-hidden="true" tabindex="-1"></a>fit <span class="ot">=</span> <span class="fu">sampling</span>(estimate_mu, <span class="co"># this is generated from the previous code-chunk</span></span>
+<span id="cb36-197"><a href="#cb36-197" aria-hidden="true" tabindex="-1"></a>               <span class="at">data =</span> mu_fit_data)</span>
+<span id="cb36-198"><a href="#cb36-198" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-199"><a href="#cb36-199" aria-hidden="true" tabindex="-1"></a><span class="co"># Summarize the output</span></span>
+<span id="cb36-200"><a href="#cb36-200" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(fit)</span>
+<span id="cb36-201"><a href="#cb36-201" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb36-202"><a href="#cb36-202" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-203"><a href="#cb36-203" aria-hidden="true" tabindex="-1"></a>This <span class="in">`print()`</span> format shows us the mean and median (<span class="in">`50%`</span>) estimates of $\mu$. The output also shows various levels of the "credible intervals". For instance, the <span class="in">`2.5%`</span> and <span class="in">`97.5%`</span> would give us the ends of the "95% credible interval", whereas the <span class="in">`25%`</span> and <span class="in">`75%`</span> would give us the ends of the "50% credible interval". </span>
+<span id="cb36-204"><a href="#cb36-204" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-205"><a href="#cb36-205" aria-hidden="true" tabindex="-1"></a>We can also generate various summary visualizations. </span>
+<span id="cb36-208"><a href="#cb36-208" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb36-209"><a href="#cb36-209" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(fit)</span>
+<span id="cb36-210"><a href="#cb36-210" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(fit, <span class="at">show_density =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb36-211"><a href="#cb36-211" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(fit, <span class="at">plotfun =</span> <span class="st">"hist"</span>)</span>
+<span id="cb36-212"><a href="#cb36-212" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb36-213"><a href="#cb36-213" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-214"><a href="#cb36-214" aria-hidden="true" tabindex="-1"></a>These three plots summarize the posterior estimate of $\mu$ in various ways. </span>
+<span id="cb36-215"><a href="#cb36-215" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-216"><a href="#cb36-216" aria-hidden="true" tabindex="-1"></a>Next, we can observe the "traceplot" which shows the outcome of the 4 HMC chains that sample from the posterior. </span>
+<span id="cb36-219"><a href="#cb36-219" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb36-220"><a href="#cb36-220" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(fit, <span class="at">plotfun =</span> <span class="st">"trace"</span>)</span>
+<span id="cb36-221"><a href="#cb36-221" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb36-222"><a href="#cb36-222" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-223"><a href="#cb36-223" aria-hidden="true" tabindex="-1"></a><span class="fu">### Estimating the mean and the standard deviation using Stan</span></span>
+<span id="cb36-224"><a href="#cb36-224" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-225"><a href="#cb36-225" aria-hidden="true" tabindex="-1"></a>Now let's assume the more likely case in which we do not know the mean nor the standard deviation of the sample, so we need to estimate $\mu$ and $\sigma$ of the normal distribution. </span>
+<span id="cb36-226"><a href="#cb36-226" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-227"><a href="#cb36-227" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-228"><a href="#cb36-228" aria-hidden="true" tabindex="-1"></a><span class="in">```{stan output.var = "estimate_mu_sigma"}</span></span>
+<span id="cb36-229"><a href="#cb36-229" aria-hidden="true" tabindex="-1"></a><span class="in">// The input data is a vector 'y' of length 'N'.</span></span>
+<span id="cb36-230"><a href="#cb36-230" aria-hidden="true" tabindex="-1"></a><span class="in">data {</span></span>
+<span id="cb36-231"><a href="#cb36-231" aria-hidden="true" tabindex="-1"></a><span class="in">  int&lt;lower=0&gt; N;</span></span>
+<span id="cb36-232"><a href="#cb36-232" aria-hidden="true" tabindex="-1"></a><span class="in">  vector[N] y;</span></span>
+<span id="cb36-233"><a href="#cb36-233" aria-hidden="true" tabindex="-1"></a><span class="in">}</span></span>
+<span id="cb36-234"><a href="#cb36-234" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-235"><a href="#cb36-235" aria-hidden="true" tabindex="-1"></a><span class="in">// The parameters accepted by the model. </span></span>
+<span id="cb36-236"><a href="#cb36-236" aria-hidden="true" tabindex="-1"></a><span class="in">parameters {</span></span>
+<span id="cb36-237"><a href="#cb36-237" aria-hidden="true" tabindex="-1"></a><span class="in">  real mu;</span></span>
+<span id="cb36-238"><a href="#cb36-238" aria-hidden="true" tabindex="-1"></a><span class="in">  real&lt;lower=0&gt; sigma;</span></span>
+<span id="cb36-239"><a href="#cb36-239" aria-hidden="true" tabindex="-1"></a><span class="in">}</span></span>
+<span id="cb36-240"><a href="#cb36-240" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-241"><a href="#cb36-241" aria-hidden="true" tabindex="-1"></a><span class="in">// The model to be estimated.</span></span>
+<span id="cb36-242"><a href="#cb36-242" aria-hidden="true" tabindex="-1"></a><span class="in">model {</span></span>
+<span id="cb36-243"><a href="#cb36-243" aria-hidden="true" tabindex="-1"></a><span class="in">  // priors</span></span>
+<span id="cb36-244"><a href="#cb36-244" aria-hidden="true" tabindex="-1"></a><span class="in">  mu ~ normal(0, 50.0);</span></span>
+<span id="cb36-245"><a href="#cb36-245" aria-hidden="true" tabindex="-1"></a><span class="in">  sigma ~ cauchy(0, 1);</span></span>
+<span id="cb36-246"><a href="#cb36-246" aria-hidden="true" tabindex="-1"></a><span class="in">  </span></span>
+<span id="cb36-247"><a href="#cb36-247" aria-hidden="true" tabindex="-1"></a><span class="in">  // likelihood</span></span>
+<span id="cb36-248"><a href="#cb36-248" aria-hidden="true" tabindex="-1"></a><span class="in">  y ~ normal(mu, sigma);</span></span>
+<span id="cb36-249"><a href="#cb36-249" aria-hidden="true" tabindex="-1"></a><span class="in">}</span></span>
+<span id="cb36-250"><a href="#cb36-250" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-251"><a href="#cb36-251" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb36-252"><a href="#cb36-252" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-253"><a href="#cb36-253" aria-hidden="true" tabindex="-1"></a>Notice how now we have two parameters in the <span class="in">`parameters`</span> code block. We also are specifying two prior distributions, one for $\mu$ and one for $\sigma$. We are using the <span class="in">`cauchy`</span> probability distribution for $\sigma$, which is useful in part because this distribution ensures that $\sigma &gt; 0$. </span>
+<span id="cb36-254"><a href="#cb36-254" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-255"><a href="#cb36-255" aria-hidden="true" tabindex="-1"></a>Next, we will use <span class="in">`R`</span> code to set up and run the <span class="in">`Stan`</span> model.</span>
+<span id="cb36-258"><a href="#cb36-258" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb36-259"><a href="#cb36-259" aria-hidden="true" tabindex="-1"></a><span class="co"># create a list for stan</span></span>
+<span id="cb36-260"><a href="#cb36-260" aria-hidden="true" tabindex="-1"></a>mu_sigma_fit_data <span class="ot">=</span> <span class="fu">list</span>(</span>
+<span id="cb36-261"><a href="#cb36-261" aria-hidden="true" tabindex="-1"></a>    <span class="at">N =</span> <span class="fu">length</span>(y),</span>
+<span id="cb36-262"><a href="#cb36-262" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> y</span>
+<span id="cb36-263"><a href="#cb36-263" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb36-264"><a href="#cb36-264" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-265"><a href="#cb36-265" aria-hidden="true" tabindex="-1"></a><span class="co"># Fit the "model" using stan defaults</span></span>
+<span id="cb36-266"><a href="#cb36-266" aria-hidden="true" tabindex="-1"></a>fit2 <span class="ot">=</span> <span class="fu">sampling</span>(estimate_mu_sigma, </span>
+<span id="cb36-267"><a href="#cb36-267" aria-hidden="true" tabindex="-1"></a>                <span class="at">data =</span> mu_sigma_fit_data)</span>
+<span id="cb36-268"><a href="#cb36-268" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-269"><a href="#cb36-269" aria-hidden="true" tabindex="-1"></a><span class="co"># Summarize the output</span></span>
+<span id="cb36-270"><a href="#cb36-270" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(fit2)</span>
+<span id="cb36-271"><a href="#cb36-271" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb36-272"><a href="#cb36-272" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-273"><a href="#cb36-273" aria-hidden="true" tabindex="-1"></a>Now the <span class="in">`print()`</span> statement shows the output for both $\mu$ and $\sigma$. And we can see that the true values of both parameters lie within the 95% credible interval of the posterior. </span>
+<span id="cb36-274"><a href="#cb36-274" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-275"><a href="#cb36-275" aria-hidden="true" tabindex="-1"></a>We can also generate various summary visualizations. </span>
+<span id="cb36-278"><a href="#cb36-278" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb36-279"><a href="#cb36-279" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(fit2, <span class="at">plotfun =</span> <span class="st">"hist"</span>)</span>
+<span id="cb36-280"><a href="#cb36-280" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(fit2, <span class="at">show_density =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb36-281"><a href="#cb36-281" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(fit2, <span class="at">plotfun =</span> <span class="st">"trace"</span>)</span>
+<span id="cb36-282"><a href="#cb36-282" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb36-283"><a href="#cb36-283" aria-hidden="true" tabindex="-1"></a></span>
 </code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div></div></div></div></div>
 </div> <!-- /content -->
