@@ -9,7 +9,7 @@ Please download and print the lecture materials from [Bblearn](https://bblearn.n
 As a reminder, suppose we are estimating a single parameter in a model, $\theta$. In Bayesian inference, we have:
 
 $$P(\theta | \text{Data}) \propto P(\theta)P(\text{Data}|\theta)$$
-In words, this means that the posterior probability distribution of the parameter, $P(\Theta | \text{Data})$, is proportional to the prior probability distribution of the parameter, $P(\theta)$, multiplied by the likelihood of the data, given the parameter, $P(\text{Data}|\theta)$. 
+In words, this means that the posterior probability distribution of the parameter, $P(\theta | \text{Data})$, is proportional to the prior probability distribution of the parameter, $P(\theta)$, multiplied by the likelihood of the data, given the parameter, $P(\text{Data}|\theta)$. 
 
 The prior probability distribution of the parameter quantifies what we believe the parameter's true value may be, prior to collecting data. Remember that this prior probability distribution can be "vague," meaning that we don't have high confidence in what the parameter value is prior to collecting data. Or, the prior can be "informative," meaning that we have some level of certainty in what values are most likely for the parameter. 
 
