@@ -21,7 +21,7 @@ Finally, the posterior probability distribution represents a type of weighted li
 
 Here is an example of how we can visualize the relationship between the prior, the likelihood, and the posterior of a parameter. Imagine that we collect a sample of data, $y$, from the population $Y$. Our goal is to estimate the mean of that population, $Y$. Obviously this can be done by calculating the mean outright, but here we want to quantify the posterior probability distribution of the mean, so that we can simultaneously understand the central estimate as well as the uncertainty around that estimate. To do this, we must specify the likelihood of the data. We'll assume that:
 $$y_i \sim N(\mu, \sigma)$$
-We'll assume we know $\simga$ with certainty. Our goal then is to estimate the posterior of $\mu$, $P(\mu | y)$. 
+We'll assume we know $\sigma$ with certainty. Our goal then is to estimate the posterior of $\mu$, $P(\mu | y)$. 
 
 First we'll generate data points $y$ from a "known" distribution.
 ```{r}
