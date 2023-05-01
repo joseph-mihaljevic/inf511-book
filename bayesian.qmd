@@ -125,7 +125,7 @@ Now what we see more clearly is that the posterior is the data likelihood *weigh
 
 In reality, we are estimating more than one parameter in a model. Therefore, estimating the posterior of the model means estimating the joint posterior of the model parameters, so that we can quantify the marginal posterior estimate of each model parameter. 
 
-Therefore we use an algorithm to "sample from" the joint posterior. We don't have enough time to explain the available algorithms in detail (see INF626: Applied Bayesian Modeling). However, these algorithms typically employ a variant of Monte Carlo sampling (e.g., Markov chain Monte Carlo (MCMC) or Hamiltonian Monte Carlo (HMC)). The statistical programming language `Stan` uses HMC, and we will employ `Stan` via the R package `rstan`. 
+Therefore we use an algorithm to "sample from" the joint posterior. As discussed in lecture, these algorithms typically employ a variant of Monte Carlo sampling (e.g., Markov chain Monte Carlo (MCMC) or Hamiltonian Monte Carlo (HMC)). The statistical programming language `Stan` uses HMC, and we will employ `Stan` via the R package `rstan`. See [Footnotes @sec-mcmc] for a coded Metropolis-Hastings MCMC, which we described in lecture. 
 
 Note that because we are using Quarto documents, we need to set up the `Stan` model in a very particular way, to get it to work with code chunks. Usually, when using a `.R` file, we create a separate `.stan` file, and then we run the `rstan::stan()` function in the `.R` file, while referencing the `.stan` file that should be saved in our working directory. Here, we will create and compile the `.stan` file in one place (in the Quarto document). I will put an example set of `.R` and `.stan` files on BBLearn that compliment the following examples. 
 
@@ -198,6 +198,12 @@ Next, we can observe the "traceplot" which shows the outcome of the 4 HMC chains
 ```{r}
 plot(fit, plotfun = "trace")
 ```
+We can also show the "warmup" phase, which emphasizes how the initial "proposal" can be far outside of the true posterior. 
+
+```{r}
+# Include the warmup phase
+plot(fit, plotfun = "trace", inc_warmup = TRUE)
+```
 
 ### Estimating the mean and the standard deviation using Stan
 
@@ -256,4 +262,116 @@ plot(fit2, show_density = TRUE)
 plot(fit2, plotfun = "trace")
 ```
 
+## Footnotes
 
+### An MH-MCMC algorithm {#sec-mcmc}
+
+Below is a coded MH-MCMC algorithm for estimating one parameter. In this case the mean of a normal distribution:
+$$y \sim N(\theta, \sigma^2)$$
+Here $\theta$ is the mean of the normal distribution, which is unknown, but $\sigma$ is known. 
+
+```{r}
+set.seed(10)
+
+# We will estimate true_theta
+# Assume:
+true_theta = 3.0
+sd_known = 2.0
+#-----------------------------------
+#-----------------------------------
+# Test data set
+y_test = rnorm(150, true_theta, sd_known)
+#-----------------------------------
+#-----------------------------------
+
+# SET UP THE MCMC 
+
+# Parameters of the normal prior on true_theta
+# i.e. true_theta ~ Normal(mu_prior, sd_prior)
+mu_prior = 3.0
+sd_prior = 5.0
+
+# Same with the proposal distribution
+## Notice that the width of the proposal 
+## is 25% greater than the prior
+mu_prop = 3.0
+sd_prop = sd_prior * 1.25
+
+# Number of MCMC iterations
+n_iter = 15000
+
+# Set up storage (vector)
+chosen_theta = vector("numeric", length = n_iter)
+
+for(i in 1:n_iter){
+  
+  if(i == 1){ # First iteration
+    # Choose theta from proposal distribution
+    old_theta = rnorm(1, mu_prop, sd_prop)
+  }
+  
+  # Draw new theta from proposal:
+  new_theta = rnorm(1, mu_prop, sd_prop)
+  
+  # Calculate proposal adjustment:
+  old_prop_adj = dnorm(old_theta, mu_prop, sd_prop, log = TRUE)
+  new_prop_adj = dnorm(new_theta, mu_prop, sd_prop, log = TRUE)
+  
+  # Calculate prior prob:
+  old_prior = dnorm(old_theta, mu_prior, sd_prior, log = TRUE)
+  new_prior = dnorm(new_theta, mu_prior, sd_prior, log = TRUE)
+  
+  # Calculate data likelihood:
+  old_lik = sum(dnorm(y_test, old_theta, sd_known, log = TRUE))
+  new_lik = sum(dnorm(y_test, new_theta, sd_known, log = TRUE))
+  
+  # Calculate posterior density:
+  old_post = old_prior + old_lik
+  new_post = new_prior + new_lik
+  
+  # Calculate acceptance ratio:
+  log_ratio = (new_post - new_prop_adj) - (old_post - old_prop_adj)
+  ratio = exp(log_ratio)
+  
+  # Make decision:
+  if(ratio > 1){
+    # Keep new theta
+    chosen_theta[i] = new_theta
+  }else{
+    
+    rand = runif(1, min = 0, max = 1)
+    
+    if(ratio <= rand){
+      # Reject new theta (i.e., keep old_theta)
+      chosen_theta[i] = old_theta
+    }else{
+      chosen_theta[i] = new_theta
+    }
+    
+  }
+  
+  # Update what is "old" value
+  old_theta = chosen_theta[i]
+  
+}
+
+#-----------------------------------
+#-----------------------------------
+
+# Plot the trace:
+plot(chosen_theta ~ c(1:n_iter), type = "l",
+     xlab = "Iteration", ylab = expression(theta~"|"~y))
+
+# Plot the histogram:
+## Cut out the warmup or "burn-in" phase
+n_burn = n_iter / 2
+hist(chosen_theta[n_burn:n_iter], breaks = 25)
+abline(v = true_theta, lwd = 3)
+
+# Quantiles:
+quantile(chosen_theta[n_burn:n_iter],
+         probs = c(0.025, 0.5, 0.975))
+sd(chosen_theta[n_burn:n_iter])
+
+```
+We can see that the true value of $\theta$ is within the 95% credible interval of the marginal posterior distribution. 

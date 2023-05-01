@@ -554,7 +554,7 @@ x1          -1.196212  4.453355</code></pre>
 <span><span class="co"># Draw from the multivariate t </span></span>
 <span><span class="co"># which represents (\hat{B} - B)</span></span>
 <span><span class="va">test_mat_deviates</span> <span class="op">=</span> </span>
-<span>  <span class="fu">mnormt</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/mnormt/man/mt.html">rmt</a></span><span class="op">(</span><span class="va">n_samp</span>, mean <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">0</span><span class="op">)</span>, S <span class="op">=</span> <span class="va">beta_cov_mat</span>, df <span class="op">=</span> <span class="va">t_df</span><span class="op">)</span></span>
+<span>  <span class="fu">mnormt</span><span class="fu">::</span><span class="fu">rmt</span><span class="op">(</span><span class="va">n_samp</span>, mean <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">0</span><span class="op">)</span>, S <span class="op">=</span> <span class="va">beta_cov_mat</span>, df <span class="op">=</span> <span class="va">t_df</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Now calculate the realized intercept and slope</span></span>
 <span><span class="co"># using the t-distributed deviates</span></span>
