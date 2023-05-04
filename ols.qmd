@@ -142,17 +142,17 @@ Remember, we are estimating the coefficients by minimizing the sum of squared er
 
 ```{r}
 # True sum of squares:
-sum(epsilon)^2
+sum(epsilon^2)
 
 # Estimated (i.e., minimized sum of squares):
 ## From lm()
-sum(lm_out$residuals)^2
+sum(lm_out$residuals^2)
 
 ## From manual OLS
-sum( (y - xmat %*% bhat_solve) )^2
+sum( (y - xmat %*% bhat_solve)^2 )
 
 ```
-You can see that the OLS strategy effectively minimized the SSE to zero.
+You can see that the OLS strategy minimized SSE, but this is actually lower than the true SSE.
 
 
 ## Understanding Uncertainty in $\hat{B}$

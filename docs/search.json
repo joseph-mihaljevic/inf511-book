@@ -137,7 +137,7 @@
     "href": "ols.html#why-are-the-hatb-different-from-true-b",
     "title": "4  Ordinary Least Squares",
     "section": "\n4.7 Why are the \\(\\hat{B}\\) different from true \\(B\\)?",
-    "text": "4.7 Why are the \\(\\hat{B}\\) different from true \\(B\\)?\nRemember, we are estimating the coefficients by minimizing the sum of squared errors (SSE), \\(|| \\epsilon ||^2\\).\n\n# True sum of squares:\nsum(epsilon)^2\n\n[1] 9\n\n# Estimated (i.e., minimized sum of squares):\n## From lm()\nsum(lm_out$residuals)^2\n\n[1] 0\n\n## From manual OLS\nsum( (y - xmat %*% bhat_solve) )^2\n\n[1] 7.099748e-30\n\n\nYou can see that the OLS strategy effectively minimized the SSE to zero."
+    "text": "4.7 Why are the \\(\\hat{B}\\) different from true \\(B\\)?\nRemember, we are estimating the coefficients by minimizing the sum of squared errors (SSE), \\(|| \\epsilon ||^2\\).\n\n# True sum of squares:\nsum(epsilon^2)\n\n[1] 11\n\n# Estimated (i.e., minimized sum of squares):\n## From lm()\nsum(lm_out$residuals^2)\n\n[1] 7.542857\n\n## From manual OLS\nsum( (y - xmat %*% bhat_solve)^2 )\n\n[1] 7.542857\n\n\nYou can see that the OLS strategy minimized SSE, but this is actually lower than the true SSE."
   },
   {
     "objectID": "ols.html#understanding-uncertainty-in-hatb",
