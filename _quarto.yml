@@ -4,12 +4,9 @@ project:
 
 book:
   title: "INF511: Modern Regression I"
-  subtitle: "Spring 2023"
+  subtitle: "Spring 2024"
   author: 
     - name: Joseph Mihaljevic, PhD
-      affiliations:
-        - name: Northern Arizona University
-    - name: Isaac Shaffer, MS
       affiliations:
         - name: Northern Arizona University
   cover-image: cover.png
