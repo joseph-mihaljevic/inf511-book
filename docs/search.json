@@ -24,7 +24,10 @@
     "href": "software.html",
     "title": "1  Software",
     "section": "",
-    "text": "You will need to have all of the following free software downloaded and in working order on your laptop.\n\n\n\n\n\n\nPrior to first lecture\n\n\n\nYou must have the following on your laptops prior to the first lecture.\n\n\n\nLatest version of RStudio Desktop IDE\nCompatible version of R software environment\nQuarto publishing system (for documents with integrated code).\nYou must have a functional PDF Engine to render Quarto (.qmd) documents into PDF. See this section on PDF Engines, and be sure to test whether you can render an example .qmd file into a PDF.\n\n\n\n\n\n\n\nPrior to Bayesian inference\n\n\n\nYou must have the following on your laptops prior to the sections on Bayesian inference.\n\n\n\nStan programming language, via the rstan package for R.\nWe will potentially use the R package rstanarm, but this is a straightforward package to download using the install.packages() function."
+    "text": "You will need to have all of the following free software downloaded and in working order on your laptop.\n\n\n\n\n\n\nPrior to first lecture\n\n\n\nYou must have the following on your laptops prior to the first lecture.\n\n\n\nCompatible version of R software environment\nLatest version of RStudio Desktop IDE\nQuarto publishing system (for documents with integrated code).\nYou must have a functional PDF Engine to render Quarto (.qmd) documents into PDF. See this section on PDF Engines, and be sure to test whether you can render an example .qmd file into a PDF.\n\n\n\n\n\n\n\nPrior to Bayesian inference\n\n\n\nYou must have the following on your laptops prior to the sections on Bayesian inference.\n\n\n\nStan programming language, via the rstan package for R.\nWe will potentially use the R package rstanarm, but this is a straightforward package to download using the install.packages() function.",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Software</span>"
+    ]
   },
   {
     "objectID": "Rintro.html#load-a-package",
