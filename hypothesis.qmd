@@ -1,7 +1,5 @@
 # Hypothesis Testing {#sec-hypothesis}
 
-Here is some text. 
-
 ## Generate the data {#sec-data}
 
 Here we are going to build on the lecture material by comparing manual calculations of hypothesis tests versus the metrics reported by the `lm()` function. 
