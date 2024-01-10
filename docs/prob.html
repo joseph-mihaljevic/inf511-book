@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="generator" content="quarto-1.4.537">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-<title>INF511: Modern Regression I - 3&nbsp; Probability distributions</title>
+<title>INF511: Modern Regression I - 3&nbsp; Probability Distributions</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -131,7 +131,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./prob.html"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Probability distributions</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./prob.html"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Probability Distributions</span></a></li></ol></nav>
         <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
@@ -176,7 +176,7 @@ window.Quarto = {
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./prob.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Probability distributions</span></span></a>
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Probability Distributions</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -246,29 +246,26 @@ window.Quarto = {
         <nav id="TOC" role="doc-toc" class="toc-active"><h2 id="toc-title">Table of contents</h2>
    
   <ul>
-<li><a href="#lecture-material" id="toc-lecture-material" class="nav-link active" data-scroll-target="#lecture-material"><span class="header-section-number">3.1</span> Lecture material</a></li>
-  <li><a href="#gaussian-normal-distribution" id="toc-gaussian-normal-distribution" class="nav-link" data-scroll-target="#gaussian-normal-distribution"><span class="header-section-number">3.2</span> Gaussian (Normal) distribution</a></li>
+<li><a href="#gaussian-normal-distribution" id="toc-gaussian-normal-distribution" class="nav-link active" data-scroll-target="#gaussian-normal-distribution"><span class="header-section-number">3.1</span> Gaussian (Normal) distribution</a></li>
   <li>
-<a href="#multivariate-normal-distribution" id="toc-multivariate-normal-distribution" class="nav-link" data-scroll-target="#multivariate-normal-distribution"><span class="header-section-number">3.3</span> Multivariate normal distribution</a>
+<a href="#multivariate-normal-distribution" id="toc-multivariate-normal-distribution" class="nav-link" data-scroll-target="#multivariate-normal-distribution"><span class="header-section-number">3.2</span> Multivariate normal distribution</a>
   <ul class="collapse">
-<li><a href="#relation-to-residuals-epsilon" id="toc-relation-to-residuals-epsilon" class="nav-link" data-scroll-target="#relation-to-residuals-epsilon"><span class="header-section-number">3.3.1</span> Relation to residuals, <span class="math inline">\(\epsilon\)</span></a></li>
-  <li><a href="#multivariate-normal-distribution-with-non-independent-variables" id="toc-multivariate-normal-distribution-with-non-independent-variables" class="nav-link" data-scroll-target="#multivariate-normal-distribution-with-non-independent-variables"><span class="header-section-number">3.3.2</span> Multivariate normal distribution with non-independent variables</a></li>
+<li><a href="#relation-to-residuals-epsilon" id="toc-relation-to-residuals-epsilon" class="nav-link" data-scroll-target="#relation-to-residuals-epsilon"><span class="header-section-number">3.2.1</span> Relation to residuals, <span class="math inline">\(\epsilon\)</span></a></li>
+  <li><a href="#multivariate-normal-distribution-with-non-independent-variables" id="toc-multivariate-normal-distribution-with-non-independent-variables" class="nav-link" data-scroll-target="#multivariate-normal-distribution-with-non-independent-variables"><span class="header-section-number">3.2.2</span> Multivariate normal distribution with non-independent variables</a></li>
   </ul>
 </li>
-  <li><a href="#poisson-distribution" id="toc-poisson-distribution" class="nav-link" data-scroll-target="#poisson-distribution"><span class="header-section-number">3.4</span> Poisson distribution</a></li>
+  <li><a href="#poisson-distribution" id="toc-poisson-distribution" class="nav-link" data-scroll-target="#poisson-distribution"><span class="header-section-number">3.3</span> Poisson distribution</a></li>
   <li>
-<a href="#footnotes" id="toc-footnotes" class="nav-link" data-scroll-target="#footnotes"><span class="header-section-number">3.5</span> Footnotes</a>
+<a href="#footnotes" id="toc-footnotes" class="nav-link" data-scroll-target="#footnotes"><span class="header-section-number">3.4</span> Footnotes</a>
   <ul class="collapse">
-<li><a href="#sec-covariance" id="toc-sec-covariance" class="nav-link" data-scroll-target="#sec-covariance"><span class="header-section-number">3.5.1</span> Covariance matrix</a></li>
+<li><a href="#sec-covariance" id="toc-sec-covariance" class="nav-link" data-scroll-target="#sec-covariance"><span class="header-section-number">3.4.1</span> Covariance matrix</a></li>
   </ul>
 </li>
   </ul><div class="toc-actions"><ul><li><a href="https://github.com/joseph-mihaljevic/inf511-book/blob/main/prob.qmd" class="toc-action"><i class="bi bi-github"></i>View source</a></li><li><a href="https://github.com/joseph-mihaljevic/inf511-book/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block default"><div class="quarto-title">
-<div class="quarto-title-block"><div><h1 class="title">
-<span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Probability distributions</span>
-</h1><button type="button" class="btn code-tools-button" id="quarto-code-tools-source"><i class="bi"></i> Code</button></div></div>
+<div class="quarto-title-block"><div><h1 class="title"><span id="sec-prob" class="quarto-section-identifier"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Probability Distributions</span></span></h1><button type="button" class="btn code-tools-button" id="quarto-code-tools-source"><i class="bi"></i> Code</button></div></div>
 </div>
 
 
@@ -282,11 +279,8 @@ window.Quarto = {
   
 
 
-</header><section id="lecture-material" class="level2" data-number="3.1"><h2 data-number="3.1" class="anchored" data-anchor-id="lecture-material">
-<span class="header-section-number">3.1</span> Lecture material</h2>
-<p>Please download and print the lecture material from here. After lecture, the recording will also appear in this section.</p>
-</section><section id="gaussian-normal-distribution" class="level2" data-number="3.2"><h2 data-number="3.2" class="anchored" data-anchor-id="gaussian-normal-distribution">
-<span class="header-section-number">3.2</span> Gaussian (Normal) distribution</h2>
+</header><section id="gaussian-normal-distribution" class="level2" data-number="3.1"><h2 data-number="3.1" class="anchored" data-anchor-id="gaussian-normal-distribution">
+<span class="header-section-number">3.1</span> Gaussian (Normal) distribution</h2>
 <p>As we learned in lecture, the normal distribution is defined by two parameters, the mean <span class="math inline">\(\mu\)</span> and the standard deviation <span class="math inline">\(\sigma\)</span>. Here, we will use the normal distribution to demonstrate some of R’s functions to describe probability distributions and to draw random numbers from probability distributions. Let’s assume that random variable <span class="math inline">\(x\)</span> follows a normal distribution, <span class="math inline">\(x_i \sim N(\mu, \sigma)\)</span>.</p>
 <div class="cell">
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Define the parameters</span></span>
@@ -333,29 +327,31 @@ window.Quarto = {
 <div class="cell quarto-layout-panel" data-layout-ncol="2">
 <div class="quarto-layout-row">
 <div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
-<p><img src="prob_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid" width="672"></p>
+<p><img src="prob_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 <div class="quarto-layout-row">
 <div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
-<p><img src="prob_files/figure-html/unnamed-chunk-4-2.png" class="img-fluid" width="672"></p>
+<p><img src="prob_files/figure-html/unnamed-chunk-2-2.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 </div>
-</section><section id="multivariate-normal-distribution" class="level2" data-number="3.3"><h2 data-number="3.3" class="anchored" data-anchor-id="multivariate-normal-distribution">
-<span class="header-section-number">3.3</span> Multivariate normal distribution</h2>
-<section id="relation-to-residuals-epsilon" class="level3" data-number="3.3.1"><h3 data-number="3.3.1" class="anchored" data-anchor-id="relation-to-residuals-epsilon">
-<span class="header-section-number">3.3.1</span> Relation to residuals, <span class="math inline">\(\epsilon\)</span>
+</section><section id="multivariate-normal-distribution" class="level2" data-number="3.2"><h2 data-number="3.2" class="anchored" data-anchor-id="multivariate-normal-distribution">
+<span class="header-section-number">3.2</span> Multivariate normal distribution</h2>
+<section id="relation-to-residuals-epsilon" class="level3" data-number="3.2.1"><h3 data-number="3.2.1" class="anchored" data-anchor-id="relation-to-residuals-epsilon">
+<span class="header-section-number">3.2.1</span> Relation to residuals, <span class="math inline">\(\epsilon\)</span>
 </h3>
-<p>Recall our linear model in matrix notation: <span class="math inline">\(Y = XB + \epsilon\)</span>. We use the multivariate normal distribution to describe the probability density of the residuals, <span class="math inline">\(\epsilon\)</span>. Recall that each individual residual, <span class="math inline">\(\epsilon_i\)</span> follows a normal distribution with mean zero and standard deviation equal to the residual error, <span class="math inline">\(\sigma\)</span>: <span class="math inline">\(\epsilon_i \sim N(0, \sigma)\)</span>. Also recall that the linear regression analysis assumes that <span class="math inline">\(\epsilon_i\)</span> are I.I.D. (independent and identically distributed). <span class="math inline">\(\epsilon_i \sim N(0, \sigma)\)</span> implies the identical distribution (i.e., each residual follows the same normal distribution). The “independent” part means that the residual values are not correlated in any way, meaning that they do not covariance is zero. Thus, we can use vector notation to say that the vector <span class="math inline">\(\epsilon\)</span> follows a multivariate normal distribution with all means equal to zero and covariance matrix <span class="math inline">\(\Sigma = \sigma^2 I\)</span>, where <span class="math inline">\(I\)</span> is a square identity matrix: <span class="math inline">\(\epsilon \sim N(0, \sigma^2 I)\)</span>. More about covariance and covariance matrices is available below (<a href="#sec-covariance" class="quarto-xref">Footnotes&nbsp;<span class="quarto-unresolved-ref ref-noprefix">sec-covariance</span></a>).</p>
+<p>Recall our linear model in matrix notation: <span class="math inline">\(Y = XB + \epsilon\)</span>. We use the multivariate normal distribution to describe the probability density of the residuals, <span class="math inline">\(\epsilon\)</span>. Recall that each individual residual, <span class="math inline">\(\epsilon_i\)</span> follows a normal distribution with mean zero and standard deviation equal to the residual error, <span class="math inline">\(\sigma\)</span>: <span class="math inline">\(\epsilon_i \sim N(0, \sigma)\)</span>. Also recall that the linear regression analysis assumes that <span class="math inline">\(\epsilon_i\)</span> are I.I.D. (independent and identically distributed). <span class="math inline">\(\epsilon_i \sim N(0, \sigma)\)</span> implies the identical distribution (i.e., each residual follows the same normal distribution). The “independent” part means that the residual values are not correlated in any way, meaning that they do not covariance is zero. Thus, we can use vector notation to say that the vector <span class="math inline">\(\epsilon\)</span> follows a multivariate normal distribution with all means equal to zero and covariance matrix <span class="math inline">\(\Sigma = \sigma^2 I\)</span>, where <span class="math inline">\(I\)</span> is a square identity matrix: <span class="math inline">\(\epsilon \sim N(0, \sigma^2 I)\)</span>. More about covariance and covariance matrices is available below (<a href="#sec-covariance" class="quarto-xref">Footnotes&nbsp;<span>3.4.1</span></a>).</p>
 <p>The multivariate normal probability distribution is hard to visualize, because it is in multiple dimensions. But we can use similar R functions to understand the distribution. These functions are not in the base installation of R, so we need another package, <code>MASS</code>. We’ll also need the <code>Matrix</code> package later.</p>
 <div class="cell">
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Install packages if you don't already have them, e.g., </span></span>
 <span><span class="co"># install.packages("MASS", dependencies = TRUE)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="http://www.stats.ox.ac.uk/pub/MASS4/">MASS</a></span><span class="op">)</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://Matrix.R-forge.R-project.org">Matrix</a></span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># Define mean and st.dev.</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://Matrix.R-forge.R-project.org">Matrix</a></span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: package 'Matrix' was built under R version 4.3.1</code></pre>
+</div>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Define mean and st.dev.</span></span>
 <span><span class="va">mu_epsilon</span> <span class="op">=</span> <span class="fl">0</span></span>
 <span><span class="va">sigma_epsilon</span> <span class="op">=</span> <span class="fl">2.0</span></span>
 <span></span>
@@ -377,39 +373,39 @@ window.Quarto = {
 <span><span class="co"># We can see that an entire array of size n_resid is drawn</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/str.html">str</a></span><span class="op">(</span><span class="va">mvn_epsilon</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code> num [1:1000] 1.604 -2.189 -0.414 1.649 -1.294 ...</code></pre>
+<pre><code> num [1:1000] 4.106 2.124 2.305 1.28 -0.331 ...</code></pre>
 </div>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># How does this compare to drawing them independently?</span></span>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># How does this compare to drawing them independently?</span></span>
 <span><span class="va">norm_epsilon</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span><span class="op">(</span><span class="va">n_resid</span>, mean <span class="op">=</span> <span class="va">mu_epsilon</span>, sd <span class="op">=</span> <span class="va">sigma_epsilon</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">mvn_epsilon</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">norm_epsilon</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] -0.06196956  0.03755476</code></pre>
+<pre><code>[1] -0.06278693  0.07863296</code></pre>
 </div>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/sd.html">sd</a></span><span class="op">(</span><span class="va">mvn_epsilon</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/stats/sd.html">sd</a></span><span class="op">(</span><span class="va">norm_epsilon</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/sd.html">sd</a></span><span class="op">(</span><span class="va">mvn_epsilon</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/stats/sd.html">sd</a></span><span class="op">(</span><span class="va">norm_epsilon</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 2.011022 2.002009</code></pre>
+<pre><code>[1] 1.989344 1.997697</code></pre>
 </div>
 </div>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Compare these two vectors visually:</span></span>
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Compare these two vectors visually:</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/hist.html">hist</a></span><span class="op">(</span><span class="va">mvn_epsilon</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/hist.html">hist</a></span><span class="op">(</span><span class="va">norm_epsilon</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell quarto-layout-panel" data-layout-ncol="2">
 <div class="quarto-layout-row">
 <div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
-<p><img src="prob_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid" width="672"></p>
+<p><img src="prob_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 <div class="quarto-layout-row">
 <div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
-<p><img src="prob_files/figure-html/unnamed-chunk-8-2.png" class="img-fluid" width="672"></p>
+<p><img src="prob_files/figure-html/unnamed-chunk-4-2.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 </div>
-</section><section id="multivariate-normal-distribution-with-non-independent-variables" class="level3" data-number="3.3.2"><h3 data-number="3.3.2" class="anchored" data-anchor-id="multivariate-normal-distribution-with-non-independent-variables">
-<span class="header-section-number">3.3.2</span> Multivariate normal distribution with non-independent variables</h3>
+</section><section id="multivariate-normal-distribution-with-non-independent-variables" class="level3" data-number="3.2.2"><h3 data-number="3.2.2" class="anchored" data-anchor-id="multivariate-normal-distribution-with-non-independent-variables">
+<span class="header-section-number">3.2.2</span> Multivariate normal distribution with non-independent variables</h3>
 <p>Let’s explore the multivariate normal a bit more. Suppose we have three random variates <span class="math inline">\(a\)</span>, <span class="math inline">\(b\)</span>, and <span class="math inline">\(c\)</span>. Suppose further that <span class="math inline">\(a\)</span> and <span class="math inline">\(b\)</span> are positively correlated with each other, but <span class="math inline">\(c\)</span> is not correlated with either other variate.</p>
 <div class="cell">
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Establish means and variances of a, b, and c</span></span>
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Establish means and variances of a, b, and c</span></span>
 <span><span class="va">mu_vec</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1.0</span>, <span class="fl">2.2</span>, <span class="fl">1.5</span><span class="op">)</span></span>
 <span><span class="va">sd_vec</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1.5</span>, <span class="fl">0.5</span>, <span class="fl">0.75</span><span class="op">)</span></span>
 <span></span>
@@ -437,15 +433,15 @@ window.Quarto = {
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/pairs.html">pairs</a></span><span class="op">(</span><span class="va">abc_array</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
-<figure class="figure"><p><img src="prob_files/figure-html/unnamed-chunk-10-1.png" class="img-fluid figure-img" width="624"></p>
+<figure class="figure"><p><img src="prob_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid figure-img" width="624"></p>
 </figure>
 </div>
 </div>
 </div>
-</section></section><section id="poisson-distribution" class="level2" data-number="3.4"><h2 data-number="3.4" class="anchored" data-anchor-id="poisson-distribution">
-<span class="header-section-number">3.4</span> Poisson distribution</h2>
+</section></section><section id="poisson-distribution" class="level2" data-number="3.3"><h2 data-number="3.3" class="anchored" data-anchor-id="poisson-distribution">
+<span class="header-section-number">3.3</span> Poisson distribution</h2>
 <p>The normal and multivariate normal probability distributions have PDFs related to <em>continuous</em> random variables. In many cases our data are not continuous, but are instead <em>discrete</em>. The Poisson distribution represents the PMF (probability <em>mass</em> function) of count data and is described by a single parameter, <span class="math inline">\(\lambda\)</span>, which is equal to the mean and variance of the distribution. In regression, we can use the Poisson distribution to analyze a generalized linear model between a discrete response variable (e.g., count data) and its covariates, but we will not deal with that in our class.</p>
-<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Define the parameter</span></span>
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Define the parameter</span></span>
 <span><span class="va">lambda</span> <span class="op">=</span> <span class="fl">8</span></span>
 <span></span>
 <span><span class="co"># Visualize the probability density function (pdf)</span></span>
@@ -466,22 +462,22 @@ window.Quarto = {
 <div class="cell quarto-layout-panel" data-layout-ncol="2">
 <div class="quarto-layout-row">
 <div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
-<p><img src="prob_files/figure-html/unnamed-chunk-12-1.png" class="img-fluid" width="672"></p>
+<p><img src="prob_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 <div class="quarto-layout-row">
 <div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
-<p><img src="prob_files/figure-html/unnamed-chunk-12-2.png" class="img-fluid" width="672"></p>
+<p><img src="prob_files/figure-html/unnamed-chunk-6-2.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 <div class="quarto-layout-row">
 
 </div>
 </div>
-</section><section id="footnotes" class="level2" data-number="3.5"><h2 data-number="3.5" class="anchored" data-anchor-id="footnotes">
-<span class="header-section-number">3.5</span> Footnotes</h2>
-<section id="sec-covariance" class="level3" data-number="3.5.1"><h3 data-number="3.5.1" class="anchored" data-anchor-id="sec-covariance">
-<span class="header-section-number">3.5.1</span> Covariance matrix</h3>
+</section><section id="footnotes" class="level2" data-number="3.4"><h2 data-number="3.4" class="anchored" data-anchor-id="footnotes">
+<span class="header-section-number">3.4</span> Footnotes</h2>
+<section id="sec-covariance" class="level3" data-number="3.4.1"><h3 data-number="3.4.1" class="anchored" data-anchor-id="sec-covariance">
+<span class="header-section-number">3.4.1</span> Covariance matrix</h3>
 <p>As reminder, the variance of a random variable, <span class="math inline">\(x\)</span>, with sample size <span class="math inline">\(n\)</span> is: <span class="math display">\[\sigma^2_x = \frac{1}{n-1} \sum_i^n (x_i - \bar{x})(x_i - \bar{x}) = \frac{1}{n-1} \sum_i^n (x_i - \bar{x})^2.\]</span> And <span class="math inline">\(\bar{x}\)</span> is the sample mean. Similarly, then, the covariance of samples from two random variables, <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span>, can be calculated as: <span class="math display">\[\sigma(x,y) = \frac{1}{n-1} \sum_i^n (x_i - \bar{x})(y_i - \bar{y}).\]</span> The syntax for the covariance of a sample population with itself is, for example, <span class="math inline">\(\sigma(x, x)\)</span>, which is simply equal to the variance <span class="math inline">\(\sigma_x^2\)</span>. The covariance matrix for these two sample populations would be: <span class="math display">\[C = \begin{bmatrix}
 \sigma(x,x) &amp; \sigma(x,y)\\
 \sigma(y,x) &amp; \sigma(y,y)
@@ -936,189 +932,185 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       </a>
   </div>
 </nav><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">Source Code</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="">
-<div class="sourceCode" id="cb13" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu"># Probability distributions</span></span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="fu">## Lecture material</span></span>
-<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>Please download and print the lecture material from here. After lecture, the recording will also appear in this section.</span>
-<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a><span class="fu">## Gaussian (Normal) distribution</span></span>
-<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>As we learned in lecture, the normal distribution is defined by two parameters, the mean $\mu$ and the standard deviation $\sigma$. Here, we will use the normal distribution to demonstrate some of R's functions to describe probability distributions and to draw random numbers from probability distributions. Let's assume that random variable $x$ follows a normal distribution, $x_i \sim N(\mu, \sigma)$.</span>
-<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Define the parameters</span></span>
-<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a>mu <span class="ot">=</span> <span class="dv">10</span></span>
-<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a>sigma <span class="ot">=</span> <span class="fl">2.5</span></span>
-<span id="cb13-17"><a href="#cb13-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-18"><a href="#cb13-18" aria-hidden="true" tabindex="-1"></a><span class="co"># Visualize the probability density function (pdf)</span></span>
-<span id="cb13-19"><a href="#cb13-19" aria-hidden="true" tabindex="-1"></a>x_vals <span class="ot">=</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">50</span>, <span class="at">by =</span> <span class="fl">0.1</span>)</span>
-<span id="cb13-20"><a href="#cb13-20" aria-hidden="true" tabindex="-1"></a>norm_pdf <span class="ot">=</span> <span class="fu">dnorm</span>(x_vals, <span class="at">mean =</span> mu, <span class="at">sd =</span> sigma)</span>
-<span id="cb13-21"><a href="#cb13-21" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-22"><a href="#cb13-22" aria-hidden="true" tabindex="-1"></a><span class="co"># Let's use some of the other R functions to describe the distribution</span></span>
-<span id="cb13-23"><a href="#cb13-23" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-24"><a href="#cb13-24" aria-hidden="true" tabindex="-1"></a><span class="do">## What is the probability density of specific values?</span></span>
-<span id="cb13-25"><a href="#cb13-25" aria-hidden="true" tabindex="-1"></a><span class="do">## mean</span></span>
-<span id="cb13-26"><a href="#cb13-26" aria-hidden="true" tabindex="-1"></a>p_mu <span class="ot">=</span> <span class="fu">dnorm</span>(mu, <span class="at">mean =</span> mu, <span class="at">sd =</span> sigma)</span>
-<span id="cb13-27"><a href="#cb13-27" aria-hidden="true" tabindex="-1"></a><span class="do">## The next two values will describe the 95% probability density bounds</span></span>
-<span id="cb13-28"><a href="#cb13-28" aria-hidden="true" tabindex="-1"></a><span class="do">## (Low) 2.5% cut off </span></span>
-<span id="cb13-29"><a href="#cb13-29" aria-hidden="true" tabindex="-1"></a>x_low95 <span class="ot">=</span> <span class="fu">qnorm</span>(<span class="fl">0.025</span>, <span class="at">mean =</span> mu, <span class="at">sd =</span> sigma)</span>
-<span id="cb13-30"><a href="#cb13-30" aria-hidden="true" tabindex="-1"></a>p_low95 <span class="ot">=</span> <span class="fu">dnorm</span>(x_low95, <span class="at">mean =</span> mu, <span class="at">sd =</span> sigma)</span>
-<span id="cb13-31"><a href="#cb13-31" aria-hidden="true" tabindex="-1"></a><span class="do">## (High) 97.5% cut off</span></span>
-<span id="cb13-32"><a href="#cb13-32" aria-hidden="true" tabindex="-1"></a>x_high95 <span class="ot">=</span> <span class="fu">qnorm</span>(<span class="fl">0.975</span>, <span class="at">mean =</span> mu, <span class="at">sd =</span> sigma)</span>
-<span id="cb13-33"><a href="#cb13-33" aria-hidden="true" tabindex="-1"></a>p_high95 <span class="ot">=</span> <span class="fu">dnorm</span>(x_high95, <span class="at">mean =</span> mu, <span class="at">sd =</span> sigma)</span>
-<span id="cb13-34"><a href="#cb13-34" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-35"><a href="#cb13-35" aria-hidden="true" tabindex="-1"></a><span class="co"># So, what is the P(x &lt;= x_high95)??</span></span>
-<span id="cb13-36"><a href="#cb13-36" aria-hidden="true" tabindex="-1"></a><span class="fu">pnorm</span>(x_high95, <span class="at">mean =</span> mu, <span class="at">sd =</span> sigma)</span>
-<span id="cb13-37"><a href="#cb13-37" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb13-38"><a href="#cb13-38" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-41"><a href="#cb13-41" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb13-42"><a href="#cb13-42" aria-hidden="true" tabindex="-1"></a><span class="co">#| layout-ncol: 2</span></span>
-<span id="cb13-43"><a href="#cb13-43" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-44"><a href="#cb13-44" aria-hidden="true" tabindex="-1"></a><span class="do">## Plot the pdf with segments</span></span>
-<span id="cb13-45"><a href="#cb13-45" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="at">x =</span> <span class="cn">NA</span>, <span class="at">y =</span> <span class="cn">NA</span>, <span class="at">xlim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">20</span>), <span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="fl">0.2</span>),</span>
-<span id="cb13-46"><a href="#cb13-46" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">"x"</span>, <span class="at">ylab =</span> <span class="fu">expression</span>(<span class="st">"P(x |"</span><span class="sc">~</span>mu<span class="sc">~</span><span class="st">","</span><span class="sc">~</span>sigma<span class="sc">~</span><span class="st">")"</span>))</span>
-<span id="cb13-47"><a href="#cb13-47" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(norm_pdf <span class="sc">~</span> x_vals)</span>
-<span id="cb13-48"><a href="#cb13-48" aria-hidden="true" tabindex="-1"></a><span class="fu">segments</span>(<span class="at">x0 =</span> <span class="fu">c</span>(x_low95, mu, x_high95), <span class="at">x1 =</span> <span class="fu">c</span>(x_low95, mu, x_high95),</span>
-<span id="cb13-49"><a href="#cb13-49" aria-hidden="true" tabindex="-1"></a>         <span class="at">y0 =</span> <span class="fu">rep</span>(<span class="dv">0</span>, <span class="at">times =</span> <span class="dv">3</span>), <span class="at">y1 =</span> <span class="fu">c</span>(p_low95, p_mu, p_high95))</span>
-<span id="cb13-50"><a href="#cb13-50" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-51"><a href="#cb13-51" aria-hidden="true" tabindex="-1"></a><span class="co"># Now, let's draw random samples from this normal distribution</span></span>
-<span id="cb13-52"><a href="#cb13-52" aria-hidden="true" tabindex="-1"></a>n_rand <span class="ot">=</span> <span class="dv">1000</span></span>
-<span id="cb13-53"><a href="#cb13-53" aria-hidden="true" tabindex="-1"></a>x_rand <span class="ot">=</span> <span class="fu">rnorm</span>(n_rand, <span class="at">mean =</span> mu, <span class="at">sd =</span> sigma)</span>
-<span id="cb13-54"><a href="#cb13-54" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-55"><a href="#cb13-55" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot a histogram and overlay the approximate expectations</span></span>
-<span id="cb13-56"><a href="#cb13-56" aria-hidden="true" tabindex="-1"></a><span class="do">## The line below assumes you draw 'n_rand' samples</span></span>
-<span id="cb13-57"><a href="#cb13-57" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(x_rand, <span class="at">breaks =</span> <span class="dv">20</span>, <span class="at">main =</span> <span class="st">""</span>)</span>
-<span id="cb13-58"><a href="#cb13-58" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(norm_pdf<span class="sc">*</span>n_rand <span class="sc">~</span> x_vals)</span>
-<span id="cb13-59"><a href="#cb13-59" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb13-60"><a href="#cb13-60" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-61"><a href="#cb13-61" aria-hidden="true" tabindex="-1"></a><span class="fu">## Multivariate normal distribution</span></span>
-<span id="cb13-62"><a href="#cb13-62" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-63"><a href="#cb13-63" aria-hidden="true" tabindex="-1"></a><span class="fu">### Relation to residuals, $\epsilon$</span></span>
-<span id="cb13-64"><a href="#cb13-64" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-65"><a href="#cb13-65" aria-hidden="true" tabindex="-1"></a>Recall our linear model in matrix notation: $Y = XB + \epsilon$. We use the multivariate normal distribution to describe the probability density of the residuals, $\epsilon$. Recall that each individual residual, $\epsilon_i$ follows a normal distribution with mean zero and standard deviation equal to the residual error, $\sigma$: $\epsilon_i \sim N(0, \sigma)$. Also recall that the linear regression analysis assumes that $\epsilon_i$ are I.I.D. (independent and identically distributed). $\epsilon_i \sim N(0, \sigma)$ implies the identical distribution (i.e., each residual follows the same normal distribution). The "independent" part means that the residual values are not correlated in any way, meaning that they do not covariance is zero. Thus, we can use vector notation to say that the vector $\epsilon$ follows a multivariate normal distribution with all means equal to zero and covariance matrix $\Sigma = \sigma^2 I$, where $I$ is a square identity matrix: $\epsilon \sim N(0, \sigma^2 I)$. More about covariance and covariance matrices is available below (<span class="co">[</span><span class="ot">Footnotes -@sec-covariance</span><span class="co">]</span>).</span>
-<span id="cb13-66"><a href="#cb13-66" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-67"><a href="#cb13-67" aria-hidden="true" tabindex="-1"></a>The multivariate normal probability distribution is hard to visualize, because it is in multiple dimensions. But we can use similar R functions to understand the distribution. These functions are not in the base installation of R, so we need another package, <span class="in">`MASS`</span>. We'll also need the <span class="in">`Matrix`</span> package later.</span>
-<span id="cb13-68"><a href="#cb13-68" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-71"><a href="#cb13-71" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb13-72"><a href="#cb13-72" aria-hidden="true" tabindex="-1"></a><span class="co"># Install packages if you don't already have them, e.g., </span></span>
-<span id="cb13-73"><a href="#cb13-73" aria-hidden="true" tabindex="-1"></a><span class="co"># install.packages("MASS", dependencies = TRUE)</span></span>
-<span id="cb13-74"><a href="#cb13-74" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(MASS)</span>
-<span id="cb13-75"><a href="#cb13-75" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(Matrix)</span>
-<span id="cb13-76"><a href="#cb13-76" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-77"><a href="#cb13-77" aria-hidden="true" tabindex="-1"></a><span class="co"># Define mean and st.dev.</span></span>
-<span id="cb13-78"><a href="#cb13-78" aria-hidden="true" tabindex="-1"></a>mu_epsilon <span class="ot">=</span> <span class="dv">0</span></span>
-<span id="cb13-79"><a href="#cb13-79" aria-hidden="true" tabindex="-1"></a>sigma_epsilon <span class="ot">=</span> <span class="fl">2.0</span></span>
-<span id="cb13-80"><a href="#cb13-80" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-81"><a href="#cb13-81" aria-hidden="true" tabindex="-1"></a><span class="co"># sample size</span></span>
-<span id="cb13-82"><a href="#cb13-82" aria-hidden="true" tabindex="-1"></a>n_resid <span class="ot">=</span> <span class="dv">1000</span></span>
-<span id="cb13-83"><a href="#cb13-83" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-84"><a href="#cb13-84" aria-hidden="true" tabindex="-1"></a><span class="co"># we need a vector of means</span></span>
-<span id="cb13-85"><a href="#cb13-85" aria-hidden="true" tabindex="-1"></a>mu_vec <span class="ot">=</span> <span class="fu">rep</span>(<span class="dv">0</span>, n_resid)</span>
-<span id="cb13-86"><a href="#cb13-86" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-87"><a href="#cb13-87" aria-hidden="true" tabindex="-1"></a><span class="co"># we need an identity matrix</span></span>
-<span id="cb13-88"><a href="#cb13-88" aria-hidden="true" tabindex="-1"></a>I_mat <span class="ot">=</span> <span class="fu">matrix</span>(<span class="dv">0</span>, <span class="at">nrow =</span> n_resid, <span class="at">ncol =</span> n_resid)</span>
-<span id="cb13-89"><a href="#cb13-89" aria-hidden="true" tabindex="-1"></a><span class="do">## specify the diagonal = 1</span></span>
-<span id="cb13-90"><a href="#cb13-90" aria-hidden="true" tabindex="-1"></a><span class="fu">diag</span>(I_mat) <span class="ot">=</span> <span class="dv">1</span></span>
-<span id="cb13-91"><a href="#cb13-91" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-92"><a href="#cb13-92" aria-hidden="true" tabindex="-1"></a><span class="co"># Draw randomly from the multivariate normal</span></span>
-<span id="cb13-93"><a href="#cb13-93" aria-hidden="true" tabindex="-1"></a>mvn_epsilon <span class="ot">=</span> MASS<span class="sc">::</span><span class="fu">mvrnorm</span>(<span class="at">n =</span> <span class="dv">1</span>, </span>
-<span id="cb13-94"><a href="#cb13-94" aria-hidden="true" tabindex="-1"></a>                            <span class="at">mu =</span> mu_vec,</span>
-<span id="cb13-95"><a href="#cb13-95" aria-hidden="true" tabindex="-1"></a>                            <span class="at">Sigma =</span> sigma_epsilon<span class="sc">^</span><span class="dv">2</span><span class="sc">*</span>I_mat)</span>
-<span id="cb13-96"><a href="#cb13-96" aria-hidden="true" tabindex="-1"></a><span class="co"># We can see that an entire array of size n_resid is drawn</span></span>
-<span id="cb13-97"><a href="#cb13-97" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(mvn_epsilon)</span>
-<span id="cb13-98"><a href="#cb13-98" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-99"><a href="#cb13-99" aria-hidden="true" tabindex="-1"></a><span class="co"># How does this compare to drawing them independently?</span></span>
-<span id="cb13-100"><a href="#cb13-100" aria-hidden="true" tabindex="-1"></a>norm_epsilon <span class="ot">=</span> <span class="fu">rnorm</span>(n_resid, <span class="at">mean =</span> mu_epsilon, <span class="at">sd =</span> sigma_epsilon)</span>
-<span id="cb13-101"><a href="#cb13-101" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(<span class="fu">mean</span>(mvn_epsilon), <span class="fu">mean</span>(norm_epsilon))</span>
-<span id="cb13-102"><a href="#cb13-102" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(<span class="fu">sd</span>(mvn_epsilon), <span class="fu">sd</span>(norm_epsilon))</span>
-<span id="cb13-103"><a href="#cb13-103" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-104"><a href="#cb13-104" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb13-105"><a href="#cb13-105" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-108"><a href="#cb13-108" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb13-109"><a href="#cb13-109" aria-hidden="true" tabindex="-1"></a><span class="co">#| layout-ncol: 2</span></span>
-<span id="cb13-110"><a href="#cb13-110" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-111"><a href="#cb13-111" aria-hidden="true" tabindex="-1"></a><span class="co"># Compare these two vectors visually:</span></span>
-<span id="cb13-112"><a href="#cb13-112" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(mvn_epsilon)</span>
-<span id="cb13-113"><a href="#cb13-113" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(norm_epsilon)</span>
-<span id="cb13-114"><a href="#cb13-114" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb13-115"><a href="#cb13-115" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-116"><a href="#cb13-116" aria-hidden="true" tabindex="-1"></a><span class="fu">### Multivariate normal distribution with non-independent variables</span></span>
-<span id="cb13-117"><a href="#cb13-117" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-118"><a href="#cb13-118" aria-hidden="true" tabindex="-1"></a>Let's explore the multivariate normal a bit more. Suppose we have three random variates $a$, $b$, and $c$. Suppose further that $a$ and $b$ are positively correlated with each other, but $c$ is not correlated with either other variate.</span>
-<span id="cb13-119"><a href="#cb13-119" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-122"><a href="#cb13-122" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb13-123"><a href="#cb13-123" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-width: 6.5</span></span>
-<span id="cb13-124"><a href="#cb13-124" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-height: 5</span></span>
-<span id="cb13-125"><a href="#cb13-125" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-126"><a href="#cb13-126" aria-hidden="true" tabindex="-1"></a><span class="co"># Establish means and variances of a, b, and c</span></span>
-<span id="cb13-127"><a href="#cb13-127" aria-hidden="true" tabindex="-1"></a>mu_vec <span class="ot">=</span> <span class="fu">c</span>(<span class="fl">1.0</span>, <span class="fl">2.2</span>, <span class="fl">1.5</span>)</span>
-<span id="cb13-128"><a href="#cb13-128" aria-hidden="true" tabindex="-1"></a>sd_vec <span class="ot">=</span> <span class="fu">c</span>(<span class="fl">1.5</span>, <span class="fl">0.5</span>, <span class="fl">0.75</span>)</span>
-<span id="cb13-129"><a href="#cb13-129" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-130"><a href="#cb13-130" aria-hidden="true" tabindex="-1"></a><span class="co"># Manually construct the covariance matrix:</span></span>
-<span id="cb13-131"><a href="#cb13-131" aria-hidden="true" tabindex="-1"></a>cov_mat_test <span class="ot">=</span> <span class="fu">matrix</span>(</span>
-<span id="cb13-132"><a href="#cb13-132" aria-hidden="true" tabindex="-1"></a>    <span class="at">data =</span> <span class="fu">c</span>(<span class="fl">0.0</span>, <span class="fl">0.6</span>, <span class="fl">0.0</span>,</span>
-<span id="cb13-133"><a href="#cb13-133" aria-hidden="true" tabindex="-1"></a>             <span class="fl">0.6</span>, <span class="fl">0.0</span>, <span class="fl">0.0</span>,</span>
-<span id="cb13-134"><a href="#cb13-134" aria-hidden="true" tabindex="-1"></a>             <span class="fl">0.0</span>, <span class="fl">0.0</span>, <span class="fl">0.0</span>),</span>
-<span id="cb13-135"><a href="#cb13-135" aria-hidden="true" tabindex="-1"></a>    <span class="at">ncol =</span> <span class="dv">3</span>, <span class="at">nrow =</span> <span class="dv">3</span>,</span>
-<span id="cb13-136"><a href="#cb13-136" aria-hidden="true" tabindex="-1"></a>    <span class="at">byrow =</span> <span class="cn">TRUE</span></span>
-<span id="cb13-137"><a href="#cb13-137" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb13-138"><a href="#cb13-138" aria-hidden="true" tabindex="-1"></a><span class="fu">diag</span>(cov_mat_test) <span class="ot">=</span> sd_vec<span class="sc">^</span><span class="dv">2</span></span>
-<span id="cb13-139"><a href="#cb13-139" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-140"><a href="#cb13-140" aria-hidden="true" tabindex="-1"></a><span class="co"># Matrix must be positive definite (PD). </span></span>
-<span id="cb13-141"><a href="#cb13-141" aria-hidden="true" tabindex="-1"></a><span class="co"># This gives closest PD</span></span>
-<span id="cb13-142"><a href="#cb13-142" aria-hidden="true" tabindex="-1"></a>cov_mat <span class="ot">=</span> Matrix<span class="sc">::</span><span class="fu">nearPD</span>(cov_mat_test)<span class="sc">$</span>mat</span>
-<span id="cb13-143"><a href="#cb13-143" aria-hidden="true" tabindex="-1"></a><span class="co"># Look if you want: str(cov_mat)</span></span>
-<span id="cb13-144"><a href="#cb13-144" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-145"><a href="#cb13-145" aria-hidden="true" tabindex="-1"></a><span class="co"># Draw some random vectors:</span></span>
-<span id="cb13-146"><a href="#cb13-146" aria-hidden="true" tabindex="-1"></a>abc_array <span class="ot">=</span> <span class="fu">mvrnorm</span>(<span class="at">n =</span> <span class="dv">100</span>, <span class="at">mu =</span> mu_vec, <span class="at">Sigma =</span> cov_mat)</span>
-<span id="cb13-147"><a href="#cb13-147" aria-hidden="true" tabindex="-1"></a><span class="co"># Look at structure if you want; str(abc_array)</span></span>
-<span id="cb13-148"><a href="#cb13-148" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-149"><a href="#cb13-149" aria-hidden="true" tabindex="-1"></a><span class="co"># Visualize the relationships between a, b, and c:</span></span>
-<span id="cb13-150"><a href="#cb13-150" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(abc_array) <span class="ot">=</span> letters[<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>]</span>
-<span id="cb13-151"><a href="#cb13-151" aria-hidden="true" tabindex="-1"></a><span class="fu">pairs</span>(abc_array)</span>
-<span id="cb13-152"><a href="#cb13-152" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb13-153"><a href="#cb13-153" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-154"><a href="#cb13-154" aria-hidden="true" tabindex="-1"></a><span class="fu">## Poisson distribution</span></span>
-<span id="cb13-155"><a href="#cb13-155" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-156"><a href="#cb13-156" aria-hidden="true" tabindex="-1"></a>The normal and multivariate normal probability distributions have PDFs related to *continuous* random variables. In many cases our data are not continuous, but are instead *discrete*. The Poisson distribution represents the PMF (probability *mass* function) of count data and is described by a single parameter, $\lambda$, which is equal to the mean and variance of the distribution. In regression, we can use the Poisson distribution to analyze a generalized linear model between a discrete response variable (e.g., count data) and its covariates, but we will not deal with that in our class.</span>
-<span id="cb13-157"><a href="#cb13-157" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-160"><a href="#cb13-160" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb13-161"><a href="#cb13-161" aria-hidden="true" tabindex="-1"></a><span class="co">#| layout-ncol: 2</span></span>
-<span id="cb13-162"><a href="#cb13-162" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-163"><a href="#cb13-163" aria-hidden="true" tabindex="-1"></a><span class="co"># Define the parameter</span></span>
-<span id="cb13-164"><a href="#cb13-164" aria-hidden="true" tabindex="-1"></a>lambda <span class="ot">=</span> <span class="dv">8</span></span>
-<span id="cb13-165"><a href="#cb13-165" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-166"><a href="#cb13-166" aria-hidden="true" tabindex="-1"></a><span class="co"># Visualize the probability density function (pdf)</span></span>
-<span id="cb13-167"><a href="#cb13-167" aria-hidden="true" tabindex="-1"></a><span class="do">## Remember this is a discrete distribution</span></span>
-<span id="cb13-168"><a href="#cb13-168" aria-hidden="true" tabindex="-1"></a>k_vals <span class="ot">=</span> <span class="fu">c</span>(<span class="dv">0</span><span class="sc">:</span><span class="dv">20</span>)</span>
-<span id="cb13-169"><a href="#cb13-169" aria-hidden="true" tabindex="-1"></a>pois_pdf <span class="ot">=</span> <span class="fu">dpois</span>(k_vals, <span class="at">lambda =</span> lambda)</span>
-<span id="cb13-170"><a href="#cb13-170" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-171"><a href="#cb13-171" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="at">x =</span> <span class="cn">NA</span>, <span class="at">y =</span> <span class="cn">NA</span>, <span class="at">xlim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">20</span>), <span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="fl">0.2</span>),</span>
-<span id="cb13-172"><a href="#cb13-172" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">"k"</span>, <span class="at">ylab =</span> <span class="fu">expression</span>(<span class="st">"P(k |"</span><span class="sc">~</span>lambda<span class="sc">~</span><span class="st">")"</span>))</span>
-<span id="cb13-173"><a href="#cb13-173" aria-hidden="true" tabindex="-1"></a><span class="fu">points</span>(pois_pdf <span class="sc">~</span> k_vals)</span>
-<span id="cb13-174"><a href="#cb13-174" aria-hidden="true" tabindex="-1"></a><span class="fu">segments</span>(<span class="at">x0 =</span> k_vals, <span class="at">x1 =</span> k_vals,</span>
-<span id="cb13-175"><a href="#cb13-175" aria-hidden="true" tabindex="-1"></a>         <span class="at">y0 =</span> <span class="dv">0</span>, <span class="at">y1 =</span> pois_pdf)</span>
-<span id="cb13-176"><a href="#cb13-176" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-177"><a href="#cb13-177" aria-hidden="true" tabindex="-1"></a><span class="do">## Compare to randomly drawn values:</span></span>
-<span id="cb13-178"><a href="#cb13-178" aria-hidden="true" tabindex="-1"></a>k_rand <span class="ot">=</span> <span class="fu">rpois</span>(n_rand, <span class="at">lambda =</span> lambda)</span>
-<span id="cb13-179"><a href="#cb13-179" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(k_rand, <span class="at">breaks =</span> <span class="dv">25</span>, <span class="at">main =</span> <span class="st">""</span>)</span>
-<span id="cb13-180"><a href="#cb13-180" aria-hidden="true" tabindex="-1"></a><span class="fu">points</span>(pois_pdf<span class="sc">*</span>n_rand <span class="sc">~</span> k_vals, <span class="at">pch =</span> <span class="dv">19</span>)</span>
-<span id="cb13-181"><a href="#cb13-181" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-182"><a href="#cb13-182" aria-hidden="true" tabindex="-1"></a><span class="co"># On your own, use the ppois() and qpois() functions to understand their inputs/outputs</span></span>
-<span id="cb13-183"><a href="#cb13-183" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb13-184"><a href="#cb13-184" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-185"><a href="#cb13-185" aria-hidden="true" tabindex="-1"></a><span class="fu">## Footnotes</span></span>
-<span id="cb13-186"><a href="#cb13-186" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-187"><a href="#cb13-187" aria-hidden="true" tabindex="-1"></a><span class="fu">### Covariance matrix {#sec-covariance}</span></span>
-<span id="cb13-188"><a href="#cb13-188" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-189"><a href="#cb13-189" aria-hidden="true" tabindex="-1"></a>As reminder, the variance of a random variable, $x$, with sample size $n$ is: $$\sigma^2_x = \frac{1}{n-1} \sum_i^n (x_i - \bar{x})(x_i - \bar{x}) = \frac{1}{n-1} \sum_i^n (x_i - \bar{x})^2.$$ And $\bar{x}$ is the sample mean. Similarly, then, the covariance of samples from two random variables, $x$ and $y$, can be calculated as: $$\sigma(x,y) = \frac{1}{n-1} \sum_i^n (x_i - \bar{x})(y_i - \bar{y}).$$ The syntax for the covariance of a sample population with itself is, for example, $\sigma(x, x)$, which is simply equal to the variance $\sigma_x^2$. The covariance matrix for these two sample populations would be: $$C = \begin{bmatrix}</span>
-<span id="cb13-190"><a href="#cb13-190" aria-hidden="true" tabindex="-1"></a>\sigma(x,x) &amp; \sigma(x,y)<span class="sc">\\</span></span>
-<span id="cb13-191"><a href="#cb13-191" aria-hidden="true" tabindex="-1"></a>\sigma(y,x) &amp; \sigma(y,y)</span>
-<span id="cb13-192"><a href="#cb13-192" aria-hidden="true" tabindex="-1"></a>\end{bmatrix}.$$ This can be simplified using the variance notation: $$C = \begin{bmatrix}</span>
-<span id="cb13-193"><a href="#cb13-193" aria-hidden="true" tabindex="-1"></a>\sigma^2_x &amp; \sigma(x,y)<span class="sc">\\</span></span>
-<span id="cb13-194"><a href="#cb13-194" aria-hidden="true" tabindex="-1"></a>\sigma(y,x) &amp; \sigma^2_y</span>
-<span id="cb13-195"><a href="#cb13-195" aria-hidden="true" tabindex="-1"></a>\end{bmatrix}.$$</span>
+<div class="sourceCode" id="cb15" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu"># Probability Distributions {#sec-prob}</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="fu">## Gaussian (Normal) distribution</span></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>As we learned in lecture, the normal distribution is defined by two parameters, the mean $\mu$ and the standard deviation $\sigma$. Here, we will use the normal distribution to demonstrate some of R's functions to describe probability distributions and to draw random numbers from probability distributions. Let's assume that random variable $x$ follows a normal distribution, $x_i \sim N(\mu, \sigma)$.</span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Define the parameters</span></span>
+<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a>mu <span class="ot">=</span> <span class="dv">10</span></span>
+<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a>sigma <span class="ot">=</span> <span class="fl">2.5</span></span>
+<span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-14"><a href="#cb15-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Visualize the probability density function (pdf)</span></span>
+<span id="cb15-15"><a href="#cb15-15" aria-hidden="true" tabindex="-1"></a>x_vals <span class="ot">=</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">50</span>, <span class="at">by =</span> <span class="fl">0.1</span>)</span>
+<span id="cb15-16"><a href="#cb15-16" aria-hidden="true" tabindex="-1"></a>norm_pdf <span class="ot">=</span> <span class="fu">dnorm</span>(x_vals, <span class="at">mean =</span> mu, <span class="at">sd =</span> sigma)</span>
+<span id="cb15-17"><a href="#cb15-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-18"><a href="#cb15-18" aria-hidden="true" tabindex="-1"></a><span class="co"># Let's use some of the other R functions to describe the distribution</span></span>
+<span id="cb15-19"><a href="#cb15-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-20"><a href="#cb15-20" aria-hidden="true" tabindex="-1"></a><span class="do">## What is the probability density of specific values?</span></span>
+<span id="cb15-21"><a href="#cb15-21" aria-hidden="true" tabindex="-1"></a><span class="do">## mean</span></span>
+<span id="cb15-22"><a href="#cb15-22" aria-hidden="true" tabindex="-1"></a>p_mu <span class="ot">=</span> <span class="fu">dnorm</span>(mu, <span class="at">mean =</span> mu, <span class="at">sd =</span> sigma)</span>
+<span id="cb15-23"><a href="#cb15-23" aria-hidden="true" tabindex="-1"></a><span class="do">## The next two values will describe the 95% probability density bounds</span></span>
+<span id="cb15-24"><a href="#cb15-24" aria-hidden="true" tabindex="-1"></a><span class="do">## (Low) 2.5% cut off </span></span>
+<span id="cb15-25"><a href="#cb15-25" aria-hidden="true" tabindex="-1"></a>x_low95 <span class="ot">=</span> <span class="fu">qnorm</span>(<span class="fl">0.025</span>, <span class="at">mean =</span> mu, <span class="at">sd =</span> sigma)</span>
+<span id="cb15-26"><a href="#cb15-26" aria-hidden="true" tabindex="-1"></a>p_low95 <span class="ot">=</span> <span class="fu">dnorm</span>(x_low95, <span class="at">mean =</span> mu, <span class="at">sd =</span> sigma)</span>
+<span id="cb15-27"><a href="#cb15-27" aria-hidden="true" tabindex="-1"></a><span class="do">## (High) 97.5% cut off</span></span>
+<span id="cb15-28"><a href="#cb15-28" aria-hidden="true" tabindex="-1"></a>x_high95 <span class="ot">=</span> <span class="fu">qnorm</span>(<span class="fl">0.975</span>, <span class="at">mean =</span> mu, <span class="at">sd =</span> sigma)</span>
+<span id="cb15-29"><a href="#cb15-29" aria-hidden="true" tabindex="-1"></a>p_high95 <span class="ot">=</span> <span class="fu">dnorm</span>(x_high95, <span class="at">mean =</span> mu, <span class="at">sd =</span> sigma)</span>
+<span id="cb15-30"><a href="#cb15-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-31"><a href="#cb15-31" aria-hidden="true" tabindex="-1"></a><span class="co"># So, what is the P(x &lt;= x_high95)??</span></span>
+<span id="cb15-32"><a href="#cb15-32" aria-hidden="true" tabindex="-1"></a><span class="fu">pnorm</span>(x_high95, <span class="at">mean =</span> mu, <span class="at">sd =</span> sigma)</span>
+<span id="cb15-33"><a href="#cb15-33" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb15-34"><a href="#cb15-34" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-37"><a href="#cb15-37" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb15-38"><a href="#cb15-38" aria-hidden="true" tabindex="-1"></a><span class="co">#| layout-ncol: 2</span></span>
+<span id="cb15-39"><a href="#cb15-39" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-40"><a href="#cb15-40" aria-hidden="true" tabindex="-1"></a><span class="do">## Plot the pdf with segments</span></span>
+<span id="cb15-41"><a href="#cb15-41" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="at">x =</span> <span class="cn">NA</span>, <span class="at">y =</span> <span class="cn">NA</span>, <span class="at">xlim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">20</span>), <span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="fl">0.2</span>),</span>
+<span id="cb15-42"><a href="#cb15-42" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">"x"</span>, <span class="at">ylab =</span> <span class="fu">expression</span>(<span class="st">"P(x |"</span><span class="sc">~</span>mu<span class="sc">~</span><span class="st">","</span><span class="sc">~</span>sigma<span class="sc">~</span><span class="st">")"</span>))</span>
+<span id="cb15-43"><a href="#cb15-43" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(norm_pdf <span class="sc">~</span> x_vals)</span>
+<span id="cb15-44"><a href="#cb15-44" aria-hidden="true" tabindex="-1"></a><span class="fu">segments</span>(<span class="at">x0 =</span> <span class="fu">c</span>(x_low95, mu, x_high95), <span class="at">x1 =</span> <span class="fu">c</span>(x_low95, mu, x_high95),</span>
+<span id="cb15-45"><a href="#cb15-45" aria-hidden="true" tabindex="-1"></a>         <span class="at">y0 =</span> <span class="fu">rep</span>(<span class="dv">0</span>, <span class="at">times =</span> <span class="dv">3</span>), <span class="at">y1 =</span> <span class="fu">c</span>(p_low95, p_mu, p_high95))</span>
+<span id="cb15-46"><a href="#cb15-46" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-47"><a href="#cb15-47" aria-hidden="true" tabindex="-1"></a><span class="co"># Now, let's draw random samples from this normal distribution</span></span>
+<span id="cb15-48"><a href="#cb15-48" aria-hidden="true" tabindex="-1"></a>n_rand <span class="ot">=</span> <span class="dv">1000</span></span>
+<span id="cb15-49"><a href="#cb15-49" aria-hidden="true" tabindex="-1"></a>x_rand <span class="ot">=</span> <span class="fu">rnorm</span>(n_rand, <span class="at">mean =</span> mu, <span class="at">sd =</span> sigma)</span>
+<span id="cb15-50"><a href="#cb15-50" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-51"><a href="#cb15-51" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot a histogram and overlay the approximate expectations</span></span>
+<span id="cb15-52"><a href="#cb15-52" aria-hidden="true" tabindex="-1"></a><span class="do">## The line below assumes you draw 'n_rand' samples</span></span>
+<span id="cb15-53"><a href="#cb15-53" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(x_rand, <span class="at">breaks =</span> <span class="dv">20</span>, <span class="at">main =</span> <span class="st">""</span>)</span>
+<span id="cb15-54"><a href="#cb15-54" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(norm_pdf<span class="sc">*</span>n_rand <span class="sc">~</span> x_vals)</span>
+<span id="cb15-55"><a href="#cb15-55" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb15-56"><a href="#cb15-56" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-57"><a href="#cb15-57" aria-hidden="true" tabindex="-1"></a><span class="fu">## Multivariate normal distribution</span></span>
+<span id="cb15-58"><a href="#cb15-58" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-59"><a href="#cb15-59" aria-hidden="true" tabindex="-1"></a><span class="fu">### Relation to residuals, $\epsilon$</span></span>
+<span id="cb15-60"><a href="#cb15-60" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-61"><a href="#cb15-61" aria-hidden="true" tabindex="-1"></a>Recall our linear model in matrix notation: $Y = XB + \epsilon$. We use the multivariate normal distribution to describe the probability density of the residuals, $\epsilon$. Recall that each individual residual, $\epsilon_i$ follows a normal distribution with mean zero and standard deviation equal to the residual error, $\sigma$: $\epsilon_i \sim N(0, \sigma)$. Also recall that the linear regression analysis assumes that $\epsilon_i$ are I.I.D. (independent and identically distributed). $\epsilon_i \sim N(0, \sigma)$ implies the identical distribution (i.e., each residual follows the same normal distribution). The "independent" part means that the residual values are not correlated in any way, meaning that they do not covariance is zero. Thus, we can use vector notation to say that the vector $\epsilon$ follows a multivariate normal distribution with all means equal to zero and covariance matrix $\Sigma = \sigma^2 I$, where $I$ is a square identity matrix: $\epsilon \sim N(0, \sigma^2 I)$. More about covariance and covariance matrices is available below (<span class="co">[</span><span class="ot">Footnotes -@sec-covariance</span><span class="co">]</span>).</span>
+<span id="cb15-62"><a href="#cb15-62" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-63"><a href="#cb15-63" aria-hidden="true" tabindex="-1"></a>The multivariate normal probability distribution is hard to visualize, because it is in multiple dimensions. But we can use similar R functions to understand the distribution. These functions are not in the base installation of R, so we need another package, <span class="in">`MASS`</span>. We'll also need the <span class="in">`Matrix`</span> package later.</span>
+<span id="cb15-64"><a href="#cb15-64" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-67"><a href="#cb15-67" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb15-68"><a href="#cb15-68" aria-hidden="true" tabindex="-1"></a><span class="co"># Install packages if you don't already have them, e.g., </span></span>
+<span id="cb15-69"><a href="#cb15-69" aria-hidden="true" tabindex="-1"></a><span class="co"># install.packages("MASS", dependencies = TRUE)</span></span>
+<span id="cb15-70"><a href="#cb15-70" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(MASS)</span>
+<span id="cb15-71"><a href="#cb15-71" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(Matrix)</span>
+<span id="cb15-72"><a href="#cb15-72" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-73"><a href="#cb15-73" aria-hidden="true" tabindex="-1"></a><span class="co"># Define mean and st.dev.</span></span>
+<span id="cb15-74"><a href="#cb15-74" aria-hidden="true" tabindex="-1"></a>mu_epsilon <span class="ot">=</span> <span class="dv">0</span></span>
+<span id="cb15-75"><a href="#cb15-75" aria-hidden="true" tabindex="-1"></a>sigma_epsilon <span class="ot">=</span> <span class="fl">2.0</span></span>
+<span id="cb15-76"><a href="#cb15-76" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-77"><a href="#cb15-77" aria-hidden="true" tabindex="-1"></a><span class="co"># sample size</span></span>
+<span id="cb15-78"><a href="#cb15-78" aria-hidden="true" tabindex="-1"></a>n_resid <span class="ot">=</span> <span class="dv">1000</span></span>
+<span id="cb15-79"><a href="#cb15-79" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-80"><a href="#cb15-80" aria-hidden="true" tabindex="-1"></a><span class="co"># we need a vector of means</span></span>
+<span id="cb15-81"><a href="#cb15-81" aria-hidden="true" tabindex="-1"></a>mu_vec <span class="ot">=</span> <span class="fu">rep</span>(<span class="dv">0</span>, n_resid)</span>
+<span id="cb15-82"><a href="#cb15-82" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-83"><a href="#cb15-83" aria-hidden="true" tabindex="-1"></a><span class="co"># we need an identity matrix</span></span>
+<span id="cb15-84"><a href="#cb15-84" aria-hidden="true" tabindex="-1"></a>I_mat <span class="ot">=</span> <span class="fu">matrix</span>(<span class="dv">0</span>, <span class="at">nrow =</span> n_resid, <span class="at">ncol =</span> n_resid)</span>
+<span id="cb15-85"><a href="#cb15-85" aria-hidden="true" tabindex="-1"></a><span class="do">## specify the diagonal = 1</span></span>
+<span id="cb15-86"><a href="#cb15-86" aria-hidden="true" tabindex="-1"></a><span class="fu">diag</span>(I_mat) <span class="ot">=</span> <span class="dv">1</span></span>
+<span id="cb15-87"><a href="#cb15-87" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-88"><a href="#cb15-88" aria-hidden="true" tabindex="-1"></a><span class="co"># Draw randomly from the multivariate normal</span></span>
+<span id="cb15-89"><a href="#cb15-89" aria-hidden="true" tabindex="-1"></a>mvn_epsilon <span class="ot">=</span> MASS<span class="sc">::</span><span class="fu">mvrnorm</span>(<span class="at">n =</span> <span class="dv">1</span>, </span>
+<span id="cb15-90"><a href="#cb15-90" aria-hidden="true" tabindex="-1"></a>                            <span class="at">mu =</span> mu_vec,</span>
+<span id="cb15-91"><a href="#cb15-91" aria-hidden="true" tabindex="-1"></a>                            <span class="at">Sigma =</span> sigma_epsilon<span class="sc">^</span><span class="dv">2</span><span class="sc">*</span>I_mat)</span>
+<span id="cb15-92"><a href="#cb15-92" aria-hidden="true" tabindex="-1"></a><span class="co"># We can see that an entire array of size n_resid is drawn</span></span>
+<span id="cb15-93"><a href="#cb15-93" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(mvn_epsilon)</span>
+<span id="cb15-94"><a href="#cb15-94" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-95"><a href="#cb15-95" aria-hidden="true" tabindex="-1"></a><span class="co"># How does this compare to drawing them independently?</span></span>
+<span id="cb15-96"><a href="#cb15-96" aria-hidden="true" tabindex="-1"></a>norm_epsilon <span class="ot">=</span> <span class="fu">rnorm</span>(n_resid, <span class="at">mean =</span> mu_epsilon, <span class="at">sd =</span> sigma_epsilon)</span>
+<span id="cb15-97"><a href="#cb15-97" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(<span class="fu">mean</span>(mvn_epsilon), <span class="fu">mean</span>(norm_epsilon))</span>
+<span id="cb15-98"><a href="#cb15-98" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(<span class="fu">sd</span>(mvn_epsilon), <span class="fu">sd</span>(norm_epsilon))</span>
+<span id="cb15-99"><a href="#cb15-99" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-100"><a href="#cb15-100" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb15-101"><a href="#cb15-101" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-104"><a href="#cb15-104" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb15-105"><a href="#cb15-105" aria-hidden="true" tabindex="-1"></a><span class="co">#| layout-ncol: 2</span></span>
+<span id="cb15-106"><a href="#cb15-106" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-107"><a href="#cb15-107" aria-hidden="true" tabindex="-1"></a><span class="co"># Compare these two vectors visually:</span></span>
+<span id="cb15-108"><a href="#cb15-108" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(mvn_epsilon)</span>
+<span id="cb15-109"><a href="#cb15-109" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(norm_epsilon)</span>
+<span id="cb15-110"><a href="#cb15-110" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb15-111"><a href="#cb15-111" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-112"><a href="#cb15-112" aria-hidden="true" tabindex="-1"></a><span class="fu">### Multivariate normal distribution with non-independent variables</span></span>
+<span id="cb15-113"><a href="#cb15-113" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-114"><a href="#cb15-114" aria-hidden="true" tabindex="-1"></a>Let's explore the multivariate normal a bit more. Suppose we have three random variates $a$, $b$, and $c$. Suppose further that $a$ and $b$ are positively correlated with each other, but $c$ is not correlated with either other variate.</span>
+<span id="cb15-115"><a href="#cb15-115" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-118"><a href="#cb15-118" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb15-119"><a href="#cb15-119" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-width: 6.5</span></span>
+<span id="cb15-120"><a href="#cb15-120" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-height: 5</span></span>
+<span id="cb15-121"><a href="#cb15-121" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-122"><a href="#cb15-122" aria-hidden="true" tabindex="-1"></a><span class="co"># Establish means and variances of a, b, and c</span></span>
+<span id="cb15-123"><a href="#cb15-123" aria-hidden="true" tabindex="-1"></a>mu_vec <span class="ot">=</span> <span class="fu">c</span>(<span class="fl">1.0</span>, <span class="fl">2.2</span>, <span class="fl">1.5</span>)</span>
+<span id="cb15-124"><a href="#cb15-124" aria-hidden="true" tabindex="-1"></a>sd_vec <span class="ot">=</span> <span class="fu">c</span>(<span class="fl">1.5</span>, <span class="fl">0.5</span>, <span class="fl">0.75</span>)</span>
+<span id="cb15-125"><a href="#cb15-125" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-126"><a href="#cb15-126" aria-hidden="true" tabindex="-1"></a><span class="co"># Manually construct the covariance matrix:</span></span>
+<span id="cb15-127"><a href="#cb15-127" aria-hidden="true" tabindex="-1"></a>cov_mat_test <span class="ot">=</span> <span class="fu">matrix</span>(</span>
+<span id="cb15-128"><a href="#cb15-128" aria-hidden="true" tabindex="-1"></a>    <span class="at">data =</span> <span class="fu">c</span>(<span class="fl">0.0</span>, <span class="fl">0.6</span>, <span class="fl">0.0</span>,</span>
+<span id="cb15-129"><a href="#cb15-129" aria-hidden="true" tabindex="-1"></a>             <span class="fl">0.6</span>, <span class="fl">0.0</span>, <span class="fl">0.0</span>,</span>
+<span id="cb15-130"><a href="#cb15-130" aria-hidden="true" tabindex="-1"></a>             <span class="fl">0.0</span>, <span class="fl">0.0</span>, <span class="fl">0.0</span>),</span>
+<span id="cb15-131"><a href="#cb15-131" aria-hidden="true" tabindex="-1"></a>    <span class="at">ncol =</span> <span class="dv">3</span>, <span class="at">nrow =</span> <span class="dv">3</span>,</span>
+<span id="cb15-132"><a href="#cb15-132" aria-hidden="true" tabindex="-1"></a>    <span class="at">byrow =</span> <span class="cn">TRUE</span></span>
+<span id="cb15-133"><a href="#cb15-133" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb15-134"><a href="#cb15-134" aria-hidden="true" tabindex="-1"></a><span class="fu">diag</span>(cov_mat_test) <span class="ot">=</span> sd_vec<span class="sc">^</span><span class="dv">2</span></span>
+<span id="cb15-135"><a href="#cb15-135" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-136"><a href="#cb15-136" aria-hidden="true" tabindex="-1"></a><span class="co"># Matrix must be positive definite (PD). </span></span>
+<span id="cb15-137"><a href="#cb15-137" aria-hidden="true" tabindex="-1"></a><span class="co"># This gives closest PD</span></span>
+<span id="cb15-138"><a href="#cb15-138" aria-hidden="true" tabindex="-1"></a>cov_mat <span class="ot">=</span> Matrix<span class="sc">::</span><span class="fu">nearPD</span>(cov_mat_test)<span class="sc">$</span>mat</span>
+<span id="cb15-139"><a href="#cb15-139" aria-hidden="true" tabindex="-1"></a><span class="co"># Look if you want: str(cov_mat)</span></span>
+<span id="cb15-140"><a href="#cb15-140" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-141"><a href="#cb15-141" aria-hidden="true" tabindex="-1"></a><span class="co"># Draw some random vectors:</span></span>
+<span id="cb15-142"><a href="#cb15-142" aria-hidden="true" tabindex="-1"></a>abc_array <span class="ot">=</span> <span class="fu">mvrnorm</span>(<span class="at">n =</span> <span class="dv">100</span>, <span class="at">mu =</span> mu_vec, <span class="at">Sigma =</span> cov_mat)</span>
+<span id="cb15-143"><a href="#cb15-143" aria-hidden="true" tabindex="-1"></a><span class="co"># Look at structure if you want; str(abc_array)</span></span>
+<span id="cb15-144"><a href="#cb15-144" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-145"><a href="#cb15-145" aria-hidden="true" tabindex="-1"></a><span class="co"># Visualize the relationships between a, b, and c:</span></span>
+<span id="cb15-146"><a href="#cb15-146" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(abc_array) <span class="ot">=</span> letters[<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>]</span>
+<span id="cb15-147"><a href="#cb15-147" aria-hidden="true" tabindex="-1"></a><span class="fu">pairs</span>(abc_array)</span>
+<span id="cb15-148"><a href="#cb15-148" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb15-149"><a href="#cb15-149" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-150"><a href="#cb15-150" aria-hidden="true" tabindex="-1"></a><span class="fu">## Poisson distribution</span></span>
+<span id="cb15-151"><a href="#cb15-151" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-152"><a href="#cb15-152" aria-hidden="true" tabindex="-1"></a>The normal and multivariate normal probability distributions have PDFs related to *continuous* random variables. In many cases our data are not continuous, but are instead *discrete*. The Poisson distribution represents the PMF (probability *mass* function) of count data and is described by a single parameter, $\lambda$, which is equal to the mean and variance of the distribution. In regression, we can use the Poisson distribution to analyze a generalized linear model between a discrete response variable (e.g., count data) and its covariates, but we will not deal with that in our class.</span>
+<span id="cb15-153"><a href="#cb15-153" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-156"><a href="#cb15-156" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb15-157"><a href="#cb15-157" aria-hidden="true" tabindex="-1"></a><span class="co">#| layout-ncol: 2</span></span>
+<span id="cb15-158"><a href="#cb15-158" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-159"><a href="#cb15-159" aria-hidden="true" tabindex="-1"></a><span class="co"># Define the parameter</span></span>
+<span id="cb15-160"><a href="#cb15-160" aria-hidden="true" tabindex="-1"></a>lambda <span class="ot">=</span> <span class="dv">8</span></span>
+<span id="cb15-161"><a href="#cb15-161" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-162"><a href="#cb15-162" aria-hidden="true" tabindex="-1"></a><span class="co"># Visualize the probability density function (pdf)</span></span>
+<span id="cb15-163"><a href="#cb15-163" aria-hidden="true" tabindex="-1"></a><span class="do">## Remember this is a discrete distribution</span></span>
+<span id="cb15-164"><a href="#cb15-164" aria-hidden="true" tabindex="-1"></a>k_vals <span class="ot">=</span> <span class="fu">c</span>(<span class="dv">0</span><span class="sc">:</span><span class="dv">20</span>)</span>
+<span id="cb15-165"><a href="#cb15-165" aria-hidden="true" tabindex="-1"></a>pois_pdf <span class="ot">=</span> <span class="fu">dpois</span>(k_vals, <span class="at">lambda =</span> lambda)</span>
+<span id="cb15-166"><a href="#cb15-166" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-167"><a href="#cb15-167" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="at">x =</span> <span class="cn">NA</span>, <span class="at">y =</span> <span class="cn">NA</span>, <span class="at">xlim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">20</span>), <span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="fl">0.2</span>),</span>
+<span id="cb15-168"><a href="#cb15-168" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">"k"</span>, <span class="at">ylab =</span> <span class="fu">expression</span>(<span class="st">"P(k |"</span><span class="sc">~</span>lambda<span class="sc">~</span><span class="st">")"</span>))</span>
+<span id="cb15-169"><a href="#cb15-169" aria-hidden="true" tabindex="-1"></a><span class="fu">points</span>(pois_pdf <span class="sc">~</span> k_vals)</span>
+<span id="cb15-170"><a href="#cb15-170" aria-hidden="true" tabindex="-1"></a><span class="fu">segments</span>(<span class="at">x0 =</span> k_vals, <span class="at">x1 =</span> k_vals,</span>
+<span id="cb15-171"><a href="#cb15-171" aria-hidden="true" tabindex="-1"></a>         <span class="at">y0 =</span> <span class="dv">0</span>, <span class="at">y1 =</span> pois_pdf)</span>
+<span id="cb15-172"><a href="#cb15-172" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-173"><a href="#cb15-173" aria-hidden="true" tabindex="-1"></a><span class="do">## Compare to randomly drawn values:</span></span>
+<span id="cb15-174"><a href="#cb15-174" aria-hidden="true" tabindex="-1"></a>k_rand <span class="ot">=</span> <span class="fu">rpois</span>(n_rand, <span class="at">lambda =</span> lambda)</span>
+<span id="cb15-175"><a href="#cb15-175" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(k_rand, <span class="at">breaks =</span> <span class="dv">25</span>, <span class="at">main =</span> <span class="st">""</span>)</span>
+<span id="cb15-176"><a href="#cb15-176" aria-hidden="true" tabindex="-1"></a><span class="fu">points</span>(pois_pdf<span class="sc">*</span>n_rand <span class="sc">~</span> k_vals, <span class="at">pch =</span> <span class="dv">19</span>)</span>
+<span id="cb15-177"><a href="#cb15-177" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-178"><a href="#cb15-178" aria-hidden="true" tabindex="-1"></a><span class="co"># On your own, use the ppois() and qpois() functions to understand their inputs/outputs</span></span>
+<span id="cb15-179"><a href="#cb15-179" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb15-180"><a href="#cb15-180" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-181"><a href="#cb15-181" aria-hidden="true" tabindex="-1"></a><span class="fu">## Footnotes</span></span>
+<span id="cb15-182"><a href="#cb15-182" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-183"><a href="#cb15-183" aria-hidden="true" tabindex="-1"></a><span class="fu">### Covariance matrix {#sec-covariance}</span></span>
+<span id="cb15-184"><a href="#cb15-184" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-185"><a href="#cb15-185" aria-hidden="true" tabindex="-1"></a>As reminder, the variance of a random variable, $x$, with sample size $n$ is: $$\sigma^2_x = \frac{1}{n-1} \sum_i^n (x_i - \bar{x})(x_i - \bar{x}) = \frac{1}{n-1} \sum_i^n (x_i - \bar{x})^2.$$ And $\bar{x}$ is the sample mean. Similarly, then, the covariance of samples from two random variables, $x$ and $y$, can be calculated as: $$\sigma(x,y) = \frac{1}{n-1} \sum_i^n (x_i - \bar{x})(y_i - \bar{y}).$$ The syntax for the covariance of a sample population with itself is, for example, $\sigma(x, x)$, which is simply equal to the variance $\sigma_x^2$. The covariance matrix for these two sample populations would be: $$C = \begin{bmatrix}</span>
+<span id="cb15-186"><a href="#cb15-186" aria-hidden="true" tabindex="-1"></a>\sigma(x,x) &amp; \sigma(x,y)<span class="sc">\\</span></span>
+<span id="cb15-187"><a href="#cb15-187" aria-hidden="true" tabindex="-1"></a>\sigma(y,x) &amp; \sigma(y,y)</span>
+<span id="cb15-188"><a href="#cb15-188" aria-hidden="true" tabindex="-1"></a>\end{bmatrix}.$$ This can be simplified using the variance notation: $$C = \begin{bmatrix}</span>
+<span id="cb15-189"><a href="#cb15-189" aria-hidden="true" tabindex="-1"></a>\sigma^2_x &amp; \sigma(x,y)<span class="sc">\\</span></span>
+<span id="cb15-190"><a href="#cb15-190" aria-hidden="true" tabindex="-1"></a>\sigma(y,x) &amp; \sigma^2_y</span>
+<span id="cb15-191"><a href="#cb15-191" aria-hidden="true" tabindex="-1"></a>\end{bmatrix}.$$</span>
 </code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div></div></div></div></div>
 </div> <!-- /content -->

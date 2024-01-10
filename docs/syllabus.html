@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.2.269">
+<meta name="generator" content="quarto-1.4.537">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 <title>INF511: Modern Regression I - Appendix A: Syllabus</title>
 <style>
@@ -14,11 +14,12 @@ div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
 ul.task-list{list-style: none;}
 ul.task-list li input[type="checkbox"] {
   width: 0.8em;
-  margin: 0 0.8em 0.2em -1.6em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
 pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span { line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
@@ -43,43 +44,13 @@ pre.numberSource code > span > a:first-child::before
     -khtml-user-select: none; -moz-user-select: none;
     -ms-user-select: none; user-select: none;
     padding: 0 4px; width: 4em;
-    color: #aaaaaa;
   }
-pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
 div.sourceCode
   {   }
 @media screen {
 pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
-code span.al { color: #ff0000; font-weight: bold; } /* Alert */
-code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
-code span.at { color: #7d9029; } /* Attribute */
-code span.bn { color: #40a070; } /* BaseN */
-code span.bu { color: #008000; } /* BuiltIn */
-code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
-code span.ch { color: #4070a0; } /* Char */
-code span.cn { color: #880000; } /* Constant */
-code span.co { color: #60a0b0; font-style: italic; } /* Comment */
-code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
-code span.do { color: #ba2121; font-style: italic; } /* Documentation */
-code span.dt { color: #902000; } /* DataType */
-code span.dv { color: #40a070; } /* DecVal */
-code span.er { color: #ff0000; font-weight: bold; } /* Error */
-code span.ex { } /* Extension */
-code span.fl { color: #40a070; } /* Float */
-code span.fu { color: #06287e; } /* Function */
-code span.im { color: #008000; font-weight: bold; } /* Import */
-code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
-code span.kw { color: #007020; font-weight: bold; } /* Keyword */
-code span.op { color: #666666; } /* Operator */
-code span.ot { color: #007020; } /* Other */
-code span.pp { color: #bc7a00; } /* Preprocessor */
-code span.sc { color: #4070a0; } /* SpecialChar */
-code span.ss { color: #bb6688; } /* SpecialString */
-code span.st { color: #4070a0; } /* String */
-code span.va { color: #19177c; } /* Variable */
-code span.vs { color: #4070a0; } /* VerbatimString */
-code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
 </style>
 
 <script src="site_libs/quarto-nav/quarto-nav.js"></script>
@@ -104,7 +75,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   "collapse-after": 3,
   "panel-placement": "start",
   "type": "textbox",
-  "limit": 20,
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
   "language": {
     "search-no-results-text": "No results",
     "search-matching-documents-text": "matching documents",
@@ -113,146 +90,193 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
     "search-more-match-text": "more match in this document",
     "search-more-matches-text": "more matches in this document",
     "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
     "search-detached-cancel-button-title": "Cancel",
-    "search-submit-button-title": "Submit"
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
   }
 }</script><style>html{ scroll-behavior: smooth; }</style>
 <script src="site_libs/kePrint-0.0.1/kePrint.js"></script><link href="site_libs/lightable-0.0.1/lightable.css" rel="stylesheet">
-<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script><script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script><script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 </head>
 <body class="nav-sidebar floating">
 
 <div id="quarto-search-results"></div>
-  <header id="quarto-header" class="headroom fixed-top"><nav class="quarto-secondary-nav" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }"><div class="container-fluid d-flex justify-content-between">
-      <h1 class="quarto-secondary-nav-title">Appendix A: Syllabus</h1>
-      <button type="button" class="quarto-btn-toggle btn" aria-label="Show secondary navigation">
-        <i class="bi bi-chevron-right"></i>
+  <header id="quarto-header" class="headroom fixed-top"><nav class="quarto-secondary-nav"><div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./syllabus.html">Appendices</a></li><li class="breadcrumb-item"><a href="./syllabus.html"><span class="chapter-number">A</span>&nbsp; <span class="chapter-title">Syllabus</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
       </button>
     </div>
   </nav></header><!-- content --><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
 <!-- sidebar -->
-  <nav id="quarto-sidebar" class="sidebar collapse sidebar-navigation floating overflow-auto"><div class="pt-lg-2 mt-2 text-left sidebar-header">
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto"><div class="pt-lg-2 mt-2 text-left sidebar-header">
     <div class="sidebar-title mb-0 py-0">
       <a href="./">INF511: Modern Regression I</a> 
         <div class="sidebar-tools-main">
-    <a href="https://github.com/joseph-mihaljevic/inf511-book" title="Source Code" class="sidebar-tool px-1"><i class="bi bi-github"></i></a>
+    <a href="https://github.com/joseph-mihaljevic/inf511-book" title="Source Code" class="quarto-navigation-tool px-1" aria-label="Source Code"><i class="bi bi-github"></i></a>
 </div>
     </div>
       </div>
-      <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="mt-2 flex-shrink-0 align-items-center">
         <div class="sidebar-search">
         <div id="quarto-search" class="" title="Search"></div>
         </div>
-      </div>
+        </div>
     <div class="sidebar-menu-container"> 
     <ul class="list-unstyled mt-1">
 <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./index.html" class="sidebar-item-text sidebar-link">Preface</a>
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Preface</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./software.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Software</span></a>
+  <a href="./software.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Software</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./Rintro.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Introduction to R</span></a>
+  <a href="./Rintro.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Introduction to R</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./prob.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Probability distributions</span></a>
+  <a href="./prob.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Probability Distributions</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./ols.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Ordinary Least Squares</span></a>
+  <a href="./ols.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Ordinary Least Squares</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./hypothesis.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Hypothesis Testing</span></a>
+  <a href="./hypothesis.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Hypothesis Testing</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./max-lik.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Maximum Likelihood</span></a>
+  <a href="./max-lik.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Maximum Likelihood</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./model-select.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Model selection</span></a>
+  <a href="./model-select.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Model Selection</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./anova.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">ANOVA</span></a>
+  <a href="./anova.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">ANOVA</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./bayesian.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Bayesian inference</span></a>
+  <a href="./bayesian.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Bayesian Inference</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./references.html" class="sidebar-item-text sidebar-link">References</a>
+  <a href="./references.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">References</span></a>
   </div>
 </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">Appendices</a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">
+ <span class="menu-text">Appendices</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
       <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">
 <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./syllabus.html" class="sidebar-item-text sidebar-link active"><span class="chapter-number">A</span>&nbsp; <span class="chapter-title">Syllabus</span></a>
+  <a href="./syllabus.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">A</span>&nbsp; <span class="chapter-title">Syllabus</span></span></a>
   </div>
 </li>
       </ul>
 </li>
     </ul>
 </div>
-</nav><!-- margin-sidebar --><div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+</nav><div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
         <nav id="TOC" role="doc-toc" class="toc-active"><h2 id="toc-title">Table of contents</h2>
    
   <ul>
-<li><a href="#bblearn-collaborate-ultra-recorded-lectures" id="toc-bblearn-collaborate-ultra-recorded-lectures" class="nav-link active" data-scroll-target="#bblearn-collaborate-ultra-recorded-lectures"><span class="toc-section-number">A.1</span>  BbLearn, Collaborate Ultra &amp; Recorded Lectures</a></li>
-  <li><a href="#inf511-book-website" id="toc-inf511-book-website" class="nav-link" data-scroll-target="#inf511-book-website"><span class="toc-section-number">A.2</span>  INF511 Book Website</a></li>
-  <li><a href="#course-purpose" id="toc-course-purpose" class="nav-link" data-scroll-target="#course-purpose"><span class="toc-section-number">A.3</span>  Course Purpose</a></li>
-  <li><a href="#course-student-learning-outcomes" id="toc-course-student-learning-outcomes" class="nav-link" data-scroll-target="#course-student-learning-outcomes"><span class="toc-section-number">A.4</span>  Course Student Learning Outcomes</a></li>
-  <li><a href="#sec-assess" id="toc-sec-assess" class="nav-link" data-scroll-target="#sec-assess"><span class="toc-section-number">A.5</span>  Assessments of Course Student Learning Outcomes</a></li>
-  <li><a href="#grading-system" id="toc-grading-system" class="nav-link" data-scroll-target="#grading-system"><span class="toc-section-number">A.6</span>  Grading System</a></li>
-  <li><a href="#course-grades" id="toc-course-grades" class="nav-link" data-scroll-target="#course-grades"><span class="toc-section-number">A.7</span>  Course Grades</a></li>
-  <li><a href="#sec-readings" id="toc-sec-readings" class="nav-link" data-scroll-target="#sec-readings"><span class="toc-section-number">A.8</span>  Readings and Materials</a></li>
-  <li><a href="#sec-schedule" id="toc-sec-schedule" class="nav-link" data-scroll-target="#sec-schedule"><span class="toc-section-number">A.9</span>  Living course schedule</a></li>
-  <li><a href="#course-policies" id="toc-course-policies" class="nav-link" data-scroll-target="#course-policies"><span class="toc-section-number">A.10</span>  Course Policies</a></li>
+<li><a href="#bblearn-collaborate-ultra-recorded-lectures" id="toc-bblearn-collaborate-ultra-recorded-lectures" class="nav-link active" data-scroll-target="#bblearn-collaborate-ultra-recorded-lectures"><span class="header-section-number">A.1</span> BbLearn, Collaborate Ultra &amp; Recorded Lectures</a></li>
+  <li><a href="#inf511-book-website" id="toc-inf511-book-website" class="nav-link" data-scroll-target="#inf511-book-website"><span class="header-section-number">A.2</span> INF511 Book Website</a></li>
+  <li><a href="#course-purpose" id="toc-course-purpose" class="nav-link" data-scroll-target="#course-purpose"><span class="header-section-number">A.3</span> Course Purpose</a></li>
+  <li><a href="#course-student-learning-outcomes" id="toc-course-student-learning-outcomes" class="nav-link" data-scroll-target="#course-student-learning-outcomes"><span class="header-section-number">A.4</span> Course Student Learning Outcomes</a></li>
+  <li><a href="#sec-assess" id="toc-sec-assess" class="nav-link" data-scroll-target="#sec-assess"><span class="header-section-number">A.5</span> Assessments of Course Student Learning Outcomes</a></li>
+  <li><a href="#grading-system" id="toc-grading-system" class="nav-link" data-scroll-target="#grading-system"><span class="header-section-number">A.6</span> Grading System</a></li>
+  <li><a href="#course-grades" id="toc-course-grades" class="nav-link" data-scroll-target="#course-grades"><span class="header-section-number">A.7</span> Course Grades</a></li>
+  <li><a href="#sec-readings" id="toc-sec-readings" class="nav-link" data-scroll-target="#sec-readings"><span class="header-section-number">A.8</span> Readings and Materials</a></li>
+  <li><a href="#sec-schedule" id="toc-sec-schedule" class="nav-link" data-scroll-target="#sec-schedule"><span class="header-section-number">A.9</span> Living course schedule</a></li>
+  <li><a href="#course-policies" id="toc-course-policies" class="nav-link" data-scroll-target="#course-policies"><span class="header-section-number">A.10</span> Course Policies</a></li>
   <li>
-<a href="#sec-univ-policy" id="toc-sec-univ-policy" class="nav-link" data-scroll-target="#sec-univ-policy"><span class="toc-section-number">A.11</span>  University Policies</a>
+<a href="#sec-univ-policy" id="toc-sec-univ-policy" class="nav-link" data-scroll-target="#sec-univ-policy"><span class="header-section-number">A.11</span> University Policies</a>
   <ul class="collapse">
-<li><a href="#covid-19-requirements-and-information" id="toc-covid-19-requirements-and-information" class="nav-link" data-scroll-target="#covid-19-requirements-and-information"><span class="toc-section-number">A.11.1</span>  COVID-19 REQUIREMENTS AND INFORMATION</a></li>
-  <li><a href="#academic-integrity" id="toc-academic-integrity" class="nav-link" data-scroll-target="#academic-integrity"><span class="toc-section-number">A.11.2</span>  ACADEMIC INTEGRITY</a></li>
-  <li><a href="#copyright-infringement" id="toc-copyright-infringement" class="nav-link" data-scroll-target="#copyright-infringement"><span class="toc-section-number">A.11.3</span>  COPYRIGHT INFRINGEMENT</a></li>
-  <li><a href="#course-time-commitment" id="toc-course-time-commitment" class="nav-link" data-scroll-target="#course-time-commitment"><span class="toc-section-number">A.11.4</span>  COURSE TIME COMMITMENT</a></li>
-  <li><a href="#disruptive-behavior" id="toc-disruptive-behavior" class="nav-link" data-scroll-target="#disruptive-behavior"><span class="toc-section-number">A.11.5</span>  DISRUPTIVE BEHAVIOR</a></li>
-  <li><a href="#nondiscrimination-and-anti-harassment" id="toc-nondiscrimination-and-anti-harassment" class="nav-link" data-scroll-target="#nondiscrimination-and-anti-harassment"><span class="toc-section-number">A.11.6</span>  NONDISCRIMINATION AND ANTI-HARASSMENT</a></li>
-  <li><a href="#title-ix" id="toc-title-ix" class="nav-link" data-scroll-target="#title-ix"><span class="toc-section-number">A.11.7</span>  TITLE IX</a></li>
-  <li><a href="#accessibility" id="toc-accessibility" class="nav-link" data-scroll-target="#accessibility"><span class="toc-section-number">A.11.8</span>  ACCESSIBILITY</a></li>
-  <li><a href="#responsible-conduct-of-research" id="toc-responsible-conduct-of-research" class="nav-link" data-scroll-target="#responsible-conduct-of-research"><span class="toc-section-number">A.11.9</span>  RESPONSIBLE CONDUCT OF RESEARCH</a></li>
-  <li><a href="#misconduct-in-research" id="toc-misconduct-in-research" class="nav-link" data-scroll-target="#misconduct-in-research"><span class="toc-section-number">A.11.10</span>  MISCONDUCT IN RESEARCH</a></li>
-  <li><a href="#sensitive-course-materials" id="toc-sensitive-course-materials" class="nav-link" data-scroll-target="#sensitive-course-materials"><span class="toc-section-number">A.11.11</span>  SENSITIVE COURSE MATERIALS</a></li>
+<li><a href="#covid-19-requirements-and-information" id="toc-covid-19-requirements-and-information" class="nav-link" data-scroll-target="#covid-19-requirements-and-information"><span class="header-section-number">A.11.1</span> COVID-19 REQUIREMENTS AND INFORMATION</a></li>
+  <li><a href="#academic-integrity" id="toc-academic-integrity" class="nav-link" data-scroll-target="#academic-integrity"><span class="header-section-number">A.11.2</span> ACADEMIC INTEGRITY</a></li>
+  <li><a href="#copyright-infringement" id="toc-copyright-infringement" class="nav-link" data-scroll-target="#copyright-infringement"><span class="header-section-number">A.11.3</span> COPYRIGHT INFRINGEMENT</a></li>
+  <li><a href="#course-time-commitment" id="toc-course-time-commitment" class="nav-link" data-scroll-target="#course-time-commitment"><span class="header-section-number">A.11.4</span> COURSE TIME COMMITMENT</a></li>
+  <li><a href="#disruptive-behavior" id="toc-disruptive-behavior" class="nav-link" data-scroll-target="#disruptive-behavior"><span class="header-section-number">A.11.5</span> DISRUPTIVE BEHAVIOR</a></li>
+  <li><a href="#nondiscrimination-and-anti-harassment" id="toc-nondiscrimination-and-anti-harassment" class="nav-link" data-scroll-target="#nondiscrimination-and-anti-harassment"><span class="header-section-number">A.11.6</span> NONDISCRIMINATION AND ANTI-HARASSMENT</a></li>
+  <li><a href="#title-ix" id="toc-title-ix" class="nav-link" data-scroll-target="#title-ix"><span class="header-section-number">A.11.7</span> TITLE IX</a></li>
+  <li><a href="#accessibility" id="toc-accessibility" class="nav-link" data-scroll-target="#accessibility"><span class="header-section-number">A.11.8</span> ACCESSIBILITY</a></li>
+  <li><a href="#responsible-conduct-of-research" id="toc-responsible-conduct-of-research" class="nav-link" data-scroll-target="#responsible-conduct-of-research"><span class="header-section-number">A.11.9</span> RESPONSIBLE CONDUCT OF RESEARCH</a></li>
+  <li><a href="#misconduct-in-research" id="toc-misconduct-in-research" class="nav-link" data-scroll-target="#misconduct-in-research"><span class="header-section-number">A.11.10</span> MISCONDUCT IN RESEARCH</a></li>
+  <li><a href="#sensitive-course-materials" id="toc-sensitive-course-materials" class="nav-link" data-scroll-target="#sensitive-course-materials"><span class="header-section-number">A.11.11</span> SENSITIVE COURSE MATERIALS</a></li>
   </ul>
 </li>
-  </ul><div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/joseph-mihaljevic/inf511-book/blob/main/syllabus.qmd" class="toc-action">View source</a></p><p><a href="https://github.com/joseph-mihaljevic/inf511-book/issues/new" class="toc-action">Report an issue</a></p></div></div></nav>
+  </ul><div class="toc-actions"><ul><li><a href="https://github.com/joseph-mihaljevic/inf511-book/blob/main/syllabus.qmd" class="toc-action"><i class="bi bi-github"></i>View source</a></li><li><a href="https://github.com/joseph-mihaljevic/inf511-book/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
     </div>
 <!-- main -->
-<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block default"><div class="quarto-title">
-<div class="quarto-title-block"><div><h1 class="title"><span id="sec-syllabus" class="quarto-section-identifier d-none d-lg-block">Appendix A: Syllabus</span></h1><button type="button" class="btn code-tools-button" id="quarto-code-tools-source"><i class="bi"></i> Code</button></div></div>
+<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./syllabus.html">Appendices</a></li><li class="breadcrumb-item"><a href="./syllabus.html"><span class="chapter-number">A</span>&nbsp; <span class="chapter-title">Syllabus</span></a></li></ol></nav><div class="quarto-title">
+<div class="quarto-title-block"><div><h1 class="title"><span id="sec-syllabus" class="quarto-section-identifier">Appendix A: Syllabus</span></h1><button type="button" class="btn code-tools-button" id="quarto-code-tools-source"><i class="bi"></i> Code</button></div></div>
 </div>
 
 
@@ -265,8 +289,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   </div>
   
 
+
 </header><div class="quarto-figure quarto-figure-center">
-<figure class="figure"><p><img src="images/nau_siccs_logo.png" class="img-fluid figure-img"></p>
+<figure class="figure"><p><img src="images/nau_siccs_logo.png" class="img-fluid quarto-figure quarto-figure-center figure-img"></p>
 </figure>
 </div>
 <ul>
@@ -316,7 +341,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>We will use the learning management system, BbLearn, to conduct some course business, including assignment disbursement and submitting. We will use BbLearn’s Collaborate Ultra to record lectures for future viewing.</p>
 </section><section id="inf511-book-website" class="level2" data-number="A.2"><h2 data-number="A.2" class="anchored" data-anchor-id="inf511-book-website">
 <span class="header-section-number">A.2</span> INF511 Book Website</h2>
-<p>We have compiled a <a href="https://joseph-mihaljevic.github.io/inf511-book/">course website</a> and associated <a href="https://github.com/joseph-mihaljevic/inf511-book">GitHub repository</a>. This website will have coded examples that we will walk through in class, and which will be required reading. There will be other required reading materials (see <a href="#sec-readings"><span>Section&nbsp;A.8</span></a>).</p>
+<p>We have compiled a <a href="https://joseph-mihaljevic.github.io/inf511-book/">course website</a> and associated <a href="https://github.com/joseph-mihaljevic/inf511-book">GitHub repository</a>. This website will have coded examples that we will walk through in class, and which will be required reading. There will be other required reading materials (see <a href="#sec-readings" class="quarto-xref"><span>Section A.8</span></a>).</p>
 </section><section id="course-purpose" class="level2" data-number="A.3"><h2 data-number="A.3" class="anchored" data-anchor-id="course-purpose">
 <span class="header-section-number">A.3</span> Course Purpose</h2>
 <p>INF 511 Modern Regression I is the first course in a two-semester sequence required for the MS and PhD in Informatics and Computing (INF). (See INF 512 Modern Regression II.) These courses are designed to serve the computationally oriented statistical analysis needs of the INF graduate program. Through a series of hands-on individual or team-based assignments, students will master statistical analyses, from preparing data, exploring data using numerical and/or graphical methods, modeling data, diagnosing model assumptions, remodeling and final inference. This course will provide INF graduate students with the necessary foundation for more specialized statistical methods and applications that students will encounter in subsequent INF courses, such as INF 626 Applied Bayesian Modeling and the more prediction-oriented INF 504 Data Mining and Machine Learning. More generally, INF 511 provides skills widely applicable to analysis of data across science and engineering.</p>
@@ -354,12 +379,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li>
 <strong>Attendance &amp; Participation</strong>. In-person attendance is required. See <a href="https://nau.edu/university-policy-library/student-institutional-excuses/">University Policy</a> on excused absences. You are responsible to plan with your fellow classmates to obtain in-class material not received due to your absence. (Recall that lectures will be recorded and will be available in BbLearn.) Participation in the form of responding to questions in class, asking questions, and attending office hours may be used to determine “borderline” grade cases.</li>
 </ul>
-<div class="callout-important callout callout-style-default callout-captioned">
+<div class="callout callout-style-default callout-important callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
-<div class="callout-caption-container flex-fill">
+<div class="callout-title-container flex-fill">
 Prior notification of absence
 </div>
 </div>
@@ -369,14 +394,14 @@ Prior notification of absence
 </div>
 <ul>
 <li>
-<strong>Assignments</strong>. There are two categories of assignments, Problem Sets and Homework. See <a href="#sec-assess"><span>Section&nbsp;A.5</span></a> for the distinctions. See <a href="#sec-schedule"><span>Section&nbsp;A.9</span></a> for due-dates. Assignments will be posted periodically via BbLearn. Assignments are to be submitted electronically, via BbLearn, on the due date/time indicated in BbLearn. For Homework, students are free to arrange different teams for different homeworks; this will not be monitored. For Homework, please ensure that <em>all team member names are on a submitted assignment</em>. Everyone on a team will submit exactly same homework; only one team member’s submission will be selected and graded with all members receiving the same score.</li>
+<strong>Assignments</strong>. There are two categories of assignments, Problem Sets and Homework. See <a href="#sec-assess" class="quarto-xref"><span>Section A.5</span></a> for the distinctions. See <a href="#sec-schedule" class="quarto-xref"><span>Section A.9</span></a> for due-dates. Assignments will be posted periodically via BbLearn. Assignments are to be submitted electronically, via BbLearn, on the due date/time indicated in BbLearn. For Homework, students are free to arrange different teams for different homeworks; this will not be monitored. For Homework, please ensure that <em>all team member names are on a submitted assignment</em>. Everyone on a team will submit exactly same homework; only one team member’s submission will be selected and graded with all members receiving the same score.</li>
 </ul>
-<div class="callout-important callout callout-style-default callout-captioned">
+<div class="callout callout-style-default callout-important callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
-<div class="callout-caption-container flex-fill">
+<div class="callout-title-container flex-fill">
 Late assignments
 </div>
 </div>
@@ -388,12 +413,12 @@ Late assignments
 <li>
 <strong>Quizzes</strong>. There will be five in-class quizzes that are all cumulative. Each quiz will be designed to take approximately 15-20 minutes, and each will be scaled to 100 points so that they are equally weighted.</li>
 </ul>
-<div class="callout-important callout callout-style-default callout-captioned">
+<div class="callout callout-style-default callout-important callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
-<div class="callout-caption-container flex-fill">
+<div class="callout-title-container flex-fill">
 In-class quizzes
 </div>
 </div>
@@ -430,9 +455,9 @@ In-class quizzes
 <li>
 <p><strong>Required Text</strong>:</p>
 <ul>
-<li>Barber, J.J. (2022). INF511 Modern Regression I - Lecture Slides. Posted on Bblearn. <em>Referred to as</em> <strong>JB</strong> <em>in</em> <a href="#sec-schedule"><span>Section&nbsp;A.9</span></a>.</li>
-<li>Mihaljevic, J (2023). INF511 Modern Regression I - Online Book. <a href="https://joseph-mihaljevic.github.io/inf511-book/" class="uri">https://joseph-mihaljevic.github.io/inf511-book/</a>. <em>Referred to as</em> <strong>JM</strong> <em>in</em> <a href="#sec-schedule"><span>Section&nbsp;A.9</span></a>.</li>
-<li>Faraway, J.J. (2014). Linear Models with R (2nd ed.). Chapman and Hall/CRC. <a href="https://doi.org/10.1201/b17144" class="uri">https://doi.org/10.1201/b17144</a> <em>Referred to as</em> <strong>FAR</strong> <em>in</em> <a href="#sec-schedule"><span>Section&nbsp;A.9</span></a>.</li>
+<li>Barber, J.J. (2022). INF511 Modern Regression I - Lecture Slides. Posted on Bblearn. <em>Referred to as</em> <strong>JB</strong> <em>in</em> <a href="#sec-schedule" class="quarto-xref"><span>Section A.9</span></a>.</li>
+<li>Mihaljevic, J (2023). INF511 Modern Regression I - Online Book. <a href="https://joseph-mihaljevic.github.io/inf511-book/" class="uri">https://joseph-mihaljevic.github.io/inf511-book/</a>. <em>Referred to as</em> <strong>JM</strong> <em>in</em> <a href="#sec-schedule" class="quarto-xref"><span>Section A.9</span></a>.</li>
+<li>Faraway, J.J. (2014). Linear Models with R (2nd ed.). Chapman and Hall/CRC. <a href="https://doi.org/10.1201/b17144" class="uri">https://doi.org/10.1201/b17144</a> <em>Referred to as</em> <strong>FAR</strong> <em>in</em> <a href="#sec-schedule" class="quarto-xref"><span>Section A.9</span></a>.</li>
 <li>
 </li></ul>
 </li>
@@ -455,273 +480,272 @@ In-class quizzes
 <p>This schedule will be consistently updated throughout the course. Check back often.</p>
 <div class="cell">
 <div class="cell-output-display">
-
-<table class=" lightable-paper" style="font-family: &quot;Arial Narrow&quot;, arial, helvetica, sans-serif; margin-left: auto; margin-right: auto;">
-<thead><tr>
-<th style="text-align:left;"> Week </th>
-   <th style="text-align:left;"> Date </th>
-   <th style="text-align:left;"> Topic </th>
-   <th style="text-align:left;"> Reading_Due </th>
-   <th style="text-align:left;"> Assign_Due </th>
-   <th style="text-align:left;"> Quiz </th>
-  </tr></thead>
+<table class="lightable-paper table table-sm table-striped small" data-quarto-postprocess="true">
+<thead><tr class="header">
+<th style="text-align: left;" data-quarto-table-cell-role="th">Week</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">Date</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">Topic</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">Reading_Due</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">Assign_Due</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">Quiz</th>
+</tr></thead>
 <tbody>
-<tr>
-<td style="text-align:left;font-weight: bold;"> Week 1 </td>
-   <td style="text-align:left;"> 16-Jan </td>
-   <td style="text-align:left;"> MLK Holiday - NO CLASS </td>
-   <td style="text-align:left;">  </td>
-   <td style="text-align:left;">  </td>
-   <td style="text-align:left;">  </td>
-  </tr>
-<tr>
-<td style="text-align:left;font-weight: bold;"> Week 1 </td>
-   <td style="text-align:left;"> 18-Jan </td>
-   <td style="text-align:left;"> SNOW CLOSURE - NO CLASS </td>
-   <td style="text-align:left;">  </td>
-   <td style="text-align:left;">  </td>
-   <td style="text-align:left;">  </td>
-  </tr>
-<tr>
-<td style="text-align:left;font-weight: bold;"> Week 2 </td>
-   <td style="text-align:left;"> 23-Jan </td>
-   <td style="text-align:left;"> Introduction </td>
-   <td style="text-align:left;"> Syllabus, JM(Ch1&amp;2), JB(1-20, AppA) </td>
-   <td style="text-align:left;">  </td>
-   <td style="text-align:left;">  </td>
-  </tr>
-<tr>
-<td style="text-align:left;font-weight: bold;"> Week 2 </td>
-   <td style="text-align:left;"> 25-Jan </td>
-   <td style="text-align:left;"> Probability distributions </td>
-   <td style="text-align:left;"> JB(pg1-20), JM(Ch3), FAR(Ch1) </td>
-   <td style="text-align:left;"> PS-0 </td>
-   <td style="text-align:left;">  </td>
-  </tr>
-<tr>
-<td style="text-align:left;font-weight: bold;"> Week 3 </td>
-   <td style="text-align:left;"> 30-Jan </td>
-   <td style="text-align:left;"> Probability distributions </td>
-   <td style="text-align:left;">  </td>
-   <td style="text-align:left;">  </td>
-   <td style="text-align:left;">  </td>
-  </tr>
-<tr>
-<td style="text-align:left;font-weight: bold;"> Week 3 </td>
-   <td style="text-align:left;"> 1-Feb </td>
-   <td style="text-align:left;"> Least Squares </td>
-   <td style="text-align:left;"> JB(pg20-38, AppB), JM(Ch4) </td>
-   <td style="text-align:left;"> PS-1, HW-1 </td>
-   <td style="text-align:left;">  </td>
-  </tr>
-<tr>
-<td style="text-align:left;font-weight: bold;"> Week 4 </td>
-   <td style="text-align:left;"> 6-Feb </td>
-   <td style="text-align:left;"> Least Squares </td>
-   <td style="text-align:left;"> FAR(Ch2) </td>
-   <td style="text-align:left;">  </td>
-   <td style="text-align:left;"> Quiz 1 </td>
-  </tr>
-<tr>
-<td style="text-align:left;font-weight: bold;"> Week 4 </td>
-   <td style="text-align:left;"> 8-Feb </td>
-   <td style="text-align:left;"> Least Squares </td>
-   <td style="text-align:left;"> JB(pg41-60) </td>
-   <td style="text-align:left;"> PS-2 </td>
-   <td style="text-align:left;">  </td>
-  </tr>
-<tr>
-<td style="text-align:left;font-weight: bold;"> Week 5 </td>
-   <td style="text-align:left;"> 13-Feb </td>
-   <td style="text-align:left;"> Least Squares </td>
-   <td style="text-align:left;">  </td>
-   <td style="text-align:left;"> HW-2 </td>
-   <td style="text-align:left;">  </td>
-  </tr>
-<tr>
-<td style="text-align:left;font-weight: bold;"> Week 5 </td>
-   <td style="text-align:left;"> 15-Feb </td>
-   <td style="text-align:left;"> Least Squares </td>
-   <td style="text-align:left;"> JB(pg157-170), FAR(Ch3) </td>
-   <td style="text-align:left;">  </td>
-   <td style="text-align:left;">  </td>
-  </tr>
-<tr>
-<td style="text-align:left;font-weight: bold;"> Week 6 </td>
-   <td style="text-align:left;"> 20-Feb </td>
-   <td style="text-align:left;"> Hypothesis Testing </td>
-   <td style="text-align:left;"> JB(pg61-79), JM(Ch5), FAR(Ch10) </td>
-   <td style="text-align:left;"> PS-3 </td>
-   <td style="text-align:left;">  </td>
-  </tr>
-<tr>
-<td style="text-align:left;font-weight: bold;"> Week 6 </td>
-   <td style="text-align:left;"> 22-Feb </td>
-   <td style="text-align:left;"> SNOW CLOSURE - NO CLASS </td>
-   <td style="text-align:left;">  </td>
-   <td style="text-align:left;">  </td>
-   <td style="text-align:left;">  </td>
-  </tr>
-<tr>
-<td style="text-align:left;font-weight: bold;"> Week 7 </td>
-   <td style="text-align:left;"> 27-Feb </td>
-   <td style="text-align:left;"> Hypothesis Testing </td>
-   <td style="text-align:left;"> JB(pg80-127), FAR(Ch4) </td>
-   <td style="text-align:left;">  </td>
-   <td style="text-align:left;"> Quiz 2 </td>
-  </tr>
-<tr>
-<td style="text-align:left;font-weight: bold;"> Week 7 </td>
-   <td style="text-align:left;"> 1-Mar </td>
-   <td style="text-align:left;"> SNOW CLOSURE - NO CLASS </td>
-   <td style="text-align:left;">  </td>
-   <td style="text-align:left;"> HW-3 </td>
-   <td style="text-align:left;">  </td>
-  </tr>
-<tr>
-<td style="text-align:left;font-weight: bold;"> Week 8 </td>
-   <td style="text-align:left;"> 6-Mar </td>
-   <td style="text-align:left;"> Maximum Likelihood </td>
-   <td style="text-align:left;"> JB(pg38-40), JM(Ch6) </td>
-   <td style="text-align:left;">  </td>
-   <td style="text-align:left;">  </td>
-  </tr>
-<tr>
-<td style="text-align:left;font-weight: bold;"> Week 8 </td>
-   <td style="text-align:left;"> 8-Mar </td>
-   <td style="text-align:left;"> Maximum Likelihood </td>
-   <td style="text-align:left;"> FAR(Ch6), JB(skimCh6) </td>
-   <td style="text-align:left;">  </td>
-   <td style="text-align:left;">  </td>
-  </tr>
-<tr>
-<td style="text-align:left;font-weight: bold;"> Week 9 </td>
-   <td style="text-align:left;"> 13-Mar </td>
-   <td style="text-align:left;"> Spring Break - NO CLASS </td>
-   <td style="text-align:left;">  </td>
-   <td style="text-align:left;">  </td>
-   <td style="text-align:left;">  </td>
-  </tr>
-<tr>
-<td style="text-align:left;font-weight: bold;"> Week 9 </td>
-   <td style="text-align:left;"> 15-Mar </td>
-   <td style="text-align:left;"> Spring Break - NO CLASS </td>
-   <td style="text-align:left;">  </td>
-   <td style="text-align:left;">  </td>
-   <td style="text-align:left;">  </td>
-  </tr>
-<tr>
-<td style="text-align:left;font-weight: bold;"> Week 10 </td>
-   <td style="text-align:left;"> 20-Mar </td>
-   <td style="text-align:left;"> Maximum Likelihood </td>
-   <td style="text-align:left;"> FAR(Ch6), JB(skimCh6) </td>
-   <td style="text-align:left;">  </td>
-   <td style="text-align:left;">  </td>
-  </tr>
-<tr>
-<td style="text-align:left;font-weight: bold;"> Week 10 </td>
-   <td style="text-align:left;"> 22-Mar </td>
-   <td style="text-align:left;"> Maximum Likelihood </td>
-   <td style="text-align:left;"> FAR(Ch7) </td>
-   <td style="text-align:left;"> PS-4 </td>
-   <td style="text-align:left;">  </td>
-  </tr>
-<tr>
-<td style="text-align:left;font-weight: bold;"> Week 11 </td>
-   <td style="text-align:left;"> 27-Mar </td>
-   <td style="text-align:left;"> Maximum Likelihood </td>
-   <td style="text-align:left;"> FAR(Ch8) </td>
-   <td style="text-align:left;"> HW-4 </td>
-   <td style="text-align:left;"> Quiz 3 </td>
-  </tr>
-<tr>
-<td style="text-align:left;font-weight: bold;"> Week 11 </td>
-   <td style="text-align:left;"> 29-Mar </td>
-   <td style="text-align:left;"> Model Comparison </td>
-   <td style="text-align:left;"> JB(refreshCh3.2), FAR(Ch10) </td>
-   <td style="text-align:left;">  </td>
-   <td style="text-align:left;">  </td>
-  </tr>
-<tr>
-<td style="text-align:left;font-weight: bold;"> Week 12 </td>
-   <td style="text-align:left;"> 3-Apr </td>
-   <td style="text-align:left;"> Model Comparison </td>
-   <td style="text-align:left;"> FAR(Ch11) </td>
-   <td style="text-align:left;"> PS-5 </td>
-   <td style="text-align:left;">  </td>
-  </tr>
-<tr>
-<td style="text-align:left;font-weight: bold;"> Week 12 </td>
-   <td style="text-align:left;"> 5-Apr </td>
-   <td style="text-align:left;"> Model Comparison </td>
-   <td style="text-align:left;"> JB(pg170-223) </td>
-   <td style="text-align:left;">  </td>
-   <td style="text-align:left;">  </td>
-  </tr>
-<tr>
-<td style="text-align:left;font-weight: bold;"> Week 13 </td>
-   <td style="text-align:left;"> 10-Apr </td>
-   <td style="text-align:left;"> ANOVA </td>
-   <td style="text-align:left;"> JB(Ch14), JM(Ch7), FAR(Ch14) </td>
-   <td style="text-align:left;"> HW-5 </td>
-   <td style="text-align:left;">  </td>
-  </tr>
-<tr>
-<td style="text-align:left;font-weight: bold;"> Week 13 </td>
-   <td style="text-align:left;"> 12-Apr </td>
-   <td style="text-align:left;"> ANOVA </td>
-   <td style="text-align:left;"> JB(Ch15.1-15.3) </td>
-   <td style="text-align:left;">  </td>
-   <td style="text-align:left;">  </td>
-  </tr>
-<tr>
-<td style="text-align:left;font-weight: bold;"> Week 14 </td>
-   <td style="text-align:left;"> 17-Apr </td>
-   <td style="text-align:left;"> ANOVA </td>
-   <td style="text-align:left;"> JB(Ch15.4-15.5), FAR(Ch15) </td>
-   <td style="text-align:left;"> PS-6 </td>
-   <td style="text-align:left;"> Quiz 4 </td>
-  </tr>
-<tr>
-<td style="text-align:left;font-weight: bold;"> Week 14 </td>
-   <td style="text-align:left;"> 19-Apr </td>
-   <td style="text-align:left;"> ANOVA </td>
-   <td style="text-align:left;"> FAR(Ch16) </td>
-   <td style="text-align:left;">  </td>
-   <td style="text-align:left;">  </td>
-  </tr>
-<tr>
-<td style="text-align:left;font-weight: bold;"> Week 15 </td>
-   <td style="text-align:left;"> 24-Apr </td>
-   <td style="text-align:left;"> Bayesian Inference </td>
-   <td style="text-align:left;">  </td>
-   <td style="text-align:left;"> HW-6 </td>
-   <td style="text-align:left;">  </td>
-  </tr>
-<tr>
-<td style="text-align:left;font-weight: bold;"> Week 15 </td>
-   <td style="text-align:left;"> 26-Apr </td>
-   <td style="text-align:left;"> Bayesian Inference </td>
-   <td style="text-align:left;">  </td>
-   <td style="text-align:left;"> PS-7 </td>
-   <td style="text-align:left;">  </td>
-  </tr>
-<tr>
-<td style="text-align:left;font-weight: bold;"> Week 16 </td>
-   <td style="text-align:left;"> 1-May </td>
-   <td style="text-align:left;"> Bayesian Inference </td>
-   <td style="text-align:left;">  </td>
-   <td style="text-align:left;">  </td>
-   <td style="text-align:left;">  </td>
-  </tr>
-<tr>
-<td style="text-align:left;font-weight: bold;"> Week 16 </td>
-   <td style="text-align:left;"> 3-May </td>
-   <td style="text-align:left;"> Bayesian Inference </td>
-   <td style="text-align:left;">  </td>
-   <td style="text-align:left;"> HW-7 </td>
-   <td style="text-align:left;"> Quiz 5 </td>
-  </tr>
+<tr class="odd">
+<td style="text-align: left; font-weight: bold;">Week 1</td>
+<td style="text-align: left;">16-Jan</td>
+<td style="text-align: left;">MLK Holiday - NO CLASS</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left; font-weight: bold;">Week 1</td>
+<td style="text-align: left;">18-Jan</td>
+<td style="text-align: left;">SNOW CLOSURE - NO CLASS</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left; font-weight: bold;">Week 2</td>
+<td style="text-align: left;">23-Jan</td>
+<td style="text-align: left;">Introduction</td>
+<td style="text-align: left;">Syllabus, JM(Ch1&amp;2), JB(1-20, AppA)</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left; font-weight: bold;">Week 2</td>
+<td style="text-align: left;">25-Jan</td>
+<td style="text-align: left;">Probability distributions</td>
+<td style="text-align: left;">JB(pg1-20), JM(Ch3), FAR(Ch1)</td>
+<td style="text-align: left;">PS-0</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left; font-weight: bold;">Week 3</td>
+<td style="text-align: left;">30-Jan</td>
+<td style="text-align: left;">Probability distributions</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left; font-weight: bold;">Week 3</td>
+<td style="text-align: left;">1-Feb</td>
+<td style="text-align: left;">Least Squares</td>
+<td style="text-align: left;">JB(pg20-38, AppB), JM(Ch4)</td>
+<td style="text-align: left;">PS-1, HW-1</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left; font-weight: bold;">Week 4</td>
+<td style="text-align: left;">6-Feb</td>
+<td style="text-align: left;">Least Squares</td>
+<td style="text-align: left;">FAR(Ch2)</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">Quiz 1</td>
+</tr>
+<tr class="even">
+<td style="text-align: left; font-weight: bold;">Week 4</td>
+<td style="text-align: left;">8-Feb</td>
+<td style="text-align: left;">Least Squares</td>
+<td style="text-align: left;">JB(pg41-60)</td>
+<td style="text-align: left;">PS-2</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left; font-weight: bold;">Week 5</td>
+<td style="text-align: left;">13-Feb</td>
+<td style="text-align: left;">Least Squares</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">HW-2</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left; font-weight: bold;">Week 5</td>
+<td style="text-align: left;">15-Feb</td>
+<td style="text-align: left;">Least Squares</td>
+<td style="text-align: left;">JB(pg157-170), FAR(Ch3)</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left; font-weight: bold;">Week 6</td>
+<td style="text-align: left;">20-Feb</td>
+<td style="text-align: left;">Hypothesis Testing</td>
+<td style="text-align: left;">JB(pg61-79), JM(Ch5), FAR(Ch10)</td>
+<td style="text-align: left;">PS-3</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left; font-weight: bold;">Week 6</td>
+<td style="text-align: left;">22-Feb</td>
+<td style="text-align: left;">SNOW CLOSURE - NO CLASS</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left; font-weight: bold;">Week 7</td>
+<td style="text-align: left;">27-Feb</td>
+<td style="text-align: left;">Hypothesis Testing</td>
+<td style="text-align: left;">JB(pg80-127), FAR(Ch4)</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">Quiz 2</td>
+</tr>
+<tr class="even">
+<td style="text-align: left; font-weight: bold;">Week 7</td>
+<td style="text-align: left;">1-Mar</td>
+<td style="text-align: left;">SNOW CLOSURE - NO CLASS</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">HW-3</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left; font-weight: bold;">Week 8</td>
+<td style="text-align: left;">6-Mar</td>
+<td style="text-align: left;">Maximum Likelihood</td>
+<td style="text-align: left;">JB(pg38-40), JM(Ch6)</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left; font-weight: bold;">Week 8</td>
+<td style="text-align: left;">8-Mar</td>
+<td style="text-align: left;">Maximum Likelihood</td>
+<td style="text-align: left;">FAR(Ch6), JB(skimCh6)</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left; font-weight: bold;">Week 9</td>
+<td style="text-align: left;">13-Mar</td>
+<td style="text-align: left;">Spring Break - NO CLASS</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left; font-weight: bold;">Week 9</td>
+<td style="text-align: left;">15-Mar</td>
+<td style="text-align: left;">Spring Break - NO CLASS</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left; font-weight: bold;">Week 10</td>
+<td style="text-align: left;">20-Mar</td>
+<td style="text-align: left;">Maximum Likelihood</td>
+<td style="text-align: left;">FAR(Ch6), JB(skimCh6)</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left; font-weight: bold;">Week 10</td>
+<td style="text-align: left;">22-Mar</td>
+<td style="text-align: left;">Maximum Likelihood</td>
+<td style="text-align: left;">FAR(Ch7)</td>
+<td style="text-align: left;">PS-4</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left; font-weight: bold;">Week 11</td>
+<td style="text-align: left;">27-Mar</td>
+<td style="text-align: left;">Maximum Likelihood</td>
+<td style="text-align: left;">FAR(Ch8)</td>
+<td style="text-align: left;">HW-4</td>
+<td style="text-align: left;">Quiz 3</td>
+</tr>
+<tr class="even">
+<td style="text-align: left; font-weight: bold;">Week 11</td>
+<td style="text-align: left;">29-Mar</td>
+<td style="text-align: left;">Model Comparison</td>
+<td style="text-align: left;">JB(refreshCh3.2), FAR(Ch10)</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left; font-weight: bold;">Week 12</td>
+<td style="text-align: left;">3-Apr</td>
+<td style="text-align: left;">Model Comparison</td>
+<td style="text-align: left;">FAR(Ch11)</td>
+<td style="text-align: left;">PS-5</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left; font-weight: bold;">Week 12</td>
+<td style="text-align: left;">5-Apr</td>
+<td style="text-align: left;">Model Comparison</td>
+<td style="text-align: left;">JB(pg170-223)</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left; font-weight: bold;">Week 13</td>
+<td style="text-align: left;">10-Apr</td>
+<td style="text-align: left;">ANOVA</td>
+<td style="text-align: left;">JB(Ch14), JM(Ch7), FAR(Ch14)</td>
+<td style="text-align: left;">HW-5</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left; font-weight: bold;">Week 13</td>
+<td style="text-align: left;">12-Apr</td>
+<td style="text-align: left;">ANOVA</td>
+<td style="text-align: left;">JB(Ch15.1-15.3)</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left; font-weight: bold;">Week 14</td>
+<td style="text-align: left;">17-Apr</td>
+<td style="text-align: left;">ANOVA</td>
+<td style="text-align: left;">JB(Ch15.4-15.5), FAR(Ch15)</td>
+<td style="text-align: left;">PS-6</td>
+<td style="text-align: left;">Quiz 4</td>
+</tr>
+<tr class="even">
+<td style="text-align: left; font-weight: bold;">Week 14</td>
+<td style="text-align: left;">19-Apr</td>
+<td style="text-align: left;">ANOVA</td>
+<td style="text-align: left;">FAR(Ch16)</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left; font-weight: bold;">Week 15</td>
+<td style="text-align: left;">24-Apr</td>
+<td style="text-align: left;">Bayesian Inference</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">HW-6</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left; font-weight: bold;">Week 15</td>
+<td style="text-align: left;">26-Apr</td>
+<td style="text-align: left;">Bayesian Inference</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">PS-7</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left; font-weight: bold;">Week 16</td>
+<td style="text-align: left;">1-May</td>
+<td style="text-align: left;">Bayesian Inference</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left; font-weight: bold;">Week 16</td>
+<td style="text-align: left;">3-May</td>
+<td style="text-align: left;">Bayesian Inference</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">HW-7</td>
+<td style="text-align: left;">Quiz 5</td>
+</tr>
 </tbody>
 </table>
 </div>
@@ -731,7 +755,7 @@ In-class quizzes
 <ul>
 <li>Students are encouraged to attend the office hours of the TAs and the instructors. If a student cannot attend regular office hours with the instructors, an appointment may be considered if made via email with sufficient advanced notice.</li>
 <li>Email addressed to the instructors and TAs must be <strong>respectful and professional</strong>. The TAs and instructors will respond to emails promptly, within 2 business days. The TAs and instructors will generally not respond to emails on weekends or late in the evenings, so please plan accordingly.</li>
-<li>Cheating, including plagiarism of writing or computer code, will not be tolerated. All academic integrity violations are treated seriously. Academic integrity violations will result in penalties including, but not limited to, a zero on the assignment, a failing grade in the class, or expulsion from NAU. The University’s Academic Integrity policies (<a href="#sec-univ-policy"><span>Section&nbsp;A.11</span></a>) will be strictly enforced.</li>
+<li>Cheating, including plagiarism of writing or computer code, will not be tolerated. All academic integrity violations are treated seriously. Academic integrity violations will result in penalties including, but not limited to, a zero on the assignment, a failing grade in the class, or expulsion from NAU. The University’s Academic Integrity policies (<a href="#sec-univ-policy" class="quarto-xref"><span>Section A.11</span></a>) will be strictly enforced.</li>
 <li>The paramount policy of this course is that each student is required to demonstrate respect towards their peers and the instructor. The behavior of the instructor is held to the same standard. Students and instructors come from all walks of life, and may identify with a variety of ethnic, racial, religious, gender and sexual identities. Diversity of thought and perspective enhances our science.</li>
 <li>Attendance is required and repeated, unexcused absences may affect the student’s grade.</li>
 <li>The instructor will not provide copies of course notes. These materials should be sought from the students’ peers or by watching the recorded lectures.</li>
@@ -804,9 +828,23 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     icon: icon
   };
   anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
   const clipboard = new window.ClipboardJS('.code-copy-button', {
-    target: function(trigger) {
-      return trigger.previousElementSibling;
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
     }
   });
   clipboard.on('success', function(e) {
@@ -893,10 +931,9 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   if (showAllCode) {
     showAllCode.addEventListener("click", toggleCodeHandler(true));
   }
-  function tippyHover(el, contentFn) {
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
     const config = {
       allowHTML: true,
-      content: contentFn,
       maxWidth: 500,
       delay: 100,
       arrow: false,
@@ -906,8 +943,17 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       interactive: true,
       interactiveBorder: 10,
       theme: 'quarto',
-      placement: 'bottom-start'
+      placement: 'bottom-start',
     };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
     window.tippy(el, config); 
   }
   const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
@@ -922,6 +968,233 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       return note.innerHTML;
     });
   }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      return note.innerHTML;
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
   const findCites = (el) => {
     const parentEl = el.parentElement;
     if (parentEl) {
@@ -961,7 +1234,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   }
 });
 </script><nav class="page-navigation"><div class="nav-page nav-page-previous">
-      <a href="./references.html" class="pagination-link">
+      <a href="./references.html" class="pagination-link  aria-label=" references="">
         <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">References</span>
       </a>          
   </div>
@@ -1163,5 +1436,5 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 
 
 
-<script src="site_libs/quarto-html/zenscroll-min.js"></script>
+<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/joseph-mihaljevic/inf511-book/blob/main/syllabus.qmd" class="toc-action"><i class="bi bi-github"></i>View source</a></li><li><a href="https://github.com/joseph-mihaljevic/inf511-book/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div></div></footer><script src="site_libs/quarto-html/zenscroll-min.js"></script>
 </body></html>

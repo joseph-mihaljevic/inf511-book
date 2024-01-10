@@ -1,6 +1,6 @@
 # Introduction to R {#sec-Rintro}
 
-This Appendix serves two purposes. First, it introduces you to R.  Second, it introduces functions for conducting an ordinary least squares (OLS) regression on a data set supplied within R.
+This Chapter serves two purposes. First, it introduces you to R.  Second, it introduces functions for conducting an ordinary least squares (OLS) regression on a data set supplied within R.
 
 The nice thing about Quarto (similar to .RMD) files, is that you can integrate code within text files. The text files can be rendered into HTML, PDF, or Word documents (among others). These documents are therefore like a 'laboratory' notebook that allow you to show your coding work, visual outputs, and contextualizing your work with text using a visually aesthetic framework.
 

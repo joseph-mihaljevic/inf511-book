@@ -1,8 +1,4 @@
-# Model selection {#sec-modelselect}
-
-## Lecture material
-
-Please download and print the lecture materials from [Bblearn](https://bblearn.nau.edu/){target="_blank"}. After lectures, the recordings will appear in the Bblearn Collaborate Ultra section.
+# Model Selection {#sec-modelselect}
 
 ## Generate the data {#sec-data}
 
