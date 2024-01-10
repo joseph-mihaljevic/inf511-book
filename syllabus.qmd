@@ -3,7 +3,7 @@
 
 ![](images/nau_siccs_logo.png){fig-align='center'}
 
-- INF 511 Modern Regression I Spring 2024
+- INF 511 - Modern Regression I, Spring 2024
 - 3 units
 - Section 002: TuTh 12:45-2:00p, Adel Math, Room 224
 - Prerequisite: Admission to SICCS graduate program, STA 270, and ((MAT 136 and MAT 137) or MAT 131))
