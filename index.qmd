@@ -1,8 +1,8 @@
 # Preface {.unnumbered}
 
-Welcome to INF511: Modern Regression I. In this course, we will do a deep dive into three fundamental methods for estimating the linear relationships between random variables (i.e., linear regression analysis): ordinary least squares (@sec-ols), maximum likelihood (@sec-max-lik), and Bayesian inference (@sec-bayesian). We will also explore null hypothesis testing (@sec-hypothesis), and linear models with categorical covariates via ANOVA (@sec-anova). This online book serves as a living document of resources for our class. The chapters are complimentary to the lecture handouts. Note that handouts should be downloaded (from Canvas) and printed prior to class. The coded examples on this website will be helpful for solving problem set and homework assignments. Problem sets will have dedicated in-class time, whereas homework assignments will be conducted entirely outside of class time. 
+Welcome to INF511: Modern Regression I. In this course, we will do a deep dive into three fundamental methods for estimating the linear relationships between random variables (i.e., linear regression analysis): @sec-ols, @sec-max-lik, and @sec-bayesian. We will also explore @sec-hypothesis, and linear models with categorical covariates via @sec-anova. This online book serves as a living document of resources for our class. The chapters are complimentary to the lecture handouts. Note that handouts should be downloaded (from Canvas) and printed prior to class. The coded examples on this website will be helpful for solving problem set and homework assignments. Problem sets will have dedicated in-class time, whereas homework assignments will be conducted entirely outside of class time. 
 
-Please refer to the Syllabus (@sec-syllabus) for the course schedule, learning objectives, grading structure, course policies, etc. 
+Please refer to the @sec-syllabus for the course schedule, learning objectives, grading structure, course policies, etc. 
 
 ## Footnotes
 

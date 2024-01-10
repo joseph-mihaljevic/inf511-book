@@ -289,8 +289,7 @@ window.Quarto = {
   
 
 
-</header><p>Here is some text.</p>
-<section id="one-way-anova" class="level2" data-number="8.1"><h2 data-number="8.1" class="anchored" data-anchor-id="one-way-anova">
+</header><section id="one-way-anova" class="level2" data-number="8.1"><h2 data-number="8.1" class="anchored" data-anchor-id="one-way-anova">
 <span class="header-section-number">8.1</span> One-way ANOVA</h2>
 <p>Remember that Analysis of Variance (ANOVA) is using linear regression to analyze how discrete input variables affect an outcome. Because the input variables are comprised of discrete “levels” (e.g., treatment groups), we are really comparing how the mean of an outcome varies among discrete groups. This is therefore a generalization of two-sample <span class="math inline">\(t\)</span>-tests to the case of more than two samples/groups.</p>
 <p>One-way ANOVA is the special case in which we only have one input variable, which has more than two “levels”. The ANOVA linear model can be written in several ways, but for me the easiest way to think about is as follows: <span class="math display">\[y_{i,l} = \mu_l + \epsilon_{i,l}\]</span> <span class="math display">\[\epsilon \sim N(0, \sigma^2 I)\]</span></p>
@@ -1445,511 +1444,509 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </nav><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">Source Code</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="">
 <div class="sourceCode" id="cb62" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb62-1"><a href="#cb62-1" aria-hidden="true" tabindex="-1"></a><span class="fu"># ANOVA {#sec-anova}</span></span>
 <span id="cb62-2"><a href="#cb62-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb62-3"><a href="#cb62-3" aria-hidden="true" tabindex="-1"></a>Here is some text. </span>
+<span id="cb62-3"><a href="#cb62-3" aria-hidden="true" tabindex="-1"></a><span class="fu">## One-way ANOVA</span></span>
 <span id="cb62-4"><a href="#cb62-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb62-5"><a href="#cb62-5" aria-hidden="true" tabindex="-1"></a><span class="fu">## One-way ANOVA</span></span>
+<span id="cb62-5"><a href="#cb62-5" aria-hidden="true" tabindex="-1"></a>Remember that Analysis of Variance (ANOVA) is using linear regression to analyze how discrete input variables affect an outcome. Because the input variables are comprised of discrete "levels" (e.g., treatment groups), we are really comparing how the mean of an outcome varies among discrete groups. This is therefore a generalization of two-sample $t$-tests to the case of more than two samples/groups. </span>
 <span id="cb62-6"><a href="#cb62-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb62-7"><a href="#cb62-7" aria-hidden="true" tabindex="-1"></a>Remember that Analysis of Variance (ANOVA) is using linear regression to analyze how discrete input variables affect an outcome. Because the input variables are comprised of discrete "levels" (e.g., treatment groups), we are really comparing how the mean of an outcome varies among discrete groups. This is therefore a generalization of two-sample $t$-tests to the case of more than two samples/groups. </span>
-<span id="cb62-8"><a href="#cb62-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb62-9"><a href="#cb62-9" aria-hidden="true" tabindex="-1"></a>One-way ANOVA is the special case in which we only have one input variable, which has more than two "levels". The ANOVA linear model can be written in several ways, but for me the easiest way to think about is as follows:</span>
-<span id="cb62-10"><a href="#cb62-10" aria-hidden="true" tabindex="-1"></a>$$y_{i,l} = \mu_l + \epsilon_{i,l}$$</span>
-<span id="cb62-11"><a href="#cb62-11" aria-hidden="true" tabindex="-1"></a>$$\epsilon \sim N(0, \sigma^2 I)$$</span>
+<span id="cb62-7"><a href="#cb62-7" aria-hidden="true" tabindex="-1"></a>One-way ANOVA is the special case in which we only have one input variable, which has more than two "levels". The ANOVA linear model can be written in several ways, but for me the easiest way to think about is as follows:</span>
+<span id="cb62-8"><a href="#cb62-8" aria-hidden="true" tabindex="-1"></a>$$y_{i,l} = \mu_l + \epsilon_{i,l}$$</span>
+<span id="cb62-9"><a href="#cb62-9" aria-hidden="true" tabindex="-1"></a>$$\epsilon \sim N(0, \sigma^2 I)$$</span>
+<span id="cb62-10"><a href="#cb62-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb62-11"><a href="#cb62-11" aria-hidden="true" tabindex="-1"></a>In this case $l = 1,\dots,L$, where $L$ is the number of levels in the input variable $x$, and $\mu_l$ is the mean outcome of group level, $l$. Thus, each data observation $y_{i,l}$ varies about a group level mean, with residuals $\epsilon_{i,l}$, which are normally and independently distributed. </span>
 <span id="cb62-12"><a href="#cb62-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb62-13"><a href="#cb62-13" aria-hidden="true" tabindex="-1"></a>In this case $l = 1,\dots,L$, where $L$ is the number of levels in the input variable $x$, and $\mu_l$ is the mean outcome of group level, $l$. Thus, each data observation $y_{i,l}$ varies about a group level mean, with residuals $\epsilon_{i,l}$, which are normally and independently distributed. </span>
-<span id="cb62-14"><a href="#cb62-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb62-15"><a href="#cb62-15" aria-hidden="true" tabindex="-1"></a>Perhaps this is easier to visualize and see the code. Let's simulate a case in which we have a single input variable $x$ that has 3 levels. </span>
-<span id="cb62-18"><a href="#cb62-18" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb62-19"><a href="#cb62-19" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">5</span>)</span>
-<span id="cb62-20"><a href="#cb62-20" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb62-21"><a href="#cb62-21" aria-hidden="true" tabindex="-1"></a>n_levels <span class="ot">=</span> <span class="dv">3</span></span>
-<span id="cb62-22"><a href="#cb62-22" aria-hidden="true" tabindex="-1"></a>n_obs_per_level <span class="ot">=</span> <span class="dv">25</span></span>
-<span id="cb62-23"><a href="#cb62-23" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb62-24"><a href="#cb62-24" aria-hidden="true" tabindex="-1"></a><span class="co"># Construct X</span></span>
-<span id="cb62-25"><a href="#cb62-25" aria-hidden="true" tabindex="-1"></a>x <span class="ot">=</span> <span class="fu">rep</span>(<span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span>n_levels), </span>
-<span id="cb62-26"><a href="#cb62-26" aria-hidden="true" tabindex="-1"></a>        <span class="at">each =</span> n_obs_per_level)</span>
-<span id="cb62-27"><a href="#cb62-27" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb62-28"><a href="#cb62-28" aria-hidden="true" tabindex="-1"></a><span class="co"># Assign group-wise means</span></span>
-<span id="cb62-29"><a href="#cb62-29" aria-hidden="true" tabindex="-1"></a>mus <span class="ot">=</span> <span class="cn">NULL</span></span>
-<span id="cb62-30"><a href="#cb62-30" aria-hidden="true" tabindex="-1"></a>mus[<span class="dv">1</span>] <span class="ot">=</span> <span class="fl">5.0</span></span>
-<span id="cb62-31"><a href="#cb62-31" aria-hidden="true" tabindex="-1"></a>mus[<span class="dv">2</span>] <span class="ot">=</span> <span class="fl">7.5</span></span>
-<span id="cb62-32"><a href="#cb62-32" aria-hidden="true" tabindex="-1"></a>mus[<span class="dv">3</span>] <span class="ot">=</span> <span class="fl">5.8</span></span>
-<span id="cb62-33"><a href="#cb62-33" aria-hidden="true" tabindex="-1"></a>sigma <span class="ot">=</span> <span class="fl">2.5</span> <span class="co"># residual sigma</span></span>
-<span id="cb62-34"><a href="#cb62-34" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb62-35"><a href="#cb62-35" aria-hidden="true" tabindex="-1"></a><span class="co"># Simulate data obs</span></span>
-<span id="cb62-36"><a href="#cb62-36" aria-hidden="true" tabindex="-1"></a>y <span class="ot">=</span> <span class="cn">NULL</span></span>
-<span id="cb62-37"><a href="#cb62-37" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(x)){</span>
-<span id="cb62-38"><a href="#cb62-38" aria-hidden="true" tabindex="-1"></a>    this_level <span class="ot">=</span> x[i]</span>
-<span id="cb62-39"><a href="#cb62-39" aria-hidden="true" tabindex="-1"></a>    y[i] <span class="ot">=</span>  </span>
-<span id="cb62-40"><a href="#cb62-40" aria-hidden="true" tabindex="-1"></a>        mus[this_level] <span class="sc">+</span></span>
-<span id="cb62-41"><a href="#cb62-41" aria-hidden="true" tabindex="-1"></a>        <span class="co"># residual deviation from group-wise mean:</span></span>
-<span id="cb62-42"><a href="#cb62-42" aria-hidden="true" tabindex="-1"></a>        <span class="fu">rnorm</span>(<span class="dv">1</span>, <span class="at">mean =</span> <span class="dv">0</span>, <span class="at">sd =</span> sigma)</span>
-<span id="cb62-43"><a href="#cb62-43" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb62-44"><a href="#cb62-44" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb62-45"><a href="#cb62-45" aria-hidden="true" tabindex="-1"></a><span class="co"># Store in data frame</span></span>
-<span id="cb62-46"><a href="#cb62-46" aria-hidden="true" tabindex="-1"></a>one_way_df <span class="ot">=</span> <span class="fu">data.frame</span>(</span>
-<span id="cb62-47"><a href="#cb62-47" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> y,</span>
-<span id="cb62-48"><a href="#cb62-48" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="fu">factor</span>(x) <span class="co"># store as factor/categorical</span></span>
-<span id="cb62-49"><a href="#cb62-49" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb62-50"><a href="#cb62-50" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb62-51"><a href="#cb62-51" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot the means:</span></span>
-<span id="cb62-52"><a href="#cb62-52" aria-hidden="true" tabindex="-1"></a><span class="do">## Defaults to boxplot() when x is discrete</span></span>
-<span id="cb62-53"><a href="#cb62-53" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(y<span class="sc">~</span>x, <span class="at">data =</span> one_way_df)</span>
-<span id="cb62-54"><a href="#cb62-54" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb62-55"><a href="#cb62-55" aria-hidden="true" tabindex="-1"></a>We can see that - at least visually - level 2 has a higher mean outcome than the other levels (e.g., $\bar{y}_2$ seems largest). Let's run the ANOVA model and see the summary. </span>
-<span id="cb62-56"><a href="#cb62-56" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb62-59"><a href="#cb62-59" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb62-60"><a href="#cb62-60" aria-hidden="true" tabindex="-1"></a><span class="co"># Use the aov() function</span></span>
-<span id="cb62-61"><a href="#cb62-61" aria-hidden="true" tabindex="-1"></a>m_one_way <span class="ot">=</span> <span class="fu">aov</span>(y <span class="sc">~</span> <span class="dv">1</span> <span class="sc">+</span> x, <span class="at">data =</span> one_way_df)</span>
-<span id="cb62-62"><a href="#cb62-62" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb62-63"><a href="#cb62-63" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(m_one_way)</span>
-<span id="cb62-64"><a href="#cb62-64" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb62-13"><a href="#cb62-13" aria-hidden="true" tabindex="-1"></a>Perhaps this is easier to visualize and see the code. Let's simulate a case in which we have a single input variable $x$ that has 3 levels. </span>
+<span id="cb62-16"><a href="#cb62-16" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb62-17"><a href="#cb62-17" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">5</span>)</span>
+<span id="cb62-18"><a href="#cb62-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb62-19"><a href="#cb62-19" aria-hidden="true" tabindex="-1"></a>n_levels <span class="ot">=</span> <span class="dv">3</span></span>
+<span id="cb62-20"><a href="#cb62-20" aria-hidden="true" tabindex="-1"></a>n_obs_per_level <span class="ot">=</span> <span class="dv">25</span></span>
+<span id="cb62-21"><a href="#cb62-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb62-22"><a href="#cb62-22" aria-hidden="true" tabindex="-1"></a><span class="co"># Construct X</span></span>
+<span id="cb62-23"><a href="#cb62-23" aria-hidden="true" tabindex="-1"></a>x <span class="ot">=</span> <span class="fu">rep</span>(<span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span>n_levels), </span>
+<span id="cb62-24"><a href="#cb62-24" aria-hidden="true" tabindex="-1"></a>        <span class="at">each =</span> n_obs_per_level)</span>
+<span id="cb62-25"><a href="#cb62-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb62-26"><a href="#cb62-26" aria-hidden="true" tabindex="-1"></a><span class="co"># Assign group-wise means</span></span>
+<span id="cb62-27"><a href="#cb62-27" aria-hidden="true" tabindex="-1"></a>mus <span class="ot">=</span> <span class="cn">NULL</span></span>
+<span id="cb62-28"><a href="#cb62-28" aria-hidden="true" tabindex="-1"></a>mus[<span class="dv">1</span>] <span class="ot">=</span> <span class="fl">5.0</span></span>
+<span id="cb62-29"><a href="#cb62-29" aria-hidden="true" tabindex="-1"></a>mus[<span class="dv">2</span>] <span class="ot">=</span> <span class="fl">7.5</span></span>
+<span id="cb62-30"><a href="#cb62-30" aria-hidden="true" tabindex="-1"></a>mus[<span class="dv">3</span>] <span class="ot">=</span> <span class="fl">5.8</span></span>
+<span id="cb62-31"><a href="#cb62-31" aria-hidden="true" tabindex="-1"></a>sigma <span class="ot">=</span> <span class="fl">2.5</span> <span class="co"># residual sigma</span></span>
+<span id="cb62-32"><a href="#cb62-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb62-33"><a href="#cb62-33" aria-hidden="true" tabindex="-1"></a><span class="co"># Simulate data obs</span></span>
+<span id="cb62-34"><a href="#cb62-34" aria-hidden="true" tabindex="-1"></a>y <span class="ot">=</span> <span class="cn">NULL</span></span>
+<span id="cb62-35"><a href="#cb62-35" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(x)){</span>
+<span id="cb62-36"><a href="#cb62-36" aria-hidden="true" tabindex="-1"></a>    this_level <span class="ot">=</span> x[i]</span>
+<span id="cb62-37"><a href="#cb62-37" aria-hidden="true" tabindex="-1"></a>    y[i] <span class="ot">=</span>  </span>
+<span id="cb62-38"><a href="#cb62-38" aria-hidden="true" tabindex="-1"></a>        mus[this_level] <span class="sc">+</span></span>
+<span id="cb62-39"><a href="#cb62-39" aria-hidden="true" tabindex="-1"></a>        <span class="co"># residual deviation from group-wise mean:</span></span>
+<span id="cb62-40"><a href="#cb62-40" aria-hidden="true" tabindex="-1"></a>        <span class="fu">rnorm</span>(<span class="dv">1</span>, <span class="at">mean =</span> <span class="dv">0</span>, <span class="at">sd =</span> sigma)</span>
+<span id="cb62-41"><a href="#cb62-41" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb62-42"><a href="#cb62-42" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb62-43"><a href="#cb62-43" aria-hidden="true" tabindex="-1"></a><span class="co"># Store in data frame</span></span>
+<span id="cb62-44"><a href="#cb62-44" aria-hidden="true" tabindex="-1"></a>one_way_df <span class="ot">=</span> <span class="fu">data.frame</span>(</span>
+<span id="cb62-45"><a href="#cb62-45" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> y,</span>
+<span id="cb62-46"><a href="#cb62-46" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="fu">factor</span>(x) <span class="co"># store as factor/categorical</span></span>
+<span id="cb62-47"><a href="#cb62-47" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb62-48"><a href="#cb62-48" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb62-49"><a href="#cb62-49" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot the means:</span></span>
+<span id="cb62-50"><a href="#cb62-50" aria-hidden="true" tabindex="-1"></a><span class="do">## Defaults to boxplot() when x is discrete</span></span>
+<span id="cb62-51"><a href="#cb62-51" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(y<span class="sc">~</span>x, <span class="at">data =</span> one_way_df)</span>
+<span id="cb62-52"><a href="#cb62-52" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb62-53"><a href="#cb62-53" aria-hidden="true" tabindex="-1"></a>We can see that - at least visually - level 2 has a higher mean outcome than the other levels (e.g., $\bar{y}_2$ seems largest). Let's run the ANOVA model and see the summary. </span>
+<span id="cb62-54"><a href="#cb62-54" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb62-57"><a href="#cb62-57" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb62-58"><a href="#cb62-58" aria-hidden="true" tabindex="-1"></a><span class="co"># Use the aov() function</span></span>
+<span id="cb62-59"><a href="#cb62-59" aria-hidden="true" tabindex="-1"></a>m_one_way <span class="ot">=</span> <span class="fu">aov</span>(y <span class="sc">~</span> <span class="dv">1</span> <span class="sc">+</span> x, <span class="at">data =</span> one_way_df)</span>
+<span id="cb62-60"><a href="#cb62-60" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb62-61"><a href="#cb62-61" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(m_one_way)</span>
+<span id="cb62-62"><a href="#cb62-62" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb62-63"><a href="#cb62-63" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb62-64"><a href="#cb62-64" aria-hidden="true" tabindex="-1"></a><span class="fu">### Manually calculate $F$</span></span>
 <span id="cb62-65"><a href="#cb62-65" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb62-66"><a href="#cb62-66" aria-hidden="true" tabindex="-1"></a><span class="fu">### Manually calculate $F$</span></span>
+<span id="cb62-66"><a href="#cb62-66" aria-hidden="true" tabindex="-1"></a>As we can see, the <span class="in">`aov()`</span> function is using an $F$-test to determine if any of the group-wise means differ from the global mean (see lecture materials on this topic). Indeed, based on the $p$-value, at least one group-wise mean is different. To verify our understand, as usual, let's manually calculate the $F$ test statistic and $p$-value.</span>
 <span id="cb62-67"><a href="#cb62-67" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb62-68"><a href="#cb62-68" aria-hidden="true" tabindex="-1"></a>As we can see, the <span class="in">`aov()`</span> function is using an $F$-test to determine if any of the group-wise means differ from the global mean (see lecture materials on this topic). Indeed, based on the $p$-value, at least one group-wise mean is different. To verify our understand, as usual, let's manually calculate the $F$ test statistic and $p$-value.</span>
-<span id="cb62-69"><a href="#cb62-69" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb62-72"><a href="#cb62-72" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb62-73"><a href="#cb62-73" aria-hidden="true" tabindex="-1"></a><span class="co"># First, we need to run the "null" model (intercept only)</span></span>
-<span id="cb62-74"><a href="#cb62-74" aria-hidden="true" tabindex="-1"></a>m_one_way_null <span class="ot">=</span> <span class="fu">lm</span>(y <span class="sc">~</span> <span class="dv">1</span>, </span>
-<span id="cb62-75"><a href="#cb62-75" aria-hidden="true" tabindex="-1"></a>                    <span class="at">data =</span> one_way_df)</span>
-<span id="cb62-76"><a href="#cb62-76" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb62-77"><a href="#cb62-77" aria-hidden="true" tabindex="-1"></a><span class="co"># Extract the residuals (errors)</span></span>
-<span id="cb62-78"><a href="#cb62-78" aria-hidden="true" tabindex="-1"></a>resid_full <span class="ot">=</span> m_one_way<span class="sc">$</span>residuals</span>
-<span id="cb62-79"><a href="#cb62-79" aria-hidden="true" tabindex="-1"></a>resid_null <span class="ot">=</span> m_one_way_null<span class="sc">$</span>residuals</span>
-<span id="cb62-80"><a href="#cb62-80" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb62-81"><a href="#cb62-81" aria-hidden="true" tabindex="-1"></a><span class="co"># Sum of Square Errors (SSE)</span></span>
-<span id="cb62-82"><a href="#cb62-82" aria-hidden="true" tabindex="-1"></a>sse_full <span class="ot">=</span> <span class="fu">crossprod</span>(resid_full)</span>
-<span id="cb62-83"><a href="#cb62-83" aria-hidden="true" tabindex="-1"></a>sse_null <span class="ot">=</span> <span class="fu">crossprod</span>(resid_null)</span>
-<span id="cb62-84"><a href="#cb62-84" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb62-85"><a href="#cb62-85" aria-hidden="true" tabindex="-1"></a><span class="co"># degrees of freedom</span></span>
-<span id="cb62-86"><a href="#cb62-86" aria-hidden="true" tabindex="-1"></a>n_obs <span class="ot">=</span> <span class="fu">length</span>(y)</span>
-<span id="cb62-87"><a href="#cb62-87" aria-hidden="true" tabindex="-1"></a>df_full <span class="ot">=</span> n_obs <span class="sc">-</span> n_levels</span>
-<span id="cb62-88"><a href="#cb62-88" aria-hidden="true" tabindex="-1"></a>df_null <span class="ot">=</span> n_obs <span class="sc">-</span> <span class="dv">1</span></span>
-<span id="cb62-89"><a href="#cb62-89" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb62-90"><a href="#cb62-90" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate F_stat</span></span>
-<span id="cb62-91"><a href="#cb62-91" aria-hidden="true" tabindex="-1"></a>f_test <span class="ot">=</span> ((sse_null <span class="sc">-</span> sse_full)<span class="sc">/</span>(df_null <span class="sc">-</span> df_full)) <span class="sc">/</span> (sse_full<span class="sc">/</span>df_full)</span>
-<span id="cb62-92"><a href="#cb62-92" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb62-93"><a href="#cb62-93" aria-hidden="true" tabindex="-1"></a><span class="co"># Degrees of freedom for the F distribution:</span></span>
-<span id="cb62-94"><a href="#cb62-94" aria-hidden="true" tabindex="-1"></a>df_numerator <span class="ot">=</span> df_null <span class="sc">-</span> df_full</span>
-<span id="cb62-95"><a href="#cb62-95" aria-hidden="true" tabindex="-1"></a>df_denominator <span class="ot">=</span> df_full</span>
-<span id="cb62-96"><a href="#cb62-96" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb62-97"><a href="#cb62-97" aria-hidden="true" tabindex="-1"></a>p_one_way <span class="ot">=</span> <span class="dv">1</span> <span class="sc">-</span> <span class="fu">pf</span>(f_test,</span>
-<span id="cb62-98"><a href="#cb62-98" aria-hidden="true" tabindex="-1"></a>                   <span class="at">df1 =</span> df_numerator,</span>
-<span id="cb62-99"><a href="#cb62-99" aria-hidden="true" tabindex="-1"></a>                   <span class="at">df2 =</span> df_denominator)</span>
-<span id="cb62-100"><a href="#cb62-100" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb62-101"><a href="#cb62-101" aria-hidden="true" tabindex="-1"></a><span class="co"># Compare to anova()</span></span>
-<span id="cb62-102"><a href="#cb62-102" aria-hidden="true" tabindex="-1"></a>f_test; p_one_way</span>
-<span id="cb62-103"><a href="#cb62-103" aria-hidden="true" tabindex="-1"></a>summary_aov <span class="ot">=</span> <span class="fu">summary</span>(m_one_way)</span>
-<span id="cb62-104"><a href="#cb62-104" aria-hidden="true" tabindex="-1"></a>summary_aov[[<span class="dv">1</span>]]<span class="sc">$</span><span class="st">`</span><span class="at">F value</span><span class="st">`</span>; summary_aov[[<span class="dv">1</span>]]<span class="sc">$</span><span class="st">`</span><span class="at">Pr(&gt;F)</span><span class="st">`</span></span>
-<span id="cb62-105"><a href="#cb62-105" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb62-106"><a href="#cb62-106" aria-hidden="true" tabindex="-1"></a>We see that our manual calculation of $F$ and the corresponding $p$-value match with the output of the <span class="in">`aov()`</span> function, so we can verify we are understanding what <span class="in">`aov()`</span> is doing.</span>
+<span id="cb62-70"><a href="#cb62-70" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb62-71"><a href="#cb62-71" aria-hidden="true" tabindex="-1"></a><span class="co"># First, we need to run the "null" model (intercept only)</span></span>
+<span id="cb62-72"><a href="#cb62-72" aria-hidden="true" tabindex="-1"></a>m_one_way_null <span class="ot">=</span> <span class="fu">lm</span>(y <span class="sc">~</span> <span class="dv">1</span>, </span>
+<span id="cb62-73"><a href="#cb62-73" aria-hidden="true" tabindex="-1"></a>                    <span class="at">data =</span> one_way_df)</span>
+<span id="cb62-74"><a href="#cb62-74" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb62-75"><a href="#cb62-75" aria-hidden="true" tabindex="-1"></a><span class="co"># Extract the residuals (errors)</span></span>
+<span id="cb62-76"><a href="#cb62-76" aria-hidden="true" tabindex="-1"></a>resid_full <span class="ot">=</span> m_one_way<span class="sc">$</span>residuals</span>
+<span id="cb62-77"><a href="#cb62-77" aria-hidden="true" tabindex="-1"></a>resid_null <span class="ot">=</span> m_one_way_null<span class="sc">$</span>residuals</span>
+<span id="cb62-78"><a href="#cb62-78" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb62-79"><a href="#cb62-79" aria-hidden="true" tabindex="-1"></a><span class="co"># Sum of Square Errors (SSE)</span></span>
+<span id="cb62-80"><a href="#cb62-80" aria-hidden="true" tabindex="-1"></a>sse_full <span class="ot">=</span> <span class="fu">crossprod</span>(resid_full)</span>
+<span id="cb62-81"><a href="#cb62-81" aria-hidden="true" tabindex="-1"></a>sse_null <span class="ot">=</span> <span class="fu">crossprod</span>(resid_null)</span>
+<span id="cb62-82"><a href="#cb62-82" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb62-83"><a href="#cb62-83" aria-hidden="true" tabindex="-1"></a><span class="co"># degrees of freedom</span></span>
+<span id="cb62-84"><a href="#cb62-84" aria-hidden="true" tabindex="-1"></a>n_obs <span class="ot">=</span> <span class="fu">length</span>(y)</span>
+<span id="cb62-85"><a href="#cb62-85" aria-hidden="true" tabindex="-1"></a>df_full <span class="ot">=</span> n_obs <span class="sc">-</span> n_levels</span>
+<span id="cb62-86"><a href="#cb62-86" aria-hidden="true" tabindex="-1"></a>df_null <span class="ot">=</span> n_obs <span class="sc">-</span> <span class="dv">1</span></span>
+<span id="cb62-87"><a href="#cb62-87" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb62-88"><a href="#cb62-88" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate F_stat</span></span>
+<span id="cb62-89"><a href="#cb62-89" aria-hidden="true" tabindex="-1"></a>f_test <span class="ot">=</span> ((sse_null <span class="sc">-</span> sse_full)<span class="sc">/</span>(df_null <span class="sc">-</span> df_full)) <span class="sc">/</span> (sse_full<span class="sc">/</span>df_full)</span>
+<span id="cb62-90"><a href="#cb62-90" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb62-91"><a href="#cb62-91" aria-hidden="true" tabindex="-1"></a><span class="co"># Degrees of freedom for the F distribution:</span></span>
+<span id="cb62-92"><a href="#cb62-92" aria-hidden="true" tabindex="-1"></a>df_numerator <span class="ot">=</span> df_null <span class="sc">-</span> df_full</span>
+<span id="cb62-93"><a href="#cb62-93" aria-hidden="true" tabindex="-1"></a>df_denominator <span class="ot">=</span> df_full</span>
+<span id="cb62-94"><a href="#cb62-94" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb62-95"><a href="#cb62-95" aria-hidden="true" tabindex="-1"></a>p_one_way <span class="ot">=</span> <span class="dv">1</span> <span class="sc">-</span> <span class="fu">pf</span>(f_test,</span>
+<span id="cb62-96"><a href="#cb62-96" aria-hidden="true" tabindex="-1"></a>                   <span class="at">df1 =</span> df_numerator,</span>
+<span id="cb62-97"><a href="#cb62-97" aria-hidden="true" tabindex="-1"></a>                   <span class="at">df2 =</span> df_denominator)</span>
+<span id="cb62-98"><a href="#cb62-98" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb62-99"><a href="#cb62-99" aria-hidden="true" tabindex="-1"></a><span class="co"># Compare to anova()</span></span>
+<span id="cb62-100"><a href="#cb62-100" aria-hidden="true" tabindex="-1"></a>f_test; p_one_way</span>
+<span id="cb62-101"><a href="#cb62-101" aria-hidden="true" tabindex="-1"></a>summary_aov <span class="ot">=</span> <span class="fu">summary</span>(m_one_way)</span>
+<span id="cb62-102"><a href="#cb62-102" aria-hidden="true" tabindex="-1"></a>summary_aov[[<span class="dv">1</span>]]<span class="sc">$</span><span class="st">`</span><span class="at">F value</span><span class="st">`</span>; summary_aov[[<span class="dv">1</span>]]<span class="sc">$</span><span class="st">`</span><span class="at">Pr(&gt;F)</span><span class="st">`</span></span>
+<span id="cb62-103"><a href="#cb62-103" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb62-104"><a href="#cb62-104" aria-hidden="true" tabindex="-1"></a>We see that our manual calculation of $F$ and the corresponding $p$-value match with the output of the <span class="in">`aov()`</span> function, so we can verify we are understanding what <span class="in">`aov()`</span> is doing.</span>
+<span id="cb62-105"><a href="#cb62-105" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb62-106"><a href="#cb62-106" aria-hidden="true" tabindex="-1"></a><span class="fu">### Tukey HSD</span></span>
 <span id="cb62-107"><a href="#cb62-107" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb62-108"><a href="#cb62-108" aria-hidden="true" tabindex="-1"></a><span class="fu">### Tukey HSD</span></span>
+<span id="cb62-108"><a href="#cb62-108" aria-hidden="true" tabindex="-1"></a>But, which specific means differ from each other? To know this, we need to compute all pairwise differences between the group-wise means. Remember that for $L$ number of groups, we have $L(L-1)/2$ number of pairwise comparisons. We want to correct for multiple comparisons, so we don't inflate our risk of Type I errors. Therefore, we'll conduct a Tukey Honest Significant Difference (HSD) test. </span>
 <span id="cb62-109"><a href="#cb62-109" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb62-110"><a href="#cb62-110" aria-hidden="true" tabindex="-1"></a>But, which specific means differ from each other? To know this, we need to compute all pairwise differences between the group-wise means. Remember that for $L$ number of groups, we have $L(L-1)/2$ number of pairwise comparisons. We want to correct for multiple comparisons, so we don't inflate our risk of Type I errors. Therefore, we'll conduct a Tukey Honest Significant Difference (HSD) test. </span>
-<span id="cb62-111"><a href="#cb62-111" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb62-114"><a href="#cb62-114" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb62-115"><a href="#cb62-115" aria-hidden="true" tabindex="-1"></a><span class="fu">TukeyHSD</span>(m_one_way)</span>
-<span id="cb62-116"><a href="#cb62-116" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb62-117"><a href="#cb62-117" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb62-118"><a href="#cb62-118" aria-hidden="true" tabindex="-1"></a>This test is looking at pairwise differences. For instance <span class="in">`2-1`</span> is the difference between $x$ levels 2 and 1, and so on. The output reports the raw difference in means as <span class="in">`diff`</span>, and then reports the lower and upper confidence limits of this difference as <span class="in">`lwr`</span> and <span class="in">`upr`</span>. These default to 95% confidence intervals, though the user can specify an option in the function to change this percentage confidence. Then the output reports the <span class="in">`p adj`</span>, which is the adjusted $p$-value, adjusting for multiple comparisons. Here, we can conclude that while levels 1 and 3 are not different from one another, level 2 is different from both levels 1 and 3. This makes sense when we look at the boxplot (again).</span>
-<span id="cb62-121"><a href="#cb62-121" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb62-122"><a href="#cb62-122" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(y<span class="sc">~</span>x, <span class="at">data =</span> one_way_df)</span>
-<span id="cb62-123"><a href="#cb62-123" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb62-112"><a href="#cb62-112" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb62-113"><a href="#cb62-113" aria-hidden="true" tabindex="-1"></a><span class="fu">TukeyHSD</span>(m_one_way)</span>
+<span id="cb62-114"><a href="#cb62-114" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb62-115"><a href="#cb62-115" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb62-116"><a href="#cb62-116" aria-hidden="true" tabindex="-1"></a>This test is looking at pairwise differences. For instance <span class="in">`2-1`</span> is the difference between $x$ levels 2 and 1, and so on. The output reports the raw difference in means as <span class="in">`diff`</span>, and then reports the lower and upper confidence limits of this difference as <span class="in">`lwr`</span> and <span class="in">`upr`</span>. These default to 95% confidence intervals, though the user can specify an option in the function to change this percentage confidence. Then the output reports the <span class="in">`p adj`</span>, which is the adjusted $p$-value, adjusting for multiple comparisons. Here, we can conclude that while levels 1 and 3 are not different from one another, level 2 is different from both levels 1 and 3. This makes sense when we look at the boxplot (again).</span>
+<span id="cb62-119"><a href="#cb62-119" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb62-120"><a href="#cb62-120" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(y<span class="sc">~</span>x, <span class="at">data =</span> one_way_df)</span>
+<span id="cb62-121"><a href="#cb62-121" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb62-122"><a href="#cb62-122" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb62-123"><a href="#cb62-123" aria-hidden="true" tabindex="-1"></a><span class="fu">### Manually calculate $q$</span></span>
 <span id="cb62-124"><a href="#cb62-124" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb62-125"><a href="#cb62-125" aria-hidden="true" tabindex="-1"></a><span class="fu">### Manually calculate $q$</span></span>
-<span id="cb62-126"><a href="#cb62-126" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb62-127"><a href="#cb62-127" aria-hidden="true" tabindex="-1"></a>How does the Tukey HSD adjust for multiple comparisons? It uses a special hypothesis test, which has an associated probability distribution, <span class="in">`tukey`</span>. Remember that we calculate a test statistic, $q$ for the difference between levels $i$ and $j$:</span>
-<span id="cb62-128"><a href="#cb62-128" aria-hidden="true" tabindex="-1"></a>$$q_{i,j} = \frac{|\bar{y}_i - \bar{y}_j|}{\sqrt{\hat{\sigma}^2_p/n}}$$</span>
-<span id="cb62-129"><a href="#cb62-129" aria-hidden="true" tabindex="-1"></a>Here, $\hat{\sigma}^2_p$ is the *pooled* variance of the whole outcome data set, $y$, and $n$ is the number of observations *per level*. This is why a **balanced design** is important; the test assumes that each level has the same number of observations. </span>
-<span id="cb62-130"><a href="#cb62-130" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb62-131"><a href="#cb62-131" aria-hidden="true" tabindex="-1"></a>Let's manually calculate the $p$-value for the difference between group levels 2 and 1. </span>
-<span id="cb62-134"><a href="#cb62-134" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb62-135"><a href="#cb62-135" aria-hidden="true" tabindex="-1"></a><span class="co"># Need to extract the data observations associated with all x levels, separately</span></span>
-<span id="cb62-136"><a href="#cb62-136" aria-hidden="true" tabindex="-1"></a>these_x_1 <span class="ot">=</span> <span class="fu">which</span>(x <span class="sc">==</span> <span class="dv">1</span>)</span>
-<span id="cb62-137"><a href="#cb62-137" aria-hidden="true" tabindex="-1"></a>these_x_2 <span class="ot">=</span> <span class="fu">which</span>(x <span class="sc">==</span> <span class="dv">2</span>)</span>
-<span id="cb62-138"><a href="#cb62-138" aria-hidden="true" tabindex="-1"></a>these_x_3 <span class="ot">=</span> <span class="fu">which</span>(x <span class="sc">==</span> <span class="dv">3</span>)</span>
-<span id="cb62-139"><a href="#cb62-139" aria-hidden="true" tabindex="-1"></a>y_1 <span class="ot">=</span> y[these_x_1]</span>
-<span id="cb62-140"><a href="#cb62-140" aria-hidden="true" tabindex="-1"></a>y_2 <span class="ot">=</span> y[these_x_2]</span>
-<span id="cb62-141"><a href="#cb62-141" aria-hidden="true" tabindex="-1"></a>y_3 <span class="ot">=</span> y[these_x_3]</span>
-<span id="cb62-142"><a href="#cb62-142" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb62-143"><a href="#cb62-143" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate pooled variance for whole data set</span></span>
-<span id="cb62-144"><a href="#cb62-144" aria-hidden="true" tabindex="-1"></a><span class="co"># Notice how this is not the same as var(y)</span></span>
-<span id="cb62-145"><a href="#cb62-145" aria-hidden="true" tabindex="-1"></a>pooled_var <span class="ot">=</span> (<span class="fu">var</span>(y_1)<span class="sc">+</span><span class="fu">var</span>(y_2)<span class="sc">+</span><span class="fu">var</span>(y_3))<span class="sc">/</span><span class="dv">3</span></span>
-<span id="cb62-146"><a href="#cb62-146" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb62-147"><a href="#cb62-147" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate q test statistic</span></span>
-<span id="cb62-148"><a href="#cb62-148" aria-hidden="true" tabindex="-1"></a>q_test <span class="ot">=</span> </span>
-<span id="cb62-149"><a href="#cb62-149" aria-hidden="true" tabindex="-1"></a>    <span class="fu">abs</span>(<span class="fu">mean</span>(y_1) <span class="sc">-</span> <span class="fu">mean</span>(y_2)) <span class="sc">/</span></span>
-<span id="cb62-150"><a href="#cb62-150" aria-hidden="true" tabindex="-1"></a>    <span class="fu">sqrt</span>(pooled_var<span class="sc">/</span>n_obs_per_level)</span>
-<span id="cb62-151"><a href="#cb62-151" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb62-152"><a href="#cb62-152" aria-hidden="true" tabindex="-1"></a>q_test</span>
-<span id="cb62-153"><a href="#cb62-153" aria-hidden="true" tabindex="-1"></a><span class="co"># Degrees of freedom for q test stat</span></span>
-<span id="cb62-154"><a href="#cb62-154" aria-hidden="true" tabindex="-1"></a>df_q <span class="ot">=</span> n_obs <span class="sc">-</span> n_levels</span>
-<span id="cb62-155"><a href="#cb62-155" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb62-156"><a href="#cb62-156" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate p-value</span></span>
-<span id="cb62-157"><a href="#cb62-157" aria-hidden="true" tabindex="-1"></a>p_2v1 <span class="ot">=</span> <span class="fu">ptukey</span>(q_test, </span>
-<span id="cb62-158"><a href="#cb62-158" aria-hidden="true" tabindex="-1"></a>               <span class="at">nmeans =</span> <span class="dv">3</span>,</span>
-<span id="cb62-159"><a href="#cb62-159" aria-hidden="true" tabindex="-1"></a>               <span class="at">df =</span> df_q, </span>
-<span id="cb62-160"><a href="#cb62-160" aria-hidden="true" tabindex="-1"></a>               <span class="at">lower.tail =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb62-161"><a href="#cb62-161" aria-hidden="true" tabindex="-1"></a>p_2v1</span>
-<span id="cb62-162"><a href="#cb62-162" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb62-163"><a href="#cb62-163" aria-hidden="true" tabindex="-1"></a>We can see this $p$-value matches the first <span class="in">`p adj`</span> from the <span class="in">`TukeyHSD()`</span> output. </span>
+<span id="cb62-125"><a href="#cb62-125" aria-hidden="true" tabindex="-1"></a>How does the Tukey HSD adjust for multiple comparisons? It uses a special hypothesis test, which has an associated probability distribution, <span class="in">`tukey`</span>. Remember that we calculate a test statistic, $q$ for the difference between levels $i$ and $j$:</span>
+<span id="cb62-126"><a href="#cb62-126" aria-hidden="true" tabindex="-1"></a>$$q_{i,j} = \frac{|\bar{y}_i - \bar{y}_j|}{\sqrt{\hat{\sigma}^2_p/n}}$$</span>
+<span id="cb62-127"><a href="#cb62-127" aria-hidden="true" tabindex="-1"></a>Here, $\hat{\sigma}^2_p$ is the *pooled* variance of the whole outcome data set, $y$, and $n$ is the number of observations *per level*. This is why a **balanced design** is important; the test assumes that each level has the same number of observations. </span>
+<span id="cb62-128"><a href="#cb62-128" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb62-129"><a href="#cb62-129" aria-hidden="true" tabindex="-1"></a>Let's manually calculate the $p$-value for the difference between group levels 2 and 1. </span>
+<span id="cb62-132"><a href="#cb62-132" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb62-133"><a href="#cb62-133" aria-hidden="true" tabindex="-1"></a><span class="co"># Need to extract the data observations associated with all x levels, separately</span></span>
+<span id="cb62-134"><a href="#cb62-134" aria-hidden="true" tabindex="-1"></a>these_x_1 <span class="ot">=</span> <span class="fu">which</span>(x <span class="sc">==</span> <span class="dv">1</span>)</span>
+<span id="cb62-135"><a href="#cb62-135" aria-hidden="true" tabindex="-1"></a>these_x_2 <span class="ot">=</span> <span class="fu">which</span>(x <span class="sc">==</span> <span class="dv">2</span>)</span>
+<span id="cb62-136"><a href="#cb62-136" aria-hidden="true" tabindex="-1"></a>these_x_3 <span class="ot">=</span> <span class="fu">which</span>(x <span class="sc">==</span> <span class="dv">3</span>)</span>
+<span id="cb62-137"><a href="#cb62-137" aria-hidden="true" tabindex="-1"></a>y_1 <span class="ot">=</span> y[these_x_1]</span>
+<span id="cb62-138"><a href="#cb62-138" aria-hidden="true" tabindex="-1"></a>y_2 <span class="ot">=</span> y[these_x_2]</span>
+<span id="cb62-139"><a href="#cb62-139" aria-hidden="true" tabindex="-1"></a>y_3 <span class="ot">=</span> y[these_x_3]</span>
+<span id="cb62-140"><a href="#cb62-140" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb62-141"><a href="#cb62-141" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate pooled variance for whole data set</span></span>
+<span id="cb62-142"><a href="#cb62-142" aria-hidden="true" tabindex="-1"></a><span class="co"># Notice how this is not the same as var(y)</span></span>
+<span id="cb62-143"><a href="#cb62-143" aria-hidden="true" tabindex="-1"></a>pooled_var <span class="ot">=</span> (<span class="fu">var</span>(y_1)<span class="sc">+</span><span class="fu">var</span>(y_2)<span class="sc">+</span><span class="fu">var</span>(y_3))<span class="sc">/</span><span class="dv">3</span></span>
+<span id="cb62-144"><a href="#cb62-144" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb62-145"><a href="#cb62-145" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate q test statistic</span></span>
+<span id="cb62-146"><a href="#cb62-146" aria-hidden="true" tabindex="-1"></a>q_test <span class="ot">=</span> </span>
+<span id="cb62-147"><a href="#cb62-147" aria-hidden="true" tabindex="-1"></a>    <span class="fu">abs</span>(<span class="fu">mean</span>(y_1) <span class="sc">-</span> <span class="fu">mean</span>(y_2)) <span class="sc">/</span></span>
+<span id="cb62-148"><a href="#cb62-148" aria-hidden="true" tabindex="-1"></a>    <span class="fu">sqrt</span>(pooled_var<span class="sc">/</span>n_obs_per_level)</span>
+<span id="cb62-149"><a href="#cb62-149" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb62-150"><a href="#cb62-150" aria-hidden="true" tabindex="-1"></a>q_test</span>
+<span id="cb62-151"><a href="#cb62-151" aria-hidden="true" tabindex="-1"></a><span class="co"># Degrees of freedom for q test stat</span></span>
+<span id="cb62-152"><a href="#cb62-152" aria-hidden="true" tabindex="-1"></a>df_q <span class="ot">=</span> n_obs <span class="sc">-</span> n_levels</span>
+<span id="cb62-153"><a href="#cb62-153" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb62-154"><a href="#cb62-154" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate p-value</span></span>
+<span id="cb62-155"><a href="#cb62-155" aria-hidden="true" tabindex="-1"></a>p_2v1 <span class="ot">=</span> <span class="fu">ptukey</span>(q_test, </span>
+<span id="cb62-156"><a href="#cb62-156" aria-hidden="true" tabindex="-1"></a>               <span class="at">nmeans =</span> <span class="dv">3</span>,</span>
+<span id="cb62-157"><a href="#cb62-157" aria-hidden="true" tabindex="-1"></a>               <span class="at">df =</span> df_q, </span>
+<span id="cb62-158"><a href="#cb62-158" aria-hidden="true" tabindex="-1"></a>               <span class="at">lower.tail =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb62-159"><a href="#cb62-159" aria-hidden="true" tabindex="-1"></a>p_2v1</span>
+<span id="cb62-160"><a href="#cb62-160" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb62-161"><a href="#cb62-161" aria-hidden="true" tabindex="-1"></a>We can see this $p$-value matches the first <span class="in">`p adj`</span> from the <span class="in">`TukeyHSD()`</span> output. </span>
+<span id="cb62-162"><a href="#cb62-162" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb62-163"><a href="#cb62-163" aria-hidden="true" tabindex="-1"></a><span class="fu">## Two-way ANOVA</span></span>
 <span id="cb62-164"><a href="#cb62-164" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb62-165"><a href="#cb62-165" aria-hidden="true" tabindex="-1"></a><span class="fu">## Two-way ANOVA</span></span>
+<span id="cb62-165"><a href="#cb62-165" aria-hidden="true" tabindex="-1"></a>Two-way ANOVA is the special case in which we have exactly two input variables, each of which has two or more "levels". The two-way ANOVA linear model can be written in several ways. We'll start with the easiest case in which each of the two input variables only has two levels. This refers to a "2x2" experimental design. To be concrete, we'll use an example. We will simulate data for plant growth in which we manipulate Temperature (<span class="in">`Low`</span> or <span class="in">`High`</span>) and soil Moisture (<span class="in">`Dry`</span> or <span class="in">`Wet`</span>). We apply the 2x2 combination of these treatments which leads to four total treatments (e.g., Low-Dry, Low-Wet, etc.). We will apply each treatment combination to 25 plants and measure the outcome of Growth. </span>
 <span id="cb62-166"><a href="#cb62-166" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb62-167"><a href="#cb62-167" aria-hidden="true" tabindex="-1"></a>Two-way ANOVA is the special case in which we have exactly two input variables, each of which has two or more "levels". The two-way ANOVA linear model can be written in several ways. We'll start with the easiest case in which each of the two input variables only has two levels. This refers to a "2x2" experimental design. To be concrete, we'll use an example. We will simulate data for plant growth in which we manipulate Temperature (<span class="in">`Low`</span> or <span class="in">`High`</span>) and soil Moisture (<span class="in">`Dry`</span> or <span class="in">`Wet`</span>). We apply the 2x2 combination of these treatments which leads to four total treatments (e.g., Low-Dry, Low-Wet, etc.). We will apply each treatment combination to 25 plants and measure the outcome of Growth. </span>
+<span id="cb62-167"><a href="#cb62-167" aria-hidden="true" tabindex="-1"></a>In the following model structure, we will code Temperature as <span class="in">`Low == 0`</span> and <span class="in">`High == 1`</span>, and we will code soil Moisture as <span class="in">`Dry == 0`</span> and <span class="in">`Wet == 1`</span>. </span>
 <span id="cb62-168"><a href="#cb62-168" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb62-169"><a href="#cb62-169" aria-hidden="true" tabindex="-1"></a>In the following model structure, we will code Temperature as <span class="in">`Low == 0`</span> and <span class="in">`High == 1`</span>, and we will code soil Moisture as <span class="in">`Dry == 0`</span> and <span class="in">`Wet == 1`</span>. </span>
-<span id="cb62-170"><a href="#cb62-170" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb62-171"><a href="#cb62-171" aria-hidden="true" tabindex="-1"></a>$$y_{i} = \mu + \beta_{\text{Temp}}\text{Temp} + \beta_{\text{Moist}}\text{Moist} + \beta_{\text{Intx}}\text{Temp}\text{Moist} + \epsilon_{i,l}$$</span>
-<span id="cb62-172"><a href="#cb62-172" aria-hidden="true" tabindex="-1"></a>$$\epsilon \sim N(0, \sigma^2 I)$$</span>
+<span id="cb62-169"><a href="#cb62-169" aria-hidden="true" tabindex="-1"></a>$$y_{i} = \mu + \beta_{\text{Temp}}\text{Temp} + \beta_{\text{Moist}}\text{Moist} + \beta_{\text{Intx}}\text{Temp}\text{Moist} + \epsilon_{i,l}$$</span>
+<span id="cb62-170"><a href="#cb62-170" aria-hidden="true" tabindex="-1"></a>$$\epsilon \sim N(0, \sigma^2 I)$$</span>
+<span id="cb62-171"><a href="#cb62-171" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb62-172"><a href="#cb62-172" aria-hidden="true" tabindex="-1"></a>In the model structure, $\mu$ is a global mean for $y$ (i.e., across all treatments). Then, this global mean can be altered (i.e. affected by) the treatment combinations. $\beta_{\text{Temp}}$ and $\beta_{\text{Moist}}$ are the "main" effects and $\beta_{\text{Intx}}$ is the interactive effect. <span class="in">`Temp`</span> and <span class="in">`Moist`</span> are binary indicator variables (0/1), so, for instance, if Temperature is Low, <span class="in">`Temp == 0`</span>, and so on. This means that $\beta_{\text{Temp}}$ only gets added to the global mean when <span class="in">`Temp == 1`</span> (i.e., Temperature is High), and so on. The $\beta_{\text{Intx}}$ would get added to the global mean if both Temp and Moist are 1, so <span class="in">`High`</span> Temperature and <span class="in">`Wet`</span> Moisture. </span>
 <span id="cb62-173"><a href="#cb62-173" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb62-174"><a href="#cb62-174" aria-hidden="true" tabindex="-1"></a>In the model structure, $\mu$ is a global mean for $y$ (i.e., across all treatments). Then, this global mean can be altered (i.e. affected by) the treatment combinations. $\beta_{\text{Temp}}$ and $\beta_{\text{Moist}}$ are the "main" effects and $\beta_{\text{Intx}}$ is the interactive effect. <span class="in">`Temp`</span> and <span class="in">`Moist`</span> are binary indicator variables (0/1), so, for instance, if Temperature is Low, <span class="in">`Temp == 0`</span>, and so on. This means that $\beta_{\text{Temp}}$ only gets added to the global mean when <span class="in">`Temp == 1`</span> (i.e., Temperature is High), and so on. The $\beta_{\text{Intx}}$ would get added to the global mean if both Temp and Moist are 1, so <span class="in">`High`</span> Temperature and <span class="in">`Wet`</span> Moisture. </span>
+<span id="cb62-174"><a href="#cb62-174" aria-hidden="true" tabindex="-1"></a><span class="fu">### Only main effects</span></span>
 <span id="cb62-175"><a href="#cb62-175" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb62-176"><a href="#cb62-176" aria-hidden="true" tabindex="-1"></a><span class="fu">### Only main effects</span></span>
-<span id="cb62-177"><a href="#cb62-177" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb62-178"><a href="#cb62-178" aria-hidden="true" tabindex="-1"></a>First, let's simulate a case in which we only have main effects, no interaction. Specifically, we will assume that the plant Growth declines under <span class="in">`High`</span> Temperature, but that there is no effect of soil Moisture. Also, for data visualization, we will use the <span class="in">`ggplot2`</span> package, because it is easier to customize. </span>
-<span id="cb62-181"><a href="#cb62-181" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb62-182"><a href="#cb62-182" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
-<span id="cb62-183"><a href="#cb62-183" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb62-184"><a href="#cb62-184" aria-hidden="true" tabindex="-1"></a><span class="co"># 2x2 design</span></span>
-<span id="cb62-185"><a href="#cb62-185" aria-hidden="true" tabindex="-1"></a><span class="co"># Replicated 25 times</span></span>
-<span id="cb62-186"><a href="#cb62-186" aria-hidden="true" tabindex="-1"></a><span class="co"># Low, High (0, 1)</span></span>
-<span id="cb62-187"><a href="#cb62-187" aria-hidden="true" tabindex="-1"></a>n_reps <span class="ot">=</span> <span class="dv">25</span></span>
-<span id="cb62-188"><a href="#cb62-188" aria-hidden="true" tabindex="-1"></a>Temp <span class="ot">=</span> <span class="fu">rep</span>(<span class="dv">0</span><span class="sc">:</span><span class="dv">1</span>, <span class="at">each =</span> n_reps<span class="sc">*</span><span class="dv">2</span>)</span>
-<span id="cb62-189"><a href="#cb62-189" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb62-190"><a href="#cb62-190" aria-hidden="true" tabindex="-1"></a><span class="co"># Low, High (0, 1)</span></span>
-<span id="cb62-191"><a href="#cb62-191" aria-hidden="true" tabindex="-1"></a>Moisture <span class="ot">=</span> <span class="fu">c</span>(</span>
-<span id="cb62-192"><a href="#cb62-192" aria-hidden="true" tabindex="-1"></a>    <span class="fu">rep</span>(<span class="dv">0</span><span class="sc">:</span><span class="dv">1</span>, <span class="at">each =</span> n_reps),</span>
-<span id="cb62-193"><a href="#cb62-193" aria-hidden="true" tabindex="-1"></a>    <span class="fu">rep</span>(<span class="dv">0</span><span class="sc">:</span><span class="dv">1</span>, <span class="at">each =</span> n_reps)</span>
-<span id="cb62-194"><a href="#cb62-194" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb62-195"><a href="#cb62-195" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb62-196"><a href="#cb62-196" aria-hidden="true" tabindex="-1"></a><span class="co"># Simulate different effects:</span></span>
-<span id="cb62-197"><a href="#cb62-197" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">8</span>)</span>
-<span id="cb62-198"><a href="#cb62-198" aria-hidden="true" tabindex="-1"></a><span class="co"># Just main effect</span></span>
-<span id="cb62-199"><a href="#cb62-199" aria-hidden="true" tabindex="-1"></a>global <span class="ot">=</span> <span class="dv">5</span></span>
-<span id="cb62-200"><a href="#cb62-200" aria-hidden="true" tabindex="-1"></a>beta_t <span class="ot">=</span> <span class="sc">-</span><span class="fl">1.25</span></span>
-<span id="cb62-201"><a href="#cb62-201" aria-hidden="true" tabindex="-1"></a>beta_m <span class="ot">=</span> <span class="dv">0</span></span>
-<span id="cb62-202"><a href="#cb62-202" aria-hidden="true" tabindex="-1"></a>beta_intx <span class="ot">=</span> <span class="dv">0</span></span>
-<span id="cb62-203"><a href="#cb62-203" aria-hidden="true" tabindex="-1"></a>sigma <span class="ot">=</span> <span class="fl">1.0</span></span>
-<span id="cb62-204"><a href="#cb62-204" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb62-205"><a href="#cb62-205" aria-hidden="true" tabindex="-1"></a>y <span class="ot">=</span> <span class="cn">NULL</span></span>
-<span id="cb62-206"><a href="#cb62-206" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(Temp)){</span>
-<span id="cb62-207"><a href="#cb62-207" aria-hidden="true" tabindex="-1"></a>    y[i] <span class="ot">=</span> global <span class="sc">+</span> </span>
-<span id="cb62-208"><a href="#cb62-208" aria-hidden="true" tabindex="-1"></a>        beta_t <span class="sc">*</span> Temp[i] <span class="sc">+</span></span>
-<span id="cb62-209"><a href="#cb62-209" aria-hidden="true" tabindex="-1"></a>        beta_m <span class="sc">*</span> Moisture[i] <span class="sc">+</span></span>
-<span id="cb62-210"><a href="#cb62-210" aria-hidden="true" tabindex="-1"></a>        beta_intx <span class="sc">*</span> Temp[i] <span class="sc">*</span> Moisture[i] <span class="sc">+</span></span>
-<span id="cb62-211"><a href="#cb62-211" aria-hidden="true" tabindex="-1"></a>        <span class="fu">rnorm</span>(<span class="dv">1</span>, <span class="at">mean =</span> <span class="dv">0</span>, <span class="at">sd =</span> sigma)</span>
-<span id="cb62-212"><a href="#cb62-212" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb62-213"><a href="#cb62-213" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb62-214"><a href="#cb62-214" aria-hidden="true" tabindex="-1"></a><span class="co"># Store as data frame</span></span>
-<span id="cb62-215"><a href="#cb62-215" aria-hidden="true" tabindex="-1"></a>two_way_df1 <span class="ot">=</span> <span class="fu">data.frame</span>(</span>
-<span id="cb62-216"><a href="#cb62-216" aria-hidden="true" tabindex="-1"></a>    <span class="at">Growth =</span> y,</span>
-<span id="cb62-217"><a href="#cb62-217" aria-hidden="true" tabindex="-1"></a>    <span class="at">Temp =</span> <span class="fu">factor</span>(Temp, <span class="at">levels =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span>), <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">"Low"</span>, <span class="st">"High"</span>)),</span>
-<span id="cb62-218"><a href="#cb62-218" aria-hidden="true" tabindex="-1"></a>    <span class="at">Moisture =</span> <span class="fu">factor</span>(Moisture, <span class="at">levels =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span>), <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">"Dry"</span>, <span class="st">"Wet"</span>))</span>
-<span id="cb62-219"><a href="#cb62-219" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb62-220"><a href="#cb62-220" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb62-221"><a href="#cb62-221" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb62-222"><a href="#cb62-222" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(two_way_df1) <span class="sc">+</span></span>
-<span id="cb62-223"><a href="#cb62-223" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_boxplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> Temp, <span class="at">y =</span> Growth, <span class="at">color =</span> Moisture))</span>
-<span id="cb62-224"><a href="#cb62-224" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb62-225"><a href="#cb62-225" aria-hidden="true" tabindex="-1"></a>Here, it is visually clear that higher temperatures lead to lower plant growth, but there is no clear effect of soil moisture, just as we simulated. </span>
+<span id="cb62-176"><a href="#cb62-176" aria-hidden="true" tabindex="-1"></a>First, let's simulate a case in which we only have main effects, no interaction. Specifically, we will assume that the plant Growth declines under <span class="in">`High`</span> Temperature, but that there is no effect of soil Moisture. Also, for data visualization, we will use the <span class="in">`ggplot2`</span> package, because it is easier to customize. </span>
+<span id="cb62-179"><a href="#cb62-179" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb62-180"><a href="#cb62-180" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb62-181"><a href="#cb62-181" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb62-182"><a href="#cb62-182" aria-hidden="true" tabindex="-1"></a><span class="co"># 2x2 design</span></span>
+<span id="cb62-183"><a href="#cb62-183" aria-hidden="true" tabindex="-1"></a><span class="co"># Replicated 25 times</span></span>
+<span id="cb62-184"><a href="#cb62-184" aria-hidden="true" tabindex="-1"></a><span class="co"># Low, High (0, 1)</span></span>
+<span id="cb62-185"><a href="#cb62-185" aria-hidden="true" tabindex="-1"></a>n_reps <span class="ot">=</span> <span class="dv">25</span></span>
+<span id="cb62-186"><a href="#cb62-186" aria-hidden="true" tabindex="-1"></a>Temp <span class="ot">=</span> <span class="fu">rep</span>(<span class="dv">0</span><span class="sc">:</span><span class="dv">1</span>, <span class="at">each =</span> n_reps<span class="sc">*</span><span class="dv">2</span>)</span>
+<span id="cb62-187"><a href="#cb62-187" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb62-188"><a href="#cb62-188" aria-hidden="true" tabindex="-1"></a><span class="co"># Low, High (0, 1)</span></span>
+<span id="cb62-189"><a href="#cb62-189" aria-hidden="true" tabindex="-1"></a>Moisture <span class="ot">=</span> <span class="fu">c</span>(</span>
+<span id="cb62-190"><a href="#cb62-190" aria-hidden="true" tabindex="-1"></a>    <span class="fu">rep</span>(<span class="dv">0</span><span class="sc">:</span><span class="dv">1</span>, <span class="at">each =</span> n_reps),</span>
+<span id="cb62-191"><a href="#cb62-191" aria-hidden="true" tabindex="-1"></a>    <span class="fu">rep</span>(<span class="dv">0</span><span class="sc">:</span><span class="dv">1</span>, <span class="at">each =</span> n_reps)</span>
+<span id="cb62-192"><a href="#cb62-192" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb62-193"><a href="#cb62-193" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb62-194"><a href="#cb62-194" aria-hidden="true" tabindex="-1"></a><span class="co"># Simulate different effects:</span></span>
+<span id="cb62-195"><a href="#cb62-195" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">8</span>)</span>
+<span id="cb62-196"><a href="#cb62-196" aria-hidden="true" tabindex="-1"></a><span class="co"># Just main effect</span></span>
+<span id="cb62-197"><a href="#cb62-197" aria-hidden="true" tabindex="-1"></a>global <span class="ot">=</span> <span class="dv">5</span></span>
+<span id="cb62-198"><a href="#cb62-198" aria-hidden="true" tabindex="-1"></a>beta_t <span class="ot">=</span> <span class="sc">-</span><span class="fl">1.25</span></span>
+<span id="cb62-199"><a href="#cb62-199" aria-hidden="true" tabindex="-1"></a>beta_m <span class="ot">=</span> <span class="dv">0</span></span>
+<span id="cb62-200"><a href="#cb62-200" aria-hidden="true" tabindex="-1"></a>beta_intx <span class="ot">=</span> <span class="dv">0</span></span>
+<span id="cb62-201"><a href="#cb62-201" aria-hidden="true" tabindex="-1"></a>sigma <span class="ot">=</span> <span class="fl">1.0</span></span>
+<span id="cb62-202"><a href="#cb62-202" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb62-203"><a href="#cb62-203" aria-hidden="true" tabindex="-1"></a>y <span class="ot">=</span> <span class="cn">NULL</span></span>
+<span id="cb62-204"><a href="#cb62-204" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(Temp)){</span>
+<span id="cb62-205"><a href="#cb62-205" aria-hidden="true" tabindex="-1"></a>    y[i] <span class="ot">=</span> global <span class="sc">+</span> </span>
+<span id="cb62-206"><a href="#cb62-206" aria-hidden="true" tabindex="-1"></a>        beta_t <span class="sc">*</span> Temp[i] <span class="sc">+</span></span>
+<span id="cb62-207"><a href="#cb62-207" aria-hidden="true" tabindex="-1"></a>        beta_m <span class="sc">*</span> Moisture[i] <span class="sc">+</span></span>
+<span id="cb62-208"><a href="#cb62-208" aria-hidden="true" tabindex="-1"></a>        beta_intx <span class="sc">*</span> Temp[i] <span class="sc">*</span> Moisture[i] <span class="sc">+</span></span>
+<span id="cb62-209"><a href="#cb62-209" aria-hidden="true" tabindex="-1"></a>        <span class="fu">rnorm</span>(<span class="dv">1</span>, <span class="at">mean =</span> <span class="dv">0</span>, <span class="at">sd =</span> sigma)</span>
+<span id="cb62-210"><a href="#cb62-210" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb62-211"><a href="#cb62-211" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb62-212"><a href="#cb62-212" aria-hidden="true" tabindex="-1"></a><span class="co"># Store as data frame</span></span>
+<span id="cb62-213"><a href="#cb62-213" aria-hidden="true" tabindex="-1"></a>two_way_df1 <span class="ot">=</span> <span class="fu">data.frame</span>(</span>
+<span id="cb62-214"><a href="#cb62-214" aria-hidden="true" tabindex="-1"></a>    <span class="at">Growth =</span> y,</span>
+<span id="cb62-215"><a href="#cb62-215" aria-hidden="true" tabindex="-1"></a>    <span class="at">Temp =</span> <span class="fu">factor</span>(Temp, <span class="at">levels =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span>), <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">"Low"</span>, <span class="st">"High"</span>)),</span>
+<span id="cb62-216"><a href="#cb62-216" aria-hidden="true" tabindex="-1"></a>    <span class="at">Moisture =</span> <span class="fu">factor</span>(Moisture, <span class="at">levels =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span>), <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">"Dry"</span>, <span class="st">"Wet"</span>))</span>
+<span id="cb62-217"><a href="#cb62-217" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb62-218"><a href="#cb62-218" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb62-219"><a href="#cb62-219" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb62-220"><a href="#cb62-220" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(two_way_df1) <span class="sc">+</span></span>
+<span id="cb62-221"><a href="#cb62-221" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_boxplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> Temp, <span class="at">y =</span> Growth, <span class="at">color =</span> Moisture))</span>
+<span id="cb62-222"><a href="#cb62-222" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb62-223"><a href="#cb62-223" aria-hidden="true" tabindex="-1"></a>Here, it is visually clear that higher temperatures lead to lower plant growth, but there is no clear effect of soil moisture, just as we simulated. </span>
+<span id="cb62-224"><a href="#cb62-224" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb62-225"><a href="#cb62-225" aria-hidden="true" tabindex="-1"></a>Let's run the ANOVA model and see if the output makes sense.</span>
 <span id="cb62-226"><a href="#cb62-226" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb62-227"><a href="#cb62-227" aria-hidden="true" tabindex="-1"></a>Let's run the ANOVA model and see if the output makes sense.</span>
-<span id="cb62-228"><a href="#cb62-228" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb62-231"><a href="#cb62-231" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb62-232"><a href="#cb62-232" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(<span class="fu">aov</span>(Growth <span class="sc">~</span> Temp <span class="sc">+</span> Moisture <span class="sc">+</span> Temp<span class="sc">:</span>Moisture,</span>
-<span id="cb62-233"><a href="#cb62-233" aria-hidden="true" tabindex="-1"></a>            <span class="at">data =</span> two_way_df1))</span>
-<span id="cb62-234"><a href="#cb62-234" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb62-235"><a href="#cb62-235" aria-hidden="true" tabindex="-1"></a>Indeed, we only see a main effect of <span class="in">`Temp`</span>, and no main effect of <span class="in">`Moisture`</span>, and no interactive effect (<span class="in">`Temp:Moisture`</span>).</span>
+<span id="cb62-229"><a href="#cb62-229" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb62-230"><a href="#cb62-230" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(<span class="fu">aov</span>(Growth <span class="sc">~</span> Temp <span class="sc">+</span> Moisture <span class="sc">+</span> Temp<span class="sc">:</span>Moisture,</span>
+<span id="cb62-231"><a href="#cb62-231" aria-hidden="true" tabindex="-1"></a>            <span class="at">data =</span> two_way_df1))</span>
+<span id="cb62-232"><a href="#cb62-232" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb62-233"><a href="#cb62-233" aria-hidden="true" tabindex="-1"></a>Indeed, we only see a main effect of <span class="in">`Temp`</span>, and no main effect of <span class="in">`Moisture`</span>, and no interactive effect (<span class="in">`Temp:Moisture`</span>).</span>
+<span id="cb62-234"><a href="#cb62-234" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb62-235"><a href="#cb62-235" aria-hidden="true" tabindex="-1"></a><span class="fu">### Interactive effect</span></span>
 <span id="cb62-236"><a href="#cb62-236" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb62-237"><a href="#cb62-237" aria-hidden="true" tabindex="-1"></a><span class="fu">### Interactive effect</span></span>
-<span id="cb62-238"><a href="#cb62-238" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb62-239"><a href="#cb62-239" aria-hidden="true" tabindex="-1"></a>Now will simulate a case in which we have a main effect of temperature, similar to the above (Growth declines at <span class="in">`High`</span> Temp). We will also add a positive interactive effect. This means that the effect of specific effects of temperature on growth will depend on the soil moisture content. Specifically, with a positive interactive effect, if Temperature is <span class="in">`High`</span> and Moisture is <span class="in">`Wet`</span>, then we will get an increase in Growth, rather than a decline. Let's see what this looks like visually.  </span>
-<span id="cb62-242"><a href="#cb62-242" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb62-243"><a href="#cb62-243" aria-hidden="true" tabindex="-1"></a><span class="co"># INTERACTION</span></span>
-<span id="cb62-244"><a href="#cb62-244" aria-hidden="true" tabindex="-1"></a>global <span class="ot">=</span> <span class="dv">5</span></span>
-<span id="cb62-245"><a href="#cb62-245" aria-hidden="true" tabindex="-1"></a>beta_t <span class="ot">=</span> <span class="sc">-</span><span class="fl">1.25</span></span>
-<span id="cb62-246"><a href="#cb62-246" aria-hidden="true" tabindex="-1"></a>beta_m <span class="ot">=</span> <span class="dv">0</span></span>
-<span id="cb62-247"><a href="#cb62-247" aria-hidden="true" tabindex="-1"></a>beta_intx <span class="ot">=</span> <span class="fl">2.5</span></span>
-<span id="cb62-248"><a href="#cb62-248" aria-hidden="true" tabindex="-1"></a>sigma <span class="ot">=</span> <span class="fl">1.0</span></span>
-<span id="cb62-249"><a href="#cb62-249" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb62-250"><a href="#cb62-250" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">5</span>)</span>
-<span id="cb62-251"><a href="#cb62-251" aria-hidden="true" tabindex="-1"></a>y <span class="ot">=</span> <span class="cn">NULL</span></span>
-<span id="cb62-252"><a href="#cb62-252" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(Temp)){</span>
-<span id="cb62-253"><a href="#cb62-253" aria-hidden="true" tabindex="-1"></a>    y[i] <span class="ot">=</span> global <span class="sc">+</span> </span>
-<span id="cb62-254"><a href="#cb62-254" aria-hidden="true" tabindex="-1"></a>        beta_t <span class="sc">*</span> Temp[i] <span class="sc">+</span></span>
-<span id="cb62-255"><a href="#cb62-255" aria-hidden="true" tabindex="-1"></a>        beta_m <span class="sc">*</span> Moisture[i] <span class="sc">+</span></span>
-<span id="cb62-256"><a href="#cb62-256" aria-hidden="true" tabindex="-1"></a>        beta_intx <span class="sc">*</span> Temp[i] <span class="sc">*</span> Moisture[i] <span class="sc">+</span></span>
-<span id="cb62-257"><a href="#cb62-257" aria-hidden="true" tabindex="-1"></a>        <span class="fu">rnorm</span>(<span class="dv">1</span>, <span class="at">mean =</span> <span class="dv">0</span>, <span class="at">sd =</span> sigma)</span>
-<span id="cb62-258"><a href="#cb62-258" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb62-259"><a href="#cb62-259" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb62-260"><a href="#cb62-260" aria-hidden="true" tabindex="-1"></a><span class="co"># Store as data frame</span></span>
-<span id="cb62-261"><a href="#cb62-261" aria-hidden="true" tabindex="-1"></a>two_way_df2 <span class="ot">=</span> <span class="fu">data.frame</span>(</span>
-<span id="cb62-262"><a href="#cb62-262" aria-hidden="true" tabindex="-1"></a>    <span class="at">Growth =</span> y,</span>
-<span id="cb62-263"><a href="#cb62-263" aria-hidden="true" tabindex="-1"></a>    <span class="at">Temp =</span> <span class="fu">factor</span>(Temp, <span class="at">levels =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span>), <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">"Low"</span>, <span class="st">"High"</span>)),</span>
-<span id="cb62-264"><a href="#cb62-264" aria-hidden="true" tabindex="-1"></a>    <span class="at">Moisture =</span> <span class="fu">factor</span>(Moisture, <span class="at">levels =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span>), <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">"Dry"</span>, <span class="st">"Wet"</span>))</span>
-<span id="cb62-265"><a href="#cb62-265" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb62-266"><a href="#cb62-266" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb62-267"><a href="#cb62-267" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(two_way_df2) <span class="sc">+</span></span>
-<span id="cb62-268"><a href="#cb62-268" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_boxplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> Temp, <span class="at">y =</span> Growth, <span class="at">color =</span> Moisture))</span>
-<span id="cb62-269"><a href="#cb62-269" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb62-270"><a href="#cb62-270" aria-hidden="true" tabindex="-1"></a>What wee see is that the effect of Temperature depends on the value of soil Moisture. In this case, as Temperature moves from <span class="in">`Low`</span> to <span class="in">`High`</span>, plant Growth declines if the soil is <span class="in">`Dry`</span>, but Growth increases if the soil is <span class="in">`Wet`</span>. </span>
+<span id="cb62-237"><a href="#cb62-237" aria-hidden="true" tabindex="-1"></a>Now will simulate a case in which we have a main effect of temperature, similar to the above (Growth declines at <span class="in">`High`</span> Temp). We will also add a positive interactive effect. This means that the effect of specific effects of temperature on growth will depend on the soil moisture content. Specifically, with a positive interactive effect, if Temperature is <span class="in">`High`</span> and Moisture is <span class="in">`Wet`</span>, then we will get an increase in Growth, rather than a decline. Let's see what this looks like visually.  </span>
+<span id="cb62-240"><a href="#cb62-240" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb62-241"><a href="#cb62-241" aria-hidden="true" tabindex="-1"></a><span class="co"># INTERACTION</span></span>
+<span id="cb62-242"><a href="#cb62-242" aria-hidden="true" tabindex="-1"></a>global <span class="ot">=</span> <span class="dv">5</span></span>
+<span id="cb62-243"><a href="#cb62-243" aria-hidden="true" tabindex="-1"></a>beta_t <span class="ot">=</span> <span class="sc">-</span><span class="fl">1.25</span></span>
+<span id="cb62-244"><a href="#cb62-244" aria-hidden="true" tabindex="-1"></a>beta_m <span class="ot">=</span> <span class="dv">0</span></span>
+<span id="cb62-245"><a href="#cb62-245" aria-hidden="true" tabindex="-1"></a>beta_intx <span class="ot">=</span> <span class="fl">2.5</span></span>
+<span id="cb62-246"><a href="#cb62-246" aria-hidden="true" tabindex="-1"></a>sigma <span class="ot">=</span> <span class="fl">1.0</span></span>
+<span id="cb62-247"><a href="#cb62-247" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb62-248"><a href="#cb62-248" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">5</span>)</span>
+<span id="cb62-249"><a href="#cb62-249" aria-hidden="true" tabindex="-1"></a>y <span class="ot">=</span> <span class="cn">NULL</span></span>
+<span id="cb62-250"><a href="#cb62-250" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(Temp)){</span>
+<span id="cb62-251"><a href="#cb62-251" aria-hidden="true" tabindex="-1"></a>    y[i] <span class="ot">=</span> global <span class="sc">+</span> </span>
+<span id="cb62-252"><a href="#cb62-252" aria-hidden="true" tabindex="-1"></a>        beta_t <span class="sc">*</span> Temp[i] <span class="sc">+</span></span>
+<span id="cb62-253"><a href="#cb62-253" aria-hidden="true" tabindex="-1"></a>        beta_m <span class="sc">*</span> Moisture[i] <span class="sc">+</span></span>
+<span id="cb62-254"><a href="#cb62-254" aria-hidden="true" tabindex="-1"></a>        beta_intx <span class="sc">*</span> Temp[i] <span class="sc">*</span> Moisture[i] <span class="sc">+</span></span>
+<span id="cb62-255"><a href="#cb62-255" aria-hidden="true" tabindex="-1"></a>        <span class="fu">rnorm</span>(<span class="dv">1</span>, <span class="at">mean =</span> <span class="dv">0</span>, <span class="at">sd =</span> sigma)</span>
+<span id="cb62-256"><a href="#cb62-256" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb62-257"><a href="#cb62-257" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb62-258"><a href="#cb62-258" aria-hidden="true" tabindex="-1"></a><span class="co"># Store as data frame</span></span>
+<span id="cb62-259"><a href="#cb62-259" aria-hidden="true" tabindex="-1"></a>two_way_df2 <span class="ot">=</span> <span class="fu">data.frame</span>(</span>
+<span id="cb62-260"><a href="#cb62-260" aria-hidden="true" tabindex="-1"></a>    <span class="at">Growth =</span> y,</span>
+<span id="cb62-261"><a href="#cb62-261" aria-hidden="true" tabindex="-1"></a>    <span class="at">Temp =</span> <span class="fu">factor</span>(Temp, <span class="at">levels =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span>), <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">"Low"</span>, <span class="st">"High"</span>)),</span>
+<span id="cb62-262"><a href="#cb62-262" aria-hidden="true" tabindex="-1"></a>    <span class="at">Moisture =</span> <span class="fu">factor</span>(Moisture, <span class="at">levels =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span>), <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">"Dry"</span>, <span class="st">"Wet"</span>))</span>
+<span id="cb62-263"><a href="#cb62-263" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb62-264"><a href="#cb62-264" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb62-265"><a href="#cb62-265" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(two_way_df2) <span class="sc">+</span></span>
+<span id="cb62-266"><a href="#cb62-266" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_boxplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> Temp, <span class="at">y =</span> Growth, <span class="at">color =</span> Moisture))</span>
+<span id="cb62-267"><a href="#cb62-267" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb62-268"><a href="#cb62-268" aria-hidden="true" tabindex="-1"></a>What wee see is that the effect of Temperature depends on the value of soil Moisture. In this case, as Temperature moves from <span class="in">`Low`</span> to <span class="in">`High`</span>, plant Growth declines if the soil is <span class="in">`Dry`</span>, but Growth increases if the soil is <span class="in">`Wet`</span>. </span>
+<span id="cb62-269"><a href="#cb62-269" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb62-270"><a href="#cb62-270" aria-hidden="true" tabindex="-1"></a>But those trends are just visual at this point. How do we quantify whether specific comparisons are statistically significant? We will again use the Tukey HSD! First, run the ANOVA and verify that there is a significant interaction.</span>
 <span id="cb62-271"><a href="#cb62-271" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb62-272"><a href="#cb62-272" aria-hidden="true" tabindex="-1"></a>But those trends are just visual at this point. How do we quantify whether specific comparisons are statistically significant? We will again use the Tukey HSD! First, run the ANOVA and verify that there is a significant interaction.</span>
-<span id="cb62-273"><a href="#cb62-273" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb62-276"><a href="#cb62-276" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb62-277"><a href="#cb62-277" aria-hidden="true" tabindex="-1"></a>aov_intx <span class="ot">=</span> <span class="fu">aov</span>(Growth <span class="sc">~</span> Temp <span class="sc">+</span> Moisture <span class="sc">+</span> Temp<span class="sc">:</span>Moisture,</span>
-<span id="cb62-278"><a href="#cb62-278" aria-hidden="true" tabindex="-1"></a>               <span class="at">data =</span> two_way_df2)</span>
-<span id="cb62-279"><a href="#cb62-279" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(aov_intx)</span>
-<span id="cb62-280"><a href="#cb62-280" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb62-274"><a href="#cb62-274" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb62-275"><a href="#cb62-275" aria-hidden="true" tabindex="-1"></a>aov_intx <span class="ot">=</span> <span class="fu">aov</span>(Growth <span class="sc">~</span> Temp <span class="sc">+</span> Moisture <span class="sc">+</span> Temp<span class="sc">:</span>Moisture,</span>
+<span id="cb62-276"><a href="#cb62-276" aria-hidden="true" tabindex="-1"></a>               <span class="at">data =</span> two_way_df2)</span>
+<span id="cb62-277"><a href="#cb62-277" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(aov_intx)</span>
+<span id="cb62-278"><a href="#cb62-278" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb62-279"><a href="#cb62-279" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb62-280"><a href="#cb62-280" aria-hidden="true" tabindex="-1"></a>Indeed, the interaction is significant, so now we need to figure out which specific differences among covariate levels exist. </span>
 <span id="cb62-281"><a href="#cb62-281" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb62-282"><a href="#cb62-282" aria-hidden="true" tabindex="-1"></a>Indeed, the interaction is significant, so now we need to figure out which specific differences among covariate levels exist. </span>
-<span id="cb62-283"><a href="#cb62-283" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb62-286"><a href="#cb62-286" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb62-287"><a href="#cb62-287" aria-hidden="true" tabindex="-1"></a><span class="fu">TukeyHSD</span>(aov_intx)</span>
-<span id="cb62-288"><a href="#cb62-288" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb62-284"><a href="#cb62-284" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb62-285"><a href="#cb62-285" aria-hidden="true" tabindex="-1"></a><span class="fu">TukeyHSD</span>(aov_intx)</span>
+<span id="cb62-286"><a href="#cb62-286" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb62-287"><a href="#cb62-287" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb62-288"><a href="#cb62-288" aria-hidden="true" tabindex="-1"></a>The important part of the out put is <span class="in">`$'Temp:Moisture'`</span>, which shows the pairwise tests of the interactive effects. See if you can understand which differences are statistically significant, after accounting for multiple comparisons. </span>
 <span id="cb62-289"><a href="#cb62-289" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb62-290"><a href="#cb62-290" aria-hidden="true" tabindex="-1"></a>The important part of the out put is <span class="in">`$'Temp:Moisture'`</span>, which shows the pairwise tests of the interactive effects. See if you can understand which differences are statistically significant, after accounting for multiple comparisons. </span>
+<span id="cb62-290"><a href="#cb62-290" aria-hidden="true" tabindex="-1"></a><span class="fu">## ANCOVA</span></span>
 <span id="cb62-291"><a href="#cb62-291" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb62-292"><a href="#cb62-292" aria-hidden="true" tabindex="-1"></a><span class="fu">## ANCOVA</span></span>
+<span id="cb62-292"><a href="#cb62-292" aria-hidden="true" tabindex="-1"></a>ANCOVA is a variant of ANOVA, which stands for "Analysis of **Co**variance". For one-way ANCOVA, we are analyzing the effect of one discrete (i.e., categorical) input variable, plus one continuous input variable. The "covariance" part refers to the fact that we're trying to understand if the slope of the continuous input variable is the same or different between the levels of the discrete input variable.</span>
 <span id="cb62-293"><a href="#cb62-293" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb62-294"><a href="#cb62-294" aria-hidden="true" tabindex="-1"></a>ANCOVA is a variant of ANOVA, which stands for "Analysis of **Co**variance". For one-way ANCOVA, we are analyzing the effect of one discrete (i.e., categorical) input variable, plus one continuous input variable. The "covariance" part refers to the fact that we're trying to understand if the slope of the continuous input variable is the same or different between the levels of the discrete input variable.</span>
-<span id="cb62-295"><a href="#cb62-295" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb62-296"><a href="#cb62-296" aria-hidden="true" tabindex="-1"></a>For one-way ANCOVA, we have a single discrete input variable, and let's assume the levels are 0 or 1. The model for one-way ANCOVA can then be written as:</span>
-<span id="cb62-297"><a href="#cb62-297" aria-hidden="true" tabindex="-1"></a>$$y_i = \mu_0 + \alpha_1 X_i + \beta_1 Z_i + \beta_2 X_i Z_i + \epsilon_i$$</span>
-<span id="cb62-298"><a href="#cb62-298" aria-hidden="true" tabindex="-1"></a>Here, $\beta_1$ is the slope of $Z$ when $X=0$, but $\beta_1 + \beta_2$ is the slope of $Z$ when $X=1$. If there is no interaction (i.e., $\beta_2=0$), then the slope of $Z$ is the same for the two levels of $X$. </span>
+<span id="cb62-294"><a href="#cb62-294" aria-hidden="true" tabindex="-1"></a>For one-way ANCOVA, we have a single discrete input variable, and let's assume the levels are 0 or 1. The model for one-way ANCOVA can then be written as:</span>
+<span id="cb62-295"><a href="#cb62-295" aria-hidden="true" tabindex="-1"></a>$$y_i = \mu_0 + \alpha_1 X_i + \beta_1 Z_i + \beta_2 X_i Z_i + \epsilon_i$$</span>
+<span id="cb62-296"><a href="#cb62-296" aria-hidden="true" tabindex="-1"></a>Here, $\beta_1$ is the slope of $Z$ when $X=0$, but $\beta_1 + \beta_2$ is the slope of $Z$ when $X=1$. If there is no interaction (i.e., $\beta_2=0$), then the slope of $Z$ is the same for the two levels of $X$. </span>
+<span id="cb62-297"><a href="#cb62-297" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb62-298"><a href="#cb62-298" aria-hidden="true" tabindex="-1"></a>Let's continue with our example from two-way ANOVA, where we have Temperature and soil Moisture. However, for ANCOVA, we will assume that Temperature is a *continuous* input variable, rather than a discrete one. </span>
 <span id="cb62-299"><a href="#cb62-299" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb62-300"><a href="#cb62-300" aria-hidden="true" tabindex="-1"></a>Let's continue with our example from two-way ANOVA, where we have Temperature and soil Moisture. However, for ANCOVA, we will assume that Temperature is a *continuous* input variable, rather than a discrete one. </span>
+<span id="cb62-300"><a href="#cb62-300" aria-hidden="true" tabindex="-1"></a><span class="fu">### Create data set and model function</span></span>
 <span id="cb62-301"><a href="#cb62-301" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb62-302"><a href="#cb62-302" aria-hidden="true" tabindex="-1"></a><span class="fu">### Create data set and model function</span></span>
+<span id="cb62-302"><a href="#cb62-302" aria-hidden="true" tabindex="-1"></a>We are going to explore all four possible outcomes of the simple one-way ANCOVA. We will therefore create a static data set, as well as a function to simulate the outcome variable $Y$, depending on the model parameters.</span>
 <span id="cb62-303"><a href="#cb62-303" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb62-304"><a href="#cb62-304" aria-hidden="true" tabindex="-1"></a>We are going to explore all four possible outcomes of the simple one-way ANCOVA. We will therefore create a static data set, as well as a function to simulate the outcome variable $Y$, depending on the model parameters.</span>
-<span id="cb62-305"><a href="#cb62-305" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb62-308"><a href="#cb62-308" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb62-309"><a href="#cb62-309" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
-<span id="cb62-310"><a href="#cb62-310" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">7</span>)</span>
-<span id="cb62-311"><a href="#cb62-311" aria-hidden="true" tabindex="-1"></a>n_rep <span class="ot">=</span> <span class="dv">35</span></span>
-<span id="cb62-312"><a href="#cb62-312" aria-hidden="true" tabindex="-1"></a><span class="co"># Dry, Wet (0, 1)</span></span>
-<span id="cb62-313"><a href="#cb62-313" aria-hidden="true" tabindex="-1"></a>Moisture <span class="ot">=</span> <span class="fu">rep</span>(<span class="dv">0</span><span class="sc">:</span><span class="dv">1</span>, <span class="at">each =</span> n_rep)</span>
-<span id="cb62-314"><a href="#cb62-314" aria-hidden="true" tabindex="-1"></a><span class="co"># Continuous Temperature</span></span>
-<span id="cb62-315"><a href="#cb62-315" aria-hidden="true" tabindex="-1"></a>Temp <span class="ot">=</span> <span class="fu">c</span>(</span>
-<span id="cb62-316"><a href="#cb62-316" aria-hidden="true" tabindex="-1"></a>    <span class="fu">runif</span>(n_rep, <span class="at">min =</span> <span class="dv">5</span>, <span class="at">max =</span> <span class="dv">25</span>),</span>
-<span id="cb62-317"><a href="#cb62-317" aria-hidden="true" tabindex="-1"></a>    <span class="fu">runif</span>(n_rep, <span class="at">min =</span> <span class="dv">5</span>, <span class="at">max =</span> <span class="dv">25</span>)</span>
-<span id="cb62-318"><a href="#cb62-318" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb62-306"><a href="#cb62-306" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb62-307"><a href="#cb62-307" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb62-308"><a href="#cb62-308" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">7</span>)</span>
+<span id="cb62-309"><a href="#cb62-309" aria-hidden="true" tabindex="-1"></a>n_rep <span class="ot">=</span> <span class="dv">35</span></span>
+<span id="cb62-310"><a href="#cb62-310" aria-hidden="true" tabindex="-1"></a><span class="co"># Dry, Wet (0, 1)</span></span>
+<span id="cb62-311"><a href="#cb62-311" aria-hidden="true" tabindex="-1"></a>Moisture <span class="ot">=</span> <span class="fu">rep</span>(<span class="dv">0</span><span class="sc">:</span><span class="dv">1</span>, <span class="at">each =</span> n_rep)</span>
+<span id="cb62-312"><a href="#cb62-312" aria-hidden="true" tabindex="-1"></a><span class="co"># Continuous Temperature</span></span>
+<span id="cb62-313"><a href="#cb62-313" aria-hidden="true" tabindex="-1"></a>Temp <span class="ot">=</span> <span class="fu">c</span>(</span>
+<span id="cb62-314"><a href="#cb62-314" aria-hidden="true" tabindex="-1"></a>    <span class="fu">runif</span>(n_rep, <span class="at">min =</span> <span class="dv">5</span>, <span class="at">max =</span> <span class="dv">25</span>),</span>
+<span id="cb62-315"><a href="#cb62-315" aria-hidden="true" tabindex="-1"></a>    <span class="fu">runif</span>(n_rep, <span class="at">min =</span> <span class="dv">5</span>, <span class="at">max =</span> <span class="dv">25</span>)</span>
+<span id="cb62-316"><a href="#cb62-316" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb62-317"><a href="#cb62-317" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb62-318"><a href="#cb62-318" aria-hidden="true" tabindex="-1"></a><span class="co"># Function to simulate observed data</span></span>
 <span id="cb62-319"><a href="#cb62-319" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb62-320"><a href="#cb62-320" aria-hidden="true" tabindex="-1"></a><span class="co"># Function to simulate observed data</span></span>
-<span id="cb62-321"><a href="#cb62-321" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb62-322"><a href="#cb62-322" aria-hidden="true" tabindex="-1"></a>calc_y_func <span class="ot">=</span> <span class="cf">function</span>(</span>
-<span id="cb62-323"><a href="#cb62-323" aria-hidden="true" tabindex="-1"></a>        <span class="at">mu_0 =</span> <span class="dv">0</span>,</span>
-<span id="cb62-324"><a href="#cb62-324" aria-hidden="true" tabindex="-1"></a>        <span class="at">alpha_1 =</span> <span class="dv">0</span>,</span>
-<span id="cb62-325"><a href="#cb62-325" aria-hidden="true" tabindex="-1"></a>        <span class="at">beta_1 =</span> <span class="dv">0</span>,</span>
-<span id="cb62-326"><a href="#cb62-326" aria-hidden="true" tabindex="-1"></a>        <span class="at">beta_2 =</span> <span class="dv">0</span>,</span>
-<span id="cb62-327"><a href="#cb62-327" aria-hidden="true" tabindex="-1"></a>        <span class="at">sigma =</span> <span class="fl">1.0</span>){</span>
-<span id="cb62-328"><a href="#cb62-328" aria-hidden="true" tabindex="-1"></a>    y <span class="ot">=</span> <span class="cn">NULL</span></span>
-<span id="cb62-329"><a href="#cb62-329" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(Temp)){</span>
-<span id="cb62-330"><a href="#cb62-330" aria-hidden="true" tabindex="-1"></a>        y[i] <span class="ot">=</span> mu_0 <span class="sc">+</span> </span>
-<span id="cb62-331"><a href="#cb62-331" aria-hidden="true" tabindex="-1"></a>            alpha_1 <span class="sc">*</span> Moisture[i] <span class="sc">+</span></span>
-<span id="cb62-332"><a href="#cb62-332" aria-hidden="true" tabindex="-1"></a>            beta_1 <span class="sc">*</span> Temp[i] <span class="sc">+</span></span>
-<span id="cb62-333"><a href="#cb62-333" aria-hidden="true" tabindex="-1"></a>            beta_2 <span class="sc">*</span> Temp[i] <span class="sc">*</span> Moisture[i] <span class="sc">+</span></span>
-<span id="cb62-334"><a href="#cb62-334" aria-hidden="true" tabindex="-1"></a>            <span class="fu">rnorm</span>(<span class="dv">1</span>, <span class="at">mean =</span> <span class="dv">0</span>, <span class="at">sd =</span> sigma)</span>
-<span id="cb62-335"><a href="#cb62-335" aria-hidden="true" tabindex="-1"></a>    }</span>
-<span id="cb62-336"><a href="#cb62-336" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb62-337"><a href="#cb62-337" aria-hidden="true" tabindex="-1"></a>    <span class="fu">return</span>(y)</span>
-<span id="cb62-338"><a href="#cb62-338" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb62-339"><a href="#cb62-339" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb62-320"><a href="#cb62-320" aria-hidden="true" tabindex="-1"></a>calc_y_func <span class="ot">=</span> <span class="cf">function</span>(</span>
+<span id="cb62-321"><a href="#cb62-321" aria-hidden="true" tabindex="-1"></a>        <span class="at">mu_0 =</span> <span class="dv">0</span>,</span>
+<span id="cb62-322"><a href="#cb62-322" aria-hidden="true" tabindex="-1"></a>        <span class="at">alpha_1 =</span> <span class="dv">0</span>,</span>
+<span id="cb62-323"><a href="#cb62-323" aria-hidden="true" tabindex="-1"></a>        <span class="at">beta_1 =</span> <span class="dv">0</span>,</span>
+<span id="cb62-324"><a href="#cb62-324" aria-hidden="true" tabindex="-1"></a>        <span class="at">beta_2 =</span> <span class="dv">0</span>,</span>
+<span id="cb62-325"><a href="#cb62-325" aria-hidden="true" tabindex="-1"></a>        <span class="at">sigma =</span> <span class="fl">1.0</span>){</span>
+<span id="cb62-326"><a href="#cb62-326" aria-hidden="true" tabindex="-1"></a>    y <span class="ot">=</span> <span class="cn">NULL</span></span>
+<span id="cb62-327"><a href="#cb62-327" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(Temp)){</span>
+<span id="cb62-328"><a href="#cb62-328" aria-hidden="true" tabindex="-1"></a>        y[i] <span class="ot">=</span> mu_0 <span class="sc">+</span> </span>
+<span id="cb62-329"><a href="#cb62-329" aria-hidden="true" tabindex="-1"></a>            alpha_1 <span class="sc">*</span> Moisture[i] <span class="sc">+</span></span>
+<span id="cb62-330"><a href="#cb62-330" aria-hidden="true" tabindex="-1"></a>            beta_1 <span class="sc">*</span> Temp[i] <span class="sc">+</span></span>
+<span id="cb62-331"><a href="#cb62-331" aria-hidden="true" tabindex="-1"></a>            beta_2 <span class="sc">*</span> Temp[i] <span class="sc">*</span> Moisture[i] <span class="sc">+</span></span>
+<span id="cb62-332"><a href="#cb62-332" aria-hidden="true" tabindex="-1"></a>            <span class="fu">rnorm</span>(<span class="dv">1</span>, <span class="at">mean =</span> <span class="dv">0</span>, <span class="at">sd =</span> sigma)</span>
+<span id="cb62-333"><a href="#cb62-333" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb62-334"><a href="#cb62-334" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb62-335"><a href="#cb62-335" aria-hidden="true" tabindex="-1"></a>    <span class="fu">return</span>(y)</span>
+<span id="cb62-336"><a href="#cb62-336" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb62-337"><a href="#cb62-337" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb62-338"><a href="#cb62-338" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb62-339"><a href="#cb62-339" aria-hidden="true" tabindex="-1"></a><span class="fu">### Main effect of Temperature</span></span>
 <span id="cb62-340"><a href="#cb62-340" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb62-341"><a href="#cb62-341" aria-hidden="true" tabindex="-1"></a><span class="fu">### Main effect of Temperature</span></span>
-<span id="cb62-342"><a href="#cb62-342" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb62-343"><a href="#cb62-343" aria-hidden="true" tabindex="-1"></a>First, we'll see what the data look like when we only have an effect of the continuous input variable, in this case Temperature. </span>
-<span id="cb62-346"><a href="#cb62-346" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb62-347"><a href="#cb62-347" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">2</span>)</span>
-<span id="cb62-348"><a href="#cb62-348" aria-hidden="true" tabindex="-1"></a><span class="co"># 1. Only slope effect</span></span>
-<span id="cb62-349"><a href="#cb62-349" aria-hidden="true" tabindex="-1"></a>mu_0 <span class="ot">=</span> <span class="dv">5</span></span>
-<span id="cb62-350"><a href="#cb62-350" aria-hidden="true" tabindex="-1"></a>alpha_1 <span class="ot">=</span> <span class="dv">0</span></span>
-<span id="cb62-351"><a href="#cb62-351" aria-hidden="true" tabindex="-1"></a>beta_1 <span class="ot">=</span> <span class="fl">0.75</span></span>
-<span id="cb62-352"><a href="#cb62-352" aria-hidden="true" tabindex="-1"></a>beta_2 <span class="ot">=</span> <span class="dv">0</span></span>
-<span id="cb62-353"><a href="#cb62-353" aria-hidden="true" tabindex="-1"></a>sigma <span class="ot">=</span> <span class="fl">2.25</span></span>
-<span id="cb62-354"><a href="#cb62-354" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb62-355"><a href="#cb62-355" aria-hidden="true" tabindex="-1"></a>y1 <span class="ot">=</span> <span class="fu">calc_y_func</span>(</span>
-<span id="cb62-356"><a href="#cb62-356" aria-hidden="true" tabindex="-1"></a>    mu_0,alpha_1,beta_1,</span>
-<span id="cb62-357"><a href="#cb62-357" aria-hidden="true" tabindex="-1"></a>    beta_2,sigma</span>
-<span id="cb62-358"><a href="#cb62-358" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb62-359"><a href="#cb62-359" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb62-360"><a href="#cb62-360" aria-hidden="true" tabindex="-1"></a><span class="co"># Store as data frame</span></span>
-<span id="cb62-361"><a href="#cb62-361" aria-hidden="true" tabindex="-1"></a>ancova_df1 <span class="ot">=</span> <span class="fu">data.frame</span>(</span>
-<span id="cb62-362"><a href="#cb62-362" aria-hidden="true" tabindex="-1"></a>    <span class="at">Growth =</span> y1,</span>
-<span id="cb62-363"><a href="#cb62-363" aria-hidden="true" tabindex="-1"></a>    <span class="at">Temp =</span> Temp,</span>
-<span id="cb62-364"><a href="#cb62-364" aria-hidden="true" tabindex="-1"></a>    <span class="at">Moisture =</span> <span class="fu">factor</span>(Moisture, <span class="at">levels =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span>), <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">"Dry"</span>, <span class="st">"Wet"</span>))</span>
-<span id="cb62-365"><a href="#cb62-365" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb62-366"><a href="#cb62-366" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb62-367"><a href="#cb62-367" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(ancova_df1) <span class="sc">+</span></span>
-<span id="cb62-368"><a href="#cb62-368" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">x =</span> Temp, <span class="at">y =</span> Growth, </span>
-<span id="cb62-369"><a href="#cb62-369" aria-hidden="true" tabindex="-1"></a>                   <span class="at">shape =</span> Moisture, <span class="at">color =</span> Moisture))</span>
-<span id="cb62-370"><a href="#cb62-370" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb62-341"><a href="#cb62-341" aria-hidden="true" tabindex="-1"></a>First, we'll see what the data look like when we only have an effect of the continuous input variable, in this case Temperature. </span>
+<span id="cb62-344"><a href="#cb62-344" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb62-345"><a href="#cb62-345" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">2</span>)</span>
+<span id="cb62-346"><a href="#cb62-346" aria-hidden="true" tabindex="-1"></a><span class="co"># 1. Only slope effect</span></span>
+<span id="cb62-347"><a href="#cb62-347" aria-hidden="true" tabindex="-1"></a>mu_0 <span class="ot">=</span> <span class="dv">5</span></span>
+<span id="cb62-348"><a href="#cb62-348" aria-hidden="true" tabindex="-1"></a>alpha_1 <span class="ot">=</span> <span class="dv">0</span></span>
+<span id="cb62-349"><a href="#cb62-349" aria-hidden="true" tabindex="-1"></a>beta_1 <span class="ot">=</span> <span class="fl">0.75</span></span>
+<span id="cb62-350"><a href="#cb62-350" aria-hidden="true" tabindex="-1"></a>beta_2 <span class="ot">=</span> <span class="dv">0</span></span>
+<span id="cb62-351"><a href="#cb62-351" aria-hidden="true" tabindex="-1"></a>sigma <span class="ot">=</span> <span class="fl">2.25</span></span>
+<span id="cb62-352"><a href="#cb62-352" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb62-353"><a href="#cb62-353" aria-hidden="true" tabindex="-1"></a>y1 <span class="ot">=</span> <span class="fu">calc_y_func</span>(</span>
+<span id="cb62-354"><a href="#cb62-354" aria-hidden="true" tabindex="-1"></a>    mu_0,alpha_1,beta_1,</span>
+<span id="cb62-355"><a href="#cb62-355" aria-hidden="true" tabindex="-1"></a>    beta_2,sigma</span>
+<span id="cb62-356"><a href="#cb62-356" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb62-357"><a href="#cb62-357" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb62-358"><a href="#cb62-358" aria-hidden="true" tabindex="-1"></a><span class="co"># Store as data frame</span></span>
+<span id="cb62-359"><a href="#cb62-359" aria-hidden="true" tabindex="-1"></a>ancova_df1 <span class="ot">=</span> <span class="fu">data.frame</span>(</span>
+<span id="cb62-360"><a href="#cb62-360" aria-hidden="true" tabindex="-1"></a>    <span class="at">Growth =</span> y1,</span>
+<span id="cb62-361"><a href="#cb62-361" aria-hidden="true" tabindex="-1"></a>    <span class="at">Temp =</span> Temp,</span>
+<span id="cb62-362"><a href="#cb62-362" aria-hidden="true" tabindex="-1"></a>    <span class="at">Moisture =</span> <span class="fu">factor</span>(Moisture, <span class="at">levels =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span>), <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">"Dry"</span>, <span class="st">"Wet"</span>))</span>
+<span id="cb62-363"><a href="#cb62-363" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb62-364"><a href="#cb62-364" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb62-365"><a href="#cb62-365" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(ancova_df1) <span class="sc">+</span></span>
+<span id="cb62-366"><a href="#cb62-366" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">x =</span> Temp, <span class="at">y =</span> Growth, </span>
+<span id="cb62-367"><a href="#cb62-367" aria-hidden="true" tabindex="-1"></a>                   <span class="at">shape =</span> Moisture, <span class="at">color =</span> Moisture))</span>
+<span id="cb62-368"><a href="#cb62-368" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb62-369"><a href="#cb62-369" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb62-370"><a href="#cb62-370" aria-hidden="true" tabindex="-1"></a>We can see that while there is clearly a linear effect of Temperature on plant Growth, there is no obvious difference between Dry and Wet soil Moisture. </span>
 <span id="cb62-371"><a href="#cb62-371" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb62-372"><a href="#cb62-372" aria-hidden="true" tabindex="-1"></a>We can see that while there is clearly a linear effect of Temperature on plant Growth, there is no obvious difference between Dry and Wet soil Moisture. </span>
+<span id="cb62-372"><a href="#cb62-372" aria-hidden="true" tabindex="-1"></a>Now, let's use model simplification to statistically validate our visual interpretation of the data. </span>
 <span id="cb62-373"><a href="#cb62-373" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb62-374"><a href="#cb62-374" aria-hidden="true" tabindex="-1"></a>Now, let's use model simplification to statistically validate our visual interpretation of the data. </span>
-<span id="cb62-375"><a href="#cb62-375" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb62-378"><a href="#cb62-378" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb62-379"><a href="#cb62-379" aria-hidden="true" tabindex="-1"></a>m1 <span class="ot">=</span> <span class="fu">aov</span>(Growth <span class="sc">~</span> Temp <span class="sc">+</span> Moisture <span class="sc">+</span> Temp<span class="sc">*</span>Moisture, <span class="at">data =</span> ancova_df1)</span>
-<span id="cb62-380"><a href="#cb62-380" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(m1)</span>
-<span id="cb62-381"><a href="#cb62-381" aria-hidden="true" tabindex="-1"></a><span class="co"># We can try dropping the interaction</span></span>
-<span id="cb62-382"><a href="#cb62-382" aria-hidden="true" tabindex="-1"></a>m2 <span class="ot">=</span> <span class="fu">update</span>(m1, .<span class="sc">~</span>. <span class="sc">-</span>Temp<span class="sc">:</span>Moisture)</span>
-<span id="cb62-383"><a href="#cb62-383" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(m1, m2)</span>
-<span id="cb62-384"><a href="#cb62-384" aria-hidden="true" tabindex="-1"></a><span class="co"># Notice how this F and p-value is the same from</span></span>
-<span id="cb62-385"><a href="#cb62-385" aria-hidden="true" tabindex="-1"></a><span class="co"># the summary() table of m1. </span></span>
-<span id="cb62-386"><a href="#cb62-386" aria-hidden="true" tabindex="-1"></a>m3 <span class="ot">=</span> <span class="fu">update</span>(m2, .<span class="sc">~</span>. <span class="sc">-</span>Moisture)</span>
-<span id="cb62-387"><a href="#cb62-387" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(m3)</span>
-<span id="cb62-388"><a href="#cb62-388" aria-hidden="true" tabindex="-1"></a><span class="co"># Check the slope and intercept</span></span>
-<span id="cb62-389"><a href="#cb62-389" aria-hidden="true" tabindex="-1"></a>m3<span class="sc">$</span>coefficients</span>
-<span id="cb62-390"><a href="#cb62-390" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb62-391"><a href="#cb62-391" aria-hidden="true" tabindex="-1"></a>The model simplification validates that there is only an effect of Temperature, and the estimated slope matches our simulated value pretty closely. </span>
+<span id="cb62-376"><a href="#cb62-376" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb62-377"><a href="#cb62-377" aria-hidden="true" tabindex="-1"></a>m1 <span class="ot">=</span> <span class="fu">aov</span>(Growth <span class="sc">~</span> Temp <span class="sc">+</span> Moisture <span class="sc">+</span> Temp<span class="sc">*</span>Moisture, <span class="at">data =</span> ancova_df1)</span>
+<span id="cb62-378"><a href="#cb62-378" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(m1)</span>
+<span id="cb62-379"><a href="#cb62-379" aria-hidden="true" tabindex="-1"></a><span class="co"># We can try dropping the interaction</span></span>
+<span id="cb62-380"><a href="#cb62-380" aria-hidden="true" tabindex="-1"></a>m2 <span class="ot">=</span> <span class="fu">update</span>(m1, .<span class="sc">~</span>. <span class="sc">-</span>Temp<span class="sc">:</span>Moisture)</span>
+<span id="cb62-381"><a href="#cb62-381" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(m1, m2)</span>
+<span id="cb62-382"><a href="#cb62-382" aria-hidden="true" tabindex="-1"></a><span class="co"># Notice how this F and p-value is the same from</span></span>
+<span id="cb62-383"><a href="#cb62-383" aria-hidden="true" tabindex="-1"></a><span class="co"># the summary() table of m1. </span></span>
+<span id="cb62-384"><a href="#cb62-384" aria-hidden="true" tabindex="-1"></a>m3 <span class="ot">=</span> <span class="fu">update</span>(m2, .<span class="sc">~</span>. <span class="sc">-</span>Moisture)</span>
+<span id="cb62-385"><a href="#cb62-385" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(m3)</span>
+<span id="cb62-386"><a href="#cb62-386" aria-hidden="true" tabindex="-1"></a><span class="co"># Check the slope and intercept</span></span>
+<span id="cb62-387"><a href="#cb62-387" aria-hidden="true" tabindex="-1"></a>m3<span class="sc">$</span>coefficients</span>
+<span id="cb62-388"><a href="#cb62-388" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb62-389"><a href="#cb62-389" aria-hidden="true" tabindex="-1"></a>The model simplification validates that there is only an effect of Temperature, and the estimated slope matches our simulated value pretty closely. </span>
+<span id="cb62-390"><a href="#cb62-390" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb62-391"><a href="#cb62-391" aria-hidden="true" tabindex="-1"></a><span class="fu">### Main effect of Moisture</span></span>
 <span id="cb62-392"><a href="#cb62-392" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb62-393"><a href="#cb62-393" aria-hidden="true" tabindex="-1"></a><span class="fu">### Main effect of Moisture</span></span>
+<span id="cb62-393"><a href="#cb62-393" aria-hidden="true" tabindex="-1"></a>Now, let's assume there is no effect of Temperature, but there is a difference in the levels of Moisture. </span>
 <span id="cb62-394"><a href="#cb62-394" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb62-395"><a href="#cb62-395" aria-hidden="true" tabindex="-1"></a>Now, let's assume there is no effect of Temperature, but there is a difference in the levels of Moisture. </span>
-<span id="cb62-396"><a href="#cb62-396" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb62-399"><a href="#cb62-399" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb62-400"><a href="#cb62-400" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">5</span>)</span>
-<span id="cb62-401"><a href="#cb62-401" aria-hidden="true" tabindex="-1"></a><span class="co"># 2. Only factor effect</span></span>
-<span id="cb62-402"><a href="#cb62-402" aria-hidden="true" tabindex="-1"></a>mu_0 <span class="ot">=</span> <span class="dv">5</span></span>
-<span id="cb62-403"><a href="#cb62-403" aria-hidden="true" tabindex="-1"></a>alpha_1 <span class="ot">=</span> <span class="dv">4</span></span>
-<span id="cb62-404"><a href="#cb62-404" aria-hidden="true" tabindex="-1"></a>beta_1 <span class="ot">=</span> <span class="dv">0</span></span>
-<span id="cb62-405"><a href="#cb62-405" aria-hidden="true" tabindex="-1"></a>beta_2 <span class="ot">=</span> <span class="dv">0</span></span>
-<span id="cb62-406"><a href="#cb62-406" aria-hidden="true" tabindex="-1"></a>sigma <span class="ot">=</span> <span class="fl">2.0</span></span>
-<span id="cb62-407"><a href="#cb62-407" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb62-408"><a href="#cb62-408" aria-hidden="true" tabindex="-1"></a>y2 <span class="ot">=</span> <span class="fu">calc_y_func</span>(</span>
-<span id="cb62-409"><a href="#cb62-409" aria-hidden="true" tabindex="-1"></a>    mu_0,alpha_1,beta_1,</span>
-<span id="cb62-410"><a href="#cb62-410" aria-hidden="true" tabindex="-1"></a>    beta_2,sigma</span>
-<span id="cb62-411"><a href="#cb62-411" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb62-412"><a href="#cb62-412" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb62-413"><a href="#cb62-413" aria-hidden="true" tabindex="-1"></a><span class="co"># Store as data frame</span></span>
-<span id="cb62-414"><a href="#cb62-414" aria-hidden="true" tabindex="-1"></a>ancova_df2 <span class="ot">=</span> ancova_df1</span>
-<span id="cb62-415"><a href="#cb62-415" aria-hidden="true" tabindex="-1"></a>ancova_df2<span class="sc">$</span>Growth <span class="ot">=</span> y2</span>
-<span id="cb62-416"><a href="#cb62-416" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb62-417"><a href="#cb62-417" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(ancova_df2) <span class="sc">+</span></span>
-<span id="cb62-418"><a href="#cb62-418" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">x =</span> Temp, <span class="at">y =</span> Growth, </span>
-<span id="cb62-419"><a href="#cb62-419" aria-hidden="true" tabindex="-1"></a>                   <span class="at">shape =</span> Moisture, <span class="at">color =</span> Moisture))</span>
-<span id="cb62-420"><a href="#cb62-420" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb62-421"><a href="#cb62-421" aria-hidden="true" tabindex="-1"></a>We can see the difference in the means of Moisture levels, but no clear, linear Temperature effect. We will validate this with model simplification. </span>
-<span id="cb62-424"><a href="#cb62-424" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb62-425"><a href="#cb62-425" aria-hidden="true" tabindex="-1"></a>m1 <span class="ot">=</span> <span class="fu">aov</span>(Growth <span class="sc">~</span> Temp <span class="sc">+</span> Moisture <span class="sc">+</span> Temp<span class="sc">*</span>Moisture, <span class="at">data =</span> ancova_df2)</span>
-<span id="cb62-426"><a href="#cb62-426" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(m1)</span>
-<span id="cb62-427"><a href="#cb62-427" aria-hidden="true" tabindex="-1"></a>m2 <span class="ot">=</span> <span class="fu">update</span>(m1, .<span class="sc">~</span>. <span class="sc">-</span> Temp<span class="sc">:</span>Moisture)</span>
-<span id="cb62-428"><a href="#cb62-428" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(m2)</span>
-<span id="cb62-429"><a href="#cb62-429" aria-hidden="true" tabindex="-1"></a>m3 <span class="ot">=</span> <span class="fu">update</span>(m2, .<span class="sc">~</span>. <span class="sc">-</span> Temp)</span>
-<span id="cb62-430"><a href="#cb62-430" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(m3)</span>
-<span id="cb62-431"><a href="#cb62-431" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb62-432"><a href="#cb62-432" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb62-397"><a href="#cb62-397" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb62-398"><a href="#cb62-398" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">5</span>)</span>
+<span id="cb62-399"><a href="#cb62-399" aria-hidden="true" tabindex="-1"></a><span class="co"># 2. Only factor effect</span></span>
+<span id="cb62-400"><a href="#cb62-400" aria-hidden="true" tabindex="-1"></a>mu_0 <span class="ot">=</span> <span class="dv">5</span></span>
+<span id="cb62-401"><a href="#cb62-401" aria-hidden="true" tabindex="-1"></a>alpha_1 <span class="ot">=</span> <span class="dv">4</span></span>
+<span id="cb62-402"><a href="#cb62-402" aria-hidden="true" tabindex="-1"></a>beta_1 <span class="ot">=</span> <span class="dv">0</span></span>
+<span id="cb62-403"><a href="#cb62-403" aria-hidden="true" tabindex="-1"></a>beta_2 <span class="ot">=</span> <span class="dv">0</span></span>
+<span id="cb62-404"><a href="#cb62-404" aria-hidden="true" tabindex="-1"></a>sigma <span class="ot">=</span> <span class="fl">2.0</span></span>
+<span id="cb62-405"><a href="#cb62-405" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb62-406"><a href="#cb62-406" aria-hidden="true" tabindex="-1"></a>y2 <span class="ot">=</span> <span class="fu">calc_y_func</span>(</span>
+<span id="cb62-407"><a href="#cb62-407" aria-hidden="true" tabindex="-1"></a>    mu_0,alpha_1,beta_1,</span>
+<span id="cb62-408"><a href="#cb62-408" aria-hidden="true" tabindex="-1"></a>    beta_2,sigma</span>
+<span id="cb62-409"><a href="#cb62-409" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb62-410"><a href="#cb62-410" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb62-411"><a href="#cb62-411" aria-hidden="true" tabindex="-1"></a><span class="co"># Store as data frame</span></span>
+<span id="cb62-412"><a href="#cb62-412" aria-hidden="true" tabindex="-1"></a>ancova_df2 <span class="ot">=</span> ancova_df1</span>
+<span id="cb62-413"><a href="#cb62-413" aria-hidden="true" tabindex="-1"></a>ancova_df2<span class="sc">$</span>Growth <span class="ot">=</span> y2</span>
+<span id="cb62-414"><a href="#cb62-414" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb62-415"><a href="#cb62-415" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(ancova_df2) <span class="sc">+</span></span>
+<span id="cb62-416"><a href="#cb62-416" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">x =</span> Temp, <span class="at">y =</span> Growth, </span>
+<span id="cb62-417"><a href="#cb62-417" aria-hidden="true" tabindex="-1"></a>                   <span class="at">shape =</span> Moisture, <span class="at">color =</span> Moisture))</span>
+<span id="cb62-418"><a href="#cb62-418" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb62-419"><a href="#cb62-419" aria-hidden="true" tabindex="-1"></a>We can see the difference in the means of Moisture levels, but no clear, linear Temperature effect. We will validate this with model simplification. </span>
+<span id="cb62-422"><a href="#cb62-422" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb62-423"><a href="#cb62-423" aria-hidden="true" tabindex="-1"></a>m1 <span class="ot">=</span> <span class="fu">aov</span>(Growth <span class="sc">~</span> Temp <span class="sc">+</span> Moisture <span class="sc">+</span> Temp<span class="sc">*</span>Moisture, <span class="at">data =</span> ancova_df2)</span>
+<span id="cb62-424"><a href="#cb62-424" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(m1)</span>
+<span id="cb62-425"><a href="#cb62-425" aria-hidden="true" tabindex="-1"></a>m2 <span class="ot">=</span> <span class="fu">update</span>(m1, .<span class="sc">~</span>. <span class="sc">-</span> Temp<span class="sc">:</span>Moisture)</span>
+<span id="cb62-426"><a href="#cb62-426" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(m2)</span>
+<span id="cb62-427"><a href="#cb62-427" aria-hidden="true" tabindex="-1"></a>m3 <span class="ot">=</span> <span class="fu">update</span>(m2, .<span class="sc">~</span>. <span class="sc">-</span> Temp)</span>
+<span id="cb62-428"><a href="#cb62-428" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(m3)</span>
+<span id="cb62-429"><a href="#cb62-429" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb62-430"><a href="#cb62-430" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb62-431"><a href="#cb62-431" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb62-432"><a href="#cb62-432" aria-hidden="true" tabindex="-1"></a>Indeed, the model with only Moisture is best. We can then use Tukey HSD to validate the specific differences in the Moisture levels. </span>
 <span id="cb62-433"><a href="#cb62-433" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb62-434"><a href="#cb62-434" aria-hidden="true" tabindex="-1"></a>Indeed, the model with only Moisture is best. We can then use Tukey HSD to validate the specific differences in the Moisture levels. </span>
-<span id="cb62-435"><a href="#cb62-435" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb62-438"><a href="#cb62-438" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb62-439"><a href="#cb62-439" aria-hidden="true" tabindex="-1"></a><span class="fu">TukeyHSD</span>(m3)</span>
-<span id="cb62-440"><a href="#cb62-440" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb62-441"><a href="#cb62-441" aria-hidden="true" tabindex="-1"></a>The test shows that Wet soil leads to an approximately 3.2 value increase in plant Growth over dry soil, and this is a statistically significant difference (p-value is very low, near zero).</span>
-<span id="cb62-442"><a href="#cb62-442" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb62-443"><a href="#cb62-443" aria-hidden="true" tabindex="-1"></a>We can use <span class="in">`ggplot2`</span> to help us visualize this differnce more clearly. </span>
-<span id="cb62-446"><a href="#cb62-446" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb62-447"><a href="#cb62-447" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(ancova_df2, <span class="fu">aes</span>(<span class="at">x =</span> Temp, <span class="at">y =</span> Growth, </span>
-<span id="cb62-448"><a href="#cb62-448" aria-hidden="true" tabindex="-1"></a>                       <span class="at">color =</span> Moisture)) <span class="sc">+</span></span>
-<span id="cb62-449"><a href="#cb62-449" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_point</span>() <span class="sc">+</span></span>
-<span id="cb62-450"><a href="#cb62-450" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">"lm"</span>)</span>
-<span id="cb62-451"><a href="#cb62-451" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb62-436"><a href="#cb62-436" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb62-437"><a href="#cb62-437" aria-hidden="true" tabindex="-1"></a><span class="fu">TukeyHSD</span>(m3)</span>
+<span id="cb62-438"><a href="#cb62-438" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb62-439"><a href="#cb62-439" aria-hidden="true" tabindex="-1"></a>The test shows that Wet soil leads to an approximately 3.2 value increase in plant Growth over dry soil, and this is a statistically significant difference (p-value is very low, near zero).</span>
+<span id="cb62-440"><a href="#cb62-440" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb62-441"><a href="#cb62-441" aria-hidden="true" tabindex="-1"></a>We can use <span class="in">`ggplot2`</span> to help us visualize this differnce more clearly. </span>
+<span id="cb62-444"><a href="#cb62-444" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb62-445"><a href="#cb62-445" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(ancova_df2, <span class="fu">aes</span>(<span class="at">x =</span> Temp, <span class="at">y =</span> Growth, </span>
+<span id="cb62-446"><a href="#cb62-446" aria-hidden="true" tabindex="-1"></a>                       <span class="at">color =</span> Moisture)) <span class="sc">+</span></span>
+<span id="cb62-447"><a href="#cb62-447" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb62-448"><a href="#cb62-448" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">"lm"</span>)</span>
+<span id="cb62-449"><a href="#cb62-449" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb62-450"><a href="#cb62-450" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb62-451"><a href="#cb62-451" aria-hidden="true" tabindex="-1"></a><span class="fu">### Main effects of Temperature and Moisture</span></span>
 <span id="cb62-452"><a href="#cb62-452" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb62-453"><a href="#cb62-453" aria-hidden="true" tabindex="-1"></a><span class="fu">### Main effects of Temperature and Moisture</span></span>
+<span id="cb62-453"><a href="#cb62-453" aria-hidden="true" tabindex="-1"></a>Now, let's assume there is a linear effect of Temperature, and there is a difference in the levels of Moisture. But, there is still no interaction.</span>
 <span id="cb62-454"><a href="#cb62-454" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb62-455"><a href="#cb62-455" aria-hidden="true" tabindex="-1"></a>Now, let's assume there is a linear effect of Temperature, and there is a difference in the levels of Moisture. But, there is still no interaction.</span>
-<span id="cb62-456"><a href="#cb62-456" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb62-459"><a href="#cb62-459" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb62-460"><a href="#cb62-460" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1</span>)</span>
-<span id="cb62-461"><a href="#cb62-461" aria-hidden="true" tabindex="-1"></a><span class="co"># 3. Factor and Slope effect</span></span>
-<span id="cb62-462"><a href="#cb62-462" aria-hidden="true" tabindex="-1"></a>mu_0 <span class="ot">=</span> <span class="dv">3</span></span>
-<span id="cb62-463"><a href="#cb62-463" aria-hidden="true" tabindex="-1"></a>alpha_1 <span class="ot">=</span> <span class="dv">5</span> </span>
-<span id="cb62-464"><a href="#cb62-464" aria-hidden="true" tabindex="-1"></a>beta_1 <span class="ot">=</span> <span class="fl">0.5</span></span>
-<span id="cb62-465"><a href="#cb62-465" aria-hidden="true" tabindex="-1"></a>beta_2 <span class="ot">=</span> <span class="dv">0</span></span>
-<span id="cb62-466"><a href="#cb62-466" aria-hidden="true" tabindex="-1"></a>sigma <span class="ot">=</span> <span class="fl">2.0</span></span>
-<span id="cb62-467"><a href="#cb62-467" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb62-468"><a href="#cb62-468" aria-hidden="true" tabindex="-1"></a>y3 <span class="ot">=</span> <span class="fu">calc_y_func</span>(</span>
-<span id="cb62-469"><a href="#cb62-469" aria-hidden="true" tabindex="-1"></a>    mu_0,alpha_1,beta_1,</span>
-<span id="cb62-470"><a href="#cb62-470" aria-hidden="true" tabindex="-1"></a>    beta_2,sigma</span>
-<span id="cb62-471"><a href="#cb62-471" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb62-472"><a href="#cb62-472" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb62-473"><a href="#cb62-473" aria-hidden="true" tabindex="-1"></a><span class="co"># Store as data frame</span></span>
-<span id="cb62-474"><a href="#cb62-474" aria-hidden="true" tabindex="-1"></a>ancova_df3 <span class="ot">=</span> ancova_df1</span>
-<span id="cb62-475"><a href="#cb62-475" aria-hidden="true" tabindex="-1"></a>ancova_df3<span class="sc">$</span>Growth <span class="ot">=</span> y3</span>
-<span id="cb62-476"><a href="#cb62-476" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb62-477"><a href="#cb62-477" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(ancova_df3) <span class="sc">+</span></span>
-<span id="cb62-478"><a href="#cb62-478" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">x =</span> Temp, <span class="at">y =</span> Growth, </span>
-<span id="cb62-479"><a href="#cb62-479" aria-hidden="true" tabindex="-1"></a>                   <span class="at">shape =</span> Moisture, <span class="at">color =</span> Moisture))</span>
-<span id="cb62-480"><a href="#cb62-480" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb62-481"><a href="#cb62-481" aria-hidden="true" tabindex="-1"></a>We can see the difference in the means of Moisture levels, and an obvious linear Temperature effect. Again, we will validate this with model simplification. </span>
-<span id="cb62-484"><a href="#cb62-484" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb62-485"><a href="#cb62-485" aria-hidden="true" tabindex="-1"></a>m1 <span class="ot">=</span> <span class="fu">aov</span>(Growth <span class="sc">~</span> Temp <span class="sc">+</span> Moisture <span class="sc">+</span> Temp<span class="sc">*</span>Moisture, </span>
-<span id="cb62-486"><a href="#cb62-486" aria-hidden="true" tabindex="-1"></a>         <span class="at">data =</span> ancova_df3)</span>
-<span id="cb62-487"><a href="#cb62-487" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(m1)</span>
-<span id="cb62-488"><a href="#cb62-488" aria-hidden="true" tabindex="-1"></a>m2 <span class="ot">=</span> <span class="fu">update</span>(m1, .<span class="sc">~</span>. <span class="sc">-</span> Temp<span class="sc">:</span>Moisture)</span>
-<span id="cb62-489"><a href="#cb62-489" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(m2)</span>
-<span id="cb62-490"><a href="#cb62-490" aria-hidden="true" tabindex="-1"></a><span class="co"># m2 is best</span></span>
-<span id="cb62-491"><a href="#cb62-491" aria-hidden="true" tabindex="-1"></a>m2<span class="sc">$</span>coefficients</span>
-<span id="cb62-492"><a href="#cb62-492" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb62-493"><a href="#cb62-493" aria-hidden="true" tabindex="-1"></a>The test shows that Wet soil leads to an approximately 5.3 value increase in plant Growth over dry soil, and that Temperature has a similar positive, linear effect on plant Growth for both wet and dry soil. </span>
-<span id="cb62-494"><a href="#cb62-494" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb62-495"><a href="#cb62-495" aria-hidden="true" tabindex="-1"></a>We can use <span class="in">`ggplot2`</span> to help us visualize this difference more clearly. </span>
-<span id="cb62-498"><a href="#cb62-498" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb62-499"><a href="#cb62-499" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(ancova_df3, <span class="fu">aes</span>(<span class="at">x =</span> Temp, <span class="at">y =</span> Growth, </span>
-<span id="cb62-500"><a href="#cb62-500" aria-hidden="true" tabindex="-1"></a>                       <span class="at">color =</span> Moisture)) <span class="sc">+</span></span>
-<span id="cb62-501"><a href="#cb62-501" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_point</span>() <span class="sc">+</span></span>
-<span id="cb62-502"><a href="#cb62-502" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">"lm"</span>)</span>
-<span id="cb62-503"><a href="#cb62-503" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb62-504"><a href="#cb62-504" aria-hidden="true" tabindex="-1"></a><span class="fu">### Interaction between Temperature and Moisture</span></span>
+<span id="cb62-457"><a href="#cb62-457" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb62-458"><a href="#cb62-458" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1</span>)</span>
+<span id="cb62-459"><a href="#cb62-459" aria-hidden="true" tabindex="-1"></a><span class="co"># 3. Factor and Slope effect</span></span>
+<span id="cb62-460"><a href="#cb62-460" aria-hidden="true" tabindex="-1"></a>mu_0 <span class="ot">=</span> <span class="dv">3</span></span>
+<span id="cb62-461"><a href="#cb62-461" aria-hidden="true" tabindex="-1"></a>alpha_1 <span class="ot">=</span> <span class="dv">5</span> </span>
+<span id="cb62-462"><a href="#cb62-462" aria-hidden="true" tabindex="-1"></a>beta_1 <span class="ot">=</span> <span class="fl">0.5</span></span>
+<span id="cb62-463"><a href="#cb62-463" aria-hidden="true" tabindex="-1"></a>beta_2 <span class="ot">=</span> <span class="dv">0</span></span>
+<span id="cb62-464"><a href="#cb62-464" aria-hidden="true" tabindex="-1"></a>sigma <span class="ot">=</span> <span class="fl">2.0</span></span>
+<span id="cb62-465"><a href="#cb62-465" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb62-466"><a href="#cb62-466" aria-hidden="true" tabindex="-1"></a>y3 <span class="ot">=</span> <span class="fu">calc_y_func</span>(</span>
+<span id="cb62-467"><a href="#cb62-467" aria-hidden="true" tabindex="-1"></a>    mu_0,alpha_1,beta_1,</span>
+<span id="cb62-468"><a href="#cb62-468" aria-hidden="true" tabindex="-1"></a>    beta_2,sigma</span>
+<span id="cb62-469"><a href="#cb62-469" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb62-470"><a href="#cb62-470" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb62-471"><a href="#cb62-471" aria-hidden="true" tabindex="-1"></a><span class="co"># Store as data frame</span></span>
+<span id="cb62-472"><a href="#cb62-472" aria-hidden="true" tabindex="-1"></a>ancova_df3 <span class="ot">=</span> ancova_df1</span>
+<span id="cb62-473"><a href="#cb62-473" aria-hidden="true" tabindex="-1"></a>ancova_df3<span class="sc">$</span>Growth <span class="ot">=</span> y3</span>
+<span id="cb62-474"><a href="#cb62-474" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb62-475"><a href="#cb62-475" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(ancova_df3) <span class="sc">+</span></span>
+<span id="cb62-476"><a href="#cb62-476" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">x =</span> Temp, <span class="at">y =</span> Growth, </span>
+<span id="cb62-477"><a href="#cb62-477" aria-hidden="true" tabindex="-1"></a>                   <span class="at">shape =</span> Moisture, <span class="at">color =</span> Moisture))</span>
+<span id="cb62-478"><a href="#cb62-478" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb62-479"><a href="#cb62-479" aria-hidden="true" tabindex="-1"></a>We can see the difference in the means of Moisture levels, and an obvious linear Temperature effect. Again, we will validate this with model simplification. </span>
+<span id="cb62-482"><a href="#cb62-482" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb62-483"><a href="#cb62-483" aria-hidden="true" tabindex="-1"></a>m1 <span class="ot">=</span> <span class="fu">aov</span>(Growth <span class="sc">~</span> Temp <span class="sc">+</span> Moisture <span class="sc">+</span> Temp<span class="sc">*</span>Moisture, </span>
+<span id="cb62-484"><a href="#cb62-484" aria-hidden="true" tabindex="-1"></a>         <span class="at">data =</span> ancova_df3)</span>
+<span id="cb62-485"><a href="#cb62-485" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(m1)</span>
+<span id="cb62-486"><a href="#cb62-486" aria-hidden="true" tabindex="-1"></a>m2 <span class="ot">=</span> <span class="fu">update</span>(m1, .<span class="sc">~</span>. <span class="sc">-</span> Temp<span class="sc">:</span>Moisture)</span>
+<span id="cb62-487"><a href="#cb62-487" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(m2)</span>
+<span id="cb62-488"><a href="#cb62-488" aria-hidden="true" tabindex="-1"></a><span class="co"># m2 is best</span></span>
+<span id="cb62-489"><a href="#cb62-489" aria-hidden="true" tabindex="-1"></a>m2<span class="sc">$</span>coefficients</span>
+<span id="cb62-490"><a href="#cb62-490" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb62-491"><a href="#cb62-491" aria-hidden="true" tabindex="-1"></a>The test shows that Wet soil leads to an approximately 5.3 value increase in plant Growth over dry soil, and that Temperature has a similar positive, linear effect on plant Growth for both wet and dry soil. </span>
+<span id="cb62-492"><a href="#cb62-492" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb62-493"><a href="#cb62-493" aria-hidden="true" tabindex="-1"></a>We can use <span class="in">`ggplot2`</span> to help us visualize this difference more clearly. </span>
+<span id="cb62-496"><a href="#cb62-496" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb62-497"><a href="#cb62-497" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(ancova_df3, <span class="fu">aes</span>(<span class="at">x =</span> Temp, <span class="at">y =</span> Growth, </span>
+<span id="cb62-498"><a href="#cb62-498" aria-hidden="true" tabindex="-1"></a>                       <span class="at">color =</span> Moisture)) <span class="sc">+</span></span>
+<span id="cb62-499"><a href="#cb62-499" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb62-500"><a href="#cb62-500" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">"lm"</span>)</span>
+<span id="cb62-501"><a href="#cb62-501" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb62-502"><a href="#cb62-502" aria-hidden="true" tabindex="-1"></a><span class="fu">### Interaction between Temperature and Moisture</span></span>
+<span id="cb62-503"><a href="#cb62-503" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb62-504"><a href="#cb62-504" aria-hidden="true" tabindex="-1"></a>Finally, let's assume there is an interaction between Moisture and Temperature. </span>
 <span id="cb62-505"><a href="#cb62-505" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb62-506"><a href="#cb62-506" aria-hidden="true" tabindex="-1"></a>Finally, let's assume there is an interaction between Moisture and Temperature. </span>
-<span id="cb62-507"><a href="#cb62-507" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb62-510"><a href="#cb62-510" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb62-511"><a href="#cb62-511" aria-hidden="true" tabindex="-1"></a><span class="do">########################</span></span>
-<span id="cb62-512"><a href="#cb62-512" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1</span>)</span>
-<span id="cb62-513"><a href="#cb62-513" aria-hidden="true" tabindex="-1"></a><span class="co"># 4. Positive interaction</span></span>
-<span id="cb62-514"><a href="#cb62-514" aria-hidden="true" tabindex="-1"></a>mu_0 <span class="ot">=</span> <span class="dv">15</span></span>
-<span id="cb62-515"><a href="#cb62-515" aria-hidden="true" tabindex="-1"></a>alpha_1 <span class="ot">=</span> <span class="dv">0</span></span>
-<span id="cb62-516"><a href="#cb62-516" aria-hidden="true" tabindex="-1"></a>beta_1 <span class="ot">=</span> <span class="sc">-</span><span class="fl">0.45</span></span>
-<span id="cb62-517"><a href="#cb62-517" aria-hidden="true" tabindex="-1"></a>beta_2 <span class="ot">=</span> <span class="fl">0.75</span></span>
-<span id="cb62-518"><a href="#cb62-518" aria-hidden="true" tabindex="-1"></a>sigma <span class="ot">=</span> <span class="fl">2.0</span></span>
-<span id="cb62-519"><a href="#cb62-519" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb62-520"><a href="#cb62-520" aria-hidden="true" tabindex="-1"></a>y4 <span class="ot">=</span> <span class="fu">calc_y_func</span>(</span>
-<span id="cb62-521"><a href="#cb62-521" aria-hidden="true" tabindex="-1"></a>    mu_0,alpha_1,beta_1,</span>
-<span id="cb62-522"><a href="#cb62-522" aria-hidden="true" tabindex="-1"></a>    beta_2,sigma</span>
-<span id="cb62-523"><a href="#cb62-523" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb62-524"><a href="#cb62-524" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb62-525"><a href="#cb62-525" aria-hidden="true" tabindex="-1"></a><span class="co"># Store as data frame</span></span>
-<span id="cb62-526"><a href="#cb62-526" aria-hidden="true" tabindex="-1"></a>ancova_df4 <span class="ot">=</span> ancova_df1</span>
-<span id="cb62-527"><a href="#cb62-527" aria-hidden="true" tabindex="-1"></a>ancova_df4<span class="sc">$</span>Growth <span class="ot">=</span> y4</span>
-<span id="cb62-528"><a href="#cb62-528" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb62-529"><a href="#cb62-529" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(ancova_df4) <span class="sc">+</span></span>
-<span id="cb62-530"><a href="#cb62-530" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">x =</span> Temp, <span class="at">y =</span> Growth, </span>
-<span id="cb62-531"><a href="#cb62-531" aria-hidden="true" tabindex="-1"></a>                   <span class="at">shape =</span> Moisture, <span class="at">color =</span> Moisture))</span>
-<span id="cb62-532"><a href="#cb62-532" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb62-533"><a href="#cb62-533" aria-hidden="true" tabindex="-1"></a>We can visually notice how the slope of Temperature depends on whether soil Moisture is Wet or Dry. But we need to conduct model simplification to validate this. </span>
-<span id="cb62-536"><a href="#cb62-536" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb62-537"><a href="#cb62-537" aria-hidden="true" tabindex="-1"></a>m1 <span class="ot">=</span> <span class="fu">aov</span>(Growth <span class="sc">~</span> Temp <span class="sc">+</span> Moisture <span class="sc">+</span> Temp<span class="sc">*</span>Moisture, </span>
-<span id="cb62-538"><a href="#cb62-538" aria-hidden="true" tabindex="-1"></a>         <span class="at">data =</span> ancova_df4)</span>
-<span id="cb62-539"><a href="#cb62-539" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(m1)</span>
-<span id="cb62-540"><a href="#cb62-540" aria-hidden="true" tabindex="-1"></a><span class="co"># cannot drop interaction</span></span>
-<span id="cb62-541"><a href="#cb62-541" aria-hidden="true" tabindex="-1"></a><span class="co"># full model is best</span></span>
-<span id="cb62-542"><a href="#cb62-542" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb62-543"><a href="#cb62-543" aria-hidden="true" tabindex="-1"></a>m1<span class="sc">$</span>coefficients</span>
-<span id="cb62-544"><a href="#cb62-544" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb62-545"><a href="#cb62-545" aria-hidden="true" tabindex="-1"></a>We see the model coefficients match well to our simulated values. Specifically, there is a positive interaction: the slope of Temperature when soil is Dry is negative ($-0.49$), but when the soil is Wet, the slope of temperature increases and becomes positive ($-0.49 + 0.77 = 0.28$). </span>
-<span id="cb62-546"><a href="#cb62-546" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb62-547"><a href="#cb62-547" aria-hidden="true" tabindex="-1"></a>Let's visualize this more clearly with <span class="in">`ggplot2`</span>.</span>
-<span id="cb62-550"><a href="#cb62-550" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb62-551"><a href="#cb62-551" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(ancova_df4, <span class="fu">aes</span>(<span class="at">x =</span> Temp, <span class="at">y =</span> Growth, </span>
-<span id="cb62-552"><a href="#cb62-552" aria-hidden="true" tabindex="-1"></a>                       <span class="at">color =</span> Moisture)) <span class="sc">+</span></span>
-<span id="cb62-553"><a href="#cb62-553" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_point</span>() <span class="sc">+</span></span>
-<span id="cb62-554"><a href="#cb62-554" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">"lm"</span>)</span>
-<span id="cb62-555"><a href="#cb62-555" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb62-508"><a href="#cb62-508" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb62-509"><a href="#cb62-509" aria-hidden="true" tabindex="-1"></a><span class="do">########################</span></span>
+<span id="cb62-510"><a href="#cb62-510" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1</span>)</span>
+<span id="cb62-511"><a href="#cb62-511" aria-hidden="true" tabindex="-1"></a><span class="co"># 4. Positive interaction</span></span>
+<span id="cb62-512"><a href="#cb62-512" aria-hidden="true" tabindex="-1"></a>mu_0 <span class="ot">=</span> <span class="dv">15</span></span>
+<span id="cb62-513"><a href="#cb62-513" aria-hidden="true" tabindex="-1"></a>alpha_1 <span class="ot">=</span> <span class="dv">0</span></span>
+<span id="cb62-514"><a href="#cb62-514" aria-hidden="true" tabindex="-1"></a>beta_1 <span class="ot">=</span> <span class="sc">-</span><span class="fl">0.45</span></span>
+<span id="cb62-515"><a href="#cb62-515" aria-hidden="true" tabindex="-1"></a>beta_2 <span class="ot">=</span> <span class="fl">0.75</span></span>
+<span id="cb62-516"><a href="#cb62-516" aria-hidden="true" tabindex="-1"></a>sigma <span class="ot">=</span> <span class="fl">2.0</span></span>
+<span id="cb62-517"><a href="#cb62-517" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb62-518"><a href="#cb62-518" aria-hidden="true" tabindex="-1"></a>y4 <span class="ot">=</span> <span class="fu">calc_y_func</span>(</span>
+<span id="cb62-519"><a href="#cb62-519" aria-hidden="true" tabindex="-1"></a>    mu_0,alpha_1,beta_1,</span>
+<span id="cb62-520"><a href="#cb62-520" aria-hidden="true" tabindex="-1"></a>    beta_2,sigma</span>
+<span id="cb62-521"><a href="#cb62-521" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb62-522"><a href="#cb62-522" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb62-523"><a href="#cb62-523" aria-hidden="true" tabindex="-1"></a><span class="co"># Store as data frame</span></span>
+<span id="cb62-524"><a href="#cb62-524" aria-hidden="true" tabindex="-1"></a>ancova_df4 <span class="ot">=</span> ancova_df1</span>
+<span id="cb62-525"><a href="#cb62-525" aria-hidden="true" tabindex="-1"></a>ancova_df4<span class="sc">$</span>Growth <span class="ot">=</span> y4</span>
+<span id="cb62-526"><a href="#cb62-526" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb62-527"><a href="#cb62-527" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(ancova_df4) <span class="sc">+</span></span>
+<span id="cb62-528"><a href="#cb62-528" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">x =</span> Temp, <span class="at">y =</span> Growth, </span>
+<span id="cb62-529"><a href="#cb62-529" aria-hidden="true" tabindex="-1"></a>                   <span class="at">shape =</span> Moisture, <span class="at">color =</span> Moisture))</span>
+<span id="cb62-530"><a href="#cb62-530" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb62-531"><a href="#cb62-531" aria-hidden="true" tabindex="-1"></a>We can visually notice how the slope of Temperature depends on whether soil Moisture is Wet or Dry. But we need to conduct model simplification to validate this. </span>
+<span id="cb62-534"><a href="#cb62-534" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb62-535"><a href="#cb62-535" aria-hidden="true" tabindex="-1"></a>m1 <span class="ot">=</span> <span class="fu">aov</span>(Growth <span class="sc">~</span> Temp <span class="sc">+</span> Moisture <span class="sc">+</span> Temp<span class="sc">*</span>Moisture, </span>
+<span id="cb62-536"><a href="#cb62-536" aria-hidden="true" tabindex="-1"></a>         <span class="at">data =</span> ancova_df4)</span>
+<span id="cb62-537"><a href="#cb62-537" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(m1)</span>
+<span id="cb62-538"><a href="#cb62-538" aria-hidden="true" tabindex="-1"></a><span class="co"># cannot drop interaction</span></span>
+<span id="cb62-539"><a href="#cb62-539" aria-hidden="true" tabindex="-1"></a><span class="co"># full model is best</span></span>
+<span id="cb62-540"><a href="#cb62-540" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb62-541"><a href="#cb62-541" aria-hidden="true" tabindex="-1"></a>m1<span class="sc">$</span>coefficients</span>
+<span id="cb62-542"><a href="#cb62-542" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb62-543"><a href="#cb62-543" aria-hidden="true" tabindex="-1"></a>We see the model coefficients match well to our simulated values. Specifically, there is a positive interaction: the slope of Temperature when soil is Dry is negative ($-0.49$), but when the soil is Wet, the slope of temperature increases and becomes positive ($-0.49 + 0.77 = 0.28$). </span>
+<span id="cb62-544"><a href="#cb62-544" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb62-545"><a href="#cb62-545" aria-hidden="true" tabindex="-1"></a>Let's visualize this more clearly with <span class="in">`ggplot2`</span>.</span>
+<span id="cb62-548"><a href="#cb62-548" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb62-549"><a href="#cb62-549" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(ancova_df4, <span class="fu">aes</span>(<span class="at">x =</span> Temp, <span class="at">y =</span> Growth, </span>
+<span id="cb62-550"><a href="#cb62-550" aria-hidden="true" tabindex="-1"></a>                       <span class="at">color =</span> Moisture)) <span class="sc">+</span></span>
+<span id="cb62-551"><a href="#cb62-551" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb62-552"><a href="#cb62-552" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">"lm"</span>)</span>
+<span id="cb62-553"><a href="#cb62-553" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 </code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div></div></div></div></div>
 </div> <!-- /content -->

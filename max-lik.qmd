@@ -1,9 +1,5 @@
 # Maximum Likelihood {#sec-max-lik}
 
-## Lecture material
-
-Please download and print the lecture materials from [Bblearn](https://bblearn.nau.edu/){target="_blank"}. After lectures, the recordings will appear in the Bblearn Collaborate Ultra section.
-
 ## Generate some data {#sec-data}
 
 First, let's generate some data for the case of a simple linear regression.

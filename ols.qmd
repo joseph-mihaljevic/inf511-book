@@ -1,10 +1,6 @@
 # Ordinary Least Squares {#sec-ols}
 
-## Lecture material
-
-Please download and print the lecture materials from [Bblearn](https://bblearn.nau.edu/){target="_blank"}. After lectures, the recordings will appear in the Bblearn Collaborate Ultra section.
-
-## In-class Code {.unnumbered}
+## In-class Code
 
 Remember that our goal is to estimate the linear relationship between data observations of response variable, $y$, and its measured covariate, $x$, following: $Y = XB + \epsilon$, where $\epsilon \sim N(0, \sigma^2 I).$ Our coefficients to estimate are therefore $\hat{B}$, which is a column vector of the intercept and slope. We also estimate the standard deviation of the residuals (i.e., residual error), $\hat{\sigma}$. To estimate the coefficients, we are attempting to minimize the residual sum of squares, $|| \epsilon || ^ 2$. See [Footnotes @sec-crossprod] for more information regarding this notation.
 

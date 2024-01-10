@@ -1,7 +1,5 @@
 # ANOVA {#sec-anova}
 
-Here is some text. 
-
 ## One-way ANOVA
 
 Remember that Analysis of Variance (ANOVA) is using linear regression to analyze how discrete input variables affect an outcome. Because the input variables are comprised of discrete "levels" (e.g., treatment groups), we are really comparing how the mean of an outcome varies among discrete groups. This is therefore a generalization of two-sample $t$-tests to the case of more than two samples/groups. 
