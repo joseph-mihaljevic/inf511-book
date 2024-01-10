@@ -1,8 +1,6 @@
 # ANOVA {#sec-anova}
 
-## Lecture material
-
-Please download and print the lecture materials from [Bblearn](https://bblearn.nau.edu/){target="_blank"}. After lectures, the recordings will appear in the Bblearn Collaborate Ultra section.
+Here is some text. 
 
 ## One-way ANOVA
 

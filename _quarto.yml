@@ -35,6 +35,7 @@ book:
 
 crossref: 
     appendix-delim: ":"
+    chapters: true
 
 bibliography: references.bib
 
