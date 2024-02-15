@@ -51,6 +51,16 @@ m1_summary = summary(m1)
 m1_summary
 ```
 
+## Interpretation
+
+Below, we will review how the `t value` and `Pr(>|t|)` are generated manually. But what's most important is that we understand how to interpret the results in the summary table. The `Pr(>|t|)` represents the $p$-value for the hypothesis test related to the slopes. Specifically, the null hypothesis is that a particular slope ($\hat{\beta}_i$) is equal to zero, meaning there is [no linear association]{.underline} between input variable $i$ and the outcome variable $y$. If the $p$-value is less than our conventional threshold ($\alpha = 0.05$) than the probability that our null hypothesis is true is sufficiently low that we reject this null hypothesis. Rejecting the null hypothesis allows us to state, with statistical support, that there is a linear effect of input variable $i$ on outcome $y$. 
+
+In the above example, we see that the $p$-value is less than 0.05 for input variables 1, 2, and 4. We can report these results as follows. 
+
+*"Our multiple linear regression analysis detected positive linear associations between $y$ and input variables 1 ($t_{75} = 20.69; p < 0.001$) and 4 ($t_{75} = 20.52; p < 0.0001$), and we also discovered a negative linear effect of input variable 2 on $y$ ($t_{75} = -29.27; p < 0.0001$). We did not detect a significant effect of input variable 3 ($t_{75} = -0.129; p = 0.898$)."*
+
+What you see in the interpretation above is that we report which input variables have significant linear effects (based on the $p$-values), and we also describe the direction of the effect. For instance a "negative" effect implies that as the input variable increases, the outcome variable decreases. This is simply determined by the direction of the slope. 
+
 ## Tests using the $t$-distribution {#sec-ttest}
 
 We typically use the $t$-distribution to test the following hypothesis for a specific model coefficient (e.g., an intercept, or a slope):
